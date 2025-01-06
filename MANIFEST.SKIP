@@ -67,3 +67,4 @@
 D3-.*
 .test-script-*
 typescript
+\*.html
