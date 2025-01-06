@@ -3,8 +3,8 @@
 use warnings;
 use strict;
 
-use Test::Most;
 use D3::Chart;
+use Test::Most tests => 9;
 
 # Test object creation
 my $chart = D3::Chart->new(
@@ -36,5 +36,3 @@ like($html, qr/10/, 'HTML contains data value');
 throws_ok {
 	$chart->render_bar_chart('Invalid data');
 } qr/Data must be an array of arrays/, 'Dies on invalid data';
-
-done_testing();

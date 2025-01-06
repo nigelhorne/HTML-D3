@@ -3,6 +3,8 @@ package D3::Chart;
 use strict;
 use warnings;
 
+use JSON;
+
 =head1 NAME
 
 D3::Chart - A simple Perl module for generating bar charts using D3.js.
@@ -103,16 +105,15 @@ sub render_bar_chart {
     my ($self, $data, %options) = @_;
 
     # Validate input data to ensure it is an array of arrays
-    die "Data must be an array of arrays" unless ref($data) eq 'ARRAY';
+    die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
 
     # Generate JSON representation of data
-    require JSON;
     my $json_data = JSON::encode_json([
         map { { label => $_->[0], value => $_->[1] } } @$data
     ]);
 
     # Generate HTML and D3.js JavaScript for rendering the bar chart
-    my $html = <<'HTML';
+    my $html = <<"HTML";
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -144,7 +145,7 @@ sub render_bar_chart {
             .range([height, 0]);
 
         const chart = svg.append("g")
-            .attr("transform", `translate(${margin.left},${margin.top})`);
+            .attr("transform", `translate(\${margin.left},\${margin.top})`);
 
         // Add bars to the chart
         chart.append("g")
@@ -163,7 +164,7 @@ sub render_bar_chart {
 
         // Add the x-axis with labels rotated for better readability
         chart.append("g")
-            .attr("transform", `translate(0,${height})`)
+            .attr("transform", `translate(0,\${height})`)
             .call(d3.axisBottom(x))
             .selectAll("text")
             .attr("transform", "rotate(-45)")

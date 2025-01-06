@@ -18,7 +18,7 @@ WriteMakefile(
 	ABSTRACT => 'A simple Perl module for generating bar charts using D3.js',
 	LICENSE => 'perl',
 	PREREQ_PM => {
-	'ExtUtils::MakeMaker' => 6.64,	# Minimum version for TEST_REQUIRES
+		'ExtUtils::MakeMaker' => 6.64,	# Minimum version for TEST_REQUIRES
 		'JSON' => 0, # Required for encoding data to JSON
 	}, dist => $dist,
 	clean	 => {
