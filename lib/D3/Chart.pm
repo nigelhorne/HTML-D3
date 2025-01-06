@@ -1,4 +1,4 @@
-package D3::Chart
+package D3::Chart;
 
 use strict;
 use warnings;
@@ -112,7 +112,7 @@ sub render_bar_chart {
     ]);
 
     # Generate HTML and D3.js JavaScript for rendering the bar chart
-    my $html = <<"HTML";
+    my $html = <<'HTML';
 <!DOCTYPE html>
 <html lang="en">
 <head>
