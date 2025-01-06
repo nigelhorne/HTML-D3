@@ -3,16 +3,16 @@
 use warnings;
 use strict;
 
-use D3::Chart;
+use HTML::D3;
 use Test::Most tests => 9;
 
 # Test object creation
-my $chart = D3::Chart->new(
+my $chart = HTML::D3->new(
 	width  => 1024,
 	height => 768,
 	title  => 'Test Chart'
 );
-isa_ok($chart, 'D3::Chart', 'Chart object is created');
+isa_ok($chart, 'HTML::D3', 'Chart object is created');
 
 # Check default values
 is($chart->{width}, 1024, 'Width is set correctly');
