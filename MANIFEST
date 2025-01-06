@@ -10,5 +10,6 @@ README.md
 t/00-load.t
 t/bar.t
 t/line.t
+t/manifest.t
 t/pod-coverage.t
 t/pod.t
