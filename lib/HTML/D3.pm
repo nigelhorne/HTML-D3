@@ -181,7 +181,9 @@ HTML
 
 Nigel Horne <njh@bandsman.co.uk>
 
-=head1 LICENSE
+=head1 LICENSE AND COPYRIGHT
+
+Copyright 2025 Nigel Horne.
 
 This program is released under the following licence: GPL2
 
