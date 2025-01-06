@@ -1,5 +1,5 @@
 ---
-name: D3::Chart
+name: HTML::D3
 
 on:
   push:
