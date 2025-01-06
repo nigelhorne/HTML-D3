@@ -4,9 +4,9 @@ use lib 'lib';
 use strict;
 use warnings;
 
-use D3::Chart;
+use HTML::D3;
 
-my $chart = D3::Chart->new(
+my $chart = HTML::D3->new(
 	width => 800,
 	height => 600,
 	title => 'Sales Data (Interactive)',

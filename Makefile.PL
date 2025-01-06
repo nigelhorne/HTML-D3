@@ -12,8 +12,8 @@ if($^O eq 'darwin') {
 }
 
 WriteMakefile(
-	NAME => 'D3::Chart',
-	VERSION_FROM => 'lib/D3/Chart.pm', # finds $VERSION in the module
+	NAME => 'HTML::D3',
+	VERSION_FROM => 'lib/HTML/D3.pm', # finds $VERSION in the module
 	AUTHOR => 'Nigel Horne <njh@bandsman.co.uk>',
 	ABSTRACT => 'A simple Perl module for generating bar charts using D3.js',
 	LICENSE => 'perl',
@@ -36,6 +36,6 @@ WriteMakefile(
 		'Test::Most' => 0,
 	}, dist => $dist,
 	clean	 => {
-		FILES => 'D3-Chart-*',
+		FILES => 'HTML-D3-*',
 	},
 );

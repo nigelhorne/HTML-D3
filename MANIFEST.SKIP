@@ -64,7 +64,7 @@
 \.appveyor\.yml
 \.releaserc
 \.lwpcookies
-D3-.*
+HTML-.*
 .test-script-*
 typescript
 \*.html
