@@ -8,3 +8,4 @@ MANIFEST.SKIP
 README.md
 t/00-load.t
 t/30-basics.t
+t/pod.t
