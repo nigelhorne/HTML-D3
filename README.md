@@ -33,7 +33,7 @@ Version 0.02
         ['Product C', 200]
     ];
 
-    $html = $chart->render_bar_chart($data);
+    $html = $chart->render_line_chart($data);
     print $html;
 
 # DESCRIPTION
@@ -47,7 +47,8 @@ using D3.js. The module generates HTML and JavaScript code to render the chart i
 
     my $chart = HTML::D3->new(%args);
 
-Creates a new HTML::D3 object. Accepts the following optional arguments:
+Creates a new HTML::D3 object.
+Accepts the following optional arguments:
 
 - `width` - The width of the chart (default: 800).
 - `height` - The height of the chart (default: 600).
@@ -64,10 +65,23 @@ be an array reference with two elements: the label (string) and the value (numer
 
 Returns a string containing the HTML and JavaScript code for the chart.
 
+## render\_line\_chart
+
+    my $html = $chart->render_line_chart($data);
+
+Generates HTML and JavaScript code to render a line chart. Accepts the following arguments:
+
+- `$data` - An array reference containing data points. Each data point should
+be an array reference with two elements: the label (string) and the value (numeric).
+
+Returns a string containing the HTML and JavaScript code for the chart.
+
 # AUTHOR
 
 Nigel Horne <njh@bandsman.co.uk>
 
-# LICENSE
+# LICENSE AND COPYRIGHT
+
+Copyright 2025 Nigel Horne.
 
 This program is released under the following licence: GPL2
