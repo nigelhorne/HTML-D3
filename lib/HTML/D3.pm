@@ -3,7 +3,7 @@ package HTML::D3;
 use strict;
 use warnings;
 
-use JSON;
+use JSON::MaybeXS;
 
 =head1 NAME
 
@@ -109,7 +109,7 @@ sub render_bar_chart {
     die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
 
     # Generate JSON representation of data
-    my $json_data = JSON::encode_json([
+    my $json_data = encode_json([
         map { { label => $_->[0], value => $_->[1] } } @$data
     ]);
 
@@ -202,7 +202,7 @@ sub render_line_chart {
     die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
 
     # Generate JSON for data
-    my $json_data = JSON::encode_json([
+    my $json_data = encode_json([
         map { { label => $_->[0], value => $_->[1] } } @$data
     ]);
 

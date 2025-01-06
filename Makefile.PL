@@ -31,7 +31,7 @@ WriteMakefile(
 	},
 	PREREQ_PM => {
 		'ExtUtils::MakeMaker' => 6.64,	# Minimum version for TEST_REQUIRES
-		'JSON' => 0, # Required for encoding data to JSON
+		'JSON::MaybeXS' => 0,	# Required for encoding data to JSON
 	}, TEST_REQUIRES => {
 		'Test::DescribeMe' => 0,
 		'Test::Most' => 0,
