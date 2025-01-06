@@ -23,8 +23,8 @@ my $data = [
 my $html_output = $chart->render_line_chart($data);
 
 # Save the output as an HTML file
-open my $fh, '>', 'chart.html' or die $!;
+open my $fh, '>', 'line.html' or die $!;
 print $fh $html_output;
 close $fh;
 
-print "Interactive line chart saved as 'chart.html'. Open it in a browser.\n";
+print "Interactive line chart saved as 'line.html'. Open it in a browser.\n";
