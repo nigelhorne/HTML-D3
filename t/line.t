@@ -8,11 +8,11 @@ use Test::HTML::T5;
 use Test::Most tests => 11;
 
 # Test object creation
-my $chart = HTML::D3->new(
+my $chart = HTML::D3->new({
 	width  => 1024,
 	height => 768,
 	title  => 'Test Chart'
-);
+});
 isa_ok($chart, 'HTML::D3', 'Chart object is created');
 
 # Check default values

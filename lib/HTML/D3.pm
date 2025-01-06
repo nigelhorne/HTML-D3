@@ -74,14 +74,40 @@ Accepts the following optional arguments:
 =cut
 
 # Constructor to initialize chart properties
-sub new {
-    my ($class, %args) = @_;
-    my $self = {
-        width  => $args{width}  || 800,  # Default chart width
-        height => $args{height} || 600,  # Default chart height
-        title  => $args{title}  || 'Chart',  # Default chart title
-    };
-    return bless $self, $class;
+sub new
+{
+	my $class = shift;
+
+	# Handle hash or hashref arguments
+	my %args;
+	if((@_ == 1) && (ref $_[0] eq 'HASH')) {
+		%args = %{$_[0]};
+	} elsif((@_ % 2) == 0) {
+		%args = @_;
+	} else {
+		carp(__PACKAGE__, ': Invalid arguments passed to new()');
+		return;
+	}
+
+	if(!defined($class)) {
+		if((scalar keys %args) > 0) {
+			# Using HTML::D3->new(), not HTML::D3::new()
+			carp(__PACKAGE__, ' use ->new() not ::new() to instantiate');
+			return;
+		}
+		# FIXME: this only works when no arguments are given
+		$class = __PACKAGE__;
+	} elsif(Scalar::Util::blessed($class)) {
+		# If $class is an object, clone it with new arguments
+		return bless { %{$class}, %args }, ref($class);
+	}
+
+	# Return the blessed object
+	return bless {
+		width  => $args{width}  || 800,  # Default chart width
+		height => $args{height} || 600,  # Default chart height
+		title  => $args{title}  || 'Chart',  # Default chart title
+	}, $class;
 }
 
 =head2 render_bar_chart
