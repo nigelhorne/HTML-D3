@@ -1,6 +1,6 @@
 # NAME
 
-D3::Chart - A simple Perl module for generating bar charts using D3.js.
+HTML::D3 - A simple Perl module for generating bar charts using D3.js.
 
 # VERSION
 
@@ -8,9 +8,9 @@ Version 0.01
 
 # SYNOPSIS
 
-    use D3::Chart;
+    use HTML::D3;
 
-    my $chart = D3::Chart->new(
+    my $chart = HTML::D3->new(
         width  => 1024,
         height => 768,
         title  => 'Sample Bar Chart'
@@ -25,7 +25,7 @@ Version 0.01
     my $html = $chart->render_bar_chart($data);
     print $html;
 
-    $chart = D3::Chart->new(title => 'Sales Data');
+    $chart = HTML::D3->new(title => 'Sales Data');
 
     my $data = [
         ['Product A', 100],
@@ -38,16 +38,16 @@ Version 0.01
 
 # DESCRIPTION
 
-D3::Chart is a Perl module that provides functionality to create simple bar charts
+HTML::D3 is a Perl module that provides functionality to create simple bar charts
 using D3.js. The module generates HTML and JavaScript code to render the chart in a web browser.
 
 # METHODS
 
 ## new
 
-    my $chart = D3::Chart->new(%args);
+    my $chart = HTML::D3->new(%args);
 
-Creates a new D3::Chart object. Accepts the following optional arguments:
+Creates a new HTML::D3 object. Accepts the following optional arguments:
 
 - `width` - The width of the chart (default: 800).
 - `height` - The height of the chart (default: 600).
