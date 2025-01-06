@@ -21,8 +21,8 @@ my $data = [
 my $html_output = $chart->render_bar_chart($data);
 
 # Save the output as an HTML file
-open(my $fh, '>', 'chart.html') or die $!;
+open(my $fh, '>', 'bar.html') or die $!;
 print $fh $html_output;
 close $fh;
 
-print "Interactive chart saved as 'chart.html'. Open it in a browser.\n";
+print "Interactive chart saved as 'bar.html'. Open it in a browser.\n";
