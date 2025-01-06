@@ -140,15 +140,9 @@ sub render_bar_chart {
     ]);
 
     # Generate HTML and D3.js JavaScript for rendering the bar chart
-    my $html = <<"HTML";
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$self->{title}</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-</head>
+    my $html = $self->_preamble();
+    $html .= $self->_head();
+    $html .= <<"HTML";
 <body>
     <h1 style="text-align: center;">$self->{title}</h1>
     <svg id="chart" width="$self->{width}" height="$self->{height}" style="border: 1px solid black;"></svg>
@@ -233,15 +227,9 @@ sub render_line_chart {
     ]);
 
     # Generate HTML and D3.js code
-    my $html = <<"HTML";
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$self->{title}</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-</head>
+    my $html = $self->_preamble();
+    $html .= $self->_head();
+    $html .= <<"HTML";
 <body>
     <h1 style="text-align: center;">$self->{title}</h1>
     <svg id="chart" width="$self->{width}" height="$self->{height}" style="border: 1px solid black;"></svg>
@@ -302,6 +290,28 @@ sub render_line_chart {
 HTML
 
     return $html;
+}
+
+sub _preamble
+{
+	my $html = <<'HTML';
+<!DOCTYPE html>
+<html lang="en">
+HTML
+	return $html;
+}
+
+sub _head
+{
+	my $html = <<'HTML';
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$self->{title}</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+HTML
+	return $html;
 }
 
 =head1 AUTHOR
