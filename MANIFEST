@@ -9,6 +9,8 @@ MANIFEST.SKIP
 README.md
 t/00-load.t
 t/bar.t
+t/eof.t
+t/eol.t
 t/line.t
 t/manifest.t
 t/pod-coverage.t

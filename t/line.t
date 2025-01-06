@@ -4,7 +4,8 @@ use warnings;
 use strict;
 
 use HTML::D3;
-use Test::Most tests => 9;
+use Test::HTML::T5;
+use Test::Most tests => 11;
 
 # Test object creation
 my $chart = HTML::D3->new(
@@ -31,6 +32,9 @@ lives_ok { $html = $chart->render_line_chart($data) } 'Bar chart renders without
 like($html, qr/<svg id="chart"/, 'HTML contains SVG element for chart');
 like($html, qr/Label 1/, 'HTML contains data label');
 like($html, qr/10/, 'HTML contains data value');
+
+like($html, qr/<html/, 'Output contains <html> tag for HTML format');
+html_tidy_ok($html, 'Output is valid HTML');
 
 # Test for invalid data
 throws_ok {

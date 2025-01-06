@@ -34,6 +34,7 @@ WriteMakefile(
 		'JSON::MaybeXS' => 0,	# Required for encoding data to JSON
 	}, TEST_REQUIRES => {
 		'Test::DescribeMe' => 0,
+		'Test::HTML::T5' => 0,
 		'Test::Most' => 0,
 		'Test::Needs' => 0
 	}, dist => $dist,

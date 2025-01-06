@@ -7,7 +7,7 @@ use JSON::MaybeXS;
 
 =head1 NAME
 
-HTML::D3 - A simple Perl module for generating bar charts using D3.js.
+HTML::D3 - A simple Perl module for generating charts using D3.js.
 
 =head1 VERSION
 
@@ -49,8 +49,8 @@ our $VERSION = '0.02';
 
 =head1 DESCRIPTION
 
-HTML::D3 is a Perl module that provides functionality to create simple bar charts
-using D3.js. The module generates HTML and JavaScript code to render the chart in a web browser.
+HTML::D3 is a Perl module that provides functionality to create simple charts using D3.js.
+The module generates HTML and JavaScript code to render the chart in a web browser.
 
 =head1 METHODS
 
