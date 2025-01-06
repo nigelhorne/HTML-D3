@@ -7,6 +7,14 @@ use warnings;
 
 D3::Chart - A simple Perl module for generating bar charts using D3.js.
 
+=head1 VERSION
+
+Version 0.01
+
+=cut
+
+our $VERSION = '0.01';
+
 =head1 SYNOPSIS
 
     use D3::Chart;
