@@ -76,6 +76,22 @@ be an array reference with two elements: the label (string) and the value (numer
 
 Returns a string containing the HTML and JavaScript code for the chart.
 
+## render\_line\_chart\_with\_tooltips
+
+    $html = $chart->render_line_chart_with_tooltips($data);
+
+Generates HTML and JavaScript code to render a bar chart with mouseover tooltips.
+Accepts the following arguments:
+
+- `$data` - An array reference containing data points. Each data point should
+be an array reference with two elements: the label (string) and the value (numeric).
+
+Returns a string containing the HTML and JavaScript code for the chart.
+
+# BUGS
+
+It would help to have the render routine to return the head and body components separately.
+
 # AUTHOR
 
 Nigel Horne <njh@bandsman.co.uk>
