@@ -312,7 +312,7 @@ Returns a string containing the HTML and JavaScript code for the chart.
 =cut
 
 sub render_line_chart_with_tooltips {
-	my ($self, $data, %options) = @_;
+	my ($self, $data) = @_;
 
 	# Validate input data
 	die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';

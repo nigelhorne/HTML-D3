@@ -19,6 +19,7 @@ t/eol.t
 t/fixme.t
 t/line.t
 t/manifest.t
+t/no404s.t
 t/noplan.t
 t/pod-coverage.t
 t/pod.t
