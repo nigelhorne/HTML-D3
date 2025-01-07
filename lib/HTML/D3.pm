@@ -292,6 +292,133 @@ HTML
     return $html;
 }
 
+=head2 render_line_chart_with_tooltips
+
+    $html = $chart->render_line_chart_with_tooltips($data);
+
+Generates HTML and JavaScript code to render a bar chart with mouseover tooltips.
+Accepts the following arguments:
+
+=over 4
+
+=item * C<$data> - An array reference containing data points. Each data point should
+be an array reference with two elements: the label (string) and the value (numeric).
+
+=back
+
+Returns a string containing the HTML and JavaScript code for the chart.
+
+=cut
+
+sub render_line_chart_with_tooltips {
+	my ($self, $data, %options) = @_;
+
+	# Validate input data
+	die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
+
+	# Generate JSON for data
+	my $json_data = encode_json([
+		map { { label => $_->[0], value => $_->[1] } } @$data
+	]);
+
+	# Generate HTML and D3.js code
+	my $html = $self->_preamble();
+	$html .= <<"HTML";
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$self->{title}</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .tooltip {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 5px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">$self->{title}</h1>
+    <svg id="chart" width="$self->{width}" height="$self->{height}" style="border: 1px solid black;"></svg>
+    <div class="tooltip" id="tooltip"></div>
+    <script>
+        const data = $json_data;
+
+        const svg = d3.select("#chart");
+        const tooltip = d3.select("#tooltip");
+        const margin = { top: 20, right: 30, bottom: 40, left: 40 };
+        const width = $self->{width} - margin.left - margin.right;
+        const height = $self->{height} - margin.top - margin.bottom;
+
+        const x = d3.scalePoint()
+            .domain(data.map(d => d.label))
+            .range([0, width]);
+
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.value)])
+            .nice()
+            .range([height, 0]);
+
+        const chart = svg.append("g")
+            .attr("transform", `translate(\${margin.left},\${margin.top})`);
+
+        // Draw line
+        const line = d3.line()
+            .x(d => x(d.label))
+            .y(d => y(d.value));
+
+        chart.append("path")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-width", 2)
+            .attr("d", line);
+
+        // Add points to the line
+        chart.selectAll("circle")
+            .data(data)
+            .join("circle")
+            .attr("cx", d => x(d.label))
+            .attr("cy", d => y(d.value))
+            .attr("r", 4)
+            .attr("fill", "steelblue")
+            .on("mouseover", (event, d) => {
+                tooltip.style("opacity", 1)
+                       .html(`Label: <b>\${d.label}</b><br>Value: <b>\${d.value}</b>`)
+                       .style("left", (event.pageX + 10) + "px")
+                       .style("top", (event.pageY - 30) + "px");
+            })
+            .on("mousemove", (event) => {
+                tooltip.style("left", (event.pageX + 10) + "px")
+                       .style("top", (event.pageY - 30) + "px");
+            })
+            .on("mouseout", () => {
+                tooltip.style("opacity", 0);
+            });
+
+        // Add axes
+        chart.append("g")
+            .call(d3.axisLeft(y));
+
+        chart.append("g")
+            .attr("transform", `translate(0,\${height})`)
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+            .attr("transform", "rotate(-45)")
+            .style("text-anchor", "end");
+    </script>
+</body>
+</html>
+HTML
+
+    return $html;
+}
+
 sub _preamble
 {
 	my $html = <<'HTML';
@@ -315,6 +442,10 @@ sub _head
 HTML
 	return $html;
 }
+
+=head1 BUGS
+
+It would help to have the render routine to return the head and body components separately.
 
 =head1 AUTHOR
 

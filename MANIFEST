@@ -1,6 +1,7 @@
 Changes
 examples/bar
 examples/line
+examples/tooltip
 lib/HTML/D3.pm
 LICENSE
 Makefile.PL
@@ -11,6 +12,7 @@ t/00-load.t
 t/20-new.t
 t/bar.t
 t/comment-spelling.t
+t/cover.t
 t/eof.t
 t/eol.t
 t/line.t
@@ -18,3 +20,5 @@ t/manifest.t
 t/noplan.t
 t/pod-coverage.t
 t/pod.t
+t/tooltip.t
+tooltips.html
