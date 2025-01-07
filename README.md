@@ -1,10 +1,10 @@
 # NAME
 
-HTML::D3 - A simple Perl module for generating bar charts using D3.js.
+HTML::D3 - A simple Perl module for generating charts using D3.js.
 
 # VERSION
 
-Version 0.02
+Version 0.03
 
 # SYNOPSIS
 
@@ -38,8 +38,8 @@ Version 0.02
 
 # DESCRIPTION
 
-HTML::D3 is a Perl module that provides functionality to create simple bar charts
-using D3.js. The module generates HTML and JavaScript code to render the chart in a web browser.
+HTML::D3 is a Perl module that provides functionality to create simple charts using D3.js.
+The module generates HTML and JavaScript code to render the chart in a web browser.
 
 # METHODS
 
