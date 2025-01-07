@@ -16,7 +16,9 @@ WriteMakefile(
 	VERSION_FROM => 'lib/HTML/D3.pm', # finds $VERSION in the module
 	AUTHOR => 'Nigel Horne <njh@bandsman.co.uk>',
 	ABSTRACT => 'A simple Perl module for generating bar charts using D3.js',
-	LICENSE => 'perl',
+	((defined($ExtUtils::MakeMaker::VERSION) && ($ExtUtils::MakeMaker::VERSION >= 6.3002))
+		? ('LICENSE'=> 'GPL')
+		: ()),
 	META_MERGE => {
 		resources => {
 			repository => {
