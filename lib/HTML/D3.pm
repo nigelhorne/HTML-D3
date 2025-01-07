@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use JSON::MaybeXS;
+use Scalar::Util;
 
 =head1 NAME
 
