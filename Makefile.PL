@@ -23,11 +23,11 @@ WriteMakefile(
 		resources => {
 			repository => {
 				type => 'git',
-				url => 'https://github.com/nigelhorne/d3-chart.git',
-				web => 'https://github.com/nigelhorne/d3-chart',
+				url => 'https://github.com/nigelhorne/HTML-D3.git',
+				web => 'https://github.com/nigelhorne/HTML-D3',
 			},
 			bugtracker => {
-				web => 'https://github.com/nigelhorne/d3-chart/issues',
+				web => 'https://github.com/nigelhorne/HTML-D3/issues',
 			},
 		},
 	},
