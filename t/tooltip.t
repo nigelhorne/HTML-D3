@@ -5,7 +5,7 @@ use strict;
 
 use HTML::D3;
 use Test::HTML::T5;
-use Test::Most tests => 12;
+use Test::Most tests => 13;
 
 # Test object creation
 my $chart = HTML::D3->new(
@@ -39,6 +39,7 @@ like($html, qr/1000/, 'HTML contains data value');
 like($html, qr/<html/, 'Output contains <html> tag for HTML format');
 html_tidy_ok($html, 'Output is valid HTML');
 like($html, qr/Monthly Revenue .+<\/h1>/, 'Title is included');
+like($html, qr/<div class="tooltip" id="tooltip">/, 'Tooltips included');
 
 # Test for invalid data
 throws_ok {
