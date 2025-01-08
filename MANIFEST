@@ -28,7 +28,7 @@ t/modules-used.t
 t/multiple.t
 t/no404s.t
 t/noplan.t
+t/pod-cm.t
 t/pod-coverage.t
 t/pod.t
 t/tooltip.t
-tooltips.html
