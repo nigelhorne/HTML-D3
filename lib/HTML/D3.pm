@@ -14,11 +14,11 @@ HTML::D3 - A simple Perl module for generating charts using D3.js.
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =cut
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 =head1 SYNOPSIS
 
@@ -776,6 +776,7 @@ sub render_multi_series_line_chart_with_legends {
         const legendArea = svg.append("g")
             .attr("transform", `translate(\${width + margin.left + 20},\${margin.top})`);
 
+	// Extract all labels and flatten them into a unique array
         const allLabels = Array.from(new Set(data.flatMap(series => series.data.map(d => d.label))));
 
         const x = d3.scalePoint()
@@ -787,6 +788,7 @@ sub render_multi_series_line_chart_with_legends {
             .nice()
             .range([height, 0]);
 
+	// Define color scale for series
         const color = d3.scaleOrdinal(d3.schemeCategory10);
 
         // Add axes
@@ -887,10 +889,10 @@ sub _head
 
 	my $html = <<"HTML";
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$self->{title}</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>$self->{title}</title>
+	<script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 HTML
 	return $html;
