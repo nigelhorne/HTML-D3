@@ -25,15 +25,15 @@ our $VERSION = '0.07';
     use HTML::D3;
 
     my $chart = HTML::D3->new(
-	width  => 1024,
-	height => 768,
-	title  => 'Sample Bar Chart'
+        width => 1024,
+        height => 768,
+        title => 'Sample Bar Chart'
     );
 
     my $data = [
-	['Category 1', 10],
-	['Category 2', 20],
-	['Category 3', 30]
+        ['Category 1', 10],
+        ['Category 2', 20],
+        ['Category 3', 30]
     ];
 
     my $html = $chart->render_bar_chart($data);
@@ -42,9 +42,9 @@ our $VERSION = '0.07';
     $chart = HTML::D3->new(title => 'Sales Data');
 
     $data = [
-	['Product A', 100],
-	['Product B', 150],
-	['Product C', 200]
+        ['Product A', 100],
+        ['Product B', 150],
+        ['Product C', 200]
     ];
 
     $html = $chart->render_line_chart($data);
@@ -107,9 +107,9 @@ sub new
 
 	# Return the blessed object
 	return bless {
-		width  => $args{width}  || 800,  # Default chart width
+		width => $args{width}  || 800,  # Default chart width
 		height => $args{height} || 600,  # Default chart height
-		title  => $args{title}  || 'Chart',  # Default chart title
+		title => $args{title}  || 'Chart',  # Default chart title
 	}, $class;
 }
 
