@@ -11,9 +11,9 @@ Version 0.07
     use HTML::D3;
 
     my $chart = HTML::D3->new(
-        width  => 1024,
+        width => 1024,
         height => 768,
-        title  => 'Sample Bar Chart'
+        title => 'Sample Bar Chart'
     );
 
     my $data = [
@@ -119,6 +119,19 @@ Returns a string containing the HTML and JavaScript code for the chart.
     $html = $chart->render_multi_series_line_chart_with_legends($data);
 
 Generates HTML and JavaScript code to render a chart of many lines with animated mouseover tooltips.
+
+Accepts the following arguments:
+
+- `$data` - An reference to an array of hashes containing data points.
+Each data point should be an array reference with two elements: the label (string) and the value (numeric).
+
+Returns a string containing the HTML and JavaScript code for the chart.
+
+## render\_multi\_series\_line\_chart\_with\_interactive\_legends
+
+    $html = $chart->render_multi_series_line_chart_with_interactive_legends($data);
+
+Generates HTML and JavaScript code to render a chart of many lines with interactive legends to filter, highlight or modify elements based on legend selections.
 
 Accepts the following arguments:
 

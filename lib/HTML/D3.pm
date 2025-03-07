@@ -875,6 +875,25 @@ HTML
     return $html;
 }
 
+=head2 render_multi_series_line_chart_with_interactive_legends
+
+    $html = $chart->render_multi_series_line_chart_with_interactive_legends($data);
+
+Generates HTML and JavaScript code to render a chart of many lines with interactive legends to filter, highlight or modify elements based on legend selections.
+
+Accepts the following arguments:
+
+=over 4
+
+=item * C<$data> - An reference to an array of hashes containing data points.
+Each data point should be an array reference with two elements: the label (string) and the value (numeric).
+
+=back
+
+Returns a string containing the HTML and JavaScript code for the chart.
+
+=cut
+
 sub render_multi_series_line_chart_with_interactive_legends
 {
 	my ($self, $data) = @_;
