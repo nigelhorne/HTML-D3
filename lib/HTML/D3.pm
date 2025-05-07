@@ -1079,6 +1079,22 @@ HTML
 	return $html;
 }
 
+=head1 SUPPORT
+
+This module is provided as-is without any warranty.
+
+Please report any bugs or feature requests to C<bug-html-d3 at rt.cpan.org>,
+or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=HTML-D3>.
+I will be notified, and then you'll
+automatically be notified of progress on your bug as I make changes.
+
+You can find documentation for this module with the perldoc command.
+
+    perldoc HTML::D3
+
+You can also look for information at:
+
 =head1 BUGS
 
 It would help to have the render routine to return the head and body components separately.
