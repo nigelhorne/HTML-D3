@@ -1,5 +1,8 @@
 ---
 name: HTML::D3
+permissions:
+  contents: read
+  actions: write
 
 on:
   push:
