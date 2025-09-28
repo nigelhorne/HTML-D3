@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use JSON::MaybeXS;
+use Params::Get;
 use Scalar::Util;
 
 # TODO: add animated tooltips to charts with legends
@@ -82,18 +83,10 @@ sub new
 	my $class = shift;
 
 	# Handle hash or hashref arguments
-	my %args;
-	if((@_ == 1) && (ref $_[0] eq 'HASH')) {
-		%args = %{$_[0]};
-	} elsif((@_ % 2) == 0) {
-		%args = @_;
-	} else {
-		carp(__PACKAGE__, ': Invalid arguments passed to new()');
-		return;
-	}
+	my $params = Params::Get::get_params(undef, @_) || {};
 
 	if(!defined($class)) {
-		if((scalar keys %args) > 0) {
+		if((scalar keys %{$params}) > 0) {
 			# Using HTML::D3->new(), not HTML::D3::new()
 			carp(__PACKAGE__, ' use ->new() not ::new() to instantiate');
 			return;
@@ -102,14 +95,14 @@ sub new
 		$class = __PACKAGE__;
 	} elsif(Scalar::Util::blessed($class)) {
 		# If $class is an object, clone it with new arguments
-		return bless { %{$class}, %args }, ref($class);
+		return bless { %{$class}, %{$params} }, ref($class);
 	}
 
 	# Return the blessed object
 	return bless {
-		width => $args{width}  || 800,  # Default chart width
-		height => $args{height} || 600,  # Default chart height
-		title => $args{title}  || 'Chart',  # Default chart title
+		width => $params->{width}  || 800,  # Default chart width
+		height => $params->{height} || 600,  # Default chart height
+		title => $params->{title}  || 'Chart',  # Default chart title
 	}, $class;
 }
 
