@@ -125,20 +125,22 @@ Returns a string containing the HTML and JavaScript code for the chart.
 
 # Method to render a bar chart with given data
 sub render_bar_chart {
-    my ($self, $data) = @_;
+	my ($self, $data) = @_;
 
-    # Validate input data to ensure it is an array of arrays
-    die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
+	die 'Data is not optional' if(!defined($data));
 
-    # Generate JSON representation of data
-    my $json_data = encode_json([
-	map { { label => $_->[0], value => $_->[1] } } @$data
-    ]);
+	# Validate input data to ensure it is an array of arrays
+	die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
 
-    # Generate HTML and D3.js JavaScript for rendering the bar chart
-    my $html = $self->_preamble();
-    $html .= $self->_head();
-    $html .= <<"HTML";
+	# Generate JSON representation of data
+	my $json_data = encode_json([
+		map { { label => $_->[0], value => $_->[1] } } @$data
+	]);
+
+	# Generate HTML and D3.js JavaScript for rendering the bar chart
+	my $html = $self->_preamble();
+	$html .= $self->_head();
+	$html .= <<"HTML";
 <body>
     <h1 style="text-align: center;">$self->{title}</h1>
     <svg id="chart" width="$self->{width}" height="$self->{height}" style="border: 1px solid black;"></svg>
