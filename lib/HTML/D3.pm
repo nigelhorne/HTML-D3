@@ -422,6 +422,137 @@ HTML
     return $html;
 }
 
+=head2 render_line_chart_snippet
+
+    my $fragment = $chart->render_line_chart_snippet($data);
+    # $fragment->{svg_id} — the id attribute of the <svg> element
+    # $fragment->{html}   — embeddable HTML fragment (style + svg + script)
+
+Generates an embeddable HTML fragment for a line chart with mouseover tooltips.
+Unlike C<render_line_chart_with_tooltips>, this method returns a fragment with
+no C<<!DOCTYPE>>, C<<html>>, C<<head>>, or C<<body>> wrapper, suitable for
+splicing directly into a Mojolicious TT (or any other) layout.
+
+The caller is responsible for loading D3 in the page C<<head>>, e.g.:
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+Accepts the following arguments:
+
+=over 4
+
+=item * C<$data> - An array reference of data points, each an array reference
+with two elements: the label (string) and the value (numeric).
+
+=back
+
+Returns a hash reference with:
+
+=over 4
+
+=item * C<svg_id> - The C<id> attribute used on the C<<svg>> element.
+
+=item * C<html> - The embeddable fragment string.
+
+=back
+
+=cut
+
+sub render_line_chart_snippet
+{
+	my ($self, $data) = @_;
+
+	die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
+
+	my $json_data = encode_json([
+		map { { label => $_->[0], value => $_->[1] } } @$data
+	]);
+
+	my $svg_id = 'chart';
+
+	my $html = <<"HTML";
+<style>
+    .tooltip {
+	position: absolute;
+	background-color: white;
+	border: 1px solid #ccc;
+	padding: 5px;
+	font-size: 12px;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.2s ease-in-out;
+    }
+</style>
+<svg id="$svg_id" width="$self->{width}" height="$self->{height}" style="border: 1px solid black;"></svg>
+<div class="tooltip" id="tooltip"></div>
+<script>
+    const data = $json_data;
+
+    const svg = d3.select("#$svg_id");
+    const tooltip = d3.select("#tooltip");
+    const margin = { top: 20, right: 30, bottom: 40, left: 40 };
+    const width = $self->{width} - margin.left - margin.right;
+    const height = $self->{height} - margin.top - margin.bottom;
+
+    const x = d3.scalePoint()
+	.domain(data.map(d => d.label))
+	.range([0, width]);
+
+    const y = d3.scaleLinear()
+	.domain([0, d3.max(data, d => d.value)])
+	.nice()
+	.range([height, 0]);
+
+    const chart = svg.append("g")
+	.attr("transform", `translate(\${margin.left},\${margin.top})`);
+
+    const line = d3.line()
+	.x(d => x(d.label))
+	.y(d => y(d.value));
+
+    chart.append("path")
+	.datum(data)
+	.attr("fill", "none")
+	.attr("stroke", "steelblue")
+	.attr("stroke-width", 2)
+	.attr("d", line);
+
+    chart.selectAll("circle")
+	.data(data)
+	.join("circle")
+	.attr("cx", d => x(d.label))
+	.attr("cy", d => y(d.value))
+	.attr("r", 4)
+	.attr("fill", "steelblue")
+	.on("mouseover", (event, d) => {
+	    tooltip.style("opacity", 1)
+		   .html(`Label: <b>\${d.label}</b><br>Value: <b>\${d.value}</b>`)
+		   .style("left", (event.pageX + 10) + "px")
+		   .style("top", (event.pageY - 30) + "px");
+	})
+	.on("mousemove", (event) => {
+	    tooltip.style("left", (event.pageX + 10) + "px")
+		   .style("top", (event.pageY - 30) + "px");
+	})
+	.on("mouseout", () => {
+	    tooltip.style("opacity", 0);
+	});
+
+    chart.append("g")
+	.call(d3.axisLeft(y));
+
+    chart.append("g")
+	.attr("transform", `translate(0,\${height})`)
+	.call(d3.axisBottom(x))
+	.selectAll("text")
+	.attr("transform", "rotate(-45)")
+	.style("text-anchor", "end");
+</script>
+HTML
+
+	return { svg_id => $svg_id, html => $html };
+}
+
 =head2 render_multi_series_line_chart_with_tooltips
 
     $html = $chart->render_multi_series_line_chart_with_tooltips($data);

@@ -7,6 +7,7 @@ requires 'Params::Get';
 requires 'Scalar::Util';
 
 on 'test' => sub {
+	requires 'IPC::System::Simple';
 	requires 'Test::DescribeMe';
 	requires 'Test::HTML::T5';
 	requires 'Test::Most';

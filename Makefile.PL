@@ -38,6 +38,7 @@ WriteMakefile(
 		'Params::Get' => 0,
 		'Scalar::Util' => 0,
 	}, TEST_REQUIRES => {
+		'IPC::System::Simple' => 0,
 		'Test::DescribeMe' => 0,
 		'Test::HTML::T5' => 0,
 		'Test::Most' => 0,
