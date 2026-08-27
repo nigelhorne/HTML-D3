@@ -8,6 +8,7 @@ use Params::Get;
 use Scalar::Util;
 
 # TODO: add animated tooltips to charts with legends
+# TODO: work out a way to generate snippets to include in pages
 
 =head1 NAME
 
