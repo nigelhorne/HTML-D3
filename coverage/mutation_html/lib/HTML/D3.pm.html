@@ -293,8 +293,8 @@ a.intra-dot:hover { color: #7700bb; }
 <div class="nav"><a href="../../../index.html">Index</a>
 </div><div class='summary'>
 <strong>Structural Coverage (Approximate)</strong><p>
-TER1 (Statement): 90.11%<br>
-TER2 (Branch): 83.33%<br>
+TER1 (Statement): 97.80%<br>
+TER2 (Branch): 91.67%<br>
 TER3 (LCSAJ): 100.0% (1/1)<br>
 Approximate LCSAJ segments: 25<br>
 </div>
@@ -762,7 +762,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  392: 	    .attr(&quot;fill&quot;, &quot;steelblue&quot;)
 </span><span class="">  393: 	    .on(&quot;mouseover&quot;, (event, d) =&gt; {
 </span><span class="">  394: 		tooltip.style(&quot;opacity&quot;, 1)
-</span><span class="">  395: 		       .html(`Label: &lt;b&gt;\${d.label}&lt;/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;/b&gt;`)
+</span><span class="">  395: 		       .html(`Label: &lt;b&gt;\${d.label}&lt;\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\/b&gt;`)
 </span><span class="">  396: 		       .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
 </span><span class="">  397: 		       .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
 </span><span class="">  398: 	    })
@@ -795,8 +795,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  425: =head2 render_line_chart_snippet
 </span><span class="">  426: 
 </span><span class="">  427:     my $fragment = $chart-&gt;render_line_chart_snippet($data);
-</span><span class="">  428:     # $fragment-&gt;{svg_id} &acirc;&#128;&#148; the id attribute of the &lt;svg&gt; element
-</span><span class="">  429:     # $fragment-&gt;{html}   &acirc;&#128;&#148; embeddable HTML fragment (style + svg + script)
+</span><span class="">  428:     # $fragment-&gt;{svg_id} - the id attribute of the &lt;svg&gt; element
+</span><span class="">  429:     # $fragment-&gt;{html}   - embeddable HTML fragment (style + svg + script)
 </span><span class="">  430: 
 </span><span class="">  431: Generates an embeddable HTML fragment for a line chart with mouseover tooltips.
 </span><span class="">  432: Unlike C&lt;render_line_chart_with_tooltips&gt;, this method returns a fragment with
@@ -896,7 +896,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  526: 	.attr(&quot;fill&quot;, &quot;steelblue&quot;)
 </span><span class="">  527: 	.on(&quot;mouseover&quot;, (event, d) =&gt; {
 </span><span class="">  528: 	    tooltip.style(&quot;opacity&quot;, 1)
-</span><span class="">  529: 		   .html(`Label: &lt;b&gt;\${d.label}&lt;/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;/b&gt;`)
+</span><span class="">  529: 		   .html(`Label: &lt;b&gt;\${d.label}&lt;\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\/b&gt;`)
 </span><span class="">  530: 		   .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
 </span><span class="">  531: 		   .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
 </span><span class="">  532: 	})
@@ -925,8 +925,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  555: 
 </span><span class="">  556: =head2 render_multi_series_line_chart_with_tooltips
 </span><span class="">  557: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  558:     $html = $chart-&gt;render_multi_series_line_chart_with_tooltips($data);
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  559: 
+</span><span class="">  558:     $html = $chart-&gt;render_multi_series_line_chart_with_tooltips($data);
+</span><span class="">  559: 
 </span><span class="">  560: Generates HTML and JavaScript code to render a chart of many lines with mouseover tooltips.
 </span><span class="">  561: 
 </span><span class="">  562: Accepts the following arguments:
@@ -1039,7 +1039,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  669: 		.attr(&quot;fill&quot;, color(i))
 </span><span class="">  670: 		.on(&quot;mouseover&quot;, (event, d) =&gt; {
 </span><span class="">  671: 		    tooltip.style(&quot;opacity&quot;, 1)
-</span><span class="">  672: 			   .html(\`Series: &lt;b&gt;\${series.name}&lt;/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;/b&gt;\`)
+</span><span class="">  672: 			   .html(\`Series: &lt;b&gt;\${series.name}&lt;\/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\/b&gt;\`)
 </span><span class="">  673: 			   .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
 </span><span class="">  674: 			   .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
 </span><span class="">  675: 		})
@@ -1056,8 +1056,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  686: &lt;/html&gt;
 </span><span class="">  687: HTML
 </span><span class="">  688: 
-</span><span class="">  689:     return $html;
-</span><span class="">  690: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  689:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  690: }
 </span><span class="">  691: 
 </span><span class="">  692: =head2 render_multi_series_line_chart_with_animated_tooltips
 </span><span class="">  693: 
@@ -1065,8 +1065,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  695: 
 </span><span class="">  696: Generates HTML and JavaScript code to render a chart of many lines with animated mouseover tooltips.
 </span><span class="">  697: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  698: Accepts the following arguments:
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  699: 
+</span><span class="">  698: Accepts the following arguments:
+</span><span class="">  699: 
 </span><span class="">  700: =over 4
 </span><span class="">  701: 
 </span><span class="">  702: =item * C&lt;$data&gt; - An reference to an array of hashes containing data points.
@@ -1178,7 +1178,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  808: 		.on(&quot;mouseover&quot;, (event, d) =&gt; {
 </span><span class="">  809: 		    tooltip.style(&quot;opacity&quot;, 1)
 </span><span class="">  810: 			   .style(&quot;transform&quot;, &quot;translateY(0)&quot;)
-</span><span class="">  811: 			   .html(\`Series: &lt;b&gt;\${series.name}&lt;/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;/b&gt;\`)
+</span><span class="">  811: 			   .html(\`Series: &lt;b&gt;\${series.name}&lt;\/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\/b&gt;\`)
 </span><span class="">  812: 			   .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
 </span><span class="">  813: 			   .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
 </span><span class="">  814: 		})
@@ -1196,8 +1196,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  826: &lt;/html&gt;
 </span><span class="">  827: HTML
 </span><span class="">  828: 
-</span><span class="">  829:     return $html;
-</span><span class="">  830: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  829:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  830: }
 </span><span class="">  831: 
 </span><span class="">  832: =head2 render_multi_series_line_chart_with_legends
 </span><span class="">  833: 
@@ -1241,8 +1241,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  871:             background-color: white;
 </span><span class="">  872:             border: 1px solid #ccc;
 </span><span class="">  873:             padding: 5px;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  874:             font-size: 12px;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  875:             pointer-events: none;
+</span><span class="">  874:             font-size: 12px;
+</span><span class="">  875:             pointer-events: none;
 </span><span class="">  876:             opacity: 0;
 </span><span class="">  877:             transform: translateY(-10px);
 </span><span class="">  878:             transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
@@ -1329,7 +1329,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  959:                 .on(&quot;mouseover&quot;, (event, d) =&gt; {
 </span><span class="">  960:                     tooltip.style(&quot;opacity&quot;, 1)
 </span><span class="">  961:                            .style(&quot;transform&quot;, &quot;translateY(0)&quot;)
-</span><span class="">  962:                            .html(\`Series: &lt;b&gt;\${series.name}&lt;/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;/b&gt;\`)
+</span><span class="">  962:                            .html(\`Series: &lt;b&gt;\${series.name}&lt;\/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\/b&gt;\`)
 </span><span class="">  963:                            .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
 </span><span class="">  964:                            .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
 </span><span class="">  965:                 })
@@ -1372,8 +1372,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1002: &lt;/html&gt;
 </span><span class=""> 1003: HTML
 </span><span class=""> 1004: 
-</span><span class=""> 1005:     return $html;
-</span><span class=""> 1006: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1005:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1006: }
 </span><span class=""> 1007: 
 </span><span class=""> 1008: =head2 render_multi_series_line_chart_with_interactive_legends
 </span><span class=""> 1009: 
@@ -1421,8 +1421,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1051:             font-size: 12px;
 </span><span class=""> 1052:             pointer-events: none;
 </span><span class=""> 1053:             opacity: 0;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1054:             transform: translateY(-10px);
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1055:             transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+</span><span class=""> 1054:             transform: translateY(-10px);
+</span><span class=""> 1055:             transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
 </span><span class=""> 1056:         }
 </span><span class=""> 1057:         .legend {
 </span><span class=""> 1058:             font-size: 12px;
@@ -1430,8 +1430,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1060:         }
 </span><span class=""> 1061:         .legend rect {
 </span><span class=""> 1062:             stroke-width: 1;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1063:             stroke: #ccc;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1064:         }
+</span><span class=""> 1063:             stroke: #ccc;
+</span><span class=""> 1064:         }
 </span><span class=""> 1065:     &lt;/style&gt;
 </span><span class=""> 1066: &lt;/head&gt;
 </span><span class=""> 1067: &lt;body&gt;
@@ -1445,8 +1445,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1075:         const tooltip = d3.select(&quot;#tooltip&quot;);
 </span><span class=""> 1076:         const margin = { top: 20, right: 150, bottom: 40, left: 40 };
 </span><span class=""> 1077:         const width = $self-&gt;{width} - margin.left - margin.right;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1078:         const height = $self-&gt;{height} - margin.top - margin.bottom;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1079: 
+</span><span class=""> 1078:         const height = $self-&gt;{height} - margin.top - margin.bottom;
+</span><span class=""> 1079: 
 </span><span class=""> 1080:         const chart = svg.append(&quot;g&quot;)
 </span><span class=""> 1081:             .attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
 </span><span class=""> 1082: 
@@ -1506,7 +1506,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1136:                 .on(&quot;mouseover&quot;, (event, d) =&gt; {
 </span><span class=""> 1137:                     tooltip.style(&quot;opacity&quot;, 1)
 </span><span class=""> 1138:                            .style(&quot;transform&quot;, &quot;translateY(0)&quot;)
-</span><span class=""> 1139:                            .html(\`Series: &lt;b&gt;\${series.name}&lt;/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;/b&gt;\`)
+</span><span class=""> 1139:                            .html(\`Series: &lt;b&gt;\${series.name}&lt;\/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\/b&gt;\`)
 </span><span class=""> 1140:                            .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
 </span><span class=""> 1141:                            .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
 </span><span class=""> 1142:                 })
@@ -1552,8 +1552,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1182: &lt;/html&gt;
 </span><span class=""> 1183: HTML
 </span><span class=""> 1184: 
-</span><span class=""> 1185:     return $html;
-</span><span class=""> 1186: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1185:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1186: }
 </span><span class=""> 1187: 
 </span><span class=""> 1188: sub _preamble
 </span><span class=""> 1189: {
@@ -1561,8 +1561,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1191: &lt;!DOCTYPE html&gt;
 </span><span class=""> 1192: &lt;html lang=&quot;en&quot;&gt;
 </span><span class=""> 1193: HTML
-</span><span class=""> 1194: 	return $html;
-</span><span class=""> 1195: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1194: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1195: }
 </span><span class=""> 1196: 
 </span><span class=""> 1197: sub _head
 </span><span class=""> 1198: {
@@ -1576,8 +1576,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1206: 	&lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
 </span><span class=""> 1207: &lt;/head&gt;
 </span><span class=""> 1208: HTML
-</span><span class=""> 1209: 	return $html;
-</span><span class=""> 1210: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1209: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1210: }
 </span><span class=""> 1211: 
 </span><span class=""> 1212: =head1 SUPPORT
 </span><span class=""> 1213: 
@@ -1615,7 +1615,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1245: 
 </span><span class=""> 1246: =head1 LICENSE AND COPYRIGHT
 </span><span class=""> 1247: 
-</span><span class=""> 1248: Copyright 2025 Nigel Horne.
+</span><span class=""> 1248: Copyright 2025-2026 Nigel Horne.
 </span><span class=""> 1249: 
 </span><span class=""> 1250: Usage is subject to the GPL2 licence terms.
 </span><span class=""> 1251: If you use it,
