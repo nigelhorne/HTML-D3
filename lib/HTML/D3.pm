@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use JSON::MaybeXS;
+use Object::Configure;
 use Params::Get;
 use Scalar::Util;
 
@@ -98,6 +99,8 @@ sub new
 		# If $class is an object, clone it with new arguments
 		return bless { %{$class}, %{$params} }, ref($class);
 	}
+
+	$params = Object::Configure::configure($class, $params);
 
 	# Return the blessed object
 	return bless {
@@ -1095,15 +1098,27 @@ You can also look for information at:
 
 It would help to have the render routine to return the head and body components separately.
 
+=head1 SEE ALSO
+
+=over 4
+
+=item * L<Configure an Object at Runtime|Object::Configure>
+
+=item * L<Test Dashboard|https://nigelhorne.github.io/HTML-D3/coverage/>
+
+=back
+
 =head1 AUTHOR
 
-Nigel Horne <njh@bandsman.co.uk>
+Nigel Horne <njh@nigelhorne.com>
 
 =head1 LICENSE AND COPYRIGHT
 
 Copyright 2025 Nigel Horne.
 
-This program is released under the following licence: GPL2
+Usage is subject to the GPL2 licence terms.
+If you use it,
+please let me know.
 
 =cut
 
