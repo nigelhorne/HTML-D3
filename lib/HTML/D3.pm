@@ -392,7 +392,7 @@ sub render_line_chart_with_tooltips
 	    .attr("fill", "steelblue")
 	    .on("mouseover", (event, d) => {
 		tooltip.style("opacity", 1)
-		       .html(`Label: <b>\${d.label}</b><br>Value: <b>\${d.value}</b>`)
+		       .html(`Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>`)
 		       .style("left", (event.pageX + 10) + "px")
 		       .style("top", (event.pageY - 30) + "px");
 	    })
@@ -425,8 +425,8 @@ HTML
 =head2 render_line_chart_snippet
 
     my $fragment = $chart->render_line_chart_snippet($data);
-    # $fragment->{svg_id} — the id attribute of the <svg> element
-    # $fragment->{html}   — embeddable HTML fragment (style + svg + script)
+    # $fragment->{svg_id} - the id attribute of the <svg> element
+    # $fragment->{html}   - embeddable HTML fragment (style + svg + script)
 
 Generates an embeddable HTML fragment for a line chart with mouseover tooltips.
 Unlike C<render_line_chart_with_tooltips>, this method returns a fragment with
@@ -526,7 +526,7 @@ sub render_line_chart_snippet
 	.attr("fill", "steelblue")
 	.on("mouseover", (event, d) => {
 	    tooltip.style("opacity", 1)
-		   .html(`Label: <b>\${d.label}</b><br>Value: <b>\${d.value}</b>`)
+		   .html(`Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>`)
 		   .style("left", (event.pageX + 10) + "px")
 		   .style("top", (event.pageY - 30) + "px");
 	})
@@ -669,7 +669,7 @@ sub render_multi_series_line_chart_with_tooltips
 		.attr("fill", color(i))
 		.on("mouseover", (event, d) => {
 		    tooltip.style("opacity", 1)
-			   .html(\`Series: <b>\${series.name}</b><br>Label: <b>\${d.label}</b><br>Value: <b>\${d.value}</b>\`)
+			   .html(\`Series: <b>\${series.name}<\/b><br>Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>\`)
 			   .style("left", (event.pageX + 10) + "px")
 			   .style("top", (event.pageY - 30) + "px");
 		})
@@ -808,7 +808,7 @@ sub render_multi_series_line_chart_with_animated_tooltips
 		.on("mouseover", (event, d) => {
 		    tooltip.style("opacity", 1)
 			   .style("transform", "translateY(0)")
-			   .html(\`Series: <b>\${series.name}</b><br>Label: <b>\${d.label}</b><br>Value: <b>\${d.value}</b>\`)
+			   .html(\`Series: <b>\${series.name}<\/b><br>Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>\`)
 			   .style("left", (event.pageX + 10) + "px")
 			   .style("top", (event.pageY - 30) + "px");
 		})
@@ -959,7 +959,7 @@ sub render_multi_series_line_chart_with_legends {
                 .on("mouseover", (event, d) => {
                     tooltip.style("opacity", 1)
                            .style("transform", "translateY(0)")
-                           .html(\`Series: <b>\${series.name}</b><br>Label: <b>\${d.label}</b><br>Value: <b>\${d.value}</b>\`)
+                           .html(\`Series: <b>\${series.name}<\/b><br>Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>\`)
                            .style("left", (event.pageX + 10) + "px")
                            .style("top", (event.pageY - 30) + "px");
                 })
@@ -1136,7 +1136,7 @@ sub render_multi_series_line_chart_with_interactive_legends
                 .on("mouseover", (event, d) => {
                     tooltip.style("opacity", 1)
                            .style("transform", "translateY(0)")
-                           .html(\`Series: <b>\${series.name}</b><br>Label: <b>\${d.label}</b><br>Value: <b>\${d.value}</b>\`)
+                           .html(\`Series: <b>\${series.name}<\/b><br>Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>\`)
                            .style("left", (event.pageX + 10) + "px")
                            .style("top", (event.pageY - 30) + "px");
                 })
@@ -1245,7 +1245,7 @@ Nigel Horne <njh@nigelhorne.com>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2025 Nigel Horne.
+Copyright 2025-2026 Nigel Horne.
 
 Usage is subject to the GPL2 licence terms.
 If you use it,

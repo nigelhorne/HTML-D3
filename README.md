@@ -88,6 +88,31 @@ be an array reference with two elements: the label (string) and the value (numer
 
 Returns a string containing the HTML and JavaScript code for the chart.
 
+## render\_line\_chart\_snippet
+
+    my $fragment = $chart->render_line_chart_snippet($data);
+    # $fragment->{svg_id} - the id attribute of the <svg> element
+    # $fragment->{html}   - embeddable HTML fragment (style + svg + script)
+
+Generates an embeddable HTML fragment for a line chart with mouseover tooltips.
+Unlike `render_line_chart_with_tooltips`, this method returns a fragment with
+no `<!DOCTYPE`>, `<html`>, `<head`>, or `<body`> wrapper, suitable for
+splicing directly into a Mojolicious TT (or any other) layout.
+
+The caller is responsible for loading D3 in the page `<head`>, e.g.:
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+Accepts the following arguments:
+
+- `$data` - An array reference of data points, each an array reference
+with two elements: the label (string) and the value (numeric).
+
+Returns a hash reference with:
+
+- `svg_id` - The `id` attribute used on the `<svg`> element.
+- `html` - The embeddable fragment string.
+
 ## render\_multi\_series\_line\_chart\_with\_tooltips
 
     $html = $chart->render_multi_series_line_chart_with_tooltips($data);
@@ -160,12 +185,19 @@ You can also look for information at:
 
 It would help to have the render routine to return the head and body components separately.
 
+# SEE ALSO
+
+- [Configure an Object at Runtime](https://metacpan.org/pod/Object%3A%3AConfigure)
+- [Test Dashboard](https://nigelhorne.github.io/HTML-D3/coverage/)
+
 # AUTHOR
 
-Nigel Horne <njh@bandsman.co.uk>
+Nigel Horne <njh@nigelhorne.com>
 
 # LICENSE AND COPYRIGHT
 
-Copyright 2025 Nigel Horne.
+Copyright 2025-2026 Nigel Horne.
 
-This program is released under the following licence: GPL2
+Usage is subject to the GPL2 licence terms.
+If you use it,
+please let me know.
