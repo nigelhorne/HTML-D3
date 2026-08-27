@@ -1,12 +1,14 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
-0.08
+0.08	Thu Aug 27 01:30:10 PM EDT 2026
 	[ Enhancements ]
 	- Use Params::Get
 	- Added test dashboard
 	- Added support for Object::Configure
+	- Added render_line_chart_snippet() returning an embeddable {svg_id, html} fragment for use in Mojolicious TT (and similar) layouts without post-processing
 	[ Bug Fixes ]
 	- Handle html tidy on FreeBSD - https://www.cpantesters.org/cpan/report/8321add6-d178-11ef-8e88-00fe6d8775ea
+	 Escape </b> as <\/b> in JavaScript tooltip strings to fix html-tidy failures on cpantesters (Warning: '<' + '/' + letter not allowed here inside <script>)
 
 0.07	Fri Jan 10 21:16:49 EST 2025
 	Added support for interactive legends
