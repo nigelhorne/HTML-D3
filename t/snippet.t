@@ -4,7 +4,7 @@ use warnings;
 use strict;
 
 use HTML::D3;
-use Test::Most tests => 14;
+use Test::Most tests => 19;
 
 my $chart = HTML::D3->new(
 	width  => 800,
@@ -40,3 +40,19 @@ unlike($html, qr/<html/i,                       'Fragment has no <html> wrapper'
 throws_ok {
 	$chart->render_line_chart_snippet('Invalid data');
 } qr/Data must be an array of arrays/, 'Dies on invalid data';
+
+# Extra tooltip data — optional third element per pair
+my $data_with_extra = [
+	['January',  1000, { Region => 'North', SKU => 'ABC' }],
+	['February', 1200],
+];
+
+my $frag2;
+lives_ok { $frag2 = $chart->render_line_chart_snippet($data_with_extra) } 'Snippet with extra data renders without error';
+
+my $html2 = $frag2->{html};
+like($html2, qr/"extra":\{/,              'extra object present in JSON for annotated point');
+like($html2, qr/Region/,                  'extra key appears in JSON data');
+like($html2, qr/Object\.entries\(d\.extra\)/, 'JS iterates d.extra in mouseover handler');
+my @extra_in_data = ($html2 =~ /"extra":\{/g);
+is(scalar @extra_in_data, 1, 'exactly one data point carries extra — plain pair has none');

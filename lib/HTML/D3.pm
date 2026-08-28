@@ -440,8 +440,13 @@ Accepts the following arguments:
 
 =over 4
 
-=item * C<$data> - An array reference of data points, each an array reference
-with two elements: the label (string) and the value (numeric).
+=item * C<$data> - An array reference of data points. Each point is an array
+reference with two required elements - the label (string) and the value
+(numeric) - and an optional third element: a hash reference of extra key/value
+pairs to display in the tooltip after the label and value rows.
+
+    [$x, $y]          # basic point
+    [$x, $y, \%row]   # point with extra tooltip data
 
 =back
 
@@ -464,7 +469,11 @@ sub render_line_chart_snippet
 	die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
 
 	my $json_data = encode_json([
-		map { { label => $_->[0], value => $_->[1] } } @$data
+		map {
+			my $point = { label => $_->[0], value => $_->[1] };
+			$point->{extra} = $_->[2] if ref($_->[2]) eq 'HASH';
+			$point
+		} @$data
 	]);
 
 	my $svg_id = 'chart';
@@ -524,8 +533,14 @@ sub render_line_chart_snippet
 	.attr("r", 4)
 	.attr("fill", "steelblue")
 	.on("mouseover", (event, d) => {
+	    let ttHtml = `Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>`;
+	    if (d.extra) {
+		Object.entries(d.extra).forEach(([k, v]) => {
+		    ttHtml += `<br>\${k}: <b>\${v}<\/b>`;
+		});
+	    }
 	    tooltip.style("opacity", 1)
-		   .html(`Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>`)
+		   .html(ttHtml)
 		   .style("left", (event.pageX + 10) + "px")
 		   .style("top", (event.pageY - 30) + "px");
 	})

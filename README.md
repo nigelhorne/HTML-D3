@@ -105,8 +105,13 @@ The caller is responsible for loading D3 in the page `<head`>, e.g.:
 
 Accepts the following arguments:
 
-- `$data` - An array reference of data points, each an array reference
-with two elements: the label (string) and the value (numeric).
+- `$data` - An array reference of data points. Each point is an array
+reference with two required elements - the label (string) and the value
+(numeric) - and an optional third element: a hash reference of extra key/value
+pairs to display in the tooltip after the label and value rows.
+
+        [$x, $y]          # basic point
+        [$x, $y, \%row]   # point with extra tooltip data
 
 Returns a hash reference with:
 
