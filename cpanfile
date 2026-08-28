@@ -12,6 +12,7 @@ on 'test' => sub {
 	requires 'Test::HTML::T5';
 	requires 'Test::Most';
 	requires 'Test::Needs';
+	requires 'Test::Returns';
 	requires 'Test::Warnings';
 };
 

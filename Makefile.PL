@@ -43,6 +43,7 @@ WriteMakefile(
 		'Test::HTML::T5' => 0,
 		'Test::Most' => 0,
 		'Test::Needs' => 0,
+		'Test::Returns' => 0,
 		'Test::Warnings' => 0
 	}, dist => $dist,
 		clean => {

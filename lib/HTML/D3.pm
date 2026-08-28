@@ -124,6 +124,42 @@ be an array reference with two elements: the label (string) and the value (numer
 
 Returns a string containing the HTML and JavaScript code for the chart.
 
+=head3 Errors
+
+=over 4
+
+=item * Throws C<Data is not optional> when C<$data> is C<undef>.
+
+=item * Throws C<Data must be an array of arrays> when C<$data> is not an ARRAY reference.
+
+=back
+
+=head3 Side Effects
+
+None.
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    $self : HTML::D3                         -- required
+    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+
+=head4 Output
+
+    Str -- complete HTML5 document starting with C<< <!DOCTYPE html> >>;
+           D3.js loaded from CDN; bar chart rendered with C<d3.scaleBand>.
+
+=head3 FORMAL SPECIFICATION
+
+    render_bar_chart : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  data = undef              ⇒ die "Data is not optional"
+    pre  ref(data) ≠ 'ARRAY'      ⇒ die "Data must be an array of arrays"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post ∀ d ∈ data . d[0] ⊆ result
+
 =cut
 
 # Method to render a bar chart with given data
@@ -213,6 +249,38 @@ be an array reference with two elements: the label (string) and the value (numer
 =back
 
 Returns a string containing the HTML and JavaScript code for the chart.
+
+=head3 Errors
+
+=over 4
+
+=item * Throws C<Data must be an array of arrays> when C<$data> is not an ARRAY reference.
+
+=back
+
+=head3 Side Effects
+
+None.
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    $self : HTML::D3                         -- required
+    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required (undef dies)
+
+=head4 Output
+
+    Str -- complete HTML5 document; line chart with C<d3.scalePoint> and C<d3.line()>.
+
+=head3 FORMAL SPECIFICATION
+
+    render_line_chart : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of arrays"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post "d3.scalePoint" ⊆ result ∧ "d3.line()" ⊆ result
 
 =cut
 
@@ -308,6 +376,43 @@ be an array reference with two elements: the label (string) and the value (numer
 =back
 
 Returns a string containing the HTML and JavaScript code for the chart.
+The JavaScript tooltip strings use C<< <\/b> >> (with a backslash) rather than
+C<< </b> >> to satisfy html-tidy's requirement that C<< </ >> followed by a
+letter not appear literally inside C<< <script> >> blocks.
+
+=head3 Errors
+
+=over 4
+
+=item * Throws C<Data must be an array of arrays> when C<$data> is not an ARRAY reference.
+
+=back
+
+=head3 Side Effects
+
+None.
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    $self : HTML::D3                         -- required
+    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required
+
+=head4 Output
+
+    Str -- complete HTML5 document; mouseover tooltip reveals label and value.
+           Tooltip strings use C<< <\/b> >> not C<< </b> >>.
+
+=head3 FORMAL SPECIFICATION
+
+    render_line_chart_with_tooltips : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of arrays"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post "mouseover" ⊆ result
+    post "</b>" ∉ result ∧ "<\/b>" ∈ result
 
 =cut
 
@@ -754,12 +859,51 @@ Accepts the following arguments:
 
 =over 4
 
-=item * C<$data> - An reference to an array of hashes containing data points.
-Each data point should be an array reference with two elements: the label (string) and the value (numeric).
+=item * C<$data> - An array reference of series hashes. Each element is a hashref
+with a C<name> key (string) and a C<data> key (array reference of C<< {label, value} >>
+hashrefs).
+
+    [
+        { name => 'Series A', data => [{ label => 'Jan', value => 100 }, ...] },
+        ...
+    ]
 
 =back
 
 Returns a string containing the HTML and JavaScript code for the chart.
+Tooltip strings use C<< <\/b> >> rather than C<< </b> >> for html-tidy compliance.
+
+=head3 Errors
+
+=over 4
+
+=item * Throws C<Data must be an array of hashes> when C<$data> is not an ARRAY reference.
+
+=back
+
+=head3 Side Effects
+
+None.
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    $self : HTML::D3                                                   -- required
+    $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+
+=head4 Output
+
+    Str -- complete HTML5 document; one coloured line per series with mouseover tooltips.
+
+=head3 FORMAL SPECIFICATION
+
+    render_multi_series_line_chart_with_tooltips : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of hashes"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post "</b>" ∉ result ∧ "<\/b>" ∈ result
 
 =cut
 
@@ -890,12 +1034,47 @@ Accepts the following arguments:
 
 =over 4
 
-=item * C<$data> - An reference to an array of hashes containing data points.
-Each data point should be an array reference with two elements: the label (string) and the value (numeric).
+=item * C<$data> - Same format as C<render_multi_series_line_chart_with_tooltips>:
+an array reference of C<< { name, data } >> series hashes.
 
 =back
 
-Returns a string containing the HTML and JavaScript code for the chart.
+Returns a string containing the complete HTML5 document.
+The tooltip appears with a CSS C<translateY> slide-in animation.
+Tooltip strings use C<< <\/b> >> for html-tidy compliance.
+
+=head3 Errors
+
+=over 4
+
+=item * Throws C<Data must be an array of hashes> when C<$data> is not an ARRAY reference.
+
+=back
+
+=head3 Side Effects
+
+None.
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    $self : HTML::D3                                                   -- required
+    $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+
+=head4 Output
+
+    Str -- complete HTML5 document; animated tooltip uses CSS translateY transition.
+
+=head3 FORMAL SPECIFICATION
+
+    render_multi_series_line_chart_with_animated_tooltips : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'   ⇒ die "Data must be an array of hashes"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post "translateY" ⊆ result
+    post "</b>" ∉ result ∧ "<\/b>" ∈ result
 
 =cut
 
@@ -1024,18 +1203,53 @@ HTML
 
     $html = $chart->render_multi_series_line_chart_with_legends($data);
 
-Generates HTML and JavaScript code to render a chart of many lines with animated mouseover tooltips.
+Generates HTML and JavaScript code to render a chart of many lines with a static
+colour legend. Each series gets a labelled colour swatch in the legend area.
 
 Accepts the following arguments:
 
 =over 4
 
-=item * C<$data> - An reference to an array of hashes containing data points.
-Each data point should be an array reference with two elements: the label (string) and the value (numeric).
+=item * C<$data> - Same format as C<render_multi_series_line_chart_with_tooltips>:
+an array reference of C<< { name, data } >> series hashes.
 
 =back
 
-Returns a string containing the HTML and JavaScript code for the chart.
+Returns a string containing the complete HTML5 document. The stylesheet defines
+a C<.legend> CSS class used by the D3-generated legend elements.
+
+=head3 Errors
+
+=over 4
+
+=item * Throws C<Data must be an array of hashes> when C<$data> is not an ARRAY reference.
+
+=back
+
+=head3 Side Effects
+
+None.
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    $self : HTML::D3                                                   -- required
+    $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+
+=head4 Output
+
+    Str -- complete HTML5 document; static colour legend rendered as SVG C<g> elements
+           with the C<.legend> CSS class applied via D3 C<.attr("class", "legend")>.
+
+=head3 FORMAL SPECIFICATION
+
+    render_multi_series_line_chart_with_legends : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of hashes"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post ".legend" ⊆ result
 
 =cut
 
@@ -1206,12 +1420,50 @@ Accepts the following arguments:
 
 =over 4
 
-=item * C<$data> - An reference to an array of hashes containing data points.
-Each data point should be an array reference with two elements: the label (string) and the value (numeric).
+=item * C<$data> - Same format as C<render_multi_series_line_chart_with_tooltips>:
+an array reference of C<< { name, data } >> series hashes.
 
 =back
 
-Returns a string containing the HTML and JavaScript code for the chart.
+Returns a string containing the complete HTML5 document. Clicking a legend entry
+toggles that series' opacity using an C<isVisible> boolean flag in the D3 click
+handler (opacity is set to C<isVisible ? 0 : 1> on each click).
+
+=head3 Errors
+
+=over 4
+
+=item * Throws C<Data must be an array of hashes> when C<$data> is not an ARRAY reference.
+
+=back
+
+=head3 Side Effects
+
+None.
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    $self : HTML::D3                                                   -- required
+    $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+
+=head4 Output
+
+    Str -- complete HTML5 document; legend clicks toggle series visibility.
+           The C<isVisible> JS variable tracks current visibility state.
+           Opacity toggled by C<isVisible ? 0 : 1>.
+
+=head3 FORMAL SPECIFICATION
+
+    render_multi_series_line_chart_with_interactive_legends : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'            ⇒ die "Data must be an array of hashes"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post "isVisible" ⊆ result
+    post "isVisible ? 0 : 1" ⊆ result
+    post ".legend" ⊆ result
 
 =cut
 
