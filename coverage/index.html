@@ -158,9 +158,9 @@
 
 <tbody>
 
-<tr class="high"><td><a href="blib-lib-HTML-D3-pm.html" title="View coverage line by line" target="_blank">lib/HTML/D3.pm</a> <a href="https://github.com/nigelhorne/HTML-D3/blob/cef8deeff30b1f5432754016be944f5a373acbaa/lib/HTML/D3.pm" class="icon-link" title="View source on GitHub">&#128269;</a><canvas class="sparkline" width="80" height="20" data-points="96.9,90.0,97.1,97.1"></canvas></td><td>97.8</td><td>91.7</td><td>100.0</td><td>100.0</td><td><span class="coverage-badge badge-good" title="Excellent coverage">97.1%</span></td><td class="neutral" title="Previous: 97.1%">&#9679; 0.0%</td></tr>
+<tr class="high"><td><a href="blib-lib-HTML-D3-pm.html" title="View coverage line by line" target="_blank">lib/HTML/D3.pm</a> <a href="https://github.com/nigelhorne/HTML-D3/blob/3e15d2b98259088fce1624e570197f4705a78749/lib/HTML/D3.pm" class="icon-link" title="View source on GitHub">&#128269;</a><canvas class="sparkline" width="80" height="20" data-points="96.9,90.0,97.1,97.1,97.1"></canvas></td><td>97.8</td><td>92.3</td><td>100.0</td><td>100.0</td><td><span class="coverage-badge badge-good" title="Excellent coverage">97.2%</span></td><td class="positive" title="Previous: 97.1%">&#9650; 0.1%</td></tr>
 <tr class="summary-row nosort"><td colspan="2"><strong>Summary</strong></td><td colspan="2">1 files</td><td colspan="3">Avg: 97%, Low: 0</td></tr>
-<tr class="high nosort"><td><strong>Total</strong></td><td>97.8</td><td>91.7</td><td>100.0</td><td>100.0</td><td colspan="2"><strong>97.1</strong></td></tr>
+<tr class="high nosort"><td><strong>Total</strong></td><td>97.8</td><td>92.3</td><td>100.0</td><td>100.0</td><td colspan="2"><strong>97.2</strong></td></tr>
 </tbody></table>
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1em;">
 	<div>
@@ -209,8 +209,9 @@ function linearRegression(data) {
 
 const dataPoints = [ { x: "2026-08-27T11:54:33-04:00", y: 96.9230769230769, delta: 0, url: "https://github.com/nigelhorne/HTML-D3/commit/9e502eaf8fbf416ccec296d021d76ba46d17a843", label: "2026-08-27T11:54:33-04:00", pointBackgroundColor: "gray", comment: "Added support for Object::Configure" },
 { x: "2026-08-27T12:50:07-04:00", y: 97.1428571428571, delta: 0.2, url: "https://github.com/nigelhorne/HTML-D3/commit/45598e3ecbc70f8ad01642fc80864c97f730de68", label: "2026-08-27T12:50:07-04:00", pointBackgroundColor: "green", comment: "Handle html tidy on FreeBSD - https://www.cpantesters.org/cpan/report/8321add6-d178-11ef-8e88-00fe6d8775ea" },
-{ x: "2026-08-27T13:30:33-04:00", y: 48.5714285714285, delta: -48.6, url: "https://github.com/nigelhorne/HTML-D3/commit/62de4cf2475e76e9758ebe6aa1a91e7f416db6e9", label: "2026-08-27T13:30:33-04:00", pointBackgroundColor: "red", comment: "Release 0.08" },
-{ x: "2026-08-27T18:56:05+00:00", y: 97.1428571428571, delta: 48.6, url: "https://github.com/nigelhorne/HTML-D3/commit/cef8deeff30b1f5432754016be944f5a373acbaa", label: "2026-08-27T18:56:05+00:00", pointBackgroundColor: "green", comment: "TODO is done" } ];
+{ x: "2026-08-27T13:30:33-04:00", y: 97.1428571428571, delta: 0.0, url: "https://github.com/nigelhorne/HTML-D3/commit/62de4cf2475e76e9758ebe6aa1a91e7f416db6e9", label: "2026-08-27T13:30:33-04:00", pointBackgroundColor: "gray", comment: "Release 0.08" },
+{ x: "2026-08-27T14:50:49-04:00", y: 48.5714285714285, delta: -48.6, url: "https://github.com/nigelhorne/HTML-D3/commit/cef8deeff30b1f5432754016be944f5a373acbaa", label: "2026-08-27T14:50:49-04:00", pointBackgroundColor: "red", comment: "TODO is done" },
+{ x: "2026-08-28T01:13:01+00:00", y: 97.2222222222222, delta: 48.7, url: "https://github.com/nigelhorne/HTML-D3/commit/3e15d2b98259088fce1624e570197f4705a78749", label: "2026-08-28T01:13:01+00:00", pointBackgroundColor: "green", comment: "Added optional extra tooltip data" } ];
 const regressionPoints = linearRegression(dataPoints);
 // Try to register the zoom plugin (handles different UMD builds)
 (function registerZoomPlugin(){
@@ -681,115 +682,7 @@ function refresh(){
 
 <p><center>Use mouse wheel or pinch to zoom; drag to pan</center></p>
 <p>No issues active on <a href="https://rt.cpan.org/Public/Dist/Display.html?Name=HTML-D3">RT</a></p>
-<h2>CPAN Testers Failures for HTML-D3 0.07</h2>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-	const toggleFail = document.getElementById('toggleFail');
-	const toggleUnknown = document.getElementById('toggleUnknown');
-	const toggleNA = document.getElementById('toggleNA');
-	const toggleNew = document.getElementById('toggleNew');
-
-	function update() {
-		document.querySelectorAll('tr').forEach(row => {
-			// Skip header rows
-			if(row.querySelector('th')) return;
-
-			// Determine row status
-			const isFail = row.classList.contains('cpan-fail');
-			const isUnknown = row.classList.contains('cpan-unknown');
-			const isNA = row.classList.contains('cpan-na');
-			const isNew = !!row.querySelector('.new-failure');
-
-			// Decide whether to show the row
-			let show = true;
-
-			if(toggleFail && !toggleFail.checked && isFail) show = false;
-			if(toggleUnknown && !toggleUnknown.checked && isUnknown) show = false;
-			if(toggleNA && !toggleNA.checked && isNA) show = false;
-			if(toggleNew && toggleNew.checked && !isNew) show = false;
-
-			row.style.display = show ? '' : 'none';
-		});
-	}
-
-	[toggleFail, toggleUnknown, toggleNA, toggleNew].forEach(cb => {
-		if(cb) cb.addEventListener('change', update);
-	});
-
-	update();
-});
-</script>
-
-
-<p><em>Showing one failure per OS/Perl combination.</em></p>
-<div style="margin-bottom: 0.5em;">
-	<label>
-		<input type="checkbox" id="toggleFail" checked>
-		FAIL
-	</label>
-	<label style="margin-left: 1em;">
-		<input type="checkbox" id="toggleUnknown">
-		UNKNOWN
-	</label>
-	<label style="margin-left: 1em;">
-		<input type="checkbox" id="toggleNA">
-		NA
-	</label>
-	<label style="margin-left: 1em;">
-		<input type="checkbox" id="toggleNew">
-		NEW only
-	</label>
-</div>
-
-<table class="sortable-table" data-sort-col="0" data-sort-order="asc" data-table-id="cpan">
-<thead>
-<tr>
-	<th class="sortable" onclick="sortTable(this, 0)" data-sort-type="date">
-		<span class="label">Date</span> <span class="arrow">&#x25B2;</span>
-	</th>
-	<th class="sortable" onclick="sortTable(this, 1)">
-		<span class="label">OS</span> <span class="arrow">&#x25B2;</span>
-	</th>
-	<th class="sortable" onclick="sortTable(this, 2)">
-		<span class="label">Perl</span> <span class="arrow">&#x25B2;</span>
-	</th>
-	<th class="sortable" onclick="sortTable(this, 3)">
-		<span class="label">Reporter</span> <span class="arrow">&#x25B2;</span>
-	</th>
-	<th class="sortable" onclick="sortTable(this, 4)" title="Marks failures that did not occur in the previous release. The same OS, Perl version, architecture, and platform were passing before.">
-		<span class="label">New</span> <span class="arrow">&#x25B2;</span>
-	</th>
-	<th>Report</th>
-	<th>Repro</th>
-</tr>
-</thead>
-<tbody>
-
-<tr class="cpan-fail"><td>2025-01-14T18:00:00Z</td><td>freebsd</td><td>5.20.3</td><td>Slaven Rezi&#x107;</td><td></td>
-				<td><a href="https://www.cpantesters.org/cpan/report/5f7edf32-d2a1-11ef-aec2-84426e8775ea" target="_blank">View</a></td><td></td></tr>
-<tr class="cpan-fail"><td>2025-01-14T20:49:00Z</td><td>freebsd</td><td>5.20.2</td><td>Slaven Rezi&#x107;</td><td></td>
-				<td><a href="https://www.cpantesters.org/cpan/report/163df2d2-d2b9-11ef-a6fa-76216e8775ea" target="_blank">View</a></td><td></td></tr>
-<tr class="cpan-fail"><td>2025-01-13T20:51:00Z</td><td>freebsd</td><td>5.22.0</td><td>Slaven Rezi&#x107;</td><td></td>
-				<td><a href="https://www.cpantesters.org/cpan/report/27995194-d1f0-11ef-b60e-06ea6d8775ea" target="_blank">View</a></td><td></td></tr>
-<tr class="cpan-fail"><td>2025-01-14T18:00:00Z</td><td>freebsd</td><td>5.22.1</td><td>Slaven Rezi&#x107;</td><td></td>
-				<td><a href="https://www.cpantesters.org/cpan/report/6512b0ea-d2a1-11ef-aec2-84426e8775ea" target="_blank">View</a></td><td></td></tr>
-<tr class="cpan-fail"><td>2025-01-14T06:11:00Z</td><td>freebsd</td><td>5.24.0</td><td>Slaven Rezi&#x107;</td><td></td>
-				<td><a href="https://www.cpantesters.org/cpan/report/576ce16c-d23e-11ef-8797-49496e8775ea" target="_blank">View</a></td><td></td></tr>
-<tr class="cpan-fail"><td>2025-01-13T06:34:00Z</td><td>freebsd</td><td>5.18.4</td><td>Slaven Rezi&#x107;</td><td></td>
-				<td><a href="https://www.cpantesters.org/cpan/report/8321add6-d178-11ef-8e88-00fe6d8775ea" target="_blank">View</a></td><td></td></tr>
-<tr class="cpan-fail"><td>2025-01-13T20:51:00Z</td><td>freebsd</td><td>5.26.0</td><td>Slaven Rezi&#x107;</td><td></td>
-				<td><a href="https://www.cpantesters.org/cpan/report/2bc1acd0-d1f0-11ef-b60e-06ea6d8775ea" target="_blank">View</a></td><td></td></tr>
-<tr class="cpan-fail"><td>2025-01-13T20:51:00Z</td><td>freebsd</td><td>5.24.1</td><td>Slaven Rezi&#x107;</td><td></td>
-				<td><a href="https://www.cpantesters.org/cpan/report/2358d762-d1f0-11ef-b60e-06ea6d8775ea" target="_blank">View</a></td><td></td></tr>
-<tr class="cpan-fail"><td>2025-01-13T20:51:00Z</td><td>freebsd</td><td>5.22.3</td><td>Slaven Rezi&#x107;</td><td></td>
-				<td><a href="https://www.cpantesters.org/cpan/report/1f26a26e-d1f0-11ef-b60e-06ea6d8775ea" target="_blank">View</a></td><td></td></tr>
-<tr class="cpan-fail"><td>2025-01-14T18:00:00Z</td><td>freebsd</td><td>5.20.1</td><td>Slaven Rezi&#x107;</td><td></td>
-				<td><a href="https://www.cpantesters.org/cpan/report/62436404-d2a1-11ef-aec2-84426e8775ea" target="_blank">View</a></td><td></td></tr>
-<tr class="cpan-fail"><td>2025-01-13T06:35:00Z</td><td>freebsd</td><td>5.28.1</td><td>Slaven Rezi&#x107;</td><td></td>
-				<td><a href="https://www.cpantesters.org/cpan/report/88bd1c6c-d178-11ef-8e88-00fe6d8775ea" target="_blank">View</a></td><td></td></tr>
-<tr class="cpan-fail"><td>2025-01-14T06:11:00Z</td><td>freebsd</td><td>5.22.2</td><td>Slaven Rezi&#x107;</td><td></td>
-				<td><a href="https://www.cpantesters.org/cpan/report/5e667654-d23e-11ef-8797-49496e8775ea" target="_blank">View</a></td><td></td></tr>
-</tbody></table>
+<p>No <A HREF="https://fast2-matrix.cpantesters.org/?dist=HTML-D3+0.08">CPAN Testers</A> failures reported for HTML-D3 0.08</p>
 <h2>Mutation Report</h2>
 <h3>Mutation Summary</h3>
 <ul>
@@ -822,22 +715,22 @@ document.addEventListener("DOMContentLoaded", function () {
 </thead>
 <tbody>
 
-<tr class="med"><td><a href="mutation_html/lib/HTML/D3.pm.html" title="View mutation line by line" target="_blank">lib/HTML/D3.pm</a> <a href="https://github.com/nigelhorne/HTML-D3/blob/cef8deeff30b1f5432754016be944f5a373acbaa/lib/HTML/D3.pm" class="icon-link" title="View source on GitHub">&#128269;</a></td><td>27</td><td>24</td><td>3</td><td>0</td><td><span class="coverage-badge badge-warn" title="Moderate">88.9%</span></td><td><span class="coverage-badge badge-good" title="Good">17</span></td><td><span class="coverage-badge badge-good" title="Excellent">97.8%</span> / <span class="coverage-badge badge-good" title="Excellent">91.7%</span> / <span class="coverage-badge badge-good" title="Excellent">100.0%</span></td><td><span class="coverage-badge badge-good" title="Low duplication">0.0%</span></td></tr>
+<tr class="med"><td><a href="mutation_html/lib/HTML/D3.pm.html" title="View mutation line by line" target="_blank">lib/HTML/D3.pm</a> <a href="https://github.com/nigelhorne/HTML-D3/blob/3e15d2b98259088fce1624e570197f4705a78749/lib/HTML/D3.pm" class="icon-link" title="View source on GitHub">&#128269;</a></td><td>27</td><td>24</td><td>3</td><td>0</td><td><span class="coverage-badge badge-warn" title="Moderate">88.9%</span></td><td><span class="coverage-badge badge-good" title="Good">18</span></td><td><span class="coverage-badge badge-good" title="Excellent">97.8%</span> / <span class="coverage-badge badge-good" title="Excellent">92.3%</span> / <span class="coverage-badge badge-good" title="Excellent">100.0%</span></td><td><span class="coverage-badge badge-good" title="Low duplication">0.0%</span></td></tr>
 </tbody></table>
 
 <h2>Structural Coverage (Approximate)</h2>
 <div class='summary'>
-Statement Coverage: 97.80% (89 / 91)<br>
-Branch Coverage: 91.67% (22 / 24)<br>
+Statement Coverage: 97.85% (91 / 93)<br>
+Branch Coverage: 92.31% (24 / 26)<br>
 <em>Approximate LCSAJ derived from branch and statement coverage.</em>
 </div>
 <h2>Executive Summary</h2>
 <div class='summary'>
-Tests execute 97.80% of the code but detect only 88.89% of injected faults.
+Tests execute 97.85% of the code but detect only 88.89% of injected faults.
 </div>
 <footer>
 	<p>Project: <a href="https://github.com/nigelhorne/HTML-D3">HTML-D3</a></p>
-	<p><em>Last updated: 2026-08-27 18:55:21 - <a href="https://github.com/nigelhorne/HTML-D3/commit/cef8deeff30b1f5432754016be944f5a373acbaa">commit <code>cef8dee</code></a></em></p>
+	<p><em>Last updated: 2026-08-28 01:12:21 - <a href="https://github.com/nigelhorne/HTML-D3/commit/3e15d2b98259088fce1624e570197f4705a78749">commit <code>3e15d2b</code></a></em></p>
 	<p style="float: right; font-size: 0.85em; color: #999;">Powered by <a href="https://metacpan.org/dist/App-Test-Generator">App::Test::Generator 0.46</a></p>
 </footer>
 </body>
