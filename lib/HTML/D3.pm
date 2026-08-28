@@ -391,7 +391,7 @@ sub render_line_chart_with_tooltips
 	    .attr("fill", "steelblue")
 	    .on("mouseover", (event, d) => {
 		tooltip.style("opacity", 1)
-		       .html(`Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>`)
+		       .html(`Label: <b>\${d.label}<\\/b><br>Value: <b>\${d.value}<\\/b>`)
 		       .style("left", (event.pageX + 10) + "px")
 		       .style("top", (event.pageY - 30) + "px");
 	    })
@@ -533,10 +533,10 @@ sub render_line_chart_snippet
 	.attr("r", 4)
 	.attr("fill", "steelblue")
 	.on("mouseover", (event, d) => {
-	    let ttHtml = `Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>`;
+	    let ttHtml = `Label: <b>\${d.label}<\\/b><br>Value: <b>\${d.value}<\\/b>`;
 	    if (d.extra) {
 		Object.entries(d.extra).forEach(([k, v]) => {
-		    ttHtml += `<br>\${k}: <b>\${v}<\/b>`;
+		    ttHtml += `<br>\${k}: <b>\${v}<\\/b>`;
 		});
 	    }
 	    tooltip.style("opacity", 1)
@@ -694,10 +694,10 @@ sub render_zoomable_line_chart_snippet
 		    .attr("cy", d => y(d.value))
 	    )
 	    .on("mouseover", (event, d) => {
-		let ttHtml = `Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>`;
+		let ttHtml = `Label: <b>\${d.label}<\\/b><br>Value: <b>\${d.value}<\\/b>`;
 		if (d.extra) {
 		    Object.entries(d.extra).forEach(([k, v]) => {
-			ttHtml += `<br>\${k}: <b>\${v}<\/b>`;
+			ttHtml += `<br>\${k}: <b>\${v}<\\/b>`;
 		    });
 		}
 		tooltip.style("opacity", 1)
@@ -860,7 +860,7 @@ sub render_multi_series_line_chart_with_tooltips
 		.attr("fill", color(i))
 		.on("mouseover", (event, d) => {
 		    tooltip.style("opacity", 1)
-			   .html(\`Series: <b>\${series.name}<\/b><br>Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>\`)
+			   .html(\`Series: <b>\${series.name}<\\/b><br>Label: <b>\${d.label}<\\/b><br>Value: <b>\${d.value}<\\/b>\`)
 			   .style("left", (event.pageX + 10) + "px")
 			   .style("top", (event.pageY - 30) + "px");
 		})
@@ -999,7 +999,7 @@ sub render_multi_series_line_chart_with_animated_tooltips
 		.on("mouseover", (event, d) => {
 		    tooltip.style("opacity", 1)
 			   .style("transform", "translateY(0)")
-			   .html(\`Series: <b>\${series.name}<\/b><br>Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>\`)
+			   .html(\`Series: <b>\${series.name}<\\/b><br>Label: <b>\${d.label}<\\/b><br>Value: <b>\${d.value}<\\/b>\`)
 			   .style("left", (event.pageX + 10) + "px")
 			   .style("top", (event.pageY - 30) + "px");
 		})
@@ -1150,7 +1150,7 @@ sub render_multi_series_line_chart_with_legends {
                 .on("mouseover", (event, d) => {
                     tooltip.style("opacity", 1)
                            .style("transform", "translateY(0)")
-                           .html(\`Series: <b>\${series.name}<\/b><br>Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>\`)
+                           .html(\`Series: <b>\${series.name}<\\/b><br>Label: <b>\${d.label}<\\/b><br>Value: <b>\${d.value}<\\/b>\`)
                            .style("left", (event.pageX + 10) + "px")
                            .style("top", (event.pageY - 30) + "px");
                 })
@@ -1327,7 +1327,7 @@ sub render_multi_series_line_chart_with_interactive_legends
                 .on("mouseover", (event, d) => {
                     tooltip.style("opacity", 1)
                            .style("transform", "translateY(0)")
-                           .html(\`Series: <b>\${series.name}<\/b><br>Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>\`)
+                           .html(\`Series: <b>\${series.name}<\\/b><br>Label: <b>\${d.label}<\\/b><br>Value: <b>\${d.value}<\\/b>\`)
                            .style("left", (event.pageX + 10) + "px")
                            .style("top", (event.pageY - 30) + "px");
                 })
