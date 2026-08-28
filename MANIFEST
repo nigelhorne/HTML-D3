@@ -42,3 +42,4 @@ t/pod-synopsis.t
 t/pod.t
 t/snippet.t
 t/tooltip.t
+t/zoomable.t

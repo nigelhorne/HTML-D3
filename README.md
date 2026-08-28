@@ -118,6 +118,23 @@ Returns a hash reference with:
 - `svg_id` - The `id` attribute used on the `<svg`> element.
 - `html` - The embeddable fragment string.
 
+## render\_zoomable\_line\_chart\_snippet
+
+    my $fragment = $chart->render_zoomable_line_chart_snippet($data);
+    # $fragment->{svg_id} - the id attribute of the <svg> element
+    # $fragment->{html}   - embeddable HTML fragment (style + button + svg + script)
+
+Like `render_line_chart_snippet`, but adds brush-to-zoom: the user can drag
+across a range of the x-axis to zoom into that region. A _Reset zoom_ button
+(hidden until a zoom is active) returns the chart to its original extent.
+Subsequent brushes on the zoomed view zoom in further; Reset always returns to
+the full dataset.
+
+The caller is responsible for loading D3 in the page `<head`>.
+
+Accepts the same arguments as `render_line_chart_snippet`: an array reference
+of data points, each `[$x, $y]` or `[$x, $y, \%extra]`.
+
 ## render\_multi\_series\_line\_chart\_with\_tooltips
 
     $html = $chart->render_multi_series_line_chart_with_tooltips($data);

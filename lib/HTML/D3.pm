@@ -567,6 +567,183 @@ HTML
 	return { svg_id => $svg_id, html => $html };
 }
 
+=head2 render_zoomable_line_chart_snippet
+
+    my $fragment = $chart->render_zoomable_line_chart_snippet($data);
+    # $fragment->{svg_id} - the id attribute of the <svg> element
+    # $fragment->{html}   - embeddable HTML fragment (style + button + svg + script)
+
+Like C<render_line_chart_snippet>, but adds brush-to-zoom: the user can drag
+across a range of the x-axis to zoom into that region. A I<Reset zoom> button
+(hidden until a zoom is active) returns the chart to its original extent.
+Subsequent brushes on the zoomed view zoom in further; Reset always returns to
+the full dataset.
+
+The caller is responsible for loading D3 in the page C<<head>>.
+
+Accepts the same arguments as C<render_line_chart_snippet>: an array reference
+of data points, each C<[$x, $y]> or C<[$x, $y, \%extra]>.
+
+=cut
+
+sub render_zoomable_line_chart_snippet
+{
+	my ($self, $data) = @_;
+
+	die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
+
+	my $json_data = encode_json([
+		map {
+			my $point = { label => $_->[0], value => $_->[1] };
+			$point->{extra} = $_->[2] if ref($_->[2]) eq 'HASH';
+			$point
+		} @$data
+	]);
+
+	my $svg_id = 'chart';
+	my $tip_id = 'tooltip';
+	my $rst_id = 'reset-btn';
+
+	my $html = <<"HTML";
+<style>
+    .tooltip {
+	position: absolute;
+	background-color: white;
+	border: 1px solid #ccc;
+	padding: 5px;
+	font-size: 12px;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.2s ease-in-out;
+    }
+    #$rst_id {
+	display: none;
+	margin-bottom: 4px;
+	cursor: pointer;
+    }
+    .brush .selection {
+	fill: steelblue;
+	fill-opacity: 0.15;
+	stroke: steelblue;
+	stroke-width: 1;
+    }
+</style>
+<button id="$rst_id">Reset zoom</button>
+<svg id="$svg_id" width="$self->{width}" height="$self->{height}" style="border: 1px solid black;"></svg>
+<div class="tooltip" id="$tip_id"></div>
+<script>
+    const allData     = $json_data;
+    let   currentData = allData.slice();
+
+    const svg      = d3.select("#$svg_id");
+    const tooltip  = d3.select("#$tip_id");
+    const resetBtn = d3.select("#$rst_id");
+    const margin   = { top: 20, right: 30, bottom: 40, left: 40 };
+    const width    = $self->{width}  - margin.left - margin.right;
+    const height   = $self->{height} - margin.top  - margin.bottom;
+
+    const chart = svg.append("g")
+	.attr("transform", `translate(\${margin.left},\${margin.top})`);
+
+    // Scales (domain set in redraw)
+    const x = d3.scalePoint().range([0, width]);
+    const y = d3.scaleLinear().range([height, 0]);
+
+    const lineFn = d3.line()
+	.x(d => x(d.label))
+	.y(d => y(d.value));
+
+    // Brush appended first so circles sit above it and receive mouse events
+    const brush = d3.brushX()
+	.extent([[0, 0], [width, height]])
+	.on("end", brushed);
+    const brushGroup = chart.append("g").attr("class", "brush").call(brush);
+
+    const linePath = chart.append("path")
+	.attr("fill", "none")
+	.attr("stroke", "steelblue")
+	.attr("stroke-width", 2);
+
+    const yAxisG = chart.append("g");
+    const xAxisG = chart.append("g").attr("transform", `translate(0,\${height})`);
+
+    function redraw(newData, ms) {
+	x.domain(newData.map(d => d.label));
+	y.domain([0, d3.max(newData, d => d.value)]).nice();
+
+	const t = svg.transition().duration(ms);
+
+	xAxisG.transition(t)
+	    .call(d3.axisBottom(x))
+	    .selectAll("text")
+	    .attr("transform", "rotate(-45)")
+	    .style("text-anchor", "end");
+
+	yAxisG.transition(t).call(d3.axisLeft(y));
+
+	linePath.datum(newData).transition(t).attr("d", lineFn);
+
+	chart.selectAll("circle.pt")
+	    .data(newData, d => d.label)
+	    .join(
+		enter => enter.append("circle")
+		    .attr("class", "pt")
+		    .attr("r", 4)
+		    .attr("fill", "steelblue")
+		    .attr("cx", d => x(d.label))
+		    .attr("cy", d => y(d.value))
+	    )
+	    .on("mouseover", (event, d) => {
+		let ttHtml = `Label: <b>\${d.label}<\/b><br>Value: <b>\${d.value}<\/b>`;
+		if (d.extra) {
+		    Object.entries(d.extra).forEach(([k, v]) => {
+			ttHtml += `<br>\${k}: <b>\${v}<\/b>`;
+		    });
+		}
+		tooltip.style("opacity", 1)
+		       .html(ttHtml)
+		       .style("left", (event.pageX + 10) + "px")
+		       .style("top",  (event.pageY - 30) + "px");
+	    })
+	    .on("mousemove", (event) => {
+		tooltip.style("left", (event.pageX + 10) + "px")
+		       .style("top",  (event.pageY - 30) + "px");
+	    })
+	    .on("mouseout", () => {
+		tooltip.style("opacity", 0);
+	    })
+	    .transition(t)
+	    .attr("cx", d => x(d.label))
+	    .attr("cy", d => y(d.value));
+    }
+
+    redraw(currentData, 0);
+
+    function brushed(event) {
+	if (!event.selection) return;
+	const [x0, x1] = event.selection;
+	const zoomed = currentData.filter(d => {
+	    const px = x(d.label);
+	    return px >= x0 - 1 && px <= x1 + 1;
+	});
+	brushGroup.call(brush.move, null);   // clear brush rectangle
+	if (zoomed.length < 2) return;
+	currentData = zoomed;
+	redraw(currentData, 500);
+	resetBtn.style("display", "inline-block");
+    }
+
+    resetBtn.on("click", () => {
+	currentData = allData.slice();
+	redraw(currentData, 500);
+	resetBtn.style("display", "none");
+    });
+</script>
+HTML
+
+	return { svg_id => $svg_id, html => $html };
+}
+
 =head2 render_multi_series_line_chart_with_tooltips
 
     $html = $chart->render_multi_series_line_chart_with_tooltips($data);
