@@ -25,6 +25,7 @@ t/eol.t
 t/fixme.t
 t/function.t
 t/gv.t
+t/integration.t
 t/interactive.t
 t/legends.t
 t/line.t
