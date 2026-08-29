@@ -294,7 +294,7 @@ a.intra-dot:hover { color: #7700bb; }
 </div><div class='summary'>
 <strong>Structural Coverage (Approximate)</strong><p>
 TER1 (Statement): 98.08%<br>
-TER2 (Branch): 90.00%<br>
+TER2 (Branch): 96.67%<br>
 TER3 (LCSAJ): 100.0% (1/1)<br>
 Approximate LCSAJ segments: 31<br>
 </div>
@@ -494,1327 +494,1579 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  124: 
 </span><span class="">  125: Returns a string containing the HTML and JavaScript code for the chart.
 </span><span class="">  126: 
-</span><span class="">  127: =cut
+</span><span class="">  127: =head3 Errors
 </span><span class="">  128: 
-</span><span class="">  129: # Method to render a bar chart with given data
-</span><span class="">  130: sub render_bar_chart {
-</span><span class="">  131: 	my ($self, $data) = @_;
+</span><span class="">  129: =over 4
+</span><span class="">  130: 
+</span><span class="">  131: =item * Throws C&lt;Data is not optional&gt; when C&lt;$data&gt; is C&lt;undef&gt;.
 </span><span class="">  132: 
-</span><span class="">  133: 	die &#39;Data is not optional&#39; if(!defined($data));
+</span><span class="">  133: =item * Throws C&lt;Data must be an array of arrays&gt; when C&lt;$data&gt; is not an ARRAY reference.
 </span><span class="">  134: 
-</span><span class="">  135: 	# Validate input data to ensure it is an array of arrays
-</span><span class="">  136: 	die &#39;Data must be an array of arrays&#39; unless ref($data) eq &#39;ARRAY&#39;;
-</span><span class="">  137: 
-</span><span class="">  138: 	# Generate JSON representation of data
-</span><span class="">  139: 	my $json_data = encode_json([
-</span><span class="">  140: 		map { { label =&gt; $_-&gt;[0], value =&gt; $_-&gt;[1] } } @$data
-</span><span class="">  141: 	]);
+</span><span class="">  135: =back
+</span><span class="">  136: 
+</span><span class="">  137: =head3 Side Effects
+</span><span class="">  138: 
+</span><span class="">  139: None.
+</span><span class="">  140: 
+</span><span class="">  141: =head3 API SPECIFICATION
 </span><span class="">  142: 
-</span><span class="">  143: 	# Generate HTML and D3.js JavaScript for rendering the bar chart
-</span><span class="">  144: 	my $html = $self-&gt;_preamble();
-</span><span class="">  145: 	$html .= $self-&gt;_head();
-</span><span class="">  146: 	$html .= &lt;&lt;&quot;HTML&quot;;
-</span><span class="">  147: &lt;body&gt;
-</span><span class="">  148:     &lt;h1 style=&quot;text-align: center;&quot;&gt;$self-&gt;{title}&lt;/h1&gt;
-</span><span class="">  149:     &lt;svg id=&quot;chart&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
-</span><span class="">  150:     &lt;script&gt;
-</span><span class="">  151: 	const data = $json_data;
+</span><span class="">  143: =head4 Input
+</span><span class="">  144: 
+</span><span class="">  145:     $self : HTML::D3                         -- required
+</span><span class="">  146:     $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+</span><span class="">  147: 
+</span><span class="">  148: =head4 Output
+</span><span class="">  149: 
+</span><span class="">  150:     Str -- complete HTML5 document starting with C&lt;&lt; &lt;!DOCTYPE html&gt; &gt;&gt;;
+</span><span class="">  151:            D3.js loaded from CDN; bar chart rendered with C&lt;d3.scaleBand&gt;.
 </span><span class="">  152: 
-</span><span class="">  153: 	const svg = d3.select(&quot;#chart&quot;);
-</span><span class="">  154: 	const margin = { top: 20, right: 30, bottom: 40, left: 40 };
-</span><span class="">  155: 	const width = $self-&gt;{width} - margin.left - margin.right;
-</span><span class="">  156: 	const height = $self-&gt;{height} - margin.top - margin.bottom;
-</span><span class="">  157: 
-</span><span class="">  158: 	// Set up scales for x and y axes
-</span><span class="">  159: 	const x = d3.scaleBand()
-</span><span class="">  160: 	    .domain(data.map(d =&gt; d.label))
-</span><span class="">  161: 	    .range([0, width])
-</span><span class="">  162: 	    .padding(0.1);
-</span><span class="">  163: 
-</span><span class="">  164: 	const y = d3.scaleLinear()
-</span><span class="">  165: 	    .domain([0, d3.max(data, d =&gt; d.value)])
-</span><span class="">  166: 	    .nice()
-</span><span class="">  167: 	    .range([height, 0]);
+</span><span class="">  153: =head3 FORMAL SPECIFICATION
+</span><span class="">  154: 
+</span><span class="">  155:     render_bar_chart : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class="">  156: 
+</span><span class="">  157:     pre  data = undef              &acirc;&#135;&#146; die &quot;Data is not optional&quot;
+</span><span class="">  158:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;      &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class="">  159:     post result &acirc;&#136;&#136; Str
+</span><span class="">  160:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class="">  161:     post &acirc;&#136;&#128; d &acirc;&#136;&#136; data . d[0] &acirc;&#138;&#134; result
+</span><span class="">  162: 
+</span><span class="">  163: =cut
+</span><span class="">  164: 
+</span><span class="">  165: # Method to render a bar chart with given data
+</span><span class="">  166: sub render_bar_chart {
+</span><span class="">  167: 	my ($self, $data) = @_;
 </span><span class="">  168: 
-</span><span class="">  169: 	const chart = svg.append(&quot;g&quot;)
-</span><span class="">  170: 	    .attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
-</span><span class="">  171: 
-</span><span class="">  172: 	// Add bars to the chart
-</span><span class="">  173: 	chart.append(&quot;g&quot;)
-</span><span class="">  174: 	    .selectAll(&quot;rect&quot;)
-</span><span class="">  175: 	    .data(data)
-</span><span class="">  176: 	    .join(&quot;rect&quot;)
-</span><span class="">  177: 	    .attr(&quot;x&quot;, d =&gt; x(d.label))
-</span><span class="">  178: 	    .attr(&quot;y&quot;, d =&gt; y(d.value))
-</span><span class="">  179: 	    .attr(&quot;height&quot;, d =&gt; height - y(d.value))
-</span><span class="">  180: 	    .attr(&quot;width&quot;, x.bandwidth())
-</span><span class="">  181: 	    .attr(&quot;fill&quot;, &quot;steelblue&quot;);
-</span><span class="">  182: 
-</span><span class="">  183: 	// Add the y-axis
-</span><span class="">  184: 	chart.append(&quot;g&quot;)
-</span><span class="">  185: 	    .call(d3.axisLeft(y));
-</span><span class="">  186: 
-</span><span class="">  187: 	// Add the x-axis with labels rotated for better readability
-</span><span class="">  188: 	chart.append(&quot;g&quot;)
-</span><span class="">  189: 	    .attr(&quot;transform&quot;, `translate(0,\${height})`)
-</span><span class="">  190: 	    .call(d3.axisBottom(x))
-</span><span class="">  191: 	    .selectAll(&quot;text&quot;)
-</span><span class="">  192: 	    .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
-</span><span class="">  193: 	    .style(&quot;text-anchor&quot;, &quot;end&quot;);
-</span><span class="">  194:     &lt;/script&gt;
-</span><span class="">  195: &lt;/body&gt;
-</span><span class="">  196: &lt;/html&gt;
-</span><span class="">  197: HTML
-</span><span class="">  198: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  199:     return $html;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  200: }
-</span><span class="">  201: 
-</span><span class="">  202: =head2 render_line_chart
-</span><span class="">  203: 
-</span><span class="">  204:     my $html = $chart-&gt;render_line_chart($data);
-</span><span class="">  205: 
-</span><span class="">  206: Generates HTML and JavaScript code to render a line chart. Accepts the following arguments:
+</span><span class="">  169: 	die &#39;Data is not optional&#39; if(!defined($data));
+</span><span class="">  170: 
+</span><span class="">  171: 	# Validate input data to ensure it is an array of arrays
+</span><span class="">  172: 	die &#39;Data must be an array of arrays&#39; unless ref($data) eq &#39;ARRAY&#39;;
+</span><span class="">  173: 
+</span><span class="">  174: 	# Generate JSON representation of data
+</span><span class="">  175: 	my $json_data = encode_json([
+</span><span class="">  176: 		map { { label =&gt; $_-&gt;[0], value =&gt; $_-&gt;[1] } } @$data
+</span><span class="">  177: 	]);
+</span><span class="">  178: 
+</span><span class="">  179: 	# Generate HTML and D3.js JavaScript for rendering the bar chart
+</span><span class="">  180: 	my $html = $self-&gt;_preamble();
+</span><span class="">  181: 	$html .= $self-&gt;_head();
+</span><span class="">  182: 	$html .= &lt;&lt;&quot;HTML&quot;;
+</span><span class="">  183: &lt;body&gt;
+</span><span class="">  184:     &lt;h1 style=&quot;text-align: center;&quot;&gt;$self-&gt;{title}&lt;/h1&gt;
+</span><span class="">  185:     &lt;svg id=&quot;chart&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
+</span><span class="">  186:     &lt;script&gt;
+</span><span class="">  187: 	const data = $json_data;
+</span><span class="">  188: 
+</span><span class="">  189: 	const svg = d3.select(&quot;#chart&quot;);
+</span><span class="">  190: 	const margin = { top: 20, right: 30, bottom: 40, left: 40 };
+</span><span class="">  191: 	const width = $self-&gt;{width} - margin.left - margin.right;
+</span><span class="">  192: 	const height = $self-&gt;{height} - margin.top - margin.bottom;
+</span><span class="">  193: 
+</span><span class="">  194: 	// Set up scales for x and y axes
+</span><span class="">  195: 	const x = d3.scaleBand()
+</span><span class="">  196: 	    .domain(data.map(d =&gt; d.label))
+</span><span class="">  197: 	    .range([0, width])
+</span><span class="">  198: 	    .padding(0.1);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  199: 
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  200: 	const y = d3.scaleLinear()
+</span><span class="">  201: 	    .domain([0, d3.max(data, d =&gt; d.value)])
+</span><span class="">  202: 	    .nice()
+</span><span class="">  203: 	    .range([height, 0]);
+</span><span class="">  204: 
+</span><span class="">  205: 	const chart = svg.append(&quot;g&quot;)
+</span><span class="">  206: 	    .attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
 </span><span class="">  207: 
-</span><span class="">  208: =over 4
-</span><span class="">  209: 
-</span><span class="">  210: =item * C&lt;$data&gt; - An array reference containing data points. Each data point should
-</span><span class="">  211: be an array reference with two elements: the label (string) and the value (numeric).
-</span><span class="">  212: 
-</span><span class="">  213: =back
-</span><span class="">  214: 
-</span><span class="">  215: Returns a string containing the HTML and JavaScript code for the chart.
-</span><span class="">  216: 
-</span><span class="">  217: =cut
+</span><span class="">  208: 	// Add bars to the chart
+</span><span class="">  209: 	chart.append(&quot;g&quot;)
+</span><span class="">  210: 	    .selectAll(&quot;rect&quot;)
+</span><span class="">  211: 	    .data(data)
+</span><span class="">  212: 	    .join(&quot;rect&quot;)
+</span><span class="">  213: 	    .attr(&quot;x&quot;, d =&gt; x(d.label))
+</span><span class="">  214: 	    .attr(&quot;y&quot;, d =&gt; y(d.value))
+</span><span class="">  215: 	    .attr(&quot;height&quot;, d =&gt; height - y(d.value))
+</span><span class="">  216: 	    .attr(&quot;width&quot;, x.bandwidth())
+</span><span class="">  217: 	    .attr(&quot;fill&quot;, &quot;steelblue&quot;);
 </span><span class="">  218: 
-</span><span class="">  219: sub render_line_chart {
-</span><span class="">  220:     my ($self, $data) = @_;
-</span><span class="">  221: 
-</span><span class="">  222:     # Validate input data
-</span><span class="">  223:     die &#39;Data must be an array of arrays&#39; unless ref($data) eq &#39;ARRAY&#39;;
-</span><span class="">  224: 
-</span><span class="">  225:     # Generate JSON for data
-</span><span class="">  226:     my $json_data = encode_json([
-</span><span class="">  227: 	map { { label =&gt; $_-&gt;[0], value =&gt; $_-&gt;[1] } } @$data
-</span><span class="">  228:     ]);
-</span><span class="">  229: 
-</span><span class="">  230:     # Generate HTML and D3.js code
-</span><span class="">  231:     my $html = $self-&gt;_preamble();
-</span><span class="">  232:     $html .= $self-&gt;_head();
-</span><span class="">  233:     $html .= &lt;&lt;&quot;HTML&quot;;
-</span><span class="">  234: &lt;body&gt;
-</span><span class="">  235:     &lt;h1 style=&quot;text-align: center;&quot;&gt;$self-&gt;{title}&lt;/h1&gt;
-</span><span class="">  236:     &lt;svg id=&quot;chart&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
-</span><span class="">  237:     &lt;script&gt;
-</span><span class="">  238: 	const data = $json_data;
+</span><span class="">  219: 	// Add the y-axis
+</span><span class="">  220: 	chart.append(&quot;g&quot;)
+</span><span class="">  221: 	    .call(d3.axisLeft(y));
+</span><span class="">  222: 
+</span><span class="">  223: 	// Add the x-axis with labels rotated for better readability
+</span><span class="">  224: 	chart.append(&quot;g&quot;)
+</span><span class="">  225: 	    .attr(&quot;transform&quot;, `translate(0,\${height})`)
+</span><span class="">  226: 	    .call(d3.axisBottom(x))
+</span><span class="">  227: 	    .selectAll(&quot;text&quot;)
+</span><span class="">  228: 	    .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
+</span><span class="">  229: 	    .style(&quot;text-anchor&quot;, &quot;end&quot;);
+</span><span class="">  230:     &lt;/script&gt;
+</span><span class="">  231: &lt;/body&gt;
+</span><span class="">  232: &lt;/html&gt;
+</span><span class="">  233: HTML
+</span><span class="">  234: 
+</span><span class="">  235:     return $html;
+</span><span class="">  236: }
+</span><span class="">  237: 
+</span><span class="">  238: =head2 render_line_chart
 </span><span class="">  239: 
-</span><span class="">  240: 	const svg = d3.select(&quot;#chart&quot;);
-</span><span class="">  241: 	const margin = { top: 20, right: 30, bottom: 40, left: 40 };
-</span><span class="">  242: 	const width = $self-&gt;{width} - margin.left - margin.right;
-</span><span class="">  243: 	const height = $self-&gt;{height} - margin.top - margin.bottom;
-</span><span class="">  244: 
-</span><span class="">  245: 	const x = d3.scalePoint()
-</span><span class="">  246: 	    .domain(data.map(d =&gt; d.label))
-</span><span class="">  247: 	    .range([0, width]);
+</span><span class="">  240:     my $html = $chart-&gt;render_line_chart($data);
+</span><span class="">  241: 
+</span><span class="">  242: Generates HTML and JavaScript code to render a line chart. Accepts the following arguments:
+</span><span class="">  243: 
+</span><span class="">  244: =over 4
+</span><span class="">  245: 
+</span><span class="">  246: =item * C&lt;$data&gt; - An array reference containing data points. Each data point should
+</span><span class="">  247: be an array reference with two elements: the label (string) and the value (numeric).
 </span><span class="">  248: 
-</span><span class="">  249: 	const y = d3.scaleLinear()
-</span><span class="">  250: 	    .domain([0, d3.max(data, d =&gt; d.value)])
-</span><span class="">  251: 	    .nice()
-</span><span class="">  252: 	    .range([height, 0]);
-</span><span class="">  253: 
-</span><span class="">  254: 	const chart = svg.append(&quot;g&quot;)
-</span><span class="">  255: 	    .attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
+</span><span class="">  249: =back
+</span><span class="">  250: 
+</span><span class="">  251: Returns a string containing the HTML and JavaScript code for the chart.
+</span><span class="">  252: 
+</span><span class="">  253: =head3 Errors
+</span><span class="">  254: 
+</span><span class="">  255: =over 4
 </span><span class="">  256: 
-</span><span class="">  257: 	// Draw line
-</span><span class="">  258: 	const line = d3.line()
-</span><span class="">  259: 	    .x(d =&gt; x(d.label))
-</span><span class="">  260: 	    .y(d =&gt; y(d.value));
-</span><span class="">  261: 
-</span><span class="">  262: 	chart.append(&quot;path&quot;)
-</span><span class="">  263: 	    .datum(data)
-</span><span class="">  264: 	    .attr(&quot;fill&quot;, &quot;none&quot;)
-</span><span class="">  265: 	    .attr(&quot;stroke&quot;, &quot;steelblue&quot;)
-</span><span class="">  266: 	    .attr(&quot;stroke-width&quot;, 2)
-</span><span class="">  267: 	    .attr(&quot;d&quot;, line);
+</span><span class="">  257: =item * Throws C&lt;Data must be an array of arrays&gt; when C&lt;$data&gt; is not an ARRAY reference.
+</span><span class="">  258: 
+</span><span class="">  259: =back
+</span><span class="">  260: 
+</span><span class="">  261: =head3 Side Effects
+</span><span class="">  262: 
+</span><span class="">  263: None.
+</span><span class="">  264: 
+</span><span class="">  265: =head3 API SPECIFICATION
+</span><span class="">  266: 
+</span><span class="">  267: =head4 Input
 </span><span class="">  268: 
-</span><span class="">  269: 	// Add points to the line
-</span><span class="">  270: 	chart.selectAll(&quot;circle&quot;)
-</span><span class="">  271: 	    .data(data)
-</span><span class="">  272: 	    .join(&quot;circle&quot;)
-</span><span class="">  273: 	    .attr(&quot;cx&quot;, d =&gt; x(d.label))
-</span><span class="">  274: 	    .attr(&quot;cy&quot;, d =&gt; y(d.value))
-</span><span class="">  275: 	    .attr(&quot;r&quot;, 4)
-</span><span class="">  276: 	    .attr(&quot;fill&quot;, &quot;steelblue&quot;);
+</span><span class="">  269:     $self : HTML::D3                         -- required
+</span><span class="">  270:     $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required (undef dies)
+</span><span class="">  271: 
+</span><span class="">  272: =head4 Output
+</span><span class="">  273: 
+</span><span class="">  274:     Str -- complete HTML5 document; line chart with C&lt;d3.scalePoint&gt; and C&lt;d3.line()&gt;.
+</span><span class="">  275: 
+</span><span class="">  276: =head3 FORMAL SPECIFICATION
 </span><span class="">  277: 
-</span><span class="">  278: 	// Add axes
-</span><span class="">  279: 	chart.append(&quot;g&quot;)
-</span><span class="">  280: 	    .call(d3.axisLeft(y));
-</span><span class="">  281: 
-</span><span class="">  282: 	chart.append(&quot;g&quot;)
-</span><span class="">  283: 	    .attr(&quot;transform&quot;, `translate(0,\${height})`)
-</span><span class="">  284: 	    .call(d3.axisBottom(x))
-</span><span class="">  285: 	    .selectAll(&quot;text&quot;)
-</span><span class="">  286: 	    .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
-</span><span class="">  287: 	    .style(&quot;text-anchor&quot;, &quot;end&quot;);
-</span><span class="">  288:     &lt;/script&gt;
-</span><span class="">  289: &lt;/body&gt;
-</span><span class="">  290: &lt;/html&gt;
-</span><span class="">  291: HTML
+</span><span class="">  278:     render_line_chart : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class="">  279: 
+</span><span class="">  280:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class="">  281:     post result &acirc;&#136;&#136; Str
+</span><span class="">  282:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class="">  283:     post &quot;d3.scalePoint&quot; &acirc;&#138;&#134; result &acirc;&#136;&sect; &quot;d3.line()&quot; &acirc;&#138;&#134; result
+</span><span class="">  284: 
+</span><span class="">  285: =cut
+</span><span class="">  286: 
+</span><span class="">  287: sub render_line_chart {
+</span><span class="">  288:     my ($self, $data) = @_;
+</span><span class="">  289: 
+</span><span class="">  290:     # Validate input data
+</span><span class="">  291:     die &#39;Data must be an array of arrays&#39; unless ref($data) eq &#39;ARRAY&#39;;
 </span><span class="">  292: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  293:     return $html;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  294: }
-</span><span class="">  295: 
-</span><span class="">  296: =head2 render_line_chart_with_tooltips
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  293:     # Generate JSON for data
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  294:     my $json_data = encode_json([
+</span><span class="">  295: 	map { { label =&gt; $_-&gt;[0], value =&gt; $_-&gt;[1] } } @$data
+</span><span class="">  296:     ]);
 </span><span class="">  297: 
-</span><span class="">  298:     $html = $chart-&gt;render_line_chart_with_tooltips($data);
-</span><span class="">  299: 
-</span><span class="">  300: Generates HTML and JavaScript code to render a line chart with mouseover tooltips.
-</span><span class="">  301: Accepts the following arguments:
-</span><span class="">  302: 
-</span><span class="">  303: =over 4
-</span><span class="">  304: 
-</span><span class="">  305: =item * C&lt;$data&gt; - An array reference containing data points. Each data point should
-</span><span class="">  306: be an array reference with two elements: the label (string) and the value (numeric).
+</span><span class="">  298:     # Generate HTML and D3.js code
+</span><span class="">  299:     my $html = $self-&gt;_preamble();
+</span><span class="">  300:     $html .= $self-&gt;_head();
+</span><span class="">  301:     $html .= &lt;&lt;&quot;HTML&quot;;
+</span><span class="">  302: &lt;body&gt;
+</span><span class="">  303:     &lt;h1 style=&quot;text-align: center;&quot;&gt;$self-&gt;{title}&lt;/h1&gt;
+</span><span class="">  304:     &lt;svg id=&quot;chart&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
+</span><span class="">  305:     &lt;script&gt;
+</span><span class="">  306: 	const data = $json_data;
 </span><span class="">  307: 
-</span><span class="">  308: =back
-</span><span class="">  309: 
-</span><span class="">  310: Returns a string containing the HTML and JavaScript code for the chart.
-</span><span class="">  311: 
-</span><span class="">  312: =cut
-</span><span class="">  313: 
-</span><span class="">  314: sub render_line_chart_with_tooltips
-</span><span class="">  315: {
-</span><span class="">  316: 	my ($self, $data) = @_;
-</span><span class="">  317: 
-</span><span class="">  318: 	# Validate input data
-</span><span class="">  319: 	die &#39;Data must be an array of arrays&#39; unless ref($data) eq &#39;ARRAY&#39;;
-</span><span class="">  320: 
-</span><span class="">  321: 	# Generate JSON for data
-</span><span class="">  322: 	my $json_data = encode_json([
-</span><span class="">  323: 		map { { label =&gt; $_-&gt;[0], value =&gt; $_-&gt;[1] } } @$data
-</span><span class="">  324: 	]);
-</span><span class="">  325: 
-</span><span class="">  326: 	# Generate HTML and D3.js code
-</span><span class="">  327: 	my $html = $self-&gt;_preamble();
-</span><span class="">  328: 	$html .= &lt;&lt;&quot;HTML&quot;;
-</span><span class="">  329: &lt;head&gt;
-</span><span class="">  330:     &lt;meta charset=&quot;UTF-8&quot;&gt;
-</span><span class="">  331:     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-</span><span class="">  332:     &lt;title&gt;$self-&gt;{title}&lt;/title&gt;
-</span><span class="">  333:     &lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
-</span><span class="">  334:     &lt;style&gt;
-</span><span class="">  335: 	.tooltip {
-</span><span class="">  336: 	    position: absolute;
-</span><span class="">  337: 	    background-color: white;
-</span><span class="">  338: 	    border: 1px solid #ccc;
-</span><span class="">  339: 	    padding: 5px;
-</span><span class="">  340: 	    font-size: 12px;
-</span><span class="">  341: 	    pointer-events: none;
-</span><span class="">  342: 	    opacity: 0;
-</span><span class="">  343: 	    transition: opacity 0.2s ease-in-out;
-</span><span class="">  344: 	}
-</span><span class="">  345:     &lt;/style&gt;
-</span><span class="">  346: &lt;/head&gt;
-</span><span class="">  347: &lt;body&gt;
-</span><span class="">  348:     &lt;h1 style=&quot;text-align: center;&quot;&gt;$self-&gt;{title}&lt;/h1&gt;
-</span><span class="">  349:     &lt;svg id=&quot;chart&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
-</span><span class="">  350:     &lt;div class=&quot;tooltip&quot; id=&quot;tooltip&quot;&gt;&lt;/div&gt;
-</span><span class="">  351:     &lt;script&gt;
-</span><span class="">  352: 	const data = $json_data;
-</span><span class="">  353: 
-</span><span class="">  354: 	const svg = d3.select(&quot;#chart&quot;);
-</span><span class="">  355: 	const tooltip = d3.select(&quot;#tooltip&quot;);
-</span><span class="">  356: 	const margin = { top: 20, right: 30, bottom: 40, left: 40 };
-</span><span class="">  357: 	const width = $self-&gt;{width} - margin.left - margin.right;
-</span><span class="">  358: 	const height = $self-&gt;{height} - margin.top - margin.bottom;
-</span><span class="">  359: 
-</span><span class="">  360: 	const x = d3.scalePoint()
-</span><span class="">  361: 	    .domain(data.map(d =&gt; d.label))
-</span><span class="">  362: 	    .range([0, width]);
+</span><span class="">  308: 	const svg = d3.select(&quot;#chart&quot;);
+</span><span class="">  309: 	const margin = { top: 20, right: 30, bottom: 40, left: 40 };
+</span><span class="">  310: 	const width = $self-&gt;{width} - margin.left - margin.right;
+</span><span class="">  311: 	const height = $self-&gt;{height} - margin.top - margin.bottom;
+</span><span class="">  312: 
+</span><span class="">  313: 	const x = d3.scalePoint()
+</span><span class="">  314: 	    .domain(data.map(d =&gt; d.label))
+</span><span class="">  315: 	    .range([0, width]);
+</span><span class="">  316: 
+</span><span class="">  317: 	const y = d3.scaleLinear()
+</span><span class="">  318: 	    .domain([0, d3.max(data, d =&gt; d.value)])
+</span><span class="">  319: 	    .nice()
+</span><span class="">  320: 	    .range([height, 0]);
+</span><span class="">  321: 
+</span><span class="">  322: 	const chart = svg.append(&quot;g&quot;)
+</span><span class="">  323: 	    .attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
+</span><span class="">  324: 
+</span><span class="">  325: 	// Draw line
+</span><span class="">  326: 	const line = d3.line()
+</span><span class="">  327: 	    .x(d =&gt; x(d.label))
+</span><span class="">  328: 	    .y(d =&gt; y(d.value));
+</span><span class="">  329: 
+</span><span class="">  330: 	chart.append(&quot;path&quot;)
+</span><span class="">  331: 	    .datum(data)
+</span><span class="">  332: 	    .attr(&quot;fill&quot;, &quot;none&quot;)
+</span><span class="">  333: 	    .attr(&quot;stroke&quot;, &quot;steelblue&quot;)
+</span><span class="">  334: 	    .attr(&quot;stroke-width&quot;, 2)
+</span><span class="">  335: 	    .attr(&quot;d&quot;, line);
+</span><span class="">  336: 
+</span><span class="">  337: 	// Add points to the line
+</span><span class="">  338: 	chart.selectAll(&quot;circle&quot;)
+</span><span class="">  339: 	    .data(data)
+</span><span class="">  340: 	    .join(&quot;circle&quot;)
+</span><span class="">  341: 	    .attr(&quot;cx&quot;, d =&gt; x(d.label))
+</span><span class="">  342: 	    .attr(&quot;cy&quot;, d =&gt; y(d.value))
+</span><span class="">  343: 	    .attr(&quot;r&quot;, 4)
+</span><span class="">  344: 	    .attr(&quot;fill&quot;, &quot;steelblue&quot;);
+</span><span class="">  345: 
+</span><span class="">  346: 	// Add axes
+</span><span class="">  347: 	chart.append(&quot;g&quot;)
+</span><span class="">  348: 	    .call(d3.axisLeft(y));
+</span><span class="">  349: 
+</span><span class="">  350: 	chart.append(&quot;g&quot;)
+</span><span class="">  351: 	    .attr(&quot;transform&quot;, `translate(0,\${height})`)
+</span><span class="">  352: 	    .call(d3.axisBottom(x))
+</span><span class="">  353: 	    .selectAll(&quot;text&quot;)
+</span><span class="">  354: 	    .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
+</span><span class="">  355: 	    .style(&quot;text-anchor&quot;, &quot;end&quot;);
+</span><span class="">  356:     &lt;/script&gt;
+</span><span class="">  357: &lt;/body&gt;
+</span><span class="">  358: &lt;/html&gt;
+</span><span class="">  359: HTML
+</span><span class="">  360: 
+</span><span class="">  361:     return $html;
+</span><span class="">  362: }
 </span><span class="">  363: 
-</span><span class="">  364: 	const y = d3.scaleLinear()
-</span><span class="">  365: 	    .domain([0, d3.max(data, d =&gt; d.value)])
-</span><span class="">  366: 	    .nice()
-</span><span class="">  367: 	    .range([height, 0]);
-</span><span class="">  368: 
-</span><span class="">  369: 	const chart = svg.append(&quot;g&quot;)
-</span><span class="">  370: 	    .attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
-</span><span class="">  371: 
-</span><span class="">  372: 	// Draw line
-</span><span class="">  373: 	const line = d3.line()
-</span><span class="">  374: 	    .x(d =&gt; x(d.label))
-</span><span class="">  375: 	    .y(d =&gt; y(d.value));
-</span><span class="">  376: 
-</span><span class="">  377: 	chart.append(&quot;path&quot;)
-</span><span class="">  378: 	    .datum(data)
-</span><span class="">  379: 	    .attr(&quot;fill&quot;, &quot;none&quot;)
-</span><span class="">  380: 	    .attr(&quot;stroke&quot;, &quot;steelblue&quot;)
-</span><span class="">  381: 	    .attr(&quot;stroke-width&quot;, 2)
-</span><span class="">  382: 	    .attr(&quot;d&quot;, line);
-</span><span class="">  383: 
-</span><span class="">  384: 	// Add points to the line
-</span><span class="">  385: 	chart.selectAll(&quot;circle&quot;)
-</span><span class="">  386: 	    .data(data)
-</span><span class="">  387: 	    .join(&quot;circle&quot;)
-</span><span class="">  388: 	    .attr(&quot;cx&quot;, d =&gt; x(d.label))
-</span><span class="">  389: 	    .attr(&quot;cy&quot;, d =&gt; y(d.value))
-</span><span class="">  390: 	    .attr(&quot;r&quot;, 4)
-</span><span class="">  391: 	    .attr(&quot;fill&quot;, &quot;steelblue&quot;)
-</span><span class="">  392: 	    .on(&quot;mouseover&quot;, (event, d) =&gt; {
-</span><span class="">  393: 		tooltip.style(&quot;opacity&quot;, 1)
-</span><span class="">  394: 		       .html(`Label: &lt;b&gt;\${d.label}&lt;\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\/b&gt;`)
-</span><span class="">  395: 		       .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
-</span><span class="">  396: 		       .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
-</span><span class="">  397: 	    })
-</span><span class="">  398: 	    .on(&quot;mousemove&quot;, (event) =&gt; {
-</span><span class="">  399: 		tooltip.style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
-</span><span class="">  400: 		       .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
-</span><span class="">  401: 	    })
-</span><span class="">  402: 	    .on(&quot;mouseout&quot;, () =&gt; {
-</span><span class="">  403: 		tooltip.style(&quot;opacity&quot;, 0);
-</span><span class="">  404: 	    });
-</span><span class="">  405: 
-</span><span class="">  406: 	// Add axes
-</span><span class="">  407: 	chart.append(&quot;g&quot;)
-</span><span class="">  408: 	    .call(d3.axisLeft(y));
-</span><span class="">  409: 
-</span><span class="">  410: 	chart.append(&quot;g&quot;)
-</span><span class="">  411: 	    .attr(&quot;transform&quot;, `translate(0,\${height})`)
-</span><span class="">  412: 	    .call(d3.axisBottom(x))
-</span><span class="">  413: 	    .selectAll(&quot;text&quot;)
-</span><span class="">  414: 	    .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
-</span><span class="">  415: 	    .style(&quot;text-anchor&quot;, &quot;end&quot;);
-</span><span class="">  416:     &lt;/script&gt;
-</span><span class="">  417: &lt;/body&gt;
-</span><span class="">  418: &lt;/html&gt;
-</span><span class="">  419: HTML
-</span><span class="">  420: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  421:     return $html;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  422: }
-</span><span class="">  423: 
-</span><span class="">  424: =head2 render_line_chart_snippet
+</span><span class="">  364: =head2 render_line_chart_with_tooltips
+</span><span class="">  365: 
+</span><span class="">  366:     $html = $chart-&gt;render_line_chart_with_tooltips($data);
+</span><span class="">  367: 
+</span><span class="">  368: Generates HTML and JavaScript code to render a line chart with mouseover tooltips.
+</span><span class="">  369: Accepts the following arguments:
+</span><span class="">  370: 
+</span><span class="">  371: =over 4
+</span><span class="">  372: 
+</span><span class="">  373: =item * C&lt;$data&gt; - An array reference containing data points. Each data point should
+</span><span class="">  374: be an array reference with two elements: the label (string) and the value (numeric).
+</span><span class="">  375: 
+</span><span class="">  376: =back
+</span><span class="">  377: 
+</span><span class="">  378: Returns a string containing the HTML and JavaScript code for the chart.
+</span><span class="">  379: The JavaScript tooltip strings use C&lt;&lt; &lt;\/b&gt; &gt;&gt; (with a backslash) rather than
+</span><span class="">  380: C&lt;&lt; &lt;/b&gt; &gt;&gt; to satisfy html-tidy&#39;s requirement that C&lt;&lt; &lt;/ &gt;&gt; followed by a
+</span><span class="">  381: letter not appear literally inside C&lt;&lt; &lt;script&gt; &gt;&gt; blocks.
+</span><span class="">  382: 
+</span><span class="">  383: =head3 Errors
+</span><span class="">  384: 
+</span><span class="">  385: =over 4
+</span><span class="">  386: 
+</span><span class="">  387: =item * Throws C&lt;Data must be an array of arrays&gt; when C&lt;$data&gt; is not an ARRAY reference.
+</span><span class="">  388: 
+</span><span class="">  389: =back
+</span><span class="">  390: 
+</span><span class="">  391: =head3 Side Effects
+</span><span class="">  392: 
+</span><span class="">  393: None.
+</span><span class="">  394: 
+</span><span class="">  395: =head3 API SPECIFICATION
+</span><span class="">  396: 
+</span><span class="">  397: =head4 Input
+</span><span class="">  398: 
+</span><span class="">  399:     $self : HTML::D3                         -- required
+</span><span class="">  400:     $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required
+</span><span class="">  401: 
+</span><span class="">  402: =head4 Output
+</span><span class="">  403: 
+</span><span class="">  404:     Str -- complete HTML5 document; mouseover tooltip reveals label and value.
+</span><span class="">  405:            Tooltip strings use C&lt;&lt; &lt;\/b&gt; &gt;&gt; not C&lt;&lt; &lt;/b&gt; &gt;&gt;.
+</span><span class="">  406: 
+</span><span class="">  407: =head3 FORMAL SPECIFICATION
+</span><span class="">  408: 
+</span><span class="">  409:     render_line_chart_with_tooltips : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class="">  410: 
+</span><span class="">  411:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class="">  412:     post result &acirc;&#136;&#136; Str
+</span><span class="">  413:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class="">  414:     post &quot;mouseover&quot; &acirc;&#138;&#134; result
+</span><span class="">  415:     post &quot;&lt;/b&gt;&quot; &acirc;&#136;&#137; result &acirc;&#136;&sect; &quot;&lt;\/b&gt;&quot; &acirc;&#136;&#136; result
+</span><span class="">  416: 
+</span><span class="">  417: =cut
+</span><span class="">  418: 
+</span><span class="">  419: sub render_line_chart_with_tooltips
+</span><span class="">  420: {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  421: 	my ($self, $data) = @_;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  422: 
+</span><span class="">  423: 	# Validate input data
+</span><span class="">  424: 	die &#39;Data must be an array of arrays&#39; unless ref($data) eq &#39;ARRAY&#39;;
 </span><span class="">  425: 
-</span><span class="">  426:     my $fragment = $chart-&gt;render_line_chart_snippet($data);
-</span><span class="">  427:     # $fragment-&gt;{svg_id} - the id attribute of the &lt;svg&gt; element
-</span><span class="">  428:     # $fragment-&gt;{html}   - embeddable HTML fragment (style + svg + script)
-</span><span class="">  429: 
-</span><span class="">  430: Generates an embeddable HTML fragment for a line chart with mouseover tooltips.
-</span><span class="">  431: Unlike C&lt;render_line_chart_with_tooltips&gt;, this method returns a fragment with
-</span><span class="">  432: no C&lt;&lt;!DOCTYPE&gt;&gt;, C&lt;&lt;html&gt;&gt;, C&lt;&lt;head&gt;&gt;, or C&lt;&lt;body&gt;&gt; wrapper, suitable for
-</span><span class="">  433: splicing directly into a Mojolicious TT (or any other) layout.
-</span><span class="">  434: 
-</span><span class="">  435: The caller is responsible for loading D3 in the page C&lt;&lt;head&gt;&gt;, e.g.:
-</span><span class="">  436: 
-</span><span class="">  437:     &lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
-</span><span class="">  438: 
-</span><span class="">  439: Accepts the following arguments:
-</span><span class="">  440: 
-</span><span class="">  441: =over 4
-</span><span class="">  442: 
-</span><span class="">  443: =item * C&lt;$data&gt; - An array reference of data points. Each point is an array
-</span><span class="">  444: reference with two required elements - the label (string) and the value
-</span><span class="">  445: (numeric) - and an optional third element: a hash reference of extra key/value
-</span><span class="">  446: pairs to display in the tooltip after the label and value rows.
-</span><span class="">  447: 
-</span><span class="">  448:     [$x, $y]          # basic point
-</span><span class="">  449:     [$x, $y, \%row]   # point with extra tooltip data
-</span><span class="">  450: 
-</span><span class="">  451: =back
-</span><span class="">  452: 
-</span><span class="">  453: Returns a hash reference with:
-</span><span class="">  454: 
-</span><span class="">  455: =over 4
-</span><span class="">  456: 
-</span><span class="">  457: =item * C&lt;svg_id&gt; - The C&lt;id&gt; attribute used on the C&lt;&lt;svg&gt;&gt; element.
+</span><span class="">  426: 	# Generate JSON for data
+</span><span class="">  427: 	my $json_data = encode_json([
+</span><span class="">  428: 		map { { label =&gt; $_-&gt;[0], value =&gt; $_-&gt;[1] } } @$data
+</span><span class="">  429: 	]);
+</span><span class="">  430: 
+</span><span class="">  431: 	# Generate HTML and D3.js code
+</span><span class="">  432: 	my $html = $self-&gt;_preamble();
+</span><span class="">  433: 	$html .= &lt;&lt;&quot;HTML&quot;;
+</span><span class="">  434: &lt;head&gt;
+</span><span class="">  435:     &lt;meta charset=&quot;UTF-8&quot;&gt;
+</span><span class="">  436:     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+</span><span class="">  437:     &lt;title&gt;$self-&gt;{title}&lt;/title&gt;
+</span><span class="">  438:     &lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
+</span><span class="">  439:     &lt;style&gt;
+</span><span class="">  440: 	.tooltip {
+</span><span class="">  441: 	    position: absolute;
+</span><span class="">  442: 	    background-color: white;
+</span><span class="">  443: 	    border: 1px solid #ccc;
+</span><span class="">  444: 	    padding: 5px;
+</span><span class="">  445: 	    font-size: 12px;
+</span><span class="">  446: 	    pointer-events: none;
+</span><span class="">  447: 	    opacity: 0;
+</span><span class="">  448: 	    transition: opacity 0.2s ease-in-out;
+</span><span class="">  449: 	}
+</span><span class="">  450:     &lt;/style&gt;
+</span><span class="">  451: &lt;/head&gt;
+</span><span class="">  452: &lt;body&gt;
+</span><span class="">  453:     &lt;h1 style=&quot;text-align: center;&quot;&gt;$self-&gt;{title}&lt;/h1&gt;
+</span><span class="">  454:     &lt;svg id=&quot;chart&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
+</span><span class="">  455:     &lt;div class=&quot;tooltip&quot; id=&quot;tooltip&quot;&gt;&lt;/div&gt;
+</span><span class="">  456:     &lt;script&gt;
+</span><span class="">  457: 	const data = $json_data;
 </span><span class="">  458: 
-</span><span class="">  459: =item * C&lt;html&gt; - The embeddable fragment string.
-</span><span class="">  460: 
-</span><span class="">  461: =back
-</span><span class="">  462: 
-</span><span class="">  463: =cut
+</span><span class="">  459: 	const svg = d3.select(&quot;#chart&quot;);
+</span><span class="">  460: 	const tooltip = d3.select(&quot;#tooltip&quot;);
+</span><span class="">  461: 	const margin = { top: 20, right: 30, bottom: 40, left: 40 };
+</span><span class="">  462: 	const width = $self-&gt;{width} - margin.left - margin.right;
+</span><span class="">  463: 	const height = $self-&gt;{height} - margin.top - margin.bottom;
 </span><span class="">  464: 
-</span><span class="">  465: sub render_line_chart_snippet
-</span><span class="">  466: {
-</span><span class="">  467: 	my ($self, $data) = @_;
+</span><span class="">  465: 	const x = d3.scalePoint()
+</span><span class="">  466: 	    .domain(data.map(d =&gt; d.label))
+</span><span class="">  467: 	    .range([0, width]);
 </span><span class="">  468: 
-</span><span class="">  469: 	die &#39;Data must be an array of arrays&#39; unless ref($data) eq &#39;ARRAY&#39;;
-</span><span class="">  470: 
-</span><span class="">  471: 	my $json_data = encode_json([
-</span><span class="">  472: 		map {
-</span><span class="">  473: 			my $point = { label =&gt; $_-&gt;[0], value =&gt; $_-&gt;[1] };
-</span><span class="">  474: 			$point-&gt;{extra} = $_-&gt;[2] if ref($_-&gt;[2]) eq &#39;HASH&#39;;
-</span><span class="">  475: 			$point
-</span><span class="">  476: 		} @$data
-</span><span class="">  477: 	]);
-</span><span class="">  478: 
-</span><span class="">  479: 	my $svg_id = &#39;chart&#39;;
-</span><span class="">  480: 
-</span><span class="">  481: 	my $html = &lt;&lt;&quot;HTML&quot;;
-</span><span class="">  482: &lt;style&gt;
-</span><span class="">  483:     .tooltip {
-</span><span class="">  484: 	position: absolute;
-</span><span class="">  485: 	background-color: white;
-</span><span class="">  486: 	border: 1px solid #ccc;
-</span><span class="">  487: 	padding: 5px;
-</span><span class="">  488: 	font-size: 12px;
-</span><span class="">  489: 	pointer-events: none;
-</span><span class="">  490: 	opacity: 0;
-</span><span class="">  491: 	transition: opacity 0.2s ease-in-out;
-</span><span class="">  492:     }
-</span><span class="">  493: &lt;/style&gt;
-</span><span class="">  494: &lt;svg id=&quot;$svg_id&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
-</span><span class="">  495: &lt;div class=&quot;tooltip&quot; id=&quot;tooltip&quot;&gt;&lt;/div&gt;
-</span><span class="">  496: &lt;script&gt;
-</span><span class="">  497:     const data = $json_data;
-</span><span class="">  498: 
-</span><span class="">  499:     const svg = d3.select(&quot;#$svg_id&quot;);
-</span><span class="">  500:     const tooltip = d3.select(&quot;#tooltip&quot;);
-</span><span class="">  501:     const margin = { top: 20, right: 30, bottom: 40, left: 40 };
-</span><span class="">  502:     const width = $self-&gt;{width} - margin.left - margin.right;
-</span><span class="">  503:     const height = $self-&gt;{height} - margin.top - margin.bottom;
-</span><span class="">  504: 
-</span><span class="">  505:     const x = d3.scalePoint()
-</span><span class="">  506: 	.domain(data.map(d =&gt; d.label))
-</span><span class="">  507: 	.range([0, width]);
-</span><span class="">  508: 
-</span><span class="">  509:     const y = d3.scaleLinear()
-</span><span class="">  510: 	.domain([0, d3.max(data, d =&gt; d.value)])
-</span><span class="">  511: 	.nice()
-</span><span class="">  512: 	.range([height, 0]);
-</span><span class="">  513: 
-</span><span class="">  514:     const chart = svg.append(&quot;g&quot;)
-</span><span class="">  515: 	.attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
-</span><span class="">  516: 
-</span><span class="">  517:     const line = d3.line()
-</span><span class="">  518: 	.x(d =&gt; x(d.label))
-</span><span class="">  519: 	.y(d =&gt; y(d.value));
-</span><span class="">  520: 
-</span><span class="">  521:     chart.append(&quot;path&quot;)
-</span><span class="">  522: 	.datum(data)
-</span><span class="">  523: 	.attr(&quot;fill&quot;, &quot;none&quot;)
-</span><span class="">  524: 	.attr(&quot;stroke&quot;, &quot;steelblue&quot;)
-</span><span class="">  525: 	.attr(&quot;stroke-width&quot;, 2)
-</span><span class="">  526: 	.attr(&quot;d&quot;, line);
-</span><span class="">  527: 
-</span><span class="">  528:     chart.selectAll(&quot;circle&quot;)
-</span><span class="">  529: 	.data(data)
-</span><span class="">  530: 	.join(&quot;circle&quot;)
-</span><span class="">  531: 	.attr(&quot;cx&quot;, d =&gt; x(d.label))
-</span><span class="">  532: 	.attr(&quot;cy&quot;, d =&gt; y(d.value))
-</span><span class="">  533: 	.attr(&quot;r&quot;, 4)
-</span><span class="">  534: 	.attr(&quot;fill&quot;, &quot;steelblue&quot;)
-</span><span class="">  535: 	.on(&quot;mouseover&quot;, (event, d) =&gt; {
-</span><span class="">  536: 	    let ttHtml = `Label: &lt;b&gt;\${d.label}&lt;\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\/b&gt;`;
-</span><span class="">  537: 	    if (d.extra) {
-</span><span class="">  538: 		Object.entries(d.extra).forEach(([k, v]) =&gt; {
-</span><span class="">  539: 		    ttHtml += `&lt;br&gt;\${k}: &lt;b&gt;\${v}&lt;\/b&gt;`;
-</span><span class="">  540: 		});
-</span><span class="">  541: 	    }
-</span><span class="">  542: 	    tooltip.style(&quot;opacity&quot;, 1)
-</span><span class="">  543: 		   .html(ttHtml)
-</span><span class="">  544: 		   .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
-</span><span class="">  545: 		   .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
-</span><span class="">  546: 	})
-</span><span class="">  547: 	.on(&quot;mousemove&quot;, (event) =&gt; {
-</span><span class="">  548: 	    tooltip.style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
-</span><span class="">  549: 		   .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
-</span><span class="">  550: 	})
-</span><span class="">  551: 	.on(&quot;mouseout&quot;, () =&gt; {
-</span><span class="">  552: 	    tooltip.style(&quot;opacity&quot;, 0);
-</span><span class="">  553: 	});
-</span><span class="">  554: 
-</span><span class="">  555:     chart.append(&quot;g&quot;)
-</span><span class="">  556: 	.call(d3.axisLeft(y));
+</span><span class="">  469: 	const y = d3.scaleLinear()
+</span><span class="">  470: 	    .domain([0, d3.max(data, d =&gt; d.value)])
+</span><span class="">  471: 	    .nice()
+</span><span class="">  472: 	    .range([height, 0]);
+</span><span class="">  473: 
+</span><span class="">  474: 	const chart = svg.append(&quot;g&quot;)
+</span><span class="">  475: 	    .attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
+</span><span class="">  476: 
+</span><span class="">  477: 	// Draw line
+</span><span class="">  478: 	const line = d3.line()
+</span><span class="">  479: 	    .x(d =&gt; x(d.label))
+</span><span class="">  480: 	    .y(d =&gt; y(d.value));
+</span><span class="">  481: 
+</span><span class="">  482: 	chart.append(&quot;path&quot;)
+</span><span class="">  483: 	    .datum(data)
+</span><span class="">  484: 	    .attr(&quot;fill&quot;, &quot;none&quot;)
+</span><span class="">  485: 	    .attr(&quot;stroke&quot;, &quot;steelblue&quot;)
+</span><span class="">  486: 	    .attr(&quot;stroke-width&quot;, 2)
+</span><span class="">  487: 	    .attr(&quot;d&quot;, line);
+</span><span class="">  488: 
+</span><span class="">  489: 	// Add points to the line
+</span><span class="">  490: 	chart.selectAll(&quot;circle&quot;)
+</span><span class="">  491: 	    .data(data)
+</span><span class="">  492: 	    .join(&quot;circle&quot;)
+</span><span class="">  493: 	    .attr(&quot;cx&quot;, d =&gt; x(d.label))
+</span><span class="">  494: 	    .attr(&quot;cy&quot;, d =&gt; y(d.value))
+</span><span class="">  495: 	    .attr(&quot;r&quot;, 4)
+</span><span class="">  496: 	    .attr(&quot;fill&quot;, &quot;steelblue&quot;)
+</span><span class="">  497: 	    .on(&quot;mouseover&quot;, (event, d) =&gt; {
+</span><span class="">  498: 		tooltip.style(&quot;opacity&quot;, 1)
+</span><span class="">  499: 		       .html(`Label: &lt;b&gt;\${d.label}&lt;\\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\\/b&gt;`)
+</span><span class="">  500: 		       .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
+</span><span class="">  501: 		       .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
+</span><span class="">  502: 	    })
+</span><span class="">  503: 	    .on(&quot;mousemove&quot;, (event) =&gt; {
+</span><span class="">  504: 		tooltip.style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
+</span><span class="">  505: 		       .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
+</span><span class="">  506: 	    })
+</span><span class="">  507: 	    .on(&quot;mouseout&quot;, () =&gt; {
+</span><span class="">  508: 		tooltip.style(&quot;opacity&quot;, 0);
+</span><span class="">  509: 	    });
+</span><span class="">  510: 
+</span><span class="">  511: 	// Add axes
+</span><span class="">  512: 	chart.append(&quot;g&quot;)
+</span><span class="">  513: 	    .call(d3.axisLeft(y));
+</span><span class="">  514: 
+</span><span class="">  515: 	chart.append(&quot;g&quot;)
+</span><span class="">  516: 	    .attr(&quot;transform&quot;, `translate(0,\${height})`)
+</span><span class="">  517: 	    .call(d3.axisBottom(x))
+</span><span class="">  518: 	    .selectAll(&quot;text&quot;)
+</span><span class="">  519: 	    .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
+</span><span class="">  520: 	    .style(&quot;text-anchor&quot;, &quot;end&quot;);
+</span><span class="">  521:     &lt;/script&gt;
+</span><span class="">  522: &lt;/body&gt;
+</span><span class="">  523: &lt;/html&gt;
+</span><span class="">  524: HTML
+</span><span class="">  525: 
+</span><span class="">  526:     return $html;
+</span><span class="">  527: }
+</span><span class="">  528: 
+</span><span class="">  529: =head2 render_line_chart_snippet
+</span><span class="">  530: 
+</span><span class="">  531:     my $fragment = $chart-&gt;render_line_chart_snippet($data);
+</span><span class="">  532:     # $fragment-&gt;{svg_id} - the id attribute of the &lt;svg&gt; element
+</span><span class="">  533:     # $fragment-&gt;{html}   - embeddable HTML fragment (style + svg + script)
+</span><span class="">  534: 
+</span><span class="">  535: Generates an embeddable HTML fragment for a line chart with mouseover tooltips.
+</span><span class="">  536: Unlike C&lt;render_line_chart_with_tooltips&gt;, this method returns a fragment with
+</span><span class="">  537: no C&lt;&lt;!DOCTYPE&gt;&gt;, C&lt;&lt;html&gt;&gt;, C&lt;&lt;head&gt;&gt;, or C&lt;&lt;body&gt;&gt; wrapper, suitable for
+</span><span class="">  538: splicing directly into a Mojolicious TT (or any other) layout.
+</span><span class="">  539: 
+</span><span class="">  540: The caller is responsible for loading D3 in the page C&lt;&lt;head&gt;&gt;, e.g.:
+</span><span class="">  541: 
+</span><span class="">  542:     &lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
+</span><span class="">  543: 
+</span><span class="">  544: Accepts the following arguments:
+</span><span class="">  545: 
+</span><span class="">  546: =over 4
+</span><span class="">  547: 
+</span><span class="">  548: =item * C&lt;$data&gt; - An array reference of data points. Each point is an array
+</span><span class="">  549: reference with two required elements - the label (string) and the value
+</span><span class="">  550: (numeric) - and an optional third element: a hash reference of extra key/value
+</span><span class="">  551: pairs to display in the tooltip after the label and value rows.
+</span><span class="">  552: 
+</span><span class="">  553:     [$x, $y]          # basic point
+</span><span class="">  554:     [$x, $y, \%row]   # point with extra tooltip data
+</span><span class="">  555: 
+</span><span class="">  556: =back
 </span><span class="">  557: 
-</span><span class="">  558:     chart.append(&quot;g&quot;)
-</span><span class="">  559: 	.attr(&quot;transform&quot;, `translate(0,\${height})`)
-</span><span class="">  560: 	.call(d3.axisBottom(x))
-</span><span class="">  561: 	.selectAll(&quot;text&quot;)
-</span><span class="">  562: 	.attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
-</span><span class="">  563: 	.style(&quot;text-anchor&quot;, &quot;end&quot;);
-</span><span class="">  564: &lt;/script&gt;
-</span><span class="">  565: HTML
-</span><span class="">  566: 
-</span><span class="">  567: 	return { svg_id =&gt; $svg_id, html =&gt; $html };
-</span><span class="">  568: }
+</span><span class="">  558: Returns a hash reference with:
+</span><span class="">  559: 
+</span><span class="">  560: =over 4
+</span><span class="">  561: 
+</span><span class="">  562: =item * C&lt;svg_id&gt; - The C&lt;id&gt; attribute used on the C&lt;&lt;svg&gt;&gt; element.
+</span><span class="">  563: 
+</span><span class="">  564: =item * C&lt;html&gt; - The embeddable fragment string.
+</span><span class="">  565: 
+</span><span class="">  566: =back
+</span><span class="">  567: 
+</span><span class="">  568: =cut
 </span><span class="">  569: 
-</span><span class="">  570: =head2 render_zoomable_line_chart_snippet
-</span><span class="">  571: 
-</span><span class="">  572:     my $fragment = $chart-&gt;render_zoomable_line_chart_snippet($data);
-</span><span class="">  573:     # $fragment-&gt;{svg_id} - the id attribute of the &lt;svg&gt; element
-</span><span class="">  574:     # $fragment-&gt;{html}   - embeddable HTML fragment (style + button + svg + script)
+</span><span class="">  570: sub render_line_chart_snippet
+</span><span class="">  571: {
+</span><span class="">  572: 	my ($self, $data) = @_;
+</span><span class="">  573: 
+</span><span class="">  574: 	die &#39;Data must be an array of arrays&#39; unless ref($data) eq &#39;ARRAY&#39;;
 </span><span class="">  575: 
-</span><span class="">  576: Like C&lt;render_line_chart_snippet&gt;, but adds brush-to-zoom: the user can drag
-</span><span class="">  577: across a range of the x-axis to zoom into that region. A I&lt;Reset zoom&gt; button
-</span><span class="">  578: (hidden until a zoom is active) returns the chart to its original extent.
-</span><span class="">  579: Subsequent brushes on the zoomed view zoom in further; Reset always returns to
-</span><span class="">  580: the full dataset.
-</span><span class="">  581: 
-</span><span class="">  582: The caller is responsible for loading D3 in the page C&lt;&lt;head&gt;&gt;.
+</span><span class="">  576: 	my $json_data = encode_json([
+</span><span class="">  577: 		map {
+</span><span class="">  578: 			my $point = { label =&gt; $_-&gt;[0], value =&gt; $_-&gt;[1] };
+</span><span class="">  579: 			$point-&gt;{extra} = $_-&gt;[2] if ref($_-&gt;[2]) eq &#39;HASH&#39;;
+</span><span class="">  580: 			$point
+</span><span class="">  581: 		} @$data
+</span><span class="">  582: 	]);
 </span><span class="">  583: 
-</span><span class="">  584: Accepts the same arguments as C&lt;render_line_chart_snippet&gt;: an array reference
-</span><span class="">  585: of data points, each C&lt;[$x, $y]&gt; or C&lt;[$x, $y, \%extra]&gt;.
-</span><span class="">  586: 
-</span><span class="">  587: =cut
-</span><span class="">  588: 
-</span><span class="">  589: sub render_zoomable_line_chart_snippet
-</span><span class="">  590: {
-</span><span class="">  591: 	my ($self, $data) = @_;
-</span><span class="">  592: 
-</span><span class="">  593: 	die &#39;Data must be an array of arrays&#39; unless ref($data) eq &#39;ARRAY&#39;;
-</span><span class="">  594: 
-</span><span class="">  595: 	my $json_data = encode_json([
-</span><span class="">  596: 		map {
-</span><span class="">  597: 			my $point = { label =&gt; $_-&gt;[0], value =&gt; $_-&gt;[1] };
-</span><span class="">  598: 			$point-&gt;{extra} = $_-&gt;[2] if ref($_-&gt;[2]) eq &#39;HASH&#39;;
-</span><span class="">  599: 			$point
-</span><span class="">  600: 		} @$data
-</span><span class="">  601: 	]);
-</span><span class="">  602: 
-</span><span class="">  603: 	my $svg_id = &#39;chart&#39;;
-</span><span class="">  604: 	my $tip_id = &#39;tooltip&#39;;
-</span><span class="">  605: 	my $rst_id = &#39;reset-btn&#39;;
-</span><span class="">  606: 
-</span><span class="">  607: 	my $html = &lt;&lt;&quot;HTML&quot;;
-</span><span class="">  608: &lt;style&gt;
-</span><span class="">  609:     .tooltip {
-</span><span class="">  610: 	position: absolute;
-</span><span class="">  611: 	background-color: white;
-</span><span class="">  612: 	border: 1px solid #ccc;
-</span><span class="">  613: 	padding: 5px;
-</span><span class="">  614: 	font-size: 12px;
-</span><span class="">  615: 	pointer-events: none;
-</span><span class="">  616: 	opacity: 0;
-</span><span class="">  617: 	transition: opacity 0.2s ease-in-out;
-</span><span class="">  618:     }
-</span><span class="">  619:     #$rst_id {
-</span><span class="">  620: 	display: none;
-</span><span class="">  621: 	margin-bottom: 4px;
-</span><span class="">  622: 	cursor: pointer;
-</span><span class="">  623:     }
-</span><span class="">  624:     .brush .selection {
-</span><span class="">  625: 	fill: steelblue;
-</span><span class="">  626: 	fill-opacity: 0.15;
-</span><span class="">  627: 	stroke: steelblue;
-</span><span class="">  628: 	stroke-width: 1;
-</span><span class="">  629:     }
-</span><span class="">  630: &lt;/style&gt;
-</span><span class="">  631: &lt;button id=&quot;$rst_id&quot;&gt;Reset zoom&lt;/button&gt;
-</span><span class="">  632: &lt;svg id=&quot;$svg_id&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
-</span><span class="">  633: &lt;div class=&quot;tooltip&quot; id=&quot;$tip_id&quot;&gt;&lt;/div&gt;
-</span><span class="">  634: &lt;script&gt;
-</span><span class="">  635:     const allData     = $json_data;
-</span><span class="">  636:     let   currentData = allData.slice();
-</span><span class="">  637: 
-</span><span class="">  638:     const svg      = d3.select(&quot;#$svg_id&quot;);
-</span><span class="">  639:     const tooltip  = d3.select(&quot;#$tip_id&quot;);
-</span><span class="">  640:     const resetBtn = d3.select(&quot;#$rst_id&quot;);
-</span><span class="">  641:     const margin   = { top: 20, right: 30, bottom: 40, left: 40 };
-</span><span class="">  642:     const width    = $self-&gt;{width}  - margin.left - margin.right;
-</span><span class="">  643:     const height   = $self-&gt;{height} - margin.top  - margin.bottom;
-</span><span class="">  644: 
-</span><span class="">  645:     const chart = svg.append(&quot;g&quot;)
-</span><span class="">  646: 	.attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
-</span><span class="">  647: 
-</span><span class="">  648:     // Scales (domain set in redraw)
-</span><span class="">  649:     const x = d3.scalePoint().range([0, width]);
-</span><span class="">  650:     const y = d3.scaleLinear().range([height, 0]);
-</span><span class="">  651: 
-</span><span class="">  652:     const lineFn = d3.line()
-</span><span class="">  653: 	.x(d =&gt; x(d.label))
-</span><span class="">  654: 	.y(d =&gt; y(d.value));
-</span><span class="">  655: 
-</span><span class="">  656:     // Brush appended first so circles sit above it and receive mouse events
-</span><span class="">  657:     const brush = d3.brushX()
-</span><span class="">  658: 	.extent([[0, 0], [width, height]])
-</span><span class="">  659: 	.on(&quot;end&quot;, brushed);
-</span><span class="">  660:     const brushGroup = chart.append(&quot;g&quot;).attr(&quot;class&quot;, &quot;brush&quot;).call(brush);
-</span><span class="">  661: 
-</span><span class="">  662:     const linePath = chart.append(&quot;path&quot;)
-</span><span class="">  663: 	.attr(&quot;fill&quot;, &quot;none&quot;)
-</span><span class="">  664: 	.attr(&quot;stroke&quot;, &quot;steelblue&quot;)
-</span><span class="">  665: 	.attr(&quot;stroke-width&quot;, 2);
-</span><span class="">  666: 
-</span><span class="">  667:     const yAxisG = chart.append(&quot;g&quot;);
-</span><span class="">  668:     const xAxisG = chart.append(&quot;g&quot;).attr(&quot;transform&quot;, `translate(0,\${height})`);
-</span><span class="">  669: 
-</span><span class="">  670:     function redraw(newData, ms) {
-</span><span class="">  671: 	x.domain(newData.map(d =&gt; d.label));
-</span><span class="">  672: 	y.domain([0, d3.max(newData, d =&gt; d.value)]).nice();
-</span><span class="">  673: 
-</span><span class="">  674: 	const t = svg.transition().duration(ms);
-</span><span class="">  675: 
-</span><span class="">  676: 	xAxisG.transition(t)
-</span><span class="">  677: 	    .call(d3.axisBottom(x))
-</span><span class="">  678: 	    .selectAll(&quot;text&quot;)
-</span><span class="">  679: 	    .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
-</span><span class="">  680: 	    .style(&quot;text-anchor&quot;, &quot;end&quot;);
-</span><span class="">  681: 
-</span><span class="">  682: 	yAxisG.transition(t).call(d3.axisLeft(y));
-</span><span class="">  683: 
-</span><span class="">  684: 	linePath.datum(newData).transition(t).attr(&quot;d&quot;, lineFn);
-</span><span class="">  685: 
-</span><span class="">  686: 	chart.selectAll(&quot;circle.pt&quot;)
-</span><span class="">  687: 	    .data(newData, d =&gt; d.label)
-</span><span class="">  688: 	    .join(
-</span><span class="">  689: 		enter =&gt; enter.append(&quot;circle&quot;)
-</span><span class="">  690: 		    .attr(&quot;class&quot;, &quot;pt&quot;)
-</span><span class="">  691: 		    .attr(&quot;r&quot;, 4)
-</span><span class="">  692: 		    .attr(&quot;fill&quot;, &quot;steelblue&quot;)
-</span><span class="">  693: 		    .attr(&quot;cx&quot;, d =&gt; x(d.label))
-</span><span class="">  694: 		    .attr(&quot;cy&quot;, d =&gt; y(d.value))
-</span><span class="">  695: 	    )
-</span><span class="">  696: 	    .on(&quot;mouseover&quot;, (event, d) =&gt; {
-</span><span class="">  697: 		let ttHtml = `Label: &lt;b&gt;\${d.label}&lt;\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\/b&gt;`;
-</span><span class="">  698: 		if (d.extra) {
-</span><span class="">  699: 		    Object.entries(d.extra).forEach(([k, v]) =&gt; {
-</span><span class="">  700: 			ttHtml += `&lt;br&gt;\${k}: &lt;b&gt;\${v}&lt;\/b&gt;`;
-</span><span class="">  701: 		    });
-</span><span class="">  702: 		}
-</span><span class="">  703: 		tooltip.style(&quot;opacity&quot;, 1)
-</span><span class="">  704: 		       .html(ttHtml)
-</span><span class="">  705: 		       .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
-</span><span class="">  706: 		       .style(&quot;top&quot;,  (event.pageY - 30) + &quot;px&quot;);
-</span><span class="">  707: 	    })
-</span><span class="">  708: 	    .on(&quot;mousemove&quot;, (event) =&gt; {
-</span><span class="">  709: 		tooltip.style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
-</span><span class="">  710: 		       .style(&quot;top&quot;,  (event.pageY - 30) + &quot;px&quot;);
-</span><span class="">  711: 	    })
-</span><span class="">  712: 	    .on(&quot;mouseout&quot;, () =&gt; {
-</span><span class="">  713: 		tooltip.style(&quot;opacity&quot;, 0);
-</span><span class="">  714: 	    })
-</span><span class="">  715: 	    .transition(t)
-</span><span class="">  716: 	    .attr(&quot;cx&quot;, d =&gt; x(d.label))
-</span><span class="">  717: 	    .attr(&quot;cy&quot;, d =&gt; y(d.value));
-</span><span class="">  718:     }
-</span><span class="">  719: 
-</span><span class="">  720:     redraw(currentData, 0);
-</span><span class="">  721: 
-</span><span class="">  722:     function brushed(event) {
-</span><span class="">  723: 	if (!event.selection) return;
-</span><span class="">  724: 	const [x0, x1] = event.selection;
-</span><span class="">  725: 	const zoomed = currentData.filter(d =&gt; {
-</span><span class="">  726: 	    const px = x(d.label);
-</span><span class="">  727: 	    return px &gt;= x0 - 1 &amp;&amp; px &lt;= x1 + 1;
-</span><span class="">  728: 	});
-</span><span class="">  729: 	brushGroup.call(brush.move, null);   // clear brush rectangle
-</span><span class="">  730: 	if (zoomed.length &lt; 2) return;
-</span><span class="">  731: 	currentData = zoomed;
-</span><span class="">  732: 	redraw(currentData, 500);
-</span><span class="">  733: 	resetBtn.style(&quot;display&quot;, &quot;inline-block&quot;);
+</span><span class="">  584: 	my $svg_id = &#39;chart&#39;;
+</span><span class="">  585: 
+</span><span class="">  586: 	my $html = &lt;&lt;&quot;HTML&quot;;
+</span><span class="">  587: &lt;style&gt;
+</span><span class="">  588:     .tooltip {
+</span><span class="">  589: 	position: absolute;
+</span><span class="">  590: 	background-color: white;
+</span><span class="">  591: 	border: 1px solid #ccc;
+</span><span class="">  592: 	padding: 5px;
+</span><span class="">  593: 	font-size: 12px;
+</span><span class="">  594: 	pointer-events: none;
+</span><span class="">  595: 	opacity: 0;
+</span><span class="">  596: 	transition: opacity 0.2s ease-in-out;
+</span><span class="">  597:     }
+</span><span class="">  598: &lt;/style&gt;
+</span><span class="">  599: &lt;svg id=&quot;$svg_id&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
+</span><span class="">  600: &lt;div class=&quot;tooltip&quot; id=&quot;tooltip&quot;&gt;&lt;/div&gt;
+</span><span class="">  601: &lt;script&gt;
+</span><span class="">  602:     const data = $json_data;
+</span><span class="">  603: 
+</span><span class="">  604:     const svg = d3.select(&quot;#$svg_id&quot;);
+</span><span class="">  605:     const tooltip = d3.select(&quot;#tooltip&quot;);
+</span><span class="">  606:     const margin = { top: 20, right: 30, bottom: 40, left: 40 };
+</span><span class="">  607:     const width = $self-&gt;{width} - margin.left - margin.right;
+</span><span class="">  608:     const height = $self-&gt;{height} - margin.top - margin.bottom;
+</span><span class="">  609: 
+</span><span class="">  610:     const x = d3.scalePoint()
+</span><span class="">  611: 	.domain(data.map(d =&gt; d.label))
+</span><span class="">  612: 	.range([0, width]);
+</span><span class="">  613: 
+</span><span class="">  614:     const y = d3.scaleLinear()
+</span><span class="">  615: 	.domain([0, d3.max(data, d =&gt; d.value)])
+</span><span class="">  616: 	.nice()
+</span><span class="">  617: 	.range([height, 0]);
+</span><span class="">  618: 
+</span><span class="">  619:     const chart = svg.append(&quot;g&quot;)
+</span><span class="">  620: 	.attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
+</span><span class="">  621: 
+</span><span class="">  622:     const line = d3.line()
+</span><span class="">  623: 	.x(d =&gt; x(d.label))
+</span><span class="">  624: 	.y(d =&gt; y(d.value));
+</span><span class="">  625: 
+</span><span class="">  626:     chart.append(&quot;path&quot;)
+</span><span class="">  627: 	.datum(data)
+</span><span class="">  628: 	.attr(&quot;fill&quot;, &quot;none&quot;)
+</span><span class="">  629: 	.attr(&quot;stroke&quot;, &quot;steelblue&quot;)
+</span><span class="">  630: 	.attr(&quot;stroke-width&quot;, 2)
+</span><span class="">  631: 	.attr(&quot;d&quot;, line);
+</span><span class="">  632: 
+</span><span class="">  633:     chart.selectAll(&quot;circle&quot;)
+</span><span class="">  634: 	.data(data)
+</span><span class="">  635: 	.join(&quot;circle&quot;)
+</span><span class="">  636: 	.attr(&quot;cx&quot;, d =&gt; x(d.label))
+</span><span class="">  637: 	.attr(&quot;cy&quot;, d =&gt; y(d.value))
+</span><span class="">  638: 	.attr(&quot;r&quot;, 4)
+</span><span class="">  639: 	.attr(&quot;fill&quot;, &quot;steelblue&quot;)
+</span><span class="">  640: 	.on(&quot;mouseover&quot;, (event, d) =&gt; {
+</span><span class="">  641: 	    let ttHtml = `Label: &lt;b&gt;\${d.label}&lt;\\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\\/b&gt;`;
+</span><span class="">  642: 	    if (d.extra) {
+</span><span class="">  643: 		Object.entries(d.extra).forEach(([k, v]) =&gt; {
+</span><span class="">  644: 		    ttHtml += `&lt;br&gt;\${k}: &lt;b&gt;\${v}&lt;\\/b&gt;`;
+</span><span class="">  645: 		});
+</span><span class="">  646: 	    }
+</span><span class="">  647: 	    tooltip.style(&quot;opacity&quot;, 1)
+</span><span class="">  648: 		   .html(ttHtml)
+</span><span class="">  649: 		   .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
+</span><span class="">  650: 		   .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
+</span><span class="">  651: 	})
+</span><span class="">  652: 	.on(&quot;mousemove&quot;, (event) =&gt; {
+</span><span class="">  653: 	    tooltip.style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
+</span><span class="">  654: 		   .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
+</span><span class="">  655: 	})
+</span><span class="">  656: 	.on(&quot;mouseout&quot;, () =&gt; {
+</span><span class="">  657: 	    tooltip.style(&quot;opacity&quot;, 0);
+</span><span class="">  658: 	});
+</span><span class="">  659: 
+</span><span class="">  660:     chart.append(&quot;g&quot;)
+</span><span class="">  661: 	.call(d3.axisLeft(y));
+</span><span class="">  662: 
+</span><span class="">  663:     chart.append(&quot;g&quot;)
+</span><span class="">  664: 	.attr(&quot;transform&quot;, `translate(0,\${height})`)
+</span><span class="">  665: 	.call(d3.axisBottom(x))
+</span><span class="">  666: 	.selectAll(&quot;text&quot;)
+</span><span class="">  667: 	.attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
+</span><span class="">  668: 	.style(&quot;text-anchor&quot;, &quot;end&quot;);
+</span><span class="">  669: &lt;/script&gt;
+</span><span class="">  670: HTML
+</span><span class="">  671: 
+</span><span class="">  672: 	return { svg_id =&gt; $svg_id, html =&gt; $html };
+</span><span class="">  673: }
+</span><span class="">  674: 
+</span><span class="">  675: =head2 render_zoomable_line_chart_snippet
+</span><span class="">  676: 
+</span><span class="">  677:     my $fragment = $chart-&gt;render_zoomable_line_chart_snippet($data);
+</span><span class="">  678:     # $fragment-&gt;{svg_id} - the id attribute of the &lt;svg&gt; element
+</span><span class="">  679:     # $fragment-&gt;{html}   - embeddable HTML fragment (style + button + svg + script)
+</span><span class="">  680: 
+</span><span class="">  681: Like C&lt;render_line_chart_snippet&gt;, but adds brush-to-zoom: the user can drag
+</span><span class="">  682: across a range of the x-axis to zoom into that region. A I&lt;Reset zoom&gt; button
+</span><span class="">  683: (hidden until a zoom is active) returns the chart to its original extent.
+</span><span class="">  684: Subsequent brushes on the zoomed view zoom in further; Reset always returns to
+</span><span class="">  685: the full dataset.
+</span><span class="">  686: 
+</span><span class="">  687: The caller is responsible for loading D3 in the page C&lt;&lt;head&gt;&gt;.
+</span><span class="">  688: 
+</span><span class="">  689: Accepts the same arguments as C&lt;render_line_chart_snippet&gt;: an array reference
+</span><span class="">  690: of data points, each C&lt;[$x, $y]&gt; or C&lt;[$x, $y, \%extra]&gt;.
+</span><span class="">  691: 
+</span><span class="">  692: =cut
+</span><span class="">  693: 
+</span><span class="">  694: sub render_zoomable_line_chart_snippet
+</span><span class="">  695: {
+</span><span class="">  696: 	my ($self, $data) = @_;
+</span><span class="">  697: 
+</span><span class="">  698: 	die &#39;Data must be an array of arrays&#39; unless ref($data) eq &#39;ARRAY&#39;;
+</span><span class="">  699: 
+</span><span class="">  700: 	my $json_data = encode_json([
+</span><span class="">  701: 		map {
+</span><span class="">  702: 			my $point = { label =&gt; $_-&gt;[0], value =&gt; $_-&gt;[1] };
+</span><span class="">  703: 			$point-&gt;{extra} = $_-&gt;[2] if ref($_-&gt;[2]) eq &#39;HASH&#39;;
+</span><span class="">  704: 			$point
+</span><span class="">  705: 		} @$data
+</span><span class="">  706: 	]);
+</span><span class="">  707: 
+</span><span class="">  708: 	my $svg_id = &#39;chart&#39;;
+</span><span class="">  709: 	my $tip_id = &#39;tooltip&#39;;
+</span><span class="">  710: 	my $rst_id = &#39;reset-btn&#39;;
+</span><span class="">  711: 
+</span><span class="">  712: 	my $html = &lt;&lt;&quot;HTML&quot;;
+</span><span class="">  713: &lt;style&gt;
+</span><span class="">  714:     .tooltip {
+</span><span class="">  715: 	position: absolute;
+</span><span class="">  716: 	background-color: white;
+</span><span class="">  717: 	border: 1px solid #ccc;
+</span><span class="">  718: 	padding: 5px;
+</span><span class="">  719: 	font-size: 12px;
+</span><span class="">  720: 	pointer-events: none;
+</span><span class="">  721: 	opacity: 0;
+</span><span class="">  722: 	transition: opacity 0.2s ease-in-out;
+</span><span class="">  723:     }
+</span><span class="">  724:     #$rst_id {
+</span><span class="">  725: 	display: none;
+</span><span class="">  726: 	margin-bottom: 4px;
+</span><span class="">  727: 	cursor: pointer;
+</span><span class="">  728:     }
+</span><span class="">  729:     .brush .selection {
+</span><span class="">  730: 	fill: steelblue;
+</span><span class="">  731: 	fill-opacity: 0.15;
+</span><span class="">  732: 	stroke: steelblue;
+</span><span class="">  733: 	stroke-width: 1;
 </span><span class="">  734:     }
-</span><span class="">  735: 
-</span><span class="">  736:     resetBtn.on(&quot;click&quot;, () =&gt; {
-</span><span class="">  737: 	currentData = allData.slice();
-</span><span class="">  738: 	redraw(currentData, 500);
-</span><span class="">  739: 	resetBtn.style(&quot;display&quot;, &quot;none&quot;);
-</span><span class="">  740:     });
-</span><span class="">  741: &lt;/script&gt;
-</span><span class="">  742: HTML
-</span><span class="">  743: 
-</span><span class="">  744: 	return { svg_id =&gt; $svg_id, html =&gt; $html };
-</span><span class="">  745: }
-</span><span class="">  746: 
-</span><span class="">  747: =head2 render_multi_series_line_chart_with_tooltips
-</span><span class="">  748: 
-</span><span class="">  749:     $html = $chart-&gt;render_multi_series_line_chart_with_tooltips($data);
-</span><span class="">  750: 
-</span><span class="">  751: Generates HTML and JavaScript code to render a chart of many lines with mouseover tooltips.
+</span><span class="">  735: &lt;/style&gt;
+</span><span class="">  736: &lt;button id=&quot;$rst_id&quot;&gt;Reset zoom&lt;/button&gt;
+</span><span class="">  737: &lt;svg id=&quot;$svg_id&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
+</span><span class="">  738: &lt;div class=&quot;tooltip&quot; id=&quot;$tip_id&quot;&gt;&lt;/div&gt;
+</span><span class="">  739: &lt;script&gt;
+</span><span class="">  740:     const allData     = $json_data;
+</span><span class="">  741:     let   currentData = allData.slice();
+</span><span class="">  742: 
+</span><span class="">  743:     const svg      = d3.select(&quot;#$svg_id&quot;);
+</span><span class="">  744:     const tooltip  = d3.select(&quot;#$tip_id&quot;);
+</span><span class="">  745:     const resetBtn = d3.select(&quot;#$rst_id&quot;);
+</span><span class="">  746:     const margin   = { top: 20, right: 30, bottom: 40, left: 40 };
+</span><span class="">  747:     const width    = $self-&gt;{width}  - margin.left - margin.right;
+</span><span class="">  748:     const height   = $self-&gt;{height} - margin.top  - margin.bottom;
+</span><span class="">  749: 
+</span><span class="">  750:     const chart = svg.append(&quot;g&quot;)
+</span><span class="">  751: 	.attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
 </span><span class="">  752: 
-</span><span class="">  753: Accepts the following arguments:
-</span><span class="">  754: 
-</span><span class="">  755: =over 4
+</span><span class="">  753:     // Scales (domain set in redraw)
+</span><span class="">  754:     const x = d3.scalePoint().range([0, width]);
+</span><span class="">  755:     const y = d3.scaleLinear().range([height, 0]);
 </span><span class="">  756: 
-</span><span class="">  757: =item * C&lt;$data&gt; - An reference to an array of hashes containing data points.
-</span><span class="">  758: Each data point should be an array reference with two elements: the label (string) and the value (numeric).
-</span><span class="">  759: 
-</span><span class="">  760: =back
-</span><span class="">  761: 
-</span><span class="">  762: Returns a string containing the HTML and JavaScript code for the chart.
-</span><span class="">  763: 
-</span><span class="">  764: =cut
-</span><span class="">  765: 
-</span><span class="">  766: sub render_multi_series_line_chart_with_tooltips
-</span><span class="">  767: {
-</span><span class="">  768: 	my ($self, $data) = @_;
-</span><span class="">  769: 
-</span><span class="">  770: 	# Validate input data
-</span><span class="">  771: 	die &#39;Data must be an array of hashes&#39; unless ref($data) eq &#39;ARRAY&#39;;
-</span><span class="">  772: 
-</span><span class="">  773: 	my $json_data = encode_json($data);
+</span><span class="">  757:     const lineFn = d3.line()
+</span><span class="">  758: 	.x(d =&gt; x(d.label))
+</span><span class="">  759: 	.y(d =&gt; y(d.value));
+</span><span class="">  760: 
+</span><span class="">  761:     // Brush appended first so circles sit above it and receive mouse events
+</span><span class="">  762:     const brush = d3.brushX()
+</span><span class="">  763: 	.extent([[0, 0], [width, height]])
+</span><span class="">  764: 	.on(&quot;end&quot;, brushed);
+</span><span class="">  765:     const brushGroup = chart.append(&quot;g&quot;).attr(&quot;class&quot;, &quot;brush&quot;).call(brush);
+</span><span class="">  766: 
+</span><span class="">  767:     const linePath = chart.append(&quot;path&quot;)
+</span><span class="">  768: 	.attr(&quot;fill&quot;, &quot;none&quot;)
+</span><span class="">  769: 	.attr(&quot;stroke&quot;, &quot;steelblue&quot;)
+</span><span class="">  770: 	.attr(&quot;stroke-width&quot;, 2);
+</span><span class="">  771: 
+</span><span class="">  772:     const yAxisG = chart.append(&quot;g&quot;);
+</span><span class="">  773:     const xAxisG = chart.append(&quot;g&quot;).attr(&quot;transform&quot;, `translate(0,\${height})`);
 </span><span class="">  774: 
-</span><span class="">  775: 	# Generate HTML and D3.js code
-</span><span class="">  776: 	my $html = $self-&gt;_preamble();
-</span><span class="">  777: 	$html .= &lt;&lt;&quot;HTML&quot;;
-</span><span class="">  778: &lt;head&gt;
-</span><span class="">  779:     &lt;meta charset=&quot;UTF-8&quot;&gt;
-</span><span class="">  780:     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-</span><span class="">  781:     &lt;title&gt;$self-&gt;{title}&lt;/title&gt;
-</span><span class="">  782:     &lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
-</span><span class="">  783:     &lt;style&gt;
-</span><span class="">  784: 	.tooltip {
-</span><span class="">  785: 	    position: absolute;
-</span><span class="">  786: 	    background-color: white;
-</span><span class="">  787: 	    border: 1px solid #ccc;
-</span><span class="">  788: 	    padding: 5px;
-</span><span class="">  789: 	    font-size: 12px;
-</span><span class="">  790: 	    pointer-events: none;
-</span><span class="">  791: 	    opacity: 0;
-</span><span class="">  792: 	    transition: opacity 0.2s ease-in-out;
-</span><span class="">  793: 	}
-</span><span class="">  794:     &lt;/style&gt;
-</span><span class="">  795: &lt;/head&gt;
-</span><span class="">  796: &lt;body&gt;
-</span><span class="">  797:     &lt;h1 style=&quot;text-align: center;&quot;&gt;$self-&gt;{title}&lt;/h1&gt;
-</span><span class="">  798:     &lt;svg id=&quot;chart&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
-</span><span class="">  799:     &lt;div class=&quot;tooltip&quot; id=&quot;tooltip&quot;&gt;&lt;/div&gt;
-</span><span class="">  800:     &lt;script&gt;
-</span><span class="">  801: 	const data = $json_data;
-</span><span class="">  802: 
-</span><span class="">  803: 	const svg = d3.select(&quot;#chart&quot;);
-</span><span class="">  804: 	const tooltip = d3.select(&quot;#tooltip&quot;);
-</span><span class="">  805: 	const margin = { top: 20, right: 30, bottom: 40, left: 40 };
-</span><span class="">  806: 	const width = $self-&gt;{width} - margin.left - margin.right;
-</span><span class="">  807: 	const height = $self-&gt;{height} - margin.top - margin.bottom;
-</span><span class="">  808: 
-</span><span class="">  809: 	const chart = svg.append(&quot;g&quot;)
-</span><span class="">  810: 	    .attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
-</span><span class="">  811: 
-</span><span class="">  812: 	// Extract all labels and flatten them into a unique array
-</span><span class="">  813: 	const allLabels = Array.from(new Set(data.flatMap(series =&gt; series.data.map(d =&gt; d.label))));
-</span><span class="">  814: 
-</span><span class="">  815: 	const x = d3.scalePoint()
-</span><span class="">  816: 	    .domain(allLabels)
-</span><span class="">  817: 	    .range([0, width]);
-</span><span class="">  818: 
-</span><span class="">  819: 	const y = d3.scaleLinear()
-</span><span class="">  820: 	    .domain([0, d3.max(data.flatMap(series =&gt; series.data.map(d =&gt; d.value)))])
-</span><span class="">  821: 	    .nice()
-</span><span class="">  822: 	    .range([height, 0]);
-</span><span class="">  823: 
-</span><span class="">  824: 	// Define color scale for series
-</span><span class="">  825: 	const color = d3.scaleOrdinal(d3.schemeCategory10);
+</span><span class="">  775:     function redraw(newData, ms) {
+</span><span class="">  776: 	x.domain(newData.map(d =&gt; d.label));
+</span><span class="">  777: 	y.domain([0, d3.max(newData, d =&gt; d.value)]).nice();
+</span><span class="">  778: 
+</span><span class="">  779: 	const t = svg.transition().duration(ms);
+</span><span class="">  780: 
+</span><span class="">  781: 	xAxisG.transition(t)
+</span><span class="">  782: 	    .call(d3.axisBottom(x))
+</span><span class="">  783: 	    .selectAll(&quot;text&quot;)
+</span><span class="">  784: 	    .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
+</span><span class="">  785: 	    .style(&quot;text-anchor&quot;, &quot;end&quot;);
+</span><span class="">  786: 
+</span><span class="">  787: 	yAxisG.transition(t).call(d3.axisLeft(y));
+</span><span class="">  788: 
+</span><span class="">  789: 	linePath.datum(newData).transition(t).attr(&quot;d&quot;, lineFn);
+</span><span class="">  790: 
+</span><span class="">  791: 	chart.selectAll(&quot;circle.pt&quot;)
+</span><span class="">  792: 	    .data(newData, d =&gt; d.label)
+</span><span class="">  793: 	    .join(
+</span><span class="">  794: 		enter =&gt; enter.append(&quot;circle&quot;)
+</span><span class="">  795: 		    .attr(&quot;class&quot;, &quot;pt&quot;)
+</span><span class="">  796: 		    .attr(&quot;r&quot;, 4)
+</span><span class="">  797: 		    .attr(&quot;fill&quot;, &quot;steelblue&quot;)
+</span><span class="">  798: 		    .attr(&quot;cx&quot;, d =&gt; x(d.label))
+</span><span class="">  799: 		    .attr(&quot;cy&quot;, d =&gt; y(d.value))
+</span><span class="">  800: 	    )
+</span><span class="">  801: 	    .on(&quot;mouseover&quot;, (event, d) =&gt; {
+</span><span class="">  802: 		let ttHtml = `Label: &lt;b&gt;\${d.label}&lt;\\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\\/b&gt;`;
+</span><span class="">  803: 		if (d.extra) {
+</span><span class="">  804: 		    Object.entries(d.extra).forEach(([k, v]) =&gt; {
+</span><span class="">  805: 			ttHtml += `&lt;br&gt;\${k}: &lt;b&gt;\${v}&lt;\\/b&gt;`;
+</span><span class="">  806: 		    });
+</span><span class="">  807: 		}
+</span><span class="">  808: 		tooltip.style(&quot;opacity&quot;, 1)
+</span><span class="">  809: 		       .html(ttHtml)
+</span><span class="">  810: 		       .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
+</span><span class="">  811: 		       .style(&quot;top&quot;,  (event.pageY - 30) + &quot;px&quot;);
+</span><span class="">  812: 	    })
+</span><span class="">  813: 	    .on(&quot;mousemove&quot;, (event) =&gt; {
+</span><span class="">  814: 		tooltip.style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
+</span><span class="">  815: 		       .style(&quot;top&quot;,  (event.pageY - 30) + &quot;px&quot;);
+</span><span class="">  816: 	    })
+</span><span class="">  817: 	    .on(&quot;mouseout&quot;, () =&gt; {
+</span><span class="">  818: 		tooltip.style(&quot;opacity&quot;, 0);
+</span><span class="">  819: 	    })
+</span><span class="">  820: 	    .transition(t)
+</span><span class="">  821: 	    .attr(&quot;cx&quot;, d =&gt; x(d.label))
+</span><span class="">  822: 	    .attr(&quot;cy&quot;, d =&gt; y(d.value));
+</span><span class="">  823:     }
+</span><span class="">  824: 
+</span><span class="">  825:     redraw(currentData, 0);
 </span><span class="">  826: 
-</span><span class="">  827: 	// Add axes
-</span><span class="">  828: 	chart.append(&quot;g&quot;)
-</span><span class="">  829: 	    .call(d3.axisLeft(y));
-</span><span class="">  830: 
-</span><span class="">  831: 	chart.append(&quot;g&quot;)
-</span><span class="">  832: 	    .attr(&quot;transform&quot;, `translate(0,\${height})`)
-</span><span class="">  833: 	    .call(d3.axisBottom(x))
-</span><span class="">  834: 	    .selectAll(&quot;text&quot;)
-</span><span class="">  835: 	    .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
-</span><span class="">  836: 	    .style(&quot;text-anchor&quot;, &quot;end&quot;);
-</span><span class="">  837: 
-</span><span class="">  838: 	// Draw lines for each series
-</span><span class="">  839: 	data.forEach((series, i) =&gt; {
-</span><span class="">  840: 	    const line = d3.line()
-</span><span class="">  841: 		.x(d =&gt; x(d.label))
-</span><span class="">  842: 		.y(d =&gt; y(d.value));
-</span><span class="">  843: 
-</span><span class="">  844: 	    // Add line
-</span><span class="">  845: 	    chart.append(&quot;path&quot;)
-</span><span class="">  846: 		.datum(series.data)
-</span><span class="">  847: 		.attr(&quot;fill&quot;, &quot;none&quot;)
-</span><span class="">  848: 		.attr(&quot;stroke&quot;, color(i))
-</span><span class="">  849: 		.attr(&quot;stroke-width&quot;, 2)
-</span><span class="">  850: 		.attr(&quot;d&quot;, line);
+</span><span class="">  827:     function brushed(event) {
+</span><span class="">  828: 	if (!event.selection) return;
+</span><span class="">  829: 	const [x0, x1] = event.selection;
+</span><span class="">  830: 	const zoomed = currentData.filter(d =&gt; {
+</span><span class="">  831: 	    const px = x(d.label);
+</span><span class="">  832: 	    return px &gt;= x0 - 1 &amp;&amp; px &lt;= x1 + 1;
+</span><span class="">  833: 	});
+</span><span class="">  834: 	brushGroup.call(brush.move, null);   // clear brush rectangle
+</span><span class="">  835: 	if (zoomed.length &lt; 2) return;
+</span><span class="">  836: 	currentData = zoomed;
+</span><span class="">  837: 	redraw(currentData, 500);
+</span><span class="">  838: 	resetBtn.style(&quot;display&quot;, &quot;inline-block&quot;);
+</span><span class="">  839:     }
+</span><span class="">  840: 
+</span><span class="">  841:     resetBtn.on(&quot;click&quot;, () =&gt; {
+</span><span class="">  842: 	currentData = allData.slice();
+</span><span class="">  843: 	redraw(currentData, 500);
+</span><span class="">  844: 	resetBtn.style(&quot;display&quot;, &quot;none&quot;);
+</span><span class="">  845:     });
+</span><span class="">  846: &lt;/script&gt;
+</span><span class="">  847: HTML
+</span><span class="">  848: 
+</span><span class="">  849: 	return { svg_id =&gt; $svg_id, html =&gt; $html };
+</span><span class="">  850: }
 </span><span class="">  851: 
-</span><span class="">  852: 	    // Add points and tooltips
-</span><span class="">  853: 	    chart.selectAll(\`circle.series-\${i}\`)
-</span><span class="">  854: 		.data(series.data)
-</span><span class="">  855: 		.join(&quot;circle&quot;)
-</span><span class="">  856: 		.attr(&quot;class&quot;, \`series-\${i}\`)
-</span><span class="">  857: 		.attr(&quot;cx&quot;, d =&gt; x(d.label))
-</span><span class="">  858: 		.attr(&quot;cy&quot;, d =&gt; y(d.value))
-</span><span class="">  859: 		.attr(&quot;r&quot;, 4)
-</span><span class="">  860: 		.attr(&quot;fill&quot;, color(i))
-</span><span class="">  861: 		.on(&quot;mouseover&quot;, (event, d) =&gt; {
-</span><span class="">  862: 		    tooltip.style(&quot;opacity&quot;, 1)
-</span><span class="">  863: 			   .html(\`Series: &lt;b&gt;\${series.name}&lt;\/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\/b&gt;\`)
-</span><span class="">  864: 			   .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
-</span><span class="">  865: 			   .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
-</span><span class="">  866: 		})
-</span><span class="">  867: 		.on(&quot;mousemove&quot;, (event) =&gt; {
-</span><span class="">  868: 		    tooltip.style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
-</span><span class="">  869: 			   .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
-</span><span class="">  870: 		})
-</span><span class="">  871: 		.on(&quot;mouseout&quot;, () =&gt; {
-</span><span class="">  872: 		    tooltip.style(&quot;opacity&quot;, 0);
-</span><span class="">  873: 		});
-</span><span class="">  874: 	});
-</span><span class="">  875:     &lt;/script&gt;
-</span><span class="">  876: &lt;/body&gt;
-</span><span class="">  877: &lt;/html&gt;
-</span><span class="">  878: HTML
+</span><span class="">  852: =head2 render_multi_series_line_chart_with_tooltips
+</span><span class="">  853: 
+</span><span class="">  854:     $html = $chart-&gt;render_multi_series_line_chart_with_tooltips($data);
+</span><span class="">  855: 
+</span><span class="">  856: Generates HTML and JavaScript code to render a chart of many lines with mouseover tooltips.
+</span><span class="">  857: 
+</span><span class="">  858: Accepts the following arguments:
+</span><span class="">  859: 
+</span><span class="">  860: =over 4
+</span><span class="">  861: 
+</span><span class="">  862: =item * C&lt;$data&gt; - An array reference of series hashes. Each element is a hashref
+</span><span class="">  863: with a C&lt;name&gt; key (string) and a C&lt;data&gt; key (array reference of C&lt;&lt; {label, value} &gt;&gt;
+</span><span class="">  864: hashrefs).
+</span><span class="">  865: 
+</span><span class="">  866:     [
+</span><span class="">  867:         { name =&gt; &#39;Series A&#39;, data =&gt; [{ label =&gt; &#39;Jan&#39;, value =&gt; 100 }, ...] },
+</span><span class="">  868:         ...
+</span><span class="">  869:     ]
+</span><span class="">  870: 
+</span><span class="">  871: =back
+</span><span class="">  872: 
+</span><span class="">  873: Returns a string containing the HTML and JavaScript code for the chart.
+</span><span class="">  874: Tooltip strings use C&lt;&lt; &lt;\/b&gt; &gt;&gt; rather than C&lt;&lt; &lt;/b&gt; &gt;&gt; for html-tidy compliance.
+</span><span class="">  875: 
+</span><span class="">  876: =head3 Errors
+</span><span class="">  877: 
+</span><span class="">  878: =over 4
 </span><span class="">  879: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  880:     return $html;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  881: }
-</span><span class="">  882: 
-</span><span class="">  883: =head2 render_multi_series_line_chart_with_animated_tooltips
-</span><span class="">  884: 
-</span><span class="">  885:     $html = $chart-&gt;render_multi_series_line_chart_with_animated_tooltips($data);
-</span><span class="">  886: 
-</span><span class="">  887: Generates HTML and JavaScript code to render a chart of many lines with animated mouseover tooltips.
-</span><span class="">  888: 
-</span><span class="">  889: Accepts the following arguments:
-</span><span class="">  890: 
-</span><span class="">  891: =over 4
-</span><span class="">  892: 
-</span><span class="">  893: =item * C&lt;$data&gt; - An reference to an array of hashes containing data points.
-</span><span class="">  894: Each data point should be an array reference with two elements: the label (string) and the value (numeric).
-</span><span class="">  895: 
-</span><span class="">  896: =back
-</span><span class="">  897: 
-</span><span class="">  898: Returns a string containing the HTML and JavaScript code for the chart.
-</span><span class="">  899: 
-</span><span class="">  900: =cut
-</span><span class="">  901: 
-</span><span class="">  902: sub render_multi_series_line_chart_with_animated_tooltips
-</span><span class="">  903: {
-</span><span class="">  904: 	my ($self, $data) = @_;
-</span><span class="">  905: 
-</span><span class="">  906: 	# Validate input data
-</span><span class="">  907: 	die &#39;Data must be an array of hashes&#39; unless ref($data) eq &#39;ARRAY&#39;;
-</span><span class="">  908: 
-</span><span class="">  909: 	# Generate JSON for data
-</span><span class="">  910: 	my $json_data = encode_json($data);
-</span><span class="">  911: 
-</span><span class="">  912: 	# Generate HTML and D3.js code
-</span><span class="">  913: 	my $html = $self-&gt;_preamble();
-</span><span class="">  914: 	$html .= &lt;&lt;&quot;HTML&quot;;
-</span><span class="">  915: &lt;head&gt;
-</span><span class="">  916:     &lt;meta charset=&quot;UTF-8&quot;&gt;
-</span><span class="">  917:     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-</span><span class="">  918:     &lt;title&gt;$self-&gt;{title}&lt;/title&gt;
-</span><span class="">  919:     &lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
-</span><span class="">  920:     &lt;style&gt;
-</span><span class="">  921: 	.tooltip {
-</span><span class="">  922: 	    position: absolute;
-</span><span class="">  923: 	    background-color: white;
-</span><span class="">  924: 	    border: 1px solid #ccc;
-</span><span class="">  925: 	    padding: 5px;
-</span><span class="">  926: 	    font-size: 12px;
-</span><span class="">  927: 	    pointer-events: none;
-</span><span class="">  928: 	    opacity: 0;
-</span><span class="">  929: 	    transform: translateY(-10px);
-</span><span class="">  930: 	    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-</span><span class="">  931: 	}
-</span><span class="">  932:     &lt;/style&gt;
-</span><span class="">  933: &lt;/head&gt;
-</span><span class="">  934: &lt;body&gt;
-</span><span class="">  935:     &lt;h1 style=&quot;text-align: center;&quot;&gt;$self-&gt;{title}&lt;/h1&gt;
-</span><span class="">  936:     &lt;svg id=&quot;chart&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
-</span><span class="">  937:     &lt;div class=&quot;tooltip&quot; id=&quot;tooltip&quot;&gt;&lt;/div&gt;
-</span><span class="">  938:     &lt;script&gt;
-</span><span class="">  939: 	const data = $json_data;
-</span><span class="">  940: 
-</span><span class="">  941: 	const svg = d3.select(&quot;#chart&quot;);
-</span><span class="">  942: 	const tooltip = d3.select(&quot;#tooltip&quot;);
-</span><span class="">  943: 	const margin = { top: 20, right: 30, bottom: 40, left: 40 };
-</span><span class="">  944: 	const width = $self-&gt;{width} - margin.left - margin.right;
-</span><span class="">  945: 	const height = $self-&gt;{height} - margin.top - margin.bottom;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  880: =item * Throws C&lt;Data must be an array of hashes&gt; when C&lt;$data&gt; is not an ARRAY reference.
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  881: 
+</span><span class="">  882: =back
+</span><span class="">  883: 
+</span><span class="">  884: =head3 Side Effects
+</span><span class="">  885: 
+</span><span class="">  886: None.
+</span><span class="">  887: 
+</span><span class="">  888: =head3 API SPECIFICATION
+</span><span class="">  889: 
+</span><span class="">  890: =head4 Input
+</span><span class="">  891: 
+</span><span class="">  892:     $self : HTML::D3                                                   -- required
+</span><span class="">  893:     $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+</span><span class="">  894: 
+</span><span class="">  895: =head4 Output
+</span><span class="">  896: 
+</span><span class="">  897:     Str -- complete HTML5 document; one coloured line per series with mouseover tooltips.
+</span><span class="">  898: 
+</span><span class="">  899: =head3 FORMAL SPECIFICATION
+</span><span class="">  900: 
+</span><span class="">  901:     render_multi_series_line_chart_with_tooltips : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class="">  902: 
+</span><span class="">  903:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
+</span><span class="">  904:     post result &acirc;&#136;&#136; Str
+</span><span class="">  905:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class="">  906:     post &quot;&lt;/b&gt;&quot; &acirc;&#136;&#137; result &acirc;&#136;&sect; &quot;&lt;\/b&gt;&quot; &acirc;&#136;&#136; result
+</span><span class="">  907: 
+</span><span class="">  908: =cut
+</span><span class="">  909: 
+</span><span class="">  910: sub render_multi_series_line_chart_with_tooltips
+</span><span class="">  911: {
+</span><span class="">  912: 	my ($self, $data) = @_;
+</span><span class="">  913: 
+</span><span class="">  914: 	# Validate input data
+</span><span class="">  915: 	die &#39;Data must be an array of hashes&#39; unless ref($data) eq &#39;ARRAY&#39;;
+</span><span class="">  916: 
+</span><span class="">  917: 	my $json_data = encode_json($data);
+</span><span class="">  918: 
+</span><span class="">  919: 	# Generate HTML and D3.js code
+</span><span class="">  920: 	my $html = $self-&gt;_preamble();
+</span><span class="">  921: 	$html .= &lt;&lt;&quot;HTML&quot;;
+</span><span class="">  922: &lt;head&gt;
+</span><span class="">  923:     &lt;meta charset=&quot;UTF-8&quot;&gt;
+</span><span class="">  924:     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+</span><span class="">  925:     &lt;title&gt;$self-&gt;{title}&lt;/title&gt;
+</span><span class="">  926:     &lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
+</span><span class="">  927:     &lt;style&gt;
+</span><span class="">  928: 	.tooltip {
+</span><span class="">  929: 	    position: absolute;
+</span><span class="">  930: 	    background-color: white;
+</span><span class="">  931: 	    border: 1px solid #ccc;
+</span><span class="">  932: 	    padding: 5px;
+</span><span class="">  933: 	    font-size: 12px;
+</span><span class="">  934: 	    pointer-events: none;
+</span><span class="">  935: 	    opacity: 0;
+</span><span class="">  936: 	    transition: opacity 0.2s ease-in-out;
+</span><span class="">  937: 	}
+</span><span class="">  938:     &lt;/style&gt;
+</span><span class="">  939: &lt;/head&gt;
+</span><span class="">  940: &lt;body&gt;
+</span><span class="">  941:     &lt;h1 style=&quot;text-align: center;&quot;&gt;$self-&gt;{title}&lt;/h1&gt;
+</span><span class="">  942:     &lt;svg id=&quot;chart&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
+</span><span class="">  943:     &lt;div class=&quot;tooltip&quot; id=&quot;tooltip&quot;&gt;&lt;/div&gt;
+</span><span class="">  944:     &lt;script&gt;
+</span><span class="">  945: 	const data = $json_data;
 </span><span class="">  946: 
-</span><span class="">  947: 	const chart = svg.append(&quot;g&quot;)
-</span><span class="">  948: 	    .attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
-</span><span class="">  949: 
-</span><span class="">  950: 	// Extract all labels and flatten them into a unique array
-</span><span class="">  951: 	const allLabels = Array.from(new Set(data.flatMap(series =&gt; series.data.map(d =&gt; d.label))));
+</span><span class="">  947: 	const svg = d3.select(&quot;#chart&quot;);
+</span><span class="">  948: 	const tooltip = d3.select(&quot;#tooltip&quot;);
+</span><span class="">  949: 	const margin = { top: 20, right: 30, bottom: 40, left: 40 };
+</span><span class="">  950: 	const width = $self-&gt;{width} - margin.left - margin.right;
+</span><span class="">  951: 	const height = $self-&gt;{height} - margin.top - margin.bottom;
 </span><span class="">  952: 
-</span><span class="">  953: 	const x = d3.scalePoint()
-</span><span class="">  954: 	    .domain(allLabels)
-</span><span class="">  955: 	    .range([0, width]);
-</span><span class="">  956: 
-</span><span class="">  957: 	const y = d3.scaleLinear()
-</span><span class="">  958: 	    .domain([0, d3.max(data.flatMap(series =&gt; series.data.map(d =&gt; d.value)))])
-</span><span class="">  959: 	    .nice()
-</span><span class="">  960: 	    .range([height, 0]);
-</span><span class="">  961: 
-</span><span class="">  962: 	// Define color scale for series
-</span><span class="">  963: 	const color = d3.scaleOrdinal(d3.schemeCategory10);
-</span><span class="">  964: 
-</span><span class="">  965: 	// Add axes
-</span><span class="">  966: 	chart.append(&quot;g&quot;)
-</span><span class="">  967: 	    .call(d3.axisLeft(y));
-</span><span class="">  968: 
-</span><span class="">  969: 	chart.append(&quot;g&quot;)
-</span><span class="">  970: 	    .attr(&quot;transform&quot;, `translate(0,\${height})`)
-</span><span class="">  971: 	    .call(d3.axisBottom(x))
-</span><span class="">  972: 	    .selectAll(&quot;text&quot;)
-</span><span class="">  973: 	    .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
-</span><span class="">  974: 	    .style(&quot;text-anchor&quot;, &quot;end&quot;);
-</span><span class="">  975: 
-</span><span class="">  976: 	// Draw lines for each series
-</span><span class="">  977: 	data.forEach((series, i) =&gt; {
-</span><span class="">  978: 	    const line = d3.line()
-</span><span class="">  979: 		.x(d =&gt; x(d.label))
-</span><span class="">  980: 		.y(d =&gt; y(d.value));
+</span><span class="">  953: 	const chart = svg.append(&quot;g&quot;)
+</span><span class="">  954: 	    .attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
+</span><span class="">  955: 
+</span><span class="">  956: 	// Extract all labels and flatten them into a unique array
+</span><span class="">  957: 	const allLabels = Array.from(new Set(data.flatMap(series =&gt; series.data.map(d =&gt; d.label))));
+</span><span class="">  958: 
+</span><span class="">  959: 	const x = d3.scalePoint()
+</span><span class="">  960: 	    .domain(allLabels)
+</span><span class="">  961: 	    .range([0, width]);
+</span><span class="">  962: 
+</span><span class="">  963: 	const y = d3.scaleLinear()
+</span><span class="">  964: 	    .domain([0, d3.max(data.flatMap(series =&gt; series.data.map(d =&gt; d.value)))])
+</span><span class="">  965: 	    .nice()
+</span><span class="">  966: 	    .range([height, 0]);
+</span><span class="">  967: 
+</span><span class="">  968: 	// Define color scale for series
+</span><span class="">  969: 	const color = d3.scaleOrdinal(d3.schemeCategory10);
+</span><span class="">  970: 
+</span><span class="">  971: 	// Add axes
+</span><span class="">  972: 	chart.append(&quot;g&quot;)
+</span><span class="">  973: 	    .call(d3.axisLeft(y));
+</span><span class="">  974: 
+</span><span class="">  975: 	chart.append(&quot;g&quot;)
+</span><span class="">  976: 	    .attr(&quot;transform&quot;, `translate(0,\${height})`)
+</span><span class="">  977: 	    .call(d3.axisBottom(x))
+</span><span class="">  978: 	    .selectAll(&quot;text&quot;)
+</span><span class="">  979: 	    .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
+</span><span class="">  980: 	    .style(&quot;text-anchor&quot;, &quot;end&quot;);
 </span><span class="">  981: 
-</span><span class="">  982: 	    // Add line
-</span><span class="">  983: 	    chart.append(&quot;path&quot;)
-</span><span class="">  984: 		.datum(series.data)
-</span><span class="">  985: 		.attr(&quot;fill&quot;, &quot;none&quot;)
-</span><span class="">  986: 		.attr(&quot;stroke&quot;, color(i))
-</span><span class="">  987: 		.attr(&quot;stroke-width&quot;, 2)
-</span><span class="">  988: 		.attr(&quot;d&quot;, line);
-</span><span class="">  989: 
-</span><span class="">  990: 	    // Add points and tooltips
-</span><span class="">  991: 	    chart.selectAll(\`circle.series-\${i}\`)
-</span><span class="">  992: 		.data(series.data)
-</span><span class="">  993: 		.join(&quot;circle&quot;)
-</span><span class="">  994: 		.attr(&quot;class&quot;, \`series-\${i}\`)
-</span><span class="">  995: 		.attr(&quot;cx&quot;, d =&gt; x(d.label))
-</span><span class="">  996: 		.attr(&quot;cy&quot;, d =&gt; y(d.value))
-</span><span class="">  997: 		.attr(&quot;r&quot;, 4)
-</span><span class="">  998: 		.attr(&quot;fill&quot;, color(i))
-</span><span class="">  999: 		.on(&quot;mouseover&quot;, (event, d) =&gt; {
-</span><span class=""> 1000: 		    tooltip.style(&quot;opacity&quot;, 1)
-</span><span class=""> 1001: 			   .style(&quot;transform&quot;, &quot;translateY(0)&quot;)
-</span><span class=""> 1002: 			   .html(\`Series: &lt;b&gt;\${series.name}&lt;\/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\/b&gt;\`)
-</span><span class=""> 1003: 			   .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
-</span><span class=""> 1004: 			   .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
-</span><span class=""> 1005: 		})
-</span><span class=""> 1006: 		.on(&quot;mousemove&quot;, (event) =&gt; {
-</span><span class=""> 1007: 		    tooltip.style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
-</span><span class=""> 1008: 			   .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
-</span><span class=""> 1009: 		})
-</span><span class=""> 1010: 		.on(&quot;mouseout&quot;, () =&gt; {
-</span><span class=""> 1011: 		    tooltip.style(&quot;opacity&quot;, 0)
-</span><span class=""> 1012: 			   .style(&quot;transform&quot;, &quot;translateY(-10px)&quot;);
-</span><span class=""> 1013: 		});
-</span><span class=""> 1014: 	});
-</span><span class=""> 1015:     &lt;/script&gt;
-</span><span class=""> 1016: &lt;/body&gt;
-</span><span class=""> 1017: &lt;/html&gt;
-</span><span class=""> 1018: HTML
-</span><span class=""> 1019: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1020:     return $html;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1021: }
-</span><span class=""> 1022: 
-</span><span class=""> 1023: =head2 render_multi_series_line_chart_with_legends
-</span><span class=""> 1024: 
-</span><span class=""> 1025:     $html = $chart-&gt;render_multi_series_line_chart_with_legends($data);
+</span><span class="">  982: 	// Draw lines for each series
+</span><span class="">  983: 	data.forEach((series, i) =&gt; {
+</span><span class="">  984: 	    const line = d3.line()
+</span><span class="">  985: 		.x(d =&gt; x(d.label))
+</span><span class="">  986: 		.y(d =&gt; y(d.value));
+</span><span class="">  987: 
+</span><span class="">  988: 	    // Add line
+</span><span class="">  989: 	    chart.append(&quot;path&quot;)
+</span><span class="">  990: 		.datum(series.data)
+</span><span class="">  991: 		.attr(&quot;fill&quot;, &quot;none&quot;)
+</span><span class="">  992: 		.attr(&quot;stroke&quot;, color(i))
+</span><span class="">  993: 		.attr(&quot;stroke-width&quot;, 2)
+</span><span class="">  994: 		.attr(&quot;d&quot;, line);
+</span><span class="">  995: 
+</span><span class="">  996: 	    // Add points and tooltips
+</span><span class="">  997: 	    chart.selectAll(\`circle.series-\${i}\`)
+</span><span class="">  998: 		.data(series.data)
+</span><span class="">  999: 		.join(&quot;circle&quot;)
+</span><span class=""> 1000: 		.attr(&quot;class&quot;, \`series-\${i}\`)
+</span><span class=""> 1001: 		.attr(&quot;cx&quot;, d =&gt; x(d.label))
+</span><span class=""> 1002: 		.attr(&quot;cy&quot;, d =&gt; y(d.value))
+</span><span class=""> 1003: 		.attr(&quot;r&quot;, 4)
+</span><span class=""> 1004: 		.attr(&quot;fill&quot;, color(i))
+</span><span class=""> 1005: 		.on(&quot;mouseover&quot;, (event, d) =&gt; {
+</span><span class=""> 1006: 		    tooltip.style(&quot;opacity&quot;, 1)
+</span><span class=""> 1007: 			   .html(\`Series: &lt;b&gt;\${series.name}&lt;\\/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;\\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\\/b&gt;\`)
+</span><span class=""> 1008: 			   .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
+</span><span class=""> 1009: 			   .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
+</span><span class=""> 1010: 		})
+</span><span class=""> 1011: 		.on(&quot;mousemove&quot;, (event) =&gt; {
+</span><span class=""> 1012: 		    tooltip.style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
+</span><span class=""> 1013: 			   .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
+</span><span class=""> 1014: 		})
+</span><span class=""> 1015: 		.on(&quot;mouseout&quot;, () =&gt; {
+</span><span class=""> 1016: 		    tooltip.style(&quot;opacity&quot;, 0);
+</span><span class=""> 1017: 		});
+</span><span class=""> 1018: 	});
+</span><span class=""> 1019:     &lt;/script&gt;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1020: &lt;/body&gt;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1021: &lt;/html&gt;
+</span><span class=""> 1022: HTML
+</span><span class=""> 1023: 
+</span><span class=""> 1024:     return $html;
+</span><span class=""> 1025: }
 </span><span class=""> 1026: 
-</span><span class=""> 1027: Generates HTML and JavaScript code to render a chart of many lines with animated mouseover tooltips.
+</span><span class=""> 1027: =head2 render_multi_series_line_chart_with_animated_tooltips
 </span><span class=""> 1028: 
-</span><span class=""> 1029: Accepts the following arguments:
+</span><span class=""> 1029:     $html = $chart-&gt;render_multi_series_line_chart_with_animated_tooltips($data);
 </span><span class=""> 1030: 
-</span><span class=""> 1031: =over 4
+</span><span class=""> 1031: Generates HTML and JavaScript code to render a chart of many lines with animated mouseover tooltips.
 </span><span class=""> 1032: 
-</span><span class=""> 1033: =item * C&lt;$data&gt; - An reference to an array of hashes containing data points.
-</span><span class=""> 1034: Each data point should be an array reference with two elements: the label (string) and the value (numeric).
-</span><span class=""> 1035: 
-</span><span class=""> 1036: =back
-</span><span class=""> 1037: 
-</span><span class=""> 1038: Returns a string containing the HTML and JavaScript code for the chart.
+</span><span class=""> 1033: Accepts the following arguments:
+</span><span class=""> 1034: 
+</span><span class=""> 1035: =over 4
+</span><span class=""> 1036: 
+</span><span class=""> 1037: =item * C&lt;$data&gt; - Same format as C&lt;render_multi_series_line_chart_with_tooltips&gt;:
+</span><span class=""> 1038: an array reference of C&lt;&lt; { name, data } &gt;&gt; series hashes.
 </span><span class=""> 1039: 
-</span><span class=""> 1040: =cut
+</span><span class=""> 1040: =back
 </span><span class=""> 1041: 
-</span><span class=""> 1042: sub render_multi_series_line_chart_with_legends {
-</span><span class=""> 1043: 	my($self, $data) = @_;
-</span><span class=""> 1044: 
-</span><span class=""> 1045: 	# Validate input data
-</span><span class=""> 1046: 	die &#39;Data must be an array of hashes&#39; unless ref($data) eq &#39;ARRAY&#39;;
+</span><span class=""> 1042: Returns a string containing the complete HTML5 document.
+</span><span class=""> 1043: The tooltip appears with a CSS C&lt;translateY&gt; slide-in animation.
+</span><span class=""> 1044: Tooltip strings use C&lt;&lt; &lt;\/b&gt; &gt;&gt; for html-tidy compliance.
+</span><span class=""> 1045: 
+</span><span class=""> 1046: =head3 Errors
 </span><span class=""> 1047: 
-</span><span class=""> 1048: 	# Generate JSON for data
-</span><span class=""> 1049: 	my $json_data = encode_json($data);
-</span><span class=""> 1050: 
-</span><span class=""> 1051: 	# Generate HTML and D3.js code
-</span><span class=""> 1052: 	my $html = $self-&gt;_preamble();
-</span><span class=""> 1053: 	$html .= &lt;&lt;&quot;HTML&quot;;
-</span><span class=""> 1054: &lt;head&gt;
-</span><span class=""> 1055:     &lt;meta charset=&quot;UTF-8&quot;&gt;
-</span><span class=""> 1056:     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-</span><span class=""> 1057:     &lt;title&gt;$self-&gt;{title}&lt;/title&gt;
-</span><span class=""> 1058:     &lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
-</span><span class=""> 1059:     &lt;style&gt;
-</span><span class=""> 1060:         .tooltip {
-</span><span class=""> 1061:             position: absolute;
-</span><span class=""> 1062:             background-color: white;
-</span><span class=""> 1063:             border: 1px solid #ccc;
-</span><span class=""> 1064:             padding: 5px;
-</span><span class=""> 1065:             font-size: 12px;
-</span><span class=""> 1066:             pointer-events: none;
-</span><span class=""> 1067:             opacity: 0;
-</span><span class=""> 1068:             transform: translateY(-10px);
-</span><span class=""> 1069:             transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-</span><span class=""> 1070:         }
-</span><span class=""> 1071:         .legend {
-</span><span class=""> 1072:             font-size: 12px;
-</span><span class=""> 1073:             cursor: pointer;
-</span><span class=""> 1074:         }
-</span><span class=""> 1075:         .legend rect {
-</span><span class=""> 1076:             stroke-width: 1;
-</span><span class=""> 1077:             stroke: #ccc;
-</span><span class=""> 1078:         }
-</span><span class=""> 1079:     &lt;/style&gt;
-</span><span class=""> 1080: &lt;/head&gt;
-</span><span class=""> 1081: &lt;body&gt;
-</span><span class=""> 1082:     &lt;h1 style=&quot;text-align: center;&quot;&gt;$self-&gt;{title}&lt;/h1&gt;
-</span><span class=""> 1083:     &lt;svg id=&quot;chart&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
-</span><span class=""> 1084:     &lt;div class=&quot;tooltip&quot; id=&quot;tooltip&quot;&gt;&lt;/div&gt;
-</span><span class=""> 1085:     &lt;script&gt;
-</span><span class=""> 1086:         const data = $json_data;
+</span><span class=""> 1048: =over 4
+</span><span class=""> 1049: 
+</span><span class=""> 1050: =item * Throws C&lt;Data must be an array of hashes&gt; when C&lt;$data&gt; is not an ARRAY reference.
+</span><span class=""> 1051: 
+</span><span class=""> 1052: =back
+</span><span class=""> 1053: 
+</span><span class=""> 1054: =head3 Side Effects
+</span><span class=""> 1055: 
+</span><span class=""> 1056: None.
+</span><span class=""> 1057: 
+</span><span class=""> 1058: =head3 API SPECIFICATION
+</span><span class=""> 1059: 
+</span><span class=""> 1060: =head4 Input
+</span><span class=""> 1061: 
+</span><span class=""> 1062:     $self : HTML::D3                                                   -- required
+</span><span class=""> 1063:     $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+</span><span class=""> 1064: 
+</span><span class=""> 1065: =head4 Output
+</span><span class=""> 1066: 
+</span><span class=""> 1067:     Str -- complete HTML5 document; animated tooltip uses CSS translateY transition.
+</span><span class=""> 1068: 
+</span><span class=""> 1069: =head3 FORMAL SPECIFICATION
+</span><span class=""> 1070: 
+</span><span class=""> 1071:     render_multi_series_line_chart_with_animated_tooltips : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 1072: 
+</span><span class=""> 1073:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;   &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
+</span><span class=""> 1074:     post result &acirc;&#136;&#136; Str
+</span><span class=""> 1075:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class=""> 1076:     post &quot;translateY&quot; &acirc;&#138;&#134; result
+</span><span class=""> 1077:     post &quot;&lt;/b&gt;&quot; &acirc;&#136;&#137; result &acirc;&#136;&sect; &quot;&lt;\/b&gt;&quot; &acirc;&#136;&#136; result
+</span><span class=""> 1078: 
+</span><span class=""> 1079: =cut
+</span><span class=""> 1080: 
+</span><span class=""> 1081: sub render_multi_series_line_chart_with_animated_tooltips
+</span><span class=""> 1082: {
+</span><span class=""> 1083: 	my ($self, $data) = @_;
+</span><span class=""> 1084: 
+</span><span class=""> 1085: 	# Validate input data
+</span><span class=""> 1086: 	die &#39;Data must be an array of hashes&#39; unless ref($data) eq &#39;ARRAY&#39;;
 </span><span class=""> 1087: 
-</span><span class=""> 1088:         const svg = d3.select(&quot;#chart&quot;);
-</span><span class=""> 1089:         const tooltip = d3.select(&quot;#tooltip&quot;);
-</span><span class=""> 1090:         const margin = { top: 20, right: 120, bottom: 40, left: 40 };
-</span><span class=""> 1091:         const width = $self-&gt;{width} - margin.left - margin.right;
-</span><span class=""> 1092:         const height = $self-&gt;{height} - margin.top - margin.bottom;
-</span><span class=""> 1093: 
-</span><span class=""> 1094:         const chart = svg.append(&quot;g&quot;)
-</span><span class=""> 1095:             .attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
-</span><span class=""> 1096: 
-</span><span class=""> 1097:         const legendArea = svg.append(&quot;g&quot;)
-</span><span class=""> 1098:             .attr(&quot;transform&quot;, `translate(\${width + margin.left + 20},\${margin.top})`);
-</span><span class=""> 1099: 
-</span><span class=""> 1100: 	// Extract all labels and flatten them into a unique array
-</span><span class=""> 1101:         const allLabels = Array.from(new Set(data.flatMap(series =&gt; series.data.map(d =&gt; d.label))));
-</span><span class=""> 1102: 
-</span><span class=""> 1103:         const x = d3.scalePoint()
-</span><span class=""> 1104:             .domain(allLabels)
-</span><span class=""> 1105:             .range([0, width]);
-</span><span class=""> 1106: 
-</span><span class=""> 1107:         const y = d3.scaleLinear()
-</span><span class=""> 1108:             .domain([0, d3.max(data.flatMap(series =&gt; series.data.map(d =&gt; d.value)))])
-</span><span class=""> 1109:             .nice()
-</span><span class=""> 1110:             .range([height, 0]);
-</span><span class=""> 1111: 
-</span><span class=""> 1112: 	// Define color scale for series
-</span><span class=""> 1113:         const color = d3.scaleOrdinal(d3.schemeCategory10);
-</span><span class=""> 1114: 
-</span><span class=""> 1115:         // Add axes
-</span><span class=""> 1116:         chart.append(&quot;g&quot;)
-</span><span class=""> 1117:             .call(d3.axisLeft(y));
-</span><span class=""> 1118: 
-</span><span class=""> 1119:         chart.append(&quot;g&quot;)
-</span><span class=""> 1120:             .attr(&quot;transform&quot;, `translate(0,\${height})`)
-</span><span class=""> 1121:             .call(d3.axisBottom(x))
-</span><span class=""> 1122:             .selectAll(&quot;text&quot;)
-</span><span class=""> 1123:             .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
-</span><span class=""> 1124:             .style(&quot;text-anchor&quot;, &quot;end&quot;);
+</span><span class=""> 1088: 	# Generate JSON for data
+</span><span class=""> 1089: 	my $json_data = encode_json($data);
+</span><span class=""> 1090: 
+</span><span class=""> 1091: 	# Generate HTML and D3.js code
+</span><span class=""> 1092: 	my $html = $self-&gt;_preamble();
+</span><span class=""> 1093: 	$html .= &lt;&lt;&quot;HTML&quot;;
+</span><span class=""> 1094: &lt;head&gt;
+</span><span class=""> 1095:     &lt;meta charset=&quot;UTF-8&quot;&gt;
+</span><span class=""> 1096:     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+</span><span class=""> 1097:     &lt;title&gt;$self-&gt;{title}&lt;/title&gt;
+</span><span class=""> 1098:     &lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
+</span><span class=""> 1099:     &lt;style&gt;
+</span><span class=""> 1100: 	.tooltip {
+</span><span class=""> 1101: 	    position: absolute;
+</span><span class=""> 1102: 	    background-color: white;
+</span><span class=""> 1103: 	    border: 1px solid #ccc;
+</span><span class=""> 1104: 	    padding: 5px;
+</span><span class=""> 1105: 	    font-size: 12px;
+</span><span class=""> 1106: 	    pointer-events: none;
+</span><span class=""> 1107: 	    opacity: 0;
+</span><span class=""> 1108: 	    transform: translateY(-10px);
+</span><span class=""> 1109: 	    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+</span><span class=""> 1110: 	}
+</span><span class=""> 1111:     &lt;/style&gt;
+</span><span class=""> 1112: &lt;/head&gt;
+</span><span class=""> 1113: &lt;body&gt;
+</span><span class=""> 1114:     &lt;h1 style=&quot;text-align: center;&quot;&gt;$self-&gt;{title}&lt;/h1&gt;
+</span><span class=""> 1115:     &lt;svg id=&quot;chart&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
+</span><span class=""> 1116:     &lt;div class=&quot;tooltip&quot; id=&quot;tooltip&quot;&gt;&lt;/div&gt;
+</span><span class=""> 1117:     &lt;script&gt;
+</span><span class=""> 1118: 	const data = $json_data;
+</span><span class=""> 1119: 
+</span><span class=""> 1120: 	const svg = d3.select(&quot;#chart&quot;);
+</span><span class=""> 1121: 	const tooltip = d3.select(&quot;#tooltip&quot;);
+</span><span class=""> 1122: 	const margin = { top: 20, right: 30, bottom: 40, left: 40 };
+</span><span class=""> 1123: 	const width = $self-&gt;{width} - margin.left - margin.right;
+</span><span class=""> 1124: 	const height = $self-&gt;{height} - margin.top - margin.bottom;
 </span><span class=""> 1125: 
-</span><span class=""> 1126:         // Draw lines for each series
-</span><span class=""> 1127:         data.forEach((series, i) =&gt; {
-</span><span class=""> 1128:             const line = d3.line()
-</span><span class=""> 1129:                 .x(d =&gt; x(d.label))
-</span><span class=""> 1130:                 .y(d =&gt; y(d.value));
+</span><span class=""> 1126: 	const chart = svg.append(&quot;g&quot;)
+</span><span class=""> 1127: 	    .attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
+</span><span class=""> 1128: 
+</span><span class=""> 1129: 	// Extract all labels and flatten them into a unique array
+</span><span class=""> 1130: 	const allLabels = Array.from(new Set(data.flatMap(series =&gt; series.data.map(d =&gt; d.label))));
 </span><span class=""> 1131: 
-</span><span class=""> 1132:             // Add line
-</span><span class=""> 1133:             chart.append(&quot;path&quot;)
-</span><span class=""> 1134:                 .datum(series.data)
-</span><span class=""> 1135:                 .attr(&quot;fill&quot;, &quot;none&quot;)
-</span><span class=""> 1136:                 .attr(&quot;stroke&quot;, color(i))
-</span><span class=""> 1137:                 .attr(&quot;stroke-width&quot;, 2)
-</span><span class=""> 1138:                 .attr(&quot;class&quot;, \`line-\${i}\`)
-</span><span class=""> 1139:                 .attr(&quot;d&quot;, line);
+</span><span class=""> 1132: 	const x = d3.scalePoint()
+</span><span class=""> 1133: 	    .domain(allLabels)
+</span><span class=""> 1134: 	    .range([0, width]);
+</span><span class=""> 1135: 
+</span><span class=""> 1136: 	const y = d3.scaleLinear()
+</span><span class=""> 1137: 	    .domain([0, d3.max(data.flatMap(series =&gt; series.data.map(d =&gt; d.value)))])
+</span><span class=""> 1138: 	    .nice()
+</span><span class=""> 1139: 	    .range([height, 0]);
 </span><span class=""> 1140: 
-</span><span class=""> 1141:             // Add points and tooltips
-</span><span class=""> 1142:             chart.selectAll(\`circle.series-\${i}\`)
-</span><span class=""> 1143:                 .data(series.data)
-</span><span class=""> 1144:                 .join(&quot;circle&quot;)
-</span><span class=""> 1145:                 .attr(&quot;class&quot;, \`series-\${i}\`)
-</span><span class=""> 1146:                 .attr(&quot;cx&quot;, d =&gt; x(d.label))
-</span><span class=""> 1147:                 .attr(&quot;cy&quot;, d =&gt; y(d.value))
-</span><span class=""> 1148:                 .attr(&quot;r&quot;, 4)
-</span><span class=""> 1149:                 .attr(&quot;fill&quot;, color(i))
-</span><span class=""> 1150:                 .on(&quot;mouseover&quot;, (event, d) =&gt; {
-</span><span class=""> 1151:                     tooltip.style(&quot;opacity&quot;, 1)
-</span><span class=""> 1152:                            .style(&quot;transform&quot;, &quot;translateY(0)&quot;)
-</span><span class=""> 1153:                            .html(\`Series: &lt;b&gt;\${series.name}&lt;\/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\/b&gt;\`)
-</span><span class=""> 1154:                            .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
-</span><span class=""> 1155:                            .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
-</span><span class=""> 1156:                 })
-</span><span class=""> 1157:                 .on(&quot;mousemove&quot;, (event) =&gt; {
-</span><span class=""> 1158:                     tooltip.style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
-</span><span class=""> 1159:                            .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
-</span><span class=""> 1160:                 })
-</span><span class=""> 1161:                 .on(&quot;mouseout&quot;, () =&gt; {
-</span><span class=""> 1162:                     tooltip.style(&quot;opacity&quot;, 0)
-</span><span class=""> 1163:                            .style(&quot;transform&quot;, &quot;translateY(-10px)&quot;);
-</span><span class=""> 1164:                 });
-</span><span class=""> 1165:         });
-</span><span class=""> 1166: 
-</span><span class=""> 1167:         // Add legend
-</span><span class=""> 1168:         data.forEach((series, i) =&gt; {
-</span><span class=""> 1169:             const legend = legendArea.append(&quot;g&quot;)
-</span><span class=""> 1170:                 .attr(&quot;transform&quot;, `translate(0, \${i * 20})`)
-</span><span class=""> 1171:                 .attr(&quot;class&quot;, &quot;legend&quot;);
-</span><span class=""> 1172: 
-</span><span class=""> 1173:             legend.append(&quot;rect&quot;)
-</span><span class=""> 1174:                 .attr(&quot;width&quot;, 12)
-</span><span class=""> 1175:                 .attr(&quot;height&quot;, 12)
-</span><span class=""> 1176:                 .attr(&quot;fill&quot;, color(i));
-</span><span class=""> 1177: 
-</span><span class=""> 1178:             legend.append(&quot;text&quot;)
-</span><span class=""> 1179:                 .attr(&quot;x&quot;, 20)
-</span><span class=""> 1180:                 .attr(&quot;y&quot;, 10)
-</span><span class=""> 1181:                 .text(series.name)
-</span><span class=""> 1182:                 .style(&quot;alignment-baseline&quot;, &quot;middle&quot;);
-</span><span class=""> 1183: 
-</span><span class=""> 1184:             // Optional: Interactive legend for toggling visibility (uncomment to use)
-</span><span class=""> 1185:             // legend.on(&quot;click&quot;, () =&gt; {
-</span><span class=""> 1186:             //     const visible = d3.selectAll(\`path.line-\${i}\`).style(&quot;opacity&quot;) === &quot;1&quot; ? 0 : 1;
-</span><span class=""> 1187:             //     d3.selectAll(\`path.line-\${i}\`).style(&quot;opacity&quot;, visible);
-</span><span class=""> 1188:             //     d3.selectAll(\`circle.series-\${i}\`).style(&quot;opacity&quot;, visible);
-</span><span class=""> 1189:             // });
-</span><span class=""> 1190:         });
-</span><span class=""> 1191:     &lt;/script&gt;
-</span><span class=""> 1192: &lt;/body&gt;
-</span><span class=""> 1193: &lt;/html&gt;
-</span><span class=""> 1194: HTML
-</span><span class=""> 1195: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1196:     return $html;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1197: }
+</span><span class=""> 1141: 	// Define color scale for series
+</span><span class=""> 1142: 	const color = d3.scaleOrdinal(d3.schemeCategory10);
+</span><span class=""> 1143: 
+</span><span class=""> 1144: 	// Add axes
+</span><span class=""> 1145: 	chart.append(&quot;g&quot;)
+</span><span class=""> 1146: 	    .call(d3.axisLeft(y));
+</span><span class=""> 1147: 
+</span><span class=""> 1148: 	chart.append(&quot;g&quot;)
+</span><span class=""> 1149: 	    .attr(&quot;transform&quot;, `translate(0,\${height})`)
+</span><span class=""> 1150: 	    .call(d3.axisBottom(x))
+</span><span class=""> 1151: 	    .selectAll(&quot;text&quot;)
+</span><span class=""> 1152: 	    .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
+</span><span class=""> 1153: 	    .style(&quot;text-anchor&quot;, &quot;end&quot;);
+</span><span class=""> 1154: 
+</span><span class=""> 1155: 	// Draw lines for each series
+</span><span class=""> 1156: 	data.forEach((series, i) =&gt; {
+</span><span class=""> 1157: 	    const line = d3.line()
+</span><span class=""> 1158: 		.x(d =&gt; x(d.label))
+</span><span class=""> 1159: 		.y(d =&gt; y(d.value));
+</span><span class=""> 1160: 
+</span><span class=""> 1161: 	    // Add line
+</span><span class=""> 1162: 	    chart.append(&quot;path&quot;)
+</span><span class=""> 1163: 		.datum(series.data)
+</span><span class=""> 1164: 		.attr(&quot;fill&quot;, &quot;none&quot;)
+</span><span class=""> 1165: 		.attr(&quot;stroke&quot;, color(i))
+</span><span class=""> 1166: 		.attr(&quot;stroke-width&quot;, 2)
+</span><span class=""> 1167: 		.attr(&quot;d&quot;, line);
+</span><span class=""> 1168: 
+</span><span class=""> 1169: 	    // Add points and tooltips
+</span><span class=""> 1170: 	    chart.selectAll(\`circle.series-\${i}\`)
+</span><span class=""> 1171: 		.data(series.data)
+</span><span class=""> 1172: 		.join(&quot;circle&quot;)
+</span><span class=""> 1173: 		.attr(&quot;class&quot;, \`series-\${i}\`)
+</span><span class=""> 1174: 		.attr(&quot;cx&quot;, d =&gt; x(d.label))
+</span><span class=""> 1175: 		.attr(&quot;cy&quot;, d =&gt; y(d.value))
+</span><span class=""> 1176: 		.attr(&quot;r&quot;, 4)
+</span><span class=""> 1177: 		.attr(&quot;fill&quot;, color(i))
+</span><span class=""> 1178: 		.on(&quot;mouseover&quot;, (event, d) =&gt; {
+</span><span class=""> 1179: 		    tooltip.style(&quot;opacity&quot;, 1)
+</span><span class=""> 1180: 			   .style(&quot;transform&quot;, &quot;translateY(0)&quot;)
+</span><span class=""> 1181: 			   .html(\`Series: &lt;b&gt;\${series.name}&lt;\\/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;\\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\\/b&gt;\`)
+</span><span class=""> 1182: 			   .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
+</span><span class=""> 1183: 			   .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
+</span><span class=""> 1184: 		})
+</span><span class=""> 1185: 		.on(&quot;mousemove&quot;, (event) =&gt; {
+</span><span class=""> 1186: 		    tooltip.style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
+</span><span class=""> 1187: 			   .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
+</span><span class=""> 1188: 		})
+</span><span class=""> 1189: 		.on(&quot;mouseout&quot;, () =&gt; {
+</span><span class=""> 1190: 		    tooltip.style(&quot;opacity&quot;, 0)
+</span><span class=""> 1191: 			   .style(&quot;transform&quot;, &quot;translateY(-10px)&quot;);
+</span><span class=""> 1192: 		});
+</span><span class=""> 1193: 	});
+</span><span class=""> 1194:     &lt;/script&gt;
+</span><span class=""> 1195: &lt;/body&gt;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1196: &lt;/html&gt;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1197: HTML
 </span><span class=""> 1198: 
-</span><span class=""> 1199: =head2 render_multi_series_line_chart_with_interactive_legends
-</span><span class=""> 1200: 
-</span><span class=""> 1201:     $html = $chart-&gt;render_multi_series_line_chart_with_interactive_legends($data);
-</span><span class=""> 1202: 
-</span><span class=""> 1203: Generates HTML and JavaScript code to render a chart of many lines with interactive legends to filter, highlight or modify elements based on legend selections.
-</span><span class=""> 1204: 
-</span><span class=""> 1205: Accepts the following arguments:
-</span><span class=""> 1206: 
-</span><span class=""> 1207: =over 4
+</span><span class=""> 1199:     return $html;
+</span><span class=""> 1200: }
+</span><span class=""> 1201: 
+</span><span class=""> 1202: =head2 render_multi_series_line_chart_with_legends
+</span><span class=""> 1203: 
+</span><span class=""> 1204:     $html = $chart-&gt;render_multi_series_line_chart_with_legends($data);
+</span><span class=""> 1205: 
+</span><span class=""> 1206: Generates HTML and JavaScript code to render a chart of many lines with a static
+</span><span class=""> 1207: colour legend. Each series gets a labelled colour swatch in the legend area.
 </span><span class=""> 1208: 
-</span><span class=""> 1209: =item * C&lt;$data&gt; - An reference to an array of hashes containing data points.
-</span><span class=""> 1210: Each data point should be an array reference with two elements: the label (string) and the value (numeric).
-</span><span class=""> 1211: 
-</span><span class=""> 1212: =back
-</span><span class=""> 1213: 
-</span><span class=""> 1214: Returns a string containing the HTML and JavaScript code for the chart.
+</span><span class=""> 1209: Accepts the following arguments:
+</span><span class=""> 1210: 
+</span><span class=""> 1211: =over 4
+</span><span class=""> 1212: 
+</span><span class=""> 1213: =item * C&lt;$data&gt; - Same format as C&lt;render_multi_series_line_chart_with_tooltips&gt;:
+</span><span class=""> 1214: an array reference of C&lt;&lt; { name, data } &gt;&gt; series hashes.
 </span><span class=""> 1215: 
-</span><span class=""> 1216: =cut
+</span><span class=""> 1216: =back
 </span><span class=""> 1217: 
-</span><span class=""> 1218: sub render_multi_series_line_chart_with_interactive_legends
-</span><span class=""> 1219: {
-</span><span class=""> 1220: 	my ($self, $data) = @_;
-</span><span class=""> 1221: 
-</span><span class=""> 1222: 	# Validate input data
-</span><span class=""> 1223: 	die &#39;Data must be an array of hashes&#39; unless ref($data) eq &#39;ARRAY&#39;;
+</span><span class=""> 1218: Returns a string containing the complete HTML5 document. The stylesheet defines
+</span><span class=""> 1219: a C&lt;.legend&gt; CSS class used by the D3-generated legend elements.
+</span><span class=""> 1220: 
+</span><span class=""> 1221: =head3 Errors
+</span><span class=""> 1222: 
+</span><span class=""> 1223: =over 4
 </span><span class=""> 1224: 
-</span><span class=""> 1225: 	# Generate JSON for data
-</span><span class=""> 1226: 	my $json_data = encode_json($data);
-</span><span class=""> 1227: 
-</span><span class=""> 1228: 	# Generate HTML and D3.js code
-</span><span class=""> 1229: 	my $html = $self-&gt;_preamble();
-</span><span class=""> 1230: 	$html .= &lt;&lt;&quot;HTML&quot;;
-</span><span class=""> 1231: &lt;head&gt;
-</span><span class=""> 1232:     &lt;meta charset=&quot;UTF-8&quot;&gt;
-</span><span class=""> 1233:     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-</span><span class=""> 1234:     &lt;title&gt;$self-&gt;{title}&lt;/title&gt;
-</span><span class=""> 1235:     &lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
-</span><span class=""> 1236:     &lt;style&gt;
-</span><span class=""> 1237:         .tooltip {
-</span><span class=""> 1238:             position: absolute;
-</span><span class=""> 1239:             background-color: white;
-</span><span class=""> 1240:             border: 1px solid #ccc;
-</span><span class=""> 1241:             padding: 5px;
-</span><span class=""> 1242:             font-size: 12px;
-</span><span class=""> 1243:             pointer-events: none;
-</span><span class=""> 1244:             opacity: 0;
-</span><span class=""> 1245:             transform: translateY(-10px);
-</span><span class=""> 1246:             transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-</span><span class=""> 1247:         }
-</span><span class=""> 1248:         .legend {
-</span><span class=""> 1249:             font-size: 12px;
-</span><span class=""> 1250:             cursor: pointer;
-</span><span class=""> 1251:         }
-</span><span class=""> 1252:         .legend rect {
-</span><span class=""> 1253:             stroke-width: 1;
-</span><span class=""> 1254:             stroke: #ccc;
-</span><span class=""> 1255:         }
-</span><span class=""> 1256:     &lt;/style&gt;
-</span><span class=""> 1257: &lt;/head&gt;
-</span><span class=""> 1258: &lt;body&gt;
-</span><span class=""> 1259:     &lt;h1 style=&quot;text-align: center;&quot;&gt;$self-&gt;{title}&lt;/h1&gt;
-</span><span class=""> 1260:     &lt;svg id=&quot;chart&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
-</span><span class=""> 1261:     &lt;div class=&quot;tooltip&quot; id=&quot;tooltip&quot;&gt;&lt;/div&gt;
-</span><span class=""> 1262:     &lt;script&gt;
-</span><span class=""> 1263:         const data = $json_data;
+</span><span class=""> 1225: =item * Throws C&lt;Data must be an array of hashes&gt; when C&lt;$data&gt; is not an ARRAY reference.
+</span><span class=""> 1226: 
+</span><span class=""> 1227: =back
+</span><span class=""> 1228: 
+</span><span class=""> 1229: =head3 Side Effects
+</span><span class=""> 1230: 
+</span><span class=""> 1231: None.
+</span><span class=""> 1232: 
+</span><span class=""> 1233: =head3 API SPECIFICATION
+</span><span class=""> 1234: 
+</span><span class=""> 1235: =head4 Input
+</span><span class=""> 1236: 
+</span><span class=""> 1237:     $self : HTML::D3                                                   -- required
+</span><span class=""> 1238:     $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+</span><span class=""> 1239: 
+</span><span class=""> 1240: =head4 Output
+</span><span class=""> 1241: 
+</span><span class=""> 1242:     Str -- complete HTML5 document; static colour legend rendered as SVG C&lt;g&gt; elements
+</span><span class=""> 1243:            with the C&lt;.legend&gt; CSS class applied via D3 C&lt;.attr(&quot;class&quot;, &quot;legend&quot;)&gt;.
+</span><span class=""> 1244: 
+</span><span class=""> 1245: =head3 FORMAL SPECIFICATION
+</span><span class=""> 1246: 
+</span><span class=""> 1247:     render_multi_series_line_chart_with_legends : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 1248: 
+</span><span class=""> 1249:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
+</span><span class=""> 1250:     post result &acirc;&#136;&#136; Str
+</span><span class=""> 1251:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class=""> 1252:     post &quot;.legend&quot; &acirc;&#138;&#134; result
+</span><span class=""> 1253: 
+</span><span class=""> 1254: =cut
+</span><span class=""> 1255: 
+</span><span class=""> 1256: sub render_multi_series_line_chart_with_legends {
+</span><span class=""> 1257: 	my($self, $data) = @_;
+</span><span class=""> 1258: 
+</span><span class=""> 1259: 	# Validate input data
+</span><span class=""> 1260: 	die &#39;Data must be an array of hashes&#39; unless ref($data) eq &#39;ARRAY&#39;;
+</span><span class=""> 1261: 
+</span><span class=""> 1262: 	# Generate JSON for data
+</span><span class=""> 1263: 	my $json_data = encode_json($data);
 </span><span class=""> 1264: 
-</span><span class=""> 1265:         const svg = d3.select(&quot;#chart&quot;);
-</span><span class=""> 1266:         const tooltip = d3.select(&quot;#tooltip&quot;);
-</span><span class=""> 1267:         const margin = { top: 20, right: 150, bottom: 40, left: 40 };
-</span><span class=""> 1268:         const width = $self-&gt;{width} - margin.left - margin.right;
-</span><span class=""> 1269:         const height = $self-&gt;{height} - margin.top - margin.bottom;
-</span><span class=""> 1270: 
-</span><span class=""> 1271:         const chart = svg.append(&quot;g&quot;)
-</span><span class=""> 1272:             .attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
-</span><span class=""> 1273: 
-</span><span class=""> 1274:         const legendArea = svg.append(&quot;g&quot;)
-</span><span class=""> 1275:             .attr(&quot;transform&quot;, `translate(\${width + margin.left + 20},\${margin.top})`);
-</span><span class=""> 1276: 
-</span><span class=""> 1277: 	 // Extract all labels and flatten them into a unique array
-</span><span class=""> 1278:         const allLabels = Array.from(new Set(data.flatMap(series =&gt; series.data.map(d =&gt; d.label))));
-</span><span class=""> 1279: 
-</span><span class=""> 1280:         const x = d3.scalePoint()
-</span><span class=""> 1281:             .domain(allLabels)
-</span><span class=""> 1282:             .range([0, width]);
-</span><span class=""> 1283: 
-</span><span class=""> 1284:         const y = d3.scaleLinear()
-</span><span class=""> 1285:             .domain([0, d3.max(data.flatMap(series =&gt; series.data.map(d =&gt; d.value)))])
-</span><span class=""> 1286:             .nice()
-</span><span class=""> 1287:             .range([height, 0]);
-</span><span class=""> 1288: 
-</span><span class=""> 1289: 	// Define color scale for series
-</span><span class=""> 1290:         const color = d3.scaleOrdinal(d3.schemeCategory10);
-</span><span class=""> 1291: 
-</span><span class=""> 1292:         // Add axes
-</span><span class=""> 1293:         chart.append(&quot;g&quot;)
-</span><span class=""> 1294:             .call(d3.axisLeft(y));
-</span><span class=""> 1295: 
-</span><span class=""> 1296:         chart.append(&quot;g&quot;)
-</span><span class=""> 1297:             .attr(&quot;transform&quot;, `translate(0,\${height})`)
-</span><span class=""> 1298:             .call(d3.axisBottom(x))
-</span><span class=""> 1299:             .selectAll(&quot;text&quot;)
-</span><span class=""> 1300:             .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
-</span><span class=""> 1301:             .style(&quot;text-anchor&quot;, &quot;end&quot;);
-</span><span class=""> 1302: 
-</span><span class=""> 1303:         // Draw lines for each series
-</span><span class=""> 1304:         data.forEach((series, i) =&gt; {
-</span><span class=""> 1305:             const line = d3.line()
-</span><span class=""> 1306:                 .x(d =&gt; x(d.label))
-</span><span class=""> 1307:                 .y(d =&gt; y(d.value));
-</span><span class=""> 1308: 
-</span><span class=""> 1309:             // Add line
-</span><span class=""> 1310:             chart.append(&quot;path&quot;)
-</span><span class=""> 1311:                 .datum(series.data)
-</span><span class=""> 1312:                 .attr(&quot;fill&quot;, &quot;none&quot;)
-</span><span class=""> 1313:                 .attr(&quot;stroke&quot;, color(i))
-</span><span class=""> 1314:                 .attr(&quot;stroke-width&quot;, 2)
-</span><span class=""> 1315:                 .attr(&quot;class&quot;, \`line-\${i}\`)
-</span><span class=""> 1316:                 .attr(&quot;d&quot;, line);
-</span><span class=""> 1317: 
-</span><span class=""> 1318:             // Add points and tooltips
-</span><span class=""> 1319:             chart.selectAll(\`circle.series-\${i}\`)
-</span><span class=""> 1320:                 .data(series.data)
-</span><span class=""> 1321:                 .join(&quot;circle&quot;)
-</span><span class=""> 1322:                 .attr(&quot;class&quot;, \`series-\${i}\`)
-</span><span class=""> 1323:                 .attr(&quot;cx&quot;, d =&gt; x(d.label))
-</span><span class=""> 1324:                 .attr(&quot;cy&quot;, d =&gt; y(d.value))
-</span><span class=""> 1325:                 .attr(&quot;r&quot;, 4)
-</span><span class=""> 1326:                 .attr(&quot;fill&quot;, color(i))
-</span><span class=""> 1327:                 .on(&quot;mouseover&quot;, (event, d) =&gt; {
-</span><span class=""> 1328:                     tooltip.style(&quot;opacity&quot;, 1)
-</span><span class=""> 1329:                            .style(&quot;transform&quot;, &quot;translateY(0)&quot;)
-</span><span class=""> 1330:                            .html(\`Series: &lt;b&gt;\${series.name}&lt;\/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\/b&gt;\`)
-</span><span class=""> 1331:                            .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
-</span><span class=""> 1332:                            .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
-</span><span class=""> 1333:                 })
-</span><span class=""> 1334:                 .on(&quot;mousemove&quot;, (event) =&gt; {
-</span><span class=""> 1335:                     tooltip.style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
-</span><span class=""> 1336:                            .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
-</span><span class=""> 1337:                 })
-</span><span class=""> 1338:                 .on(&quot;mouseout&quot;, () =&gt; {
-</span><span class=""> 1339:                     tooltip.style(&quot;opacity&quot;, 0)
-</span><span class=""> 1340:                            .style(&quot;transform&quot;, &quot;translateY(-10px)&quot;);
-</span><span class=""> 1341:                 });
-</span><span class=""> 1342:         });
-</span><span class=""> 1343: 
-</span><span class=""> 1344:         // Add legend with interactivity
-</span><span class=""> 1345:         data.forEach((series, i) =&gt; {
-</span><span class=""> 1346:             const legend = legendArea.append(&quot;g&quot;)
-</span><span class=""> 1347:                 .attr(&quot;transform&quot;, `translate(0, \${i * 20})`)
-</span><span class=""> 1348:                 .attr(&quot;class&quot;, &quot;legend&quot;)
-</span><span class=""> 1349:                 .on(&quot;click&quot;, () =&gt; {
-</span><span class=""> 1350:                     const isVisible = d3.selectAll(\`path.line-\${i}\`).style(&quot;opacity&quot;) === &quot;1&quot;;
-</span><span class=""> 1351: 
-</span><span class=""> 1352:                     // Toggle visibility
-</span><span class=""> 1353:                     d3.selectAll(\`path.line-\${i}\`).style(&quot;opacity&quot;, isVisible ? 0 : 1);
-</span><span class=""> 1354:                     d3.selectAll(\`circle.series-\${i}\`).style(&quot;opacity&quot;, isVisible ? 0 : 1);
-</span><span class=""> 1355: 
-</span><span class=""> 1356:                     // Dim legend if series is hidden
-</span><span class=""> 1357:                     legend.select(&quot;text&quot;).style(&quot;opacity&quot;, isVisible ? 0.5 : 1);
-</span><span class=""> 1358:                 });
-</span><span class=""> 1359: 
-</span><span class=""> 1360:             legend.append(&quot;rect&quot;)
-</span><span class=""> 1361:                 .attr(&quot;width&quot;, 12)
-</span><span class=""> 1362:                 .attr(&quot;height&quot;, 12)
-</span><span class=""> 1363:                 .attr(&quot;fill&quot;, color(i));
-</span><span class=""> 1364: 
-</span><span class=""> 1365:             legend.append(&quot;text&quot;)
-</span><span class=""> 1366:                 .attr(&quot;x&quot;, 20)
-</span><span class=""> 1367:                 .attr(&quot;y&quot;, 10)
-</span><span class=""> 1368:                 .text(series.name)
-</span><span class=""> 1369:                 .style(&quot;alignment-baseline&quot;, &quot;middle&quot;);
-</span><span class=""> 1370:         });
-</span><span class=""> 1371:     &lt;/script&gt;
-</span><span class=""> 1372: &lt;/body&gt;
-</span><span class=""> 1373: &lt;/html&gt;
-</span><span class=""> 1374: HTML
-</span><span class=""> 1375: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1376:     return $html;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1377: }
-</span><span class=""> 1378: 
-</span><span class=""> 1379: sub _preamble
-</span><span class=""> 1380: {
-</span><span class=""> 1381: 	my $html = &lt;&lt;&#39;HTML&#39;;
-</span><span class=""> 1382: &lt;!DOCTYPE html&gt;
-</span><span class=""> 1383: &lt;html lang=&quot;en&quot;&gt;
-</span><span class=""> 1384: HTML
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1385: 	return $html;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1386: }
-</span><span class=""> 1387: 
-</span><span class=""> 1388: sub _head
-</span><span class=""> 1389: {
-</span><span class=""> 1390: 	my $self = shift;
+</span><span class=""> 1265: 	# Generate HTML and D3.js code
+</span><span class=""> 1266: 	my $html = $self-&gt;_preamble();
+</span><span class=""> 1267: 	$html .= &lt;&lt;&quot;HTML&quot;;
+</span><span class=""> 1268: &lt;head&gt;
+</span><span class=""> 1269:     &lt;meta charset=&quot;UTF-8&quot;&gt;
+</span><span class=""> 1270:     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+</span><span class=""> 1271:     &lt;title&gt;$self-&gt;{title}&lt;/title&gt;
+</span><span class=""> 1272:     &lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
+</span><span class=""> 1273:     &lt;style&gt;
+</span><span class=""> 1274:         .tooltip {
+</span><span class=""> 1275:             position: absolute;
+</span><span class=""> 1276:             background-color: white;
+</span><span class=""> 1277:             border: 1px solid #ccc;
+</span><span class=""> 1278:             padding: 5px;
+</span><span class=""> 1279:             font-size: 12px;
+</span><span class=""> 1280:             pointer-events: none;
+</span><span class=""> 1281:             opacity: 0;
+</span><span class=""> 1282:             transform: translateY(-10px);
+</span><span class=""> 1283:             transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+</span><span class=""> 1284:         }
+</span><span class=""> 1285:         .legend {
+</span><span class=""> 1286:             font-size: 12px;
+</span><span class=""> 1287:             cursor: pointer;
+</span><span class=""> 1288:         }
+</span><span class=""> 1289:         .legend rect {
+</span><span class=""> 1290:             stroke-width: 1;
+</span><span class=""> 1291:             stroke: #ccc;
+</span><span class=""> 1292:         }
+</span><span class=""> 1293:     &lt;/style&gt;
+</span><span class=""> 1294: &lt;/head&gt;
+</span><span class=""> 1295: &lt;body&gt;
+</span><span class=""> 1296:     &lt;h1 style=&quot;text-align: center;&quot;&gt;$self-&gt;{title}&lt;/h1&gt;
+</span><span class=""> 1297:     &lt;svg id=&quot;chart&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
+</span><span class=""> 1298:     &lt;div class=&quot;tooltip&quot; id=&quot;tooltip&quot;&gt;&lt;/div&gt;
+</span><span class=""> 1299:     &lt;script&gt;
+</span><span class=""> 1300:         const data = $json_data;
+</span><span class=""> 1301: 
+</span><span class=""> 1302:         const svg = d3.select(&quot;#chart&quot;);
+</span><span class=""> 1303:         const tooltip = d3.select(&quot;#tooltip&quot;);
+</span><span class=""> 1304:         const margin = { top: 20, right: 120, bottom: 40, left: 40 };
+</span><span class=""> 1305:         const width = $self-&gt;{width} - margin.left - margin.right;
+</span><span class=""> 1306:         const height = $self-&gt;{height} - margin.top - margin.bottom;
+</span><span class=""> 1307: 
+</span><span class=""> 1308:         const chart = svg.append(&quot;g&quot;)
+</span><span class=""> 1309:             .attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
+</span><span class=""> 1310: 
+</span><span class=""> 1311:         const legendArea = svg.append(&quot;g&quot;)
+</span><span class=""> 1312:             .attr(&quot;transform&quot;, `translate(\${width + margin.left + 20},\${margin.top})`);
+</span><span class=""> 1313: 
+</span><span class=""> 1314: 	// Extract all labels and flatten them into a unique array
+</span><span class=""> 1315:         const allLabels = Array.from(new Set(data.flatMap(series =&gt; series.data.map(d =&gt; d.label))));
+</span><span class=""> 1316: 
+</span><span class=""> 1317:         const x = d3.scalePoint()
+</span><span class=""> 1318:             .domain(allLabels)
+</span><span class=""> 1319:             .range([0, width]);
+</span><span class=""> 1320: 
+</span><span class=""> 1321:         const y = d3.scaleLinear()
+</span><span class=""> 1322:             .domain([0, d3.max(data.flatMap(series =&gt; series.data.map(d =&gt; d.value)))])
+</span><span class=""> 1323:             .nice()
+</span><span class=""> 1324:             .range([height, 0]);
+</span><span class=""> 1325: 
+</span><span class=""> 1326: 	// Define color scale for series
+</span><span class=""> 1327:         const color = d3.scaleOrdinal(d3.schemeCategory10);
+</span><span class=""> 1328: 
+</span><span class=""> 1329:         // Add axes
+</span><span class=""> 1330:         chart.append(&quot;g&quot;)
+</span><span class=""> 1331:             .call(d3.axisLeft(y));
+</span><span class=""> 1332: 
+</span><span class=""> 1333:         chart.append(&quot;g&quot;)
+</span><span class=""> 1334:             .attr(&quot;transform&quot;, `translate(0,\${height})`)
+</span><span class=""> 1335:             .call(d3.axisBottom(x))
+</span><span class=""> 1336:             .selectAll(&quot;text&quot;)
+</span><span class=""> 1337:             .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
+</span><span class=""> 1338:             .style(&quot;text-anchor&quot;, &quot;end&quot;);
+</span><span class=""> 1339: 
+</span><span class=""> 1340:         // Draw lines for each series
+</span><span class=""> 1341:         data.forEach((series, i) =&gt; {
+</span><span class=""> 1342:             const line = d3.line()
+</span><span class=""> 1343:                 .x(d =&gt; x(d.label))
+</span><span class=""> 1344:                 .y(d =&gt; y(d.value));
+</span><span class=""> 1345: 
+</span><span class=""> 1346:             // Add line
+</span><span class=""> 1347:             chart.append(&quot;path&quot;)
+</span><span class=""> 1348:                 .datum(series.data)
+</span><span class=""> 1349:                 .attr(&quot;fill&quot;, &quot;none&quot;)
+</span><span class=""> 1350:                 .attr(&quot;stroke&quot;, color(i))
+</span><span class=""> 1351:                 .attr(&quot;stroke-width&quot;, 2)
+</span><span class=""> 1352:                 .attr(&quot;class&quot;, \`line-\${i}\`)
+</span><span class=""> 1353:                 .attr(&quot;d&quot;, line);
+</span><span class=""> 1354: 
+</span><span class=""> 1355:             // Add points and tooltips
+</span><span class=""> 1356:             chart.selectAll(\`circle.series-\${i}\`)
+</span><span class=""> 1357:                 .data(series.data)
+</span><span class=""> 1358:                 .join(&quot;circle&quot;)
+</span><span class=""> 1359:                 .attr(&quot;class&quot;, \`series-\${i}\`)
+</span><span class=""> 1360:                 .attr(&quot;cx&quot;, d =&gt; x(d.label))
+</span><span class=""> 1361:                 .attr(&quot;cy&quot;, d =&gt; y(d.value))
+</span><span class=""> 1362:                 .attr(&quot;r&quot;, 4)
+</span><span class=""> 1363:                 .attr(&quot;fill&quot;, color(i))
+</span><span class=""> 1364:                 .on(&quot;mouseover&quot;, (event, d) =&gt; {
+</span><span class=""> 1365:                     tooltip.style(&quot;opacity&quot;, 1)
+</span><span class=""> 1366:                            .style(&quot;transform&quot;, &quot;translateY(0)&quot;)
+</span><span class=""> 1367:                            .html(\`Series: &lt;b&gt;\${series.name}&lt;\\/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;\\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\\/b&gt;\`)
+</span><span class=""> 1368:                            .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
+</span><span class=""> 1369:                            .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
+</span><span class=""> 1370:                 })
+</span><span class=""> 1371:                 .on(&quot;mousemove&quot;, (event) =&gt; {
+</span><span class=""> 1372:                     tooltip.style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
+</span><span class=""> 1373:                            .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
+</span><span class=""> 1374:                 })
+</span><span class=""> 1375:                 .on(&quot;mouseout&quot;, () =&gt; {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1376:                     tooltip.style(&quot;opacity&quot;, 0)
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1377:                            .style(&quot;transform&quot;, &quot;translateY(-10px)&quot;);
+</span><span class=""> 1378:                 });
+</span><span class=""> 1379:         });
+</span><span class=""> 1380: 
+</span><span class=""> 1381:         // Add legend
+</span><span class=""> 1382:         data.forEach((series, i) =&gt; {
+</span><span class=""> 1383:             const legend = legendArea.append(&quot;g&quot;)
+</span><span class=""> 1384:                 .attr(&quot;transform&quot;, `translate(0, \${i * 20})`)
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1385:                 .attr(&quot;class&quot;, &quot;legend&quot;);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1386: 
+</span><span class=""> 1387:             legend.append(&quot;rect&quot;)
+</span><span class=""> 1388:                 .attr(&quot;width&quot;, 12)
+</span><span class=""> 1389:                 .attr(&quot;height&quot;, 12)
+</span><span class=""> 1390:                 .attr(&quot;fill&quot;, color(i));
 </span><span class=""> 1391: 
-</span><span class=""> 1392: 	my $html = &lt;&lt;&quot;HTML&quot;;
-</span><span class=""> 1393: &lt;head&gt;
-</span><span class=""> 1394: 	&lt;meta charset=&quot;UTF-8&quot;&gt;
-</span><span class=""> 1395: 	&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-</span><span class=""> 1396: 	&lt;title&gt;$self-&gt;{title}&lt;/title&gt;
-</span><span class=""> 1397: 	&lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
-</span><span class=""> 1398: &lt;/head&gt;
-</span><span class=""> 1399: HTML
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1400: 	return $html;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1401: }
-</span><span class=""> 1402: 
-</span><span class=""> 1403: =head1 SUPPORT
-</span><span class=""> 1404: 
-</span><span class=""> 1405: This module is provided as-is without any warranty.
-</span><span class=""> 1406: 
-</span><span class=""> 1407: Please report any bugs or feature requests to C&lt;bug-html-d3 at rt.cpan.org&gt;,
-</span><span class=""> 1408: or through the web interface at
-</span><span class=""> 1409: L&lt;http://rt.cpan.org/NoAuth/ReportBug.html?Queue=HTML-D3&gt;.
-</span><span class=""> 1410: I will be notified, and then you&#39;ll
-</span><span class=""> 1411: automatically be notified of progress on your bug as I make changes.
+</span><span class=""> 1392:             legend.append(&quot;text&quot;)
+</span><span class=""> 1393:                 .attr(&quot;x&quot;, 20)
+</span><span class=""> 1394:                 .attr(&quot;y&quot;, 10)
+</span><span class=""> 1395:                 .text(series.name)
+</span><span class=""> 1396:                 .style(&quot;alignment-baseline&quot;, &quot;middle&quot;);
+</span><span class=""> 1397: 
+</span><span class=""> 1398:             // Optional: Interactive legend for toggling visibility (uncomment to use)
+</span><span class=""> 1399:             // legend.on(&quot;click&quot;, () =&gt; {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1400:             //     const visible = d3.selectAll(\`path.line-\${i}\`).style(&quot;opacity&quot;) === &quot;1&quot; ? 0 : 1;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1401:             //     d3.selectAll(\`path.line-\${i}\`).style(&quot;opacity&quot;, visible);
+</span><span class=""> 1402:             //     d3.selectAll(\`circle.series-\${i}\`).style(&quot;opacity&quot;, visible);
+</span><span class=""> 1403:             // });
+</span><span class=""> 1404:         });
+</span><span class=""> 1405:     &lt;/script&gt;
+</span><span class=""> 1406: &lt;/body&gt;
+</span><span class=""> 1407: &lt;/html&gt;
+</span><span class=""> 1408: HTML
+</span><span class=""> 1409: 
+</span><span class=""> 1410:     return $html;
+</span><span class=""> 1411: }
 </span><span class=""> 1412: 
-</span><span class=""> 1413: You can find documentation for this module with the perldoc command.
+</span><span class=""> 1413: =head2 render_multi_series_line_chart_with_interactive_legends
 </span><span class=""> 1414: 
-</span><span class=""> 1415:     perldoc HTML::D3
+</span><span class=""> 1415:     $html = $chart-&gt;render_multi_series_line_chart_with_interactive_legends($data);
 </span><span class=""> 1416: 
-</span><span class=""> 1417: You can also look for information at:
+</span><span class=""> 1417: Generates HTML and JavaScript code to render a chart of many lines with interactive legends to filter, highlight or modify elements based on legend selections.
 </span><span class=""> 1418: 
-</span><span class=""> 1419: =head1 BUGS
+</span><span class=""> 1419: Accepts the following arguments:
 </span><span class=""> 1420: 
-</span><span class=""> 1421: It would help to have the render routine to return the head and body components separately.
+</span><span class=""> 1421: =over 4
 </span><span class=""> 1422: 
-</span><span class=""> 1423: =head1 SEE ALSO
-</span><span class=""> 1424: 
-</span><span class=""> 1425: =over 4
-</span><span class=""> 1426: 
-</span><span class=""> 1427: =item * L&lt;Configure an Object at Runtime|Object::Configure&gt;
-</span><span class=""> 1428: 
-</span><span class=""> 1429: =item * L&lt;Test Dashboard|https://nigelhorne.github.io/HTML-D3/coverage/&gt;
-</span><span class=""> 1430: 
-</span><span class=""> 1431: =back
-</span><span class=""> 1432: 
-</span><span class=""> 1433: =head1 AUTHOR
-</span><span class=""> 1434: 
-</span><span class=""> 1435: Nigel Horne &lt;njh@nigelhorne.com&gt;
-</span><span class=""> 1436: 
-</span><span class=""> 1437: =head1 LICENSE AND COPYRIGHT
-</span><span class=""> 1438: 
-</span><span class=""> 1439: Copyright 2025-2026 Nigel Horne.
-</span><span class=""> 1440: 
-</span><span class=""> 1441: Usage is subject to the GPL2 licence terms.
-</span><span class=""> 1442: If you use it,
-</span><span class=""> 1443: please let me know.
-</span><span class=""> 1444: 
-</span><span class=""> 1445: =cut
-</span><span class=""> 1446: 
-</span><span class=""> 1447: 1;
+</span><span class=""> 1423: =item * C&lt;$data&gt; - Same format as C&lt;render_multi_series_line_chart_with_tooltips&gt;:
+</span><span class=""> 1424: an array reference of C&lt;&lt; { name, data } &gt;&gt; series hashes.
+</span><span class=""> 1425: 
+</span><span class=""> 1426: =back
+</span><span class=""> 1427: 
+</span><span class=""> 1428: Returns a string containing the complete HTML5 document. Clicking a legend entry
+</span><span class=""> 1429: toggles that series&#39; opacity using an C&lt;isVisible&gt; boolean flag in the D3 click
+</span><span class=""> 1430: handler (opacity is set to C&lt;isVisible ? 0 : 1&gt; on each click).
+</span><span class=""> 1431: 
+</span><span class=""> 1432: =head3 Errors
+</span><span class=""> 1433: 
+</span><span class=""> 1434: =over 4
+</span><span class=""> 1435: 
+</span><span class=""> 1436: =item * Throws C&lt;Data must be an array of hashes&gt; when C&lt;$data&gt; is not an ARRAY reference.
+</span><span class=""> 1437: 
+</span><span class=""> 1438: =back
+</span><span class=""> 1439: 
+</span><span class=""> 1440: =head3 Side Effects
+</span><span class=""> 1441: 
+</span><span class=""> 1442: None.
+</span><span class=""> 1443: 
+</span><span class=""> 1444: =head3 API SPECIFICATION
+</span><span class=""> 1445: 
+</span><span class=""> 1446: =head4 Input
+</span><span class=""> 1447: 
+</span><span class=""> 1448:     $self : HTML::D3                                                   -- required
+</span><span class=""> 1449:     $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+</span><span class=""> 1450: 
+</span><span class=""> 1451: =head4 Output
+</span><span class=""> 1452: 
+</span><span class=""> 1453:     Str -- complete HTML5 document; legend clicks toggle series visibility.
+</span><span class=""> 1454:            The C&lt;isVisible&gt; JS variable tracks current visibility state.
+</span><span class=""> 1455:            Opacity toggled by C&lt;isVisible ? 0 : 1&gt;.
+</span><span class=""> 1456: 
+</span><span class=""> 1457: =head3 FORMAL SPECIFICATION
+</span><span class=""> 1458: 
+</span><span class=""> 1459:     render_multi_series_line_chart_with_interactive_legends : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 1460: 
+</span><span class=""> 1461:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;            &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
+</span><span class=""> 1462:     post result &acirc;&#136;&#136; Str
+</span><span class=""> 1463:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class=""> 1464:     post &quot;isVisible&quot; &acirc;&#138;&#134; result
+</span><span class=""> 1465:     post &quot;isVisible ? 0 : 1&quot; &acirc;&#138;&#134; result
+</span><span class=""> 1466:     post &quot;.legend&quot; &acirc;&#138;&#134; result
+</span><span class=""> 1467: 
+</span><span class=""> 1468: =cut
+</span><span class=""> 1469: 
+</span><span class=""> 1470: sub render_multi_series_line_chart_with_interactive_legends
+</span><span class=""> 1471: {
+</span><span class=""> 1472: 	my ($self, $data) = @_;
+</span><span class=""> 1473: 
+</span><span class=""> 1474: 	# Validate input data
+</span><span class=""> 1475: 	die &#39;Data must be an array of hashes&#39; unless ref($data) eq &#39;ARRAY&#39;;
+</span><span class=""> 1476: 
+</span><span class=""> 1477: 	# Generate JSON for data
+</span><span class=""> 1478: 	my $json_data = encode_json($data);
+</span><span class=""> 1479: 
+</span><span class=""> 1480: 	# Generate HTML and D3.js code
+</span><span class=""> 1481: 	my $html = $self-&gt;_preamble();
+</span><span class=""> 1482: 	$html .= &lt;&lt;&quot;HTML&quot;;
+</span><span class=""> 1483: &lt;head&gt;
+</span><span class=""> 1484:     &lt;meta charset=&quot;UTF-8&quot;&gt;
+</span><span class=""> 1485:     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+</span><span class=""> 1486:     &lt;title&gt;$self-&gt;{title}&lt;/title&gt;
+</span><span class=""> 1487:     &lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
+</span><span class=""> 1488:     &lt;style&gt;
+</span><span class=""> 1489:         .tooltip {
+</span><span class=""> 1490:             position: absolute;
+</span><span class=""> 1491:             background-color: white;
+</span><span class=""> 1492:             border: 1px solid #ccc;
+</span><span class=""> 1493:             padding: 5px;
+</span><span class=""> 1494:             font-size: 12px;
+</span><span class=""> 1495:             pointer-events: none;
+</span><span class=""> 1496:             opacity: 0;
+</span><span class=""> 1497:             transform: translateY(-10px);
+</span><span class=""> 1498:             transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+</span><span class=""> 1499:         }
+</span><span class=""> 1500:         .legend {
+</span><span class=""> 1501:             font-size: 12px;
+</span><span class=""> 1502:             cursor: pointer;
+</span><span class=""> 1503:         }
+</span><span class=""> 1504:         .legend rect {
+</span><span class=""> 1505:             stroke-width: 1;
+</span><span class=""> 1506:             stroke: #ccc;
+</span><span class=""> 1507:         }
+</span><span class=""> 1508:     &lt;/style&gt;
+</span><span class=""> 1509: &lt;/head&gt;
+</span><span class=""> 1510: &lt;body&gt;
+</span><span class=""> 1511:     &lt;h1 style=&quot;text-align: center;&quot;&gt;$self-&gt;{title}&lt;/h1&gt;
+</span><span class=""> 1512:     &lt;svg id=&quot;chart&quot; width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;&gt;&lt;/svg&gt;
+</span><span class=""> 1513:     &lt;div class=&quot;tooltip&quot; id=&quot;tooltip&quot;&gt;&lt;/div&gt;
+</span><span class=""> 1514:     &lt;script&gt;
+</span><span class=""> 1515:         const data = $json_data;
+</span><span class=""> 1516: 
+</span><span class=""> 1517:         const svg = d3.select(&quot;#chart&quot;);
+</span><span class=""> 1518:         const tooltip = d3.select(&quot;#tooltip&quot;);
+</span><span class=""> 1519:         const margin = { top: 20, right: 150, bottom: 40, left: 40 };
+</span><span class=""> 1520:         const width = $self-&gt;{width} - margin.left - margin.right;
+</span><span class=""> 1521:         const height = $self-&gt;{height} - margin.top - margin.bottom;
+</span><span class=""> 1522: 
+</span><span class=""> 1523:         const chart = svg.append(&quot;g&quot;)
+</span><span class=""> 1524:             .attr(&quot;transform&quot;, `translate(\${margin.left},\${margin.top})`);
+</span><span class=""> 1525: 
+</span><span class=""> 1526:         const legendArea = svg.append(&quot;g&quot;)
+</span><span class=""> 1527:             .attr(&quot;transform&quot;, `translate(\${width + margin.left + 20},\${margin.top})`);
+</span><span class=""> 1528: 
+</span><span class=""> 1529: 	 // Extract all labels and flatten them into a unique array
+</span><span class=""> 1530:         const allLabels = Array.from(new Set(data.flatMap(series =&gt; series.data.map(d =&gt; d.label))));
+</span><span class=""> 1531: 
+</span><span class=""> 1532:         const x = d3.scalePoint()
+</span><span class=""> 1533:             .domain(allLabels)
+</span><span class=""> 1534:             .range([0, width]);
+</span><span class=""> 1535: 
+</span><span class=""> 1536:         const y = d3.scaleLinear()
+</span><span class=""> 1537:             .domain([0, d3.max(data.flatMap(series =&gt; series.data.map(d =&gt; d.value)))])
+</span><span class=""> 1538:             .nice()
+</span><span class=""> 1539:             .range([height, 0]);
+</span><span class=""> 1540: 
+</span><span class=""> 1541: 	// Define color scale for series
+</span><span class=""> 1542:         const color = d3.scaleOrdinal(d3.schemeCategory10);
+</span><span class=""> 1543: 
+</span><span class=""> 1544:         // Add axes
+</span><span class=""> 1545:         chart.append(&quot;g&quot;)
+</span><span class=""> 1546:             .call(d3.axisLeft(y));
+</span><span class=""> 1547: 
+</span><span class=""> 1548:         chart.append(&quot;g&quot;)
+</span><span class=""> 1549:             .attr(&quot;transform&quot;, `translate(0,\${height})`)
+</span><span class=""> 1550:             .call(d3.axisBottom(x))
+</span><span class=""> 1551:             .selectAll(&quot;text&quot;)
+</span><span class=""> 1552:             .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
+</span><span class=""> 1553:             .style(&quot;text-anchor&quot;, &quot;end&quot;);
+</span><span class=""> 1554: 
+</span><span class=""> 1555:         // Draw lines for each series
+</span><span class=""> 1556:         data.forEach((series, i) =&gt; {
+</span><span class=""> 1557:             const line = d3.line()
+</span><span class=""> 1558:                 .x(d =&gt; x(d.label))
+</span><span class=""> 1559:                 .y(d =&gt; y(d.value));
+</span><span class=""> 1560: 
+</span><span class=""> 1561:             // Add line
+</span><span class=""> 1562:             chart.append(&quot;path&quot;)
+</span><span class=""> 1563:                 .datum(series.data)
+</span><span class=""> 1564:                 .attr(&quot;fill&quot;, &quot;none&quot;)
+</span><span class=""> 1565:                 .attr(&quot;stroke&quot;, color(i))
+</span><span class=""> 1566:                 .attr(&quot;stroke-width&quot;, 2)
+</span><span class=""> 1567:                 .attr(&quot;class&quot;, \`line-\${i}\`)
+</span><span class=""> 1568:                 .attr(&quot;d&quot;, line);
+</span><span class=""> 1569: 
+</span><span class=""> 1570:             // Add points and tooltips
+</span><span class=""> 1571:             chart.selectAll(\`circle.series-\${i}\`)
+</span><span class=""> 1572:                 .data(series.data)
+</span><span class=""> 1573:                 .join(&quot;circle&quot;)
+</span><span class=""> 1574:                 .attr(&quot;class&quot;, \`series-\${i}\`)
+</span><span class=""> 1575:                 .attr(&quot;cx&quot;, d =&gt; x(d.label))
+</span><span class=""> 1576:                 .attr(&quot;cy&quot;, d =&gt; y(d.value))
+</span><span class=""> 1577:                 .attr(&quot;r&quot;, 4)
+</span><span class=""> 1578:                 .attr(&quot;fill&quot;, color(i))
+</span><span class=""> 1579:                 .on(&quot;mouseover&quot;, (event, d) =&gt; {
+</span><span class=""> 1580:                     tooltip.style(&quot;opacity&quot;, 1)
+</span><span class=""> 1581:                            .style(&quot;transform&quot;, &quot;translateY(0)&quot;)
+</span><span class=""> 1582:                            .html(\`Series: &lt;b&gt;\${series.name}&lt;\\/b&gt;&lt;br&gt;Label: &lt;b&gt;\${d.label}&lt;\\/b&gt;&lt;br&gt;Value: &lt;b&gt;\${d.value}&lt;\\/b&gt;\`)
+</span><span class=""> 1583:                            .style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
+</span><span class=""> 1584:                            .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
+</span><span class=""> 1585:                 })
+</span><span class=""> 1586:                 .on(&quot;mousemove&quot;, (event) =&gt; {
+</span><span class=""> 1587:                     tooltip.style(&quot;left&quot;, (event.pageX + 10) + &quot;px&quot;)
+</span><span class=""> 1588:                            .style(&quot;top&quot;, (event.pageY - 30) + &quot;px&quot;);
+</span><span class=""> 1589:                 })
+</span><span class=""> 1590:                 .on(&quot;mouseout&quot;, () =&gt; {
+</span><span class=""> 1591:                     tooltip.style(&quot;opacity&quot;, 0)
+</span><span class=""> 1592:                            .style(&quot;transform&quot;, &quot;translateY(-10px)&quot;);
+</span><span class=""> 1593:                 });
+</span><span class=""> 1594:         });
+</span><span class=""> 1595: 
+</span><span class=""> 1596:         // Add legend with interactivity
+</span><span class=""> 1597:         data.forEach((series, i) =&gt; {
+</span><span class=""> 1598:             const legend = legendArea.append(&quot;g&quot;)
+</span><span class=""> 1599:                 .attr(&quot;transform&quot;, `translate(0, \${i * 20})`)
+</span><span class=""> 1600:                 .attr(&quot;class&quot;, &quot;legend&quot;)
+</span><span class=""> 1601:                 .on(&quot;click&quot;, () =&gt; {
+</span><span class=""> 1602:                     const isVisible = d3.selectAll(\`path.line-\${i}\`).style(&quot;opacity&quot;) === &quot;1&quot;;
+</span><span class=""> 1603: 
+</span><span class=""> 1604:                     // Toggle visibility
+</span><span class=""> 1605:                     d3.selectAll(\`path.line-\${i}\`).style(&quot;opacity&quot;, isVisible ? 0 : 1);
+</span><span class=""> 1606:                     d3.selectAll(\`circle.series-\${i}\`).style(&quot;opacity&quot;, isVisible ? 0 : 1);
+</span><span class=""> 1607: 
+</span><span class=""> 1608:                     // Dim legend if series is hidden
+</span><span class=""> 1609:                     legend.select(&quot;text&quot;).style(&quot;opacity&quot;, isVisible ? 0.5 : 1);
+</span><span class=""> 1610:                 });
+</span><span class=""> 1611: 
+</span><span class=""> 1612:             legend.append(&quot;rect&quot;)
+</span><span class=""> 1613:                 .attr(&quot;width&quot;, 12)
+</span><span class=""> 1614:                 .attr(&quot;height&quot;, 12)
+</span><span class=""> 1615:                 .attr(&quot;fill&quot;, color(i));
+</span><span class=""> 1616: 
+</span><span class=""> 1617:             legend.append(&quot;text&quot;)
+</span><span class=""> 1618:                 .attr(&quot;x&quot;, 20)
+</span><span class=""> 1619:                 .attr(&quot;y&quot;, 10)
+</span><span class=""> 1620:                 .text(series.name)
+</span><span class=""> 1621:                 .style(&quot;alignment-baseline&quot;, &quot;middle&quot;);
+</span><span class=""> 1622:         });
+</span><span class=""> 1623:     &lt;/script&gt;
+</span><span class=""> 1624: &lt;/body&gt;
+</span><span class=""> 1625: &lt;/html&gt;
+</span><span class=""> 1626: HTML
+</span><span class=""> 1627: 
+</span><span class=""> 1628:     return $html;
+</span><span class=""> 1629: }
+</span><span class=""> 1630: 
+</span><span class=""> 1631: sub _preamble
+</span><span class=""> 1632: {
+</span><span class=""> 1633: 	my $html = &lt;&lt;&#39;HTML&#39;;
+</span><span class=""> 1634: &lt;!DOCTYPE html&gt;
+</span><span class=""> 1635: &lt;html lang=&quot;en&quot;&gt;
+</span><span class=""> 1636: HTML
+</span><span class=""> 1637: 	return $html;
+</span><span class=""> 1638: }
+</span><span class=""> 1639: 
+</span><span class=""> 1640: sub _head
+</span><span class=""> 1641: {
+</span><span class=""> 1642: 	my $self = shift;
+</span><span class=""> 1643: 
+</span><span class=""> 1644: 	my $html = &lt;&lt;&quot;HTML&quot;;
+</span><span class=""> 1645: &lt;head&gt;
+</span><span class=""> 1646: 	&lt;meta charset=&quot;UTF-8&quot;&gt;
+</span><span class=""> 1647: 	&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+</span><span class=""> 1648: 	&lt;title&gt;$self-&gt;{title}&lt;/title&gt;
+</span><span class=""> 1649: 	&lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
+</span><span class=""> 1650: &lt;/head&gt;
+</span><span class=""> 1651: HTML
+</span><span class=""> 1652: 	return $html;
+</span><span class=""> 1653: }
+</span><span class=""> 1654: 
+</span><span class=""> 1655: =head1 SUPPORT
+</span><span class=""> 1656: 
+</span><span class=""> 1657: This module is provided as-is without any warranty.
+</span><span class=""> 1658: 
+</span><span class=""> 1659: Please report any bugs or feature requests to C&lt;bug-html-d3 at rt.cpan.org&gt;,
+</span><span class=""> 1660: or through the web interface at
+</span><span class=""> 1661: L&lt;http://rt.cpan.org/NoAuth/ReportBug.html?Queue=HTML-D3&gt;.
+</span><span class=""> 1662: I will be notified, and then you&#39;ll
+</span><span class=""> 1663: automatically be notified of progress on your bug as I make changes.
+</span><span class=""> 1664: 
+</span><span class=""> 1665: You can find documentation for this module with the perldoc command.
+</span><span class=""> 1666: 
+</span><span class=""> 1667:     perldoc HTML::D3
+</span><span class=""> 1668: 
+</span><span class=""> 1669: You can also look for information at:
+</span><span class=""> 1670: 
+</span><span class=""> 1671: =head1 BUGS
+</span><span class=""> 1672: 
+</span><span class=""> 1673: It would help to have the render routine to return the head and body components separately.
+</span><span class=""> 1674: 
+</span><span class=""> 1675: =head1 SEE ALSO
+</span><span class=""> 1676: 
+</span><span class=""> 1677: =over 4
+</span><span class=""> 1678: 
+</span><span class=""> 1679: =item * L&lt;Configure an Object at Runtime|Object::Configure&gt;
+</span><span class=""> 1680: 
+</span><span class=""> 1681: =item * L&lt;Test Dashboard|https://nigelhorne.github.io/HTML-D3/coverage/&gt;
+</span><span class=""> 1682: 
+</span><span class=""> 1683: =back
+</span><span class=""> 1684: 
+</span><span class=""> 1685: =head1 AUTHOR
+</span><span class=""> 1686: 
+</span><span class=""> 1687: Nigel Horne &lt;njh@nigelhorne.com&gt;
+</span><span class=""> 1688: 
+</span><span class=""> 1689: =head1 LICENSE AND COPYRIGHT
+</span><span class=""> 1690: 
+</span><span class=""> 1691: Copyright 2025-2026 Nigel Horne.
+</span><span class=""> 1692: 
+</span><span class=""> 1693: Usage is subject to the GPL2 licence terms.
+</span><span class=""> 1694: If you use it,
+</span><span class=""> 1695: please let me know.
+</span><span class=""> 1696: 
+</span><span class=""> 1697: =cut
+</span><span class=""> 1698: 
+</span><span class=""> 1699: 1;
 </span></pre>
 
 <script>
