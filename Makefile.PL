@@ -36,7 +36,7 @@ WriteMakefile(
 		'JSON::MaybeXS' => 0,	# Required for encoding data to JSON
 		'Object::Configure' => 0.24,
 		'Params::Get' => 0,
-		'Scalar::Util' => 0,
+		'Scalar::Util' => 0
 	}, TEST_REQUIRES => {
 		'IPC::System::Simple' => 0,
 		'Test::DescribeMe' => 0,
@@ -45,7 +45,8 @@ WriteMakefile(
 		'Test::Most' => 0,
 		'Test::Needs' => 0,
 		'Test::Returns' => 0,
-		'Test::Warnings' => 0
+		'Test::Warnings' => 0,
+		'Test::Without::Module' => 0,
 	}, dist => $dist,
 		clean => {
 		FILES => 'HTML-D3-*',
