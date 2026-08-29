@@ -11,6 +11,7 @@ on 'test' => sub {
 	requires 'Test::DescribeMe';
 	requires 'Test::HTML::T5';
 	requires 'Test::Memory::Cycle';
+	requires 'Test::Mockingbird', '0.13';
 	requires 'Test::Most';
 	requires 'Test::Needs';
 	requires 'Test::Returns';
