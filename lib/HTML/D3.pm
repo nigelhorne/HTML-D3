@@ -3,6 +3,7 @@ package HTML::D3;
 use strict;
 use warnings;
 
+use Carp qw(carp);
 use JSON::MaybeXS;
 use Object::Configure;
 use Params::Get;
@@ -16,11 +17,11 @@ HTML::D3 - A simple Perl module for generating charts using D3.js.
 
 =head1 VERSION
 
-Version 0.09
+Version 0.10
 
 =cut
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 =head1 SYNOPSIS
 
@@ -150,16 +151,6 @@ None.
     Str -- complete HTML5 document starting with C<< <!DOCTYPE html> >>;
            D3.js loaded from CDN; bar chart rendered with C<d3.scaleBand>.
 
-=head3 FORMAL SPECIFICATION
-
-    render_bar_chart : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
-
-    pre  data = undef              ⇒ die "Data is not optional"
-    pre  ref(data) ≠ 'ARRAY'      ⇒ die "Data must be an array of arrays"
-    post result ∈ Str
-    post "<!DOCTYPE" ⊆ result
-    post ∀ d ∈ data . d[0] ⊆ result
-
 =cut
 
 # Method to render a bar chart with given data
@@ -272,15 +263,6 @@ None.
 =head4 Output
 
     Str -- complete HTML5 document; line chart with C<d3.scalePoint> and C<d3.line()>.
-
-=head3 FORMAL SPECIFICATION
-
-    render_line_chart : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
-
-    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of arrays"
-    post result ∈ Str
-    post "<!DOCTYPE" ⊆ result
-    post "d3.scalePoint" ⊆ result ∧ "d3.line()" ⊆ result
 
 =cut
 
@@ -403,16 +385,6 @@ None.
 
     Str -- complete HTML5 document; mouseover tooltip reveals label and value.
            Tooltip strings use C<< <\/b> >> not C<< </b> >>.
-
-=head3 FORMAL SPECIFICATION
-
-    render_line_chart_with_tooltips : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
-
-    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of arrays"
-    post result ∈ Str
-    post "<!DOCTYPE" ⊆ result
-    post "mouseover" ⊆ result
-    post "</b>" ∉ result ∧ "<\/b>" ∈ result
 
 =cut
 
@@ -896,15 +868,6 @@ None.
 
     Str -- complete HTML5 document; one coloured line per series with mouseover tooltips.
 
-=head3 FORMAL SPECIFICATION
-
-    render_multi_series_line_chart_with_tooltips : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
-
-    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of hashes"
-    post result ∈ Str
-    post "<!DOCTYPE" ⊆ result
-    post "</b>" ∉ result ∧ "<\/b>" ∈ result
-
 =cut
 
 sub render_multi_series_line_chart_with_tooltips
@@ -1065,16 +1028,6 @@ None.
 =head4 Output
 
     Str -- complete HTML5 document; animated tooltip uses CSS translateY transition.
-
-=head3 FORMAL SPECIFICATION
-
-    render_multi_series_line_chart_with_animated_tooltips : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
-
-    pre  ref(data) ≠ 'ARRAY'   ⇒ die "Data must be an array of hashes"
-    post result ∈ Str
-    post "<!DOCTYPE" ⊆ result
-    post "translateY" ⊆ result
-    post "</b>" ∉ result ∧ "<\/b>" ∈ result
 
 =cut
 
@@ -1241,15 +1194,6 @@ None.
 
     Str -- complete HTML5 document; static colour legend rendered as SVG C<g> elements
            with the C<.legend> CSS class applied via D3 C<.attr("class", "legend")>.
-
-=head3 FORMAL SPECIFICATION
-
-    render_multi_series_line_chart_with_legends : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
-
-    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of hashes"
-    post result ∈ Str
-    post "<!DOCTYPE" ⊆ result
-    post ".legend" ⊆ result
 
 =cut
 
@@ -1453,17 +1397,6 @@ None.
     Str -- complete HTML5 document; legend clicks toggle series visibility.
            The C<isVisible> JS variable tracks current visibility state.
            Opacity toggled by C<isVisible ? 0 : 1>.
-
-=head3 FORMAL SPECIFICATION
-
-    render_multi_series_line_chart_with_interactive_legends : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
-
-    pre  ref(data) ≠ 'ARRAY'            ⇒ die "Data must be an array of hashes"
-    post result ∈ Str
-    post "<!DOCTYPE" ⊆ result
-    post "isVisible" ⊆ result
-    post "isVisible ? 0 : 1" ⊆ result
-    post ".legend" ⊆ result
 
 =cut
 
@@ -1685,6 +1618,78 @@ It would help to have the render routine to return the head and body components 
 =head1 AUTHOR
 
 Nigel Horne <njh@nigelhorne.com>
+
+=encoding UTF-8
+
+=head1 FORMAL SPECIFICATION
+
+=head2 render_bar_chart
+
+    render_bar_chart : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  data = undef              ⇒ die "Data is not optional"
+    pre  ref(data) ≠ 'ARRAY'      ⇒ die "Data must be an array of arrays"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post ∀ d ∈ data . d[0] ⊆ result
+
+=head2 render_line_chart
+
+    render_line_chart : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of arrays"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post "d3.scalePoint" ⊆ result ∧ "d3.line()" ⊆ result
+
+=head2 render_lint_chart_with_tooltips
+
+    render_line_chart_with_tooltips : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of arrays"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post "mouseover" ⊆ result
+    post "</b>" ∉ result ∧ "<\/b>" ∈ result
+
+=head2 render_multi_series_line_chart_with_tooltips
+
+    render_multi_series_line_chart_with_tooltips : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of hashes"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post "</b>" ∉ result ∧ "<\/b>" ∈ result
+
+=head2 render_multi_series_line_chart_with_animated_tooltips
+
+    render_multi_series_line_chart_with_animated_tooltips : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'   ⇒ die "Data must be an array of hashes"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post "translateY" ⊆ result
+    post "</b>" ∉ result ∧ "<\/b>" ∈ result
+
+=head2 render_multi_series_line_chart_with_legends
+
+    render_multi_series_line_chart_with_legends : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of hashes"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post ".legend" ⊆ result
+
+=head2 render_multi_series_line_chart_with_interactive_legends
+
+    render_multi_series_line_chart_with_interactive_legends : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'            ⇒ die "Data must be an array of hashes"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post "isVisible" ⊆ result
+    post "isVisible ? 0 : 1" ⊆ result
+    post ".legend" ⊆ result
 
 =head1 LICENSE AND COPYRIGHT
 

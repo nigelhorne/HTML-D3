@@ -8,6 +8,7 @@ requires 'Scalar::Util';
 
 on 'test' => sub {
 	requires 'IPC::System::Simple';
+	requires 'Readonly';
 	requires 'Test::DescribeMe';
 	requires 'Test::HTML::T5';
 	requires 'Test::Memory::Cycle';

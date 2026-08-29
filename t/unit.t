@@ -19,7 +19,7 @@ use Test::Mockingbird;
 use Test::Returns;
 use Readonly;
 
-use HTML::D3;
+use_ok('HTML::D3');
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Shared fixtures -- Readonly prevents accidental mutation across subtests.
@@ -212,7 +212,7 @@ subtest 'new() -- default values' => sub {
 	# can interfere with the default-value assertions.
 	mock('Object::Configure::configure' => sub { $_[1] });
 
-	my $chart = HTML::D3->new();
+	my $chart = new_ok('HTML::D3');
 
 	isa_ok($chart, 'HTML::D3', 'constructor returns a blessed HTML::D3 object');
 	mark('new: returns blessed HTML::D3 object');

@@ -39,6 +39,7 @@ WriteMakefile(
 		'Scalar::Util' => 0
 	}, TEST_REQUIRES => {
 		'IPC::System::Simple' => 0,
+		'Readonly' => 0,
 		'Test::DescribeMe' => 0,
 		'Test::HTML::T5' => 0,
 		'Test::Memory::Cycle' => 0,
