@@ -293,8 +293,8 @@ a.intra-dot:hover { color: #7700bb; }
 <div class="nav"><a href="../../../index.html">Index</a>
 </div><div class='summary'>
 <strong>Structural Coverage (Approximate)</strong><p>
-TER1 (Statement): 98.13%<br>
-TER2 (Branch): 96.67%<br>
+TER1 (Statement): 100.00%<br>
+TER2 (Branch): 100.00%<br>
 TER3 (LCSAJ): 100.0% (1/1)<br>
 Approximate LCSAJ segments: 31<br>
 </div>
@@ -358,11 +358,11 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">   17: 
 </span><span class="">   18: =head1 VERSION
 </span><span class="">   19: 
-</span><span class="">   20: Version 0.10
+</span><span class="">   20: Version 0.11
 </span><span class="">   21: 
 </span><span class="">   22: =cut
 </span><span class="">   23: 
-</span><span class="">   24: our $VERSION = &#39;0.10&#39;;
+</span><span class="">   24: our $VERSION = &#39;0.11&#39;;
 </span><span class="">   25: 
 </span><span class="">   26: =head1 SYNOPSIS
 </span><span class="">   27: 
@@ -429,37 +429,8 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">   88: 	my $params = Params::Get::get_params(undef, @_) || {};
 </span><span class="">   89: 
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   90: 	if(!defined($class)) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one).">   91: 		if((scalar keys %{$params}) &gt; 0) {
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 4, Killed: 1, Survived: 3)</summary>
-					<ul>
-				<li><b>NUM_BOUNDARY_91_31_&lt;: Numeric boundary flip &gt; to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_91_31_&gt;=: Numeric boundary flip &gt; to &gt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_91_31_&lt;=: Numeric boundary flip &gt; to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li></ul></details>
-<span class="">   92: 			# Using HTML::D3-&gt;new(), not HTML::D3::new()
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   91: 		if((scalar keys %{$params}) &gt; 0) {
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">   92: 			# Using HTML::D3-&gt;new(), not HTML::D3::new()
 </span><span class="">   93: 			carp(__PACKAGE__, &#39; use -&gt;new() not ::new() to instantiate&#39;);
 </span><span class="">   94: 			return;
 </span><span class="">   95: 		}
@@ -1116,7 +1087,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  746: 
 </span><span class="">  747:     function redraw(newData, ms) {
 </span><span class="">  748: 	x.domain(newData.map(d =&gt; d.label));
-</span><span class="">  749: 	y.domain([0, d3.max(newData, d =&gt; d.value)]).nice();
+</span><span class="">  749: 	y.domain([Math.min(0, d3.min(newData, d =&gt; d.value)), d3.max(newData, d =&gt; d.value)]).nice();
 </span><span class="">  750: 
 </span><span class="">  751: 	const t = svg.transition().duration(ms);
 </span><span class="">  752: 
