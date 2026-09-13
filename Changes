@@ -1,5 +1,16 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
+0.12
+	[ Enhancements ]
+	- Added render_animated_bar_chart(): bar chart with on-load grow animation —
+	  each bar rises from the baseline using d3.transition() with an 800 ms
+	  duration and a 100 ms per-bar stagger, so bars appear one after another
+	  from left to right
+	- Added render_animated_line_chart(): line chart with on-load draw animation —
+	  the line traces itself left-to-right via the stroke-dashoffset technique with
+	  d3.easeLinear (1500 ms), followed by data-point circles fading in from
+	  opacity 0 once the line is complete
+
 0.11 Thu Sep 10 09:32:08 PM EDT 2026
 	[ Bug Fixes ]
 	- render_zoomable_line_chart_snippet: the y-axis lower bound was

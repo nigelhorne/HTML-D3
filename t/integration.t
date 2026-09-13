@@ -270,6 +270,14 @@ subtest 'all full-page methods produce html-tidy-valid documents' => sub {
 		$chart->render_multi_series_line_chart_with_interactive_legends(\@MULTI_DATA),
 		'render_multi_series_line_chart_with_interactive_legends output is valid HTML5',
 	);
+	html_tidy_ok(
+		$chart->render_animated_bar_chart(\@SIMPLE_DATA),
+		'render_animated_bar_chart output is valid HTML5',
+	);
+	html_tidy_ok(
+		$chart->render_animated_line_chart(\@SIMPLE_DATA),
+		'render_animated_line_chart output is valid HTML5',
+	);
 };
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -324,6 +332,10 @@ subtest 'encode_json called exactly once per render, with correct data shape' =>
 			sub { $chart->render_zoomable_line_chart_snippet(\@SIMPLE_DATA) }],
 		['render_multi_series_line_chart_with_tooltips',
 			sub { $chart->render_multi_series_line_chart_with_tooltips(\@MULTI_DATA) }],
+		['render_animated_bar_chart',
+			sub { $chart->render_animated_bar_chart(\@SIMPLE_DATA) }],
+		['render_animated_line_chart',
+			sub { $chart->render_animated_line_chart(\@SIMPLE_DATA) }],
 	) {
 		my ($name, $code) = @$pair;
 		my $sp = spy('HTML::D3::encode_json');
@@ -430,6 +442,14 @@ subtest 'render methods do not clobber $_, $@, or $!' => sub {
 	is($_, 'sentinel', '$_ is unchanged after render_bar_chart');
 	is($@, '',         '$@ is unchanged after render_bar_chart');
 
+	$chart->render_animated_bar_chart(\@SIMPLE_DATA);
+	is($_, 'sentinel', '$_ is unchanged after render_animated_bar_chart');
+	is($@, '',         '$@ is unchanged after render_animated_bar_chart');
+
+	$chart->render_animated_line_chart(\@SIMPLE_DATA);
+	is($_, 'sentinel', '$_ is unchanged after render_animated_line_chart');
+	is($@, '',         '$@ is unchanged after render_animated_line_chart');
+
 	$chart->render_line_chart_with_tooltips(\@SIMPLE_DATA);
 	is($_, 'sentinel', '$_ is unchanged after render_line_chart_with_tooltips');
 	is($@, '',         '$@ is unchanged after render_line_chart_with_tooltips');
@@ -504,6 +524,8 @@ subtest 'title propagates to page <title> and <h1> but not to fragments' => sub 
 		$chart->render_multi_series_line_chart_with_tooltips(\@MULTI_DATA),
 		$chart->render_multi_series_line_chart_with_legends(\@MULTI_DATA),
 		$chart->render_multi_series_line_chart_with_interactive_legends(\@MULTI_DATA),
+		$chart->render_animated_bar_chart(\@SIMPLE_DATA),
+		$chart->render_animated_line_chart(\@SIMPLE_DATA),
 	) {
 		like($html, qr/<title>\Q$TITLE\E<\/title>/, 'title appears in <title> tag');
 		like($html, qr/\Q$TITLE\E<\/h1>/,           'title appears in visible <h1>');
@@ -534,6 +556,8 @@ subtest 'D3 CDN script loaded by full-page methods, absent from fragments' => su
 		$chart->render_line_chart(\@SIMPLE_DATA),
 		$chart->render_line_chart_with_tooltips(\@SIMPLE_DATA),
 		$chart->render_multi_series_line_chart_with_tooltips(\@MULTI_DATA),
+		$chart->render_animated_bar_chart(\@SIMPLE_DATA),
+		$chart->render_animated_line_chart(\@SIMPLE_DATA),
 	) {
 		like($html, qr/\Q$D3_CDN\E/, "full-page output embeds D3 CDN script tag");
 	}
@@ -577,10 +601,47 @@ subtest 'no raw </b> tag appears in any render output' => sub {
 			$chart->render_multi_series_line_chart_with_legends(\@MULTI_DATA)],
 		['render_multi_series_line_chart_with_interactive_legends',
 			$chart->render_multi_series_line_chart_with_interactive_legends(\@MULTI_DATA)],
+		['render_animated_bar_chart',
+			$chart->render_animated_bar_chart(\@SIMPLE_DATA)],
+		['render_animated_line_chart',
+			$chart->render_animated_line_chart(\@SIMPLE_DATA)],
 	) {
 		my ($name, $html) = @$pair;
 		unlike($html, qr{</b>}, "$name: no raw </b> in output");
 	}
+};
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 15. On-load drawing animations
+#
+# render_animated_bar_chart must include D3 transition() and a per-bar stagger
+# delay so bars grow upward one after another.
+# render_animated_line_chart must use the stroke-dashoffset technique and
+# d3.easeLinear so the line draws itself left-to-right; circles must fade in
+# afterwards via an opacity transition.
+# ─────────────────────────────────────────────────────────────────────────────
+
+subtest 'on-load drawing animations present in animated chart methods' => sub {
+	my $chart = HTML::D3->new(width => 800, height => 600, title => 'Anim Test');
+
+	my $bar_html  = $chart->render_animated_bar_chart(\@SIMPLE_DATA);
+	my $line_html = $chart->render_animated_line_chart(\@SIMPLE_DATA);
+
+	# Bar chart: bars must start at the baseline (y=height, height=0) and grow up.
+	like($bar_html, qr/\.transition\(\)/, 'animated bar: transition() present');
+	like($bar_html, qr/\.duration\(\d+\)/, 'animated bar: duration() present');
+	like($bar_html, qr/\.delay\(/,         'animated bar: stagger delay present');
+	# Bars must start with height=0 (the initial .attr("height", 0) call).
+	like($bar_html, qr/\.attr\("height",\s*0\)/, 'animated bar: initial height=0 for animation start');
+	like($bar_html, qr/d3\.scaleBand/,    'animated bar: still uses d3.scaleBand');
+
+	# Line chart: must use stroke-dashoffset technique for draw animation.
+	like($line_html, qr/stroke-dashoffset/,  'animated line: stroke-dashoffset present');
+	like($line_html, qr/getTotalLength\(\)/, 'animated line: getTotalLength() used');
+	like($line_html, qr/d3\.easeLinear/,     'animated line: d3.easeLinear easing');
+	# Circles must start invisible and fade in after the line finishes.
+	like($line_html, qr/\.attr\("opacity",\s*0\)/, 'animated line: circles start at opacity 0');
+	like($line_html, qr/\.delay\(1500\)/,           'animated line: circles delayed to after line draw');
 };
 
 done_testing();

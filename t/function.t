@@ -206,6 +206,65 @@ subtest 'render_bar_chart - delegates to _preamble and _head (not inlined)' => s
 };
 
 # ---------------------------------------------------------------------------
+# render_animated_bar_chart
+# ---------------------------------------------------------------------------
+
+subtest 'render_animated_bar_chart - validation: dies with exact messages' => sub {
+	my $chart = HTML::D3->new();
+
+	throws_ok(
+		sub { $chart->render_animated_bar_chart(undef) },
+		qr/\Q$ERR_NOT_OPTIONAL\E/,
+		'dies with exact message when data is undef',
+	);
+	throws_ok(
+		sub { $chart->render_animated_bar_chart('a string') },
+		qr/\Q$ERR_ARRAY_OF_ARRAY\E/,
+		'dies on scalar data',
+	);
+	throws_ok(
+		sub { $chart->render_animated_bar_chart({ key => 'val' }) },
+		qr/\Q$ERR_ARRAY_OF_ARRAY\E/,
+		'dies on hashref data',
+	);
+};
+
+subtest 'render_animated_bar_chart - output structure and animation features' => sub {
+	my $chart = HTML::D3->new(width => 800, height => 600, title => 'Anim Bar Test');
+	my $html  = $chart->render_animated_bar_chart(\@SIMPLE_DATA);
+
+	returns_ok($html, { type => 'string' }, 'returns a string scalar');
+	like($html, qr/<!DOCTYPE html>/i,  'output includes DOCTYPE');
+	like($html, qr/<html/i,            'output contains html element');
+	like($html, qr/<body/i,            'output contains body element');
+	like($html, qr/<svg id="chart"/,   'SVG element present with correct id');
+	like($html, qr/Anim Bar Test<\/h1>/, 'title rendered inside h1');
+	like($html, qr/d3\.scaleBand/,     'uses d3.scaleBand for x-axis');
+	like($html, qr/\.transition\(\)/, 'D3 transition() call present');
+	like($html, qr/\.duration\(\d+\)/, 'D3 duration() call present');
+	like($html, qr/\.delay\(/,         'per-bar stagger delay present');
+
+	diag('render_animated_bar_chart length: ' . length($html)) if $ENV{TEST_VERBOSE};
+};
+
+subtest 'render_animated_bar_chart - delegates to _preamble and _head' => sub {
+	my ($preamble_calls, $head_calls) = (0, 0);
+	my $orig_preamble = HTML::D3->can('_preamble');
+	my $orig_head     = HTML::D3->can('_head');
+
+	mock('HTML::D3::_preamble', sub { $preamble_calls++; $orig_preamble->(@_) });
+	mock('HTML::D3::_head',     sub { $head_calls++;     $orig_head->(@_) });
+
+	HTML::D3->new()->render_animated_bar_chart(\@SIMPLE_DATA);
+
+	is($preamble_calls, 1, '_preamble called exactly once');
+	is($head_calls,     1, '_head called exactly once');
+
+	restore('HTML::D3::_preamble');
+	restore('HTML::D3::_head');
+};
+
+# ---------------------------------------------------------------------------
 # render_line_chart
 # ---------------------------------------------------------------------------
 
@@ -240,6 +299,59 @@ subtest 'render_line_chart - delegates to _preamble and _head' => sub {
 	mock('HTML::D3::_head',     sub { $head_calls++;     $orig_head->(@_) });
 
 	HTML::D3->new()->render_line_chart(\@SIMPLE_DATA);
+
+	is($preamble_calls, 1, '_preamble called exactly once');
+	is($head_calls,     1, '_head called exactly once');
+
+	restore('HTML::D3::_preamble');
+	restore('HTML::D3::_head');
+};
+
+# ---------------------------------------------------------------------------
+# render_animated_line_chart
+# ---------------------------------------------------------------------------
+
+subtest 'render_animated_line_chart - validation' => sub {
+	my $chart = HTML::D3->new();
+	throws_ok(
+		sub { $chart->render_animated_line_chart('bad') },
+		qr/\Q$ERR_ARRAY_OF_ARRAY\E/,
+		'dies on non-array data',
+	);
+	throws_ok(
+		sub { $chart->render_animated_line_chart({ key => 'val' }) },
+		qr/\Q$ERR_ARRAY_OF_ARRAY\E/,
+		'dies on hashref data',
+	);
+};
+
+subtest 'render_animated_line_chart - output structure and animation features' => sub {
+	my $chart = HTML::D3->new(width => 800, height => 600, title => 'Anim Line Test');
+	my $html  = $chart->render_animated_line_chart(\@SIMPLE_DATA);
+
+	returns_ok($html, { type => 'string' }, 'returns a string scalar');
+	like($html, qr/<!DOCTYPE html>/i,       'output includes DOCTYPE');
+	like($html, qr/<svg id="chart"/,        'SVG element present with correct id');
+	like($html, qr/Anim Line Test<\/h1>/,   'title rendered inside h1');
+	like($html, qr/d3\.scalePoint/,         'uses d3.scalePoint for x-axis');
+	like($html, qr/d3\.line\(\)/,           'd3.line() generator present');
+	like($html, qr/stroke-dashoffset/,      'stroke-dashoffset animation present');
+	like($html, qr/d3\.easeLinear/,         'd3.easeLinear easing present');
+	# Circles must start transparent and transition to opaque.
+	like($html, qr/\.attr\("opacity",\s*0\)/, 'circles start with opacity 0');
+
+	diag('render_animated_line_chart length: ' . length($html)) if $ENV{TEST_VERBOSE};
+};
+
+subtest 'render_animated_line_chart - delegates to _preamble and _head' => sub {
+	my ($preamble_calls, $head_calls) = (0, 0);
+	my $orig_preamble = HTML::D3->can('_preamble');
+	my $orig_head     = HTML::D3->can('_head');
+
+	mock('HTML::D3::_preamble', sub { $preamble_calls++; $orig_preamble->(@_) });
+	mock('HTML::D3::_head',     sub { $head_calls++;     $orig_head->(@_) });
+
+	HTML::D3->new()->render_animated_line_chart(\@SIMPLE_DATA);
 
 	is($preamble_calls, 1, '_preamble called exactly once');
 	is($head_calls,     1, '_head called exactly once');

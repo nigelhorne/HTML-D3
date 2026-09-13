@@ -226,6 +226,122 @@ HTML
     return $html;
 }
 
+=head2 render_animated_bar_chart
+
+    my $html = $chart->render_animated_bar_chart($data);
+
+Generates HTML and JavaScript code to render a bar chart where each bar grows
+upward from the baseline on page load.  Bars are staggered so they rise
+one-after-another from left to right.
+Accepts the following arguments:
+
+=over 4
+
+=item * C<$data> - An array reference of data points.  Each data point is an
+array reference with two elements: the label (string) and the value (numeric).
+
+=back
+
+Returns a string containing the complete HTML5 document.
+
+=head3 Errors
+
+=over 4
+
+=item * Throws C<Data is not optional> when C<$data> is C<undef>.
+
+=item * Throws C<Data must be an array of arrays> when C<$data> is not an ARRAY reference.
+
+=back
+
+=head3 Side Effects
+
+None.
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    $self : HTML::D3                         -- required
+    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+
+=head4 Output
+
+    Str -- complete HTML5 document; each bar animates from height=0 upward
+           using C<d3.transition()> with a staggered per-bar delay.
+
+=cut
+
+sub render_animated_bar_chart {
+	my ($self, $data) = @_;
+
+	die 'Data is not optional' if(!defined($data));
+	die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
+
+	my $json_data = encode_json([
+		map { { label => $_->[0], value => $_->[1] } } @$data
+	]);
+
+	my $html = $self->_preamble();
+	$html .= $self->_head();
+	$html .= <<"HTML";
+<body>
+    <h1 style="text-align: center;">$self->{title}</h1>
+    <svg id="chart" width="$self->{width}" height="$self->{height}" style="border: 1px solid black;"></svg>
+    <script>
+	const data = $json_data;
+
+	const svg = d3.select("#chart");
+	const margin = { top: 20, right: 30, bottom: 40, left: 40 };
+	const width = $self->{width} - margin.left - margin.right;
+	const height = $self->{height} - margin.top - margin.bottom;
+
+	const x = d3.scaleBand()
+	    .domain(data.map(d => d.label))
+	    .range([0, width])
+	    .padding(0.1);
+
+	const y = d3.scaleLinear()
+	    .domain([0, d3.max(data, d => d.value)])
+	    .nice()
+	    .range([height, 0]);
+
+	const chart = svg.append("g")
+	    .attr("transform", `translate(\${margin.left},\${margin.top})`);
+
+	// Each bar starts at the baseline (y=height, height=0) and grows upward.
+	chart.append("g")
+	    .selectAll("rect")
+	    .data(data)
+	    .join("rect")
+	    .attr("x", d => x(d.label))
+	    .attr("y", height)
+	    .attr("height", 0)
+	    .attr("width", x.bandwidth())
+	    .attr("fill", "steelblue")
+	    .transition()
+	    .duration(800)
+	    .delay((d, i) => i * 100)
+	    .attr("y", d => y(d.value))
+	    .attr("height", d => height - y(d.value));
+
+	chart.append("g")
+	    .call(d3.axisLeft(y));
+
+	chart.append("g")
+	    .attr("transform", `translate(0,\${height})`)
+	    .call(d3.axisBottom(x))
+	    .selectAll("text")
+	    .attr("transform", "rotate(-45)")
+	    .style("text-anchor", "end");
+    </script>
+</body>
+</html>
+HTML
+
+	return $html;
+}
+
 =head2 render_line_chart
 
     my $html = $chart->render_line_chart($data);
@@ -341,6 +457,139 @@ sub render_line_chart {
 HTML
 
     return $html;
+}
+
+=head2 render_animated_line_chart
+
+    my $html = $chart->render_animated_line_chart($data);
+
+Generates HTML and JavaScript code to render a line chart where the line
+draws itself from left to right on page load, followed by each data-point
+circle fading in once the line is complete.
+Accepts the following arguments:
+
+=over 4
+
+=item * C<$data> - An array reference of data points.  Each data point is an
+array reference with two elements: the label (string) and the value (numeric).
+
+=back
+
+Returns a string containing the complete HTML5 document.
+
+=head3 Errors
+
+=over 4
+
+=item * Throws C<Data must be an array of arrays> when C<$data> is not an ARRAY reference.
+
+=back
+
+=head3 Side Effects
+
+None.
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    $self : HTML::D3                         -- required
+    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required (undef dies)
+
+=head4 Output
+
+    Str -- complete HTML5 document; the line path animates via
+           C<stroke-dashoffset> with C<d3.easeLinear>; data-point circles
+           fade in with C<opacity> after the line transition completes.
+
+=cut
+
+sub render_animated_line_chart {
+	my ($self, $data) = @_;
+
+	die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
+
+	my $json_data = encode_json([
+		map { { label => $_->[0], value => $_->[1] } } @$data
+	]);
+
+	my $html = $self->_preamble();
+	$html .= $self->_head();
+	$html .= <<"HTML";
+<body>
+    <h1 style="text-align: center;">$self->{title}</h1>
+    <svg id="chart" width="$self->{width}" height="$self->{height}" style="border: 1px solid black;"></svg>
+    <script>
+	const data = $json_data;
+
+	const svg = d3.select("#chart");
+	const margin = { top: 20, right: 30, bottom: 40, left: 40 };
+	const width = $self->{width} - margin.left - margin.right;
+	const height = $self->{height} - margin.top - margin.bottom;
+
+	const x = d3.scalePoint()
+	    .domain(data.map(d => d.label))
+	    .range([0, width]);
+
+	const y = d3.scaleLinear()
+	    .domain([0, d3.max(data, d => d.value)])
+	    .nice()
+	    .range([height, 0]);
+
+	const chart = svg.append("g")
+	    .attr("transform", `translate(\${margin.left},\${margin.top})`);
+
+	const line = d3.line()
+	    .x(d => x(d.label))
+	    .y(d => y(d.value));
+
+	// Animate the line drawing left-to-right using stroke-dashoffset.
+	const path = chart.append("path")
+	    .datum(data)
+	    .attr("fill", "none")
+	    .attr("stroke", "steelblue")
+	    .attr("stroke-width", 2)
+	    .attr("d", line);
+
+	const totalLength = path.node().getTotalLength();
+
+	path
+	    .attr("stroke-dasharray", totalLength)
+	    .attr("stroke-dashoffset", totalLength)
+	    .transition()
+	    .duration(1500)
+	    .ease(d3.easeLinear)
+	    .attr("stroke-dashoffset", 0);
+
+	// Data-point circles fade in after the line finishes.
+	chart.selectAll("circle")
+	    .data(data)
+	    .join("circle")
+	    .attr("cx", d => x(d.label))
+	    .attr("cy", d => y(d.value))
+	    .attr("r", 4)
+	    .attr("fill", "steelblue")
+	    .attr("opacity", 0)
+	    .transition()
+	    .delay(1500)
+	    .duration(300)
+	    .attr("opacity", 1);
+
+	chart.append("g")
+	    .call(d3.axisLeft(y));
+
+	chart.append("g")
+	    .attr("transform", `translate(0,\${height})`)
+	    .call(d3.axisBottom(x))
+	    .selectAll("text")
+	    .attr("transform", "rotate(-45)")
+	    .style("text-anchor", "end");
+    </script>
+</body>
+</html>
+HTML
+
+	return $html;
 }
 
 =head2 render_line_chart_with_tooltips

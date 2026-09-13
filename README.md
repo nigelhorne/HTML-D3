@@ -86,6 +86,41 @@ None.
     Str -- complete HTML5 document starting with C<< <!DOCTYPE html> >>;
            D3.js loaded from CDN; bar chart rendered with C<d3.scaleBand>.
 
+## render\_animated\_bar\_chart
+
+    my $html = $chart->render_animated_bar_chart($data);
+
+Generates HTML and JavaScript code to render a bar chart where each bar grows
+upward from the baseline on page load.  Bars are staggered so they rise
+one-after-another from left to right.
+Accepts the following arguments:
+
+- `$data` - An array reference of data points.  Each data point is an
+array reference with two elements: the label (string) and the value (numeric).
+
+Returns a string containing the complete HTML5 document.
+
+### Errors
+
+- Throws `Data is not optional` when `$data` is `undef`.
+- Throws `Data must be an array of arrays` when `$data` is not an ARRAY reference.
+
+### Side Effects
+
+None.
+
+### API SPECIFICATION
+
+#### Input
+
+    $self : HTML::D3                         -- required
+    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+
+#### Output
+
+    Str -- complete HTML5 document; each bar animates from height=0 upward
+           using C<d3.transition()> with a staggered per-bar delay.
+
 ## render\_line\_chart
 
     my $html = $chart->render_line_chart($data);
@@ -115,6 +150,41 @@ None.
 #### Output
 
     Str -- complete HTML5 document; line chart with C<d3.scalePoint> and C<d3.line()>.
+
+## render\_animated\_line\_chart
+
+    my $html = $chart->render_animated_line_chart($data);
+
+Generates HTML and JavaScript code to render a line chart where the line
+draws itself from left to right on page load, followed by each data-point
+circle fading in once the line is complete.
+Accepts the following arguments:
+
+- `$data` - An array reference of data points.  Each data point is an
+array reference with two elements: the label (string) and the value (numeric).
+
+Returns a string containing the complete HTML5 document.
+
+### Errors
+
+- Throws `Data must be an array of arrays` when `$data` is not an ARRAY reference.
+
+### Side Effects
+
+None.
+
+### API SPECIFICATION
+
+#### Input
+
+    $self : HTML::D3                         -- required
+    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required (undef dies)
+
+#### Output
+
+    Str -- complete HTML5 document; the line path animates via
+           C<stroke-dashoffset> with C<d3.easeLinear>; data-point circles
+           fade in with C<opacity> after the line transition completes.
 
 ## render\_line\_chart\_with\_tooltips
 
