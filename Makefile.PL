@@ -20,6 +20,12 @@ WriteMakefile(
 		? ('LICENSE'=> 'gpl_2')
 		: ()),
 	META_MERGE => {
+		optional_features => {
+			html_testing => {
+				description => 'Test the HTML output',
+				prereqs => { runtime => { recommends => { 'Test::HTML::T5' => 0 } } },
+			},
+		},
 		resources => {
 			repository => {
 				type => 'git',
@@ -39,8 +45,8 @@ WriteMakefile(
 		'Object::Configure' => 0.24,
 		'Params::Get' => 0,
 		'Scalar::Util' => 0
-	}, RECOMMENDED => {
-		'Test::HTML::T5' => 0,
+	# }, RECOMMENDED => {
+		# 'Test::HTML::T5' => 0,
 	}, TEST_REQUIRES => {
 		'IPC::System::Simple' => 0,
 		'Readonly' => 0,

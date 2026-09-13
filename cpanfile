@@ -5,6 +5,7 @@ requires 'JSON::MaybeXS';   # Required for encoding data to JSON
 requires 'Object::Configure', '0.24';
 requires 'Params::Get';
 requires 'Scalar::Util';
+recommends 'Test::HTML::T5';
 
 on 'test' => sub {
 	requires 'IPC::System::Simple';
