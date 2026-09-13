@@ -4,441 +4,441 @@
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301070.73681,
+         "finish" : 1789302019.93519,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "-e",
-         "start" : 1789301060.93189,
-         "version" : "0.11"
+         "start" : 1789302007.10523,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301061.04366,
+         "finish" : 1789302007.24725,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "-e",
-         "start" : 1789301061.04355,
-         "version" : "0.11"
+         "start" : 1789302007.24715,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301061.32183,
+         "finish" : 1789302007.60073,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/00-load.t",
-         "start" : 1789301061.32063,
-         "version" : "0.11"
+         "start" : 1789302007.59943,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301061.6946,
+         "finish" : 1789302008.08381,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/20-new.t",
-         "start" : 1789301061.66967,
-         "version" : "0.11"
+         "start" : 1789302008.05297,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301061.99255,
+         "finish" : 1789302008.47338,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/animated.t",
-         "start" : 1789301061.99242,
-         "version" : "0.11"
+         "start" : 1789302008.47328,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301062.26823,
+         "finish" : 1789302008.83164,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/animated_bar.t",
-         "start" : 1789301062.26812,
-         "version" : "0.11"
+         "start" : 1789302008.83152,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301062.54156,
+         "finish" : 1789302009.18702,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/animated_line.t",
-         "start" : 1789301062.54144,
-         "version" : "0.11"
+         "start" : 1789302009.18691,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301062.81439,
+         "finish" : 1789302009.5407,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/animated_pie.t",
-         "start" : 1789301062.81427,
-         "version" : "0.11"
+         "start" : 1789302009.54058,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301063.09158,
+         "finish" : 1789302009.8962,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/bar.t",
-         "start" : 1789301063.09146,
-         "version" : "0.11"
+         "start" : 1789302009.89606,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301063.325,
+         "finish" : 1789302010.19892,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/comment-spelling.t",
-         "start" : 1789301063.32477,
-         "version" : "0.11"
+         "start" : 1789302010.19868,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301063.50307,
+         "finish" : 1789302010.43181,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/cover.t",
-         "start" : 1789301063.50283,
-         "version" : "0.11"
+         "start" : 1789302010.43152,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301063.68475,
+         "finish" : 1789302010.66573,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/critic.t",
-         "start" : 1789301063.6845,
-         "version" : "0.11"
+         "start" : 1789302010.66545,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301063.86342,
+         "finish" : 1789302010.89721,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/eof.t",
-         "start" : 1789301063.8632,
-         "version" : "0.11"
+         "start" : 1789302010.89695,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301064.04191,
+         "finish" : 1789302011.13269,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/eol.t",
-         "start" : 1789301064.04164,
-         "version" : "0.11"
+         "start" : 1789302011.13241,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301064.22146,
+         "finish" : 1789302011.36987,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/fixme.t",
-         "start" : 1789301064.22124,
-         "version" : "0.11"
+         "start" : 1789302011.36958,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301064.64875,
+         "finish" : 1789302011.93702,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/function.t",
-         "start" : 1789301064.45194,
-         "version" : "0.11"
+         "start" : 1789302011.6708,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301064.993,
+         "finish" : 1789302012.40198,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/gv.t",
-         "start" : 1789301064.99275,
-         "version" : "0.11"
+         "start" : 1789302012.40168,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301065.22192,
+         "finish" : 1789302012.69567,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/integration.t",
-         "start" : 1789301065.22165,
-         "version" : "0.11"
+         "start" : 1789302012.6954,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301065.45523,
+         "finish" : 1789302012.99218,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/interactive.t",
-         "start" : 1789301065.45511,
-         "version" : "0.11"
+         "start" : 1789302012.99208,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301065.72718,
+         "finish" : 1789302013.35624,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/legends.t",
-         "start" : 1789301065.72706,
-         "version" : "0.11"
+         "start" : 1789302013.35614,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301065.99954,
+         "finish" : 1789302013.70913,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/line.t",
-         "start" : 1789301065.99942,
-         "version" : "0.11"
+         "start" : 1789302013.70903,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301066.23059,
+         "finish" : 1789302014.01195,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/manifest.t",
-         "start" : 1789301066.23033,
-         "version" : "0.11"
+         "start" : 1789302014.01167,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301066.41091,
+         "finish" : 1789302014.24667,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/metrics.t",
-         "start" : 1789301066.41067,
-         "version" : "0.11"
+         "start" : 1789302014.24637,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301066.59216,
+         "finish" : 1789302014.48122,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/modules-used.t",
-         "start" : 1789301066.59191,
-         "version" : "0.11"
+         "start" : 1789302014.48093,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301066.81649,
+         "finish" : 1789302014.77529,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/multiple.t",
-         "start" : 1789301066.81639,
-         "version" : "0.11"
+         "start" : 1789302014.77517,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301067.04664,
+         "finish" : 1789302015.08936,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/no404s.t",
-         "start" : 1789301067.04642,
-         "version" : "0.11"
+         "start" : 1789302015.08909,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301067.22666,
+         "finish" : 1789302015.32892,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/noplan.t",
-         "start" : 1789301067.22642,
-         "version" : "0.11"
+         "start" : 1789302015.32864,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301067.44765,
+         "finish" : 1789302015.62112,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/pie.t",
-         "start" : 1789301067.44754,
-         "version" : "0.11"
+         "start" : 1789302015.62101,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301067.67869,
+         "finish" : 1789302015.92889,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/pod-cm.t",
-         "start" : 1789301067.67846,
-         "version" : "0.11"
+         "start" : 1789302015.92867,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301067.85783,
+         "finish" : 1789302016.16154,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/pod-coverage.t",
-         "start" : 1789301067.8576,
-         "version" : "0.11"
+         "start" : 1789302016.16128,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301068.03784,
+         "finish" : 1789302016.41427,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/pod-links.t",
-         "start" : 1789301068.0376,
-         "version" : "0.11"
+         "start" : 1789302016.41403,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301068.21791,
+         "finish" : 1789302016.64751,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/pod-snippets.t",
-         "start" : 1789301068.21766,
-         "version" : "0.11"
+         "start" : 1789302016.64727,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301068.3976,
+         "finish" : 1789302016.88128,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/pod-spelling.t",
-         "start" : 1789301068.39738,
-         "version" : "0.11"
+         "start" : 1789302016.88107,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301068.57736,
+         "finish" : 1789302017.11428,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/pod-synopsis.t",
-         "start" : 1789301068.57712,
-         "version" : "0.11"
+         "start" : 1789302017.11405,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301068.75839,
+         "finish" : 1789302017.34536,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/pod.t",
-         "start" : 1789301068.75814,
-         "version" : "0.11"
+         "start" : 1789302017.34512,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301069.05219,
+         "finish" : 1789302017.72201,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/snippet.t",
-         "start" : 1789301069.03002,
-         "version" : "0.11"
+         "start" : 1789302017.69491,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301069.42403,
+         "finish" : 1789302018.20472,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/snippet_pie.t",
-         "start" : 1789301069.40377,
-         "version" : "0.11"
+         "start" : 1789302018.17872,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301069.71986,
+         "finish" : 1789302018.59127,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/tooltip.t",
-         "start" : 1789301069.71975,
-         "version" : "0.11"
+         "start" : 1789302018.59117,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301070.165,
+         "finish" : 1789302019.18414,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/unit.t",
-         "start" : 1789301069.99762,
-         "version" : "0.11"
+         "start" : 1789302018.9594,
+         "version" : "0.12"
       },
       {
          "OS" : "linux",
          "abstract" : "A simple Perl module for generating charts using D3.js",
          "dir" : "/home/runner/work/HTML-D3/HTML-D3",
-         "finish" : 1789301070.62893,
+         "finish" : 1789302019.79136,
          "name" : "HTML-D3",
          "perl" : "5.40.5",
          "run" : "t/zoomable.t",
-         "start" : 1789301070.60679,
-         "version" : "0.11"
+         "start" : 1789302019.7643,
+         "version" : "0.12"
       }
    ],
    "summary" : {
