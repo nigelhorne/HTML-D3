@@ -1,6 +1,6 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
-0.12
+0.12	Sun Sep 13 08:14:05 AM EDT 2026
 	[ Enhancements ]
 	- Added render_animated_bar_chart(): bar chart with on-load grow animation —
 	  each bar rises from the baseline using d3.transition() with an 800 ms
@@ -17,6 +17,9 @@ Revision history for HTML-D3 - Visualise various charts using D3
 	  percentage labels fading in once drawing is complete
 	- Added render_pie_chart_snippet(): embeddable pie chart fragment returning
 	  {svg_id, html} — no page shell, no D3 CDN tag; caller loads D3
+	[ Tests ]
+	- Test::HTML::T5 doesn't build on a number of platforms, so
+	  remove the dependancy.  Hopefully this will be fixed at sometime.
 
 0.11 Thu Sep 10 09:32:08 PM EDT 2026
 	[ Bug Fixes ]
