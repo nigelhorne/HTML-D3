@@ -4,7 +4,7 @@ HTML::D3 - A simple Perl module for generating charts using D3.js.
 
 # VERSION
 
-Version 0.11
+Version 0.12
 
 # SYNOPSIS
 
@@ -288,7 +288,7 @@ None.
 
     HashRef -- C<{ svg_id =E<gt> 'chart', html =E<gt> Str }>; the html value
                is an embeddable fragment containing only C<< <svg> >> and
-               C<< <script> >> elements — no DOCTYPE, no page shell, no D3
+               C<< <script> >> elements - no DOCTYPE, no page shell, no D3
                CDN tag (caller's responsibility).
 
 ## render\_line\_chart\_with\_tooltips
@@ -623,11 +623,3 @@ Copyright 2025-2026 Nigel Horne.
 Usage is subject to the GPL2 licence terms.
 If you use it,
 please let me know.
-
-# POD ERRORS
-
-Hey! **The above document had some coding errors, which are explained below:**
-
-- Around line 921:
-
-    Non-ASCII character seen before =encoding in '—'. Assuming UTF-8

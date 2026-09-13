@@ -918,7 +918,7 @@ None.
 
     HashRef -- C<{ svg_id =E<gt> 'chart', html =E<gt> Str }>; the html value
                is an embeddable fragment containing only C<< <svg> >> and
-               C<< <script> >> elements — no DOCTYPE, no page shell, no D3
+               C<< <script> >> elements - no DOCTYPE, no page shell, no D3
                CDN tag (caller's responsibility).
 
 =cut
