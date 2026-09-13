@@ -278,6 +278,14 @@ subtest 'all full-page methods produce html-tidy-valid documents' => sub {
 		$chart->render_animated_line_chart(\@SIMPLE_DATA),
 		'render_animated_line_chart output is valid HTML5',
 	);
+	html_tidy_ok(
+		$chart->render_pie_chart(\@SIMPLE_DATA),
+		'render_pie_chart output is valid HTML5',
+	);
+	html_tidy_ok(
+		$chart->render_animated_pie_chart(\@SIMPLE_DATA),
+		'render_animated_pie_chart output is valid HTML5',
+	);
 };
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -297,6 +305,8 @@ subtest 'snippet methods produce page-shell-free fragments in all configurations
 			$chart->render_line_chart_snippet(\@SIMPLE_DATA)->{html}],
 		['render_zoomable_line_chart_snippet',
 			$chart->render_zoomable_line_chart_snippet(\@SIMPLE_DATA)->{html}],
+		['render_pie_chart_snippet',
+			$chart->render_pie_chart_snippet(\@SIMPLE_DATA)->{html}],
 	) {
 		my ($name, $html) = @$pair;
 		unlike($html, qr/<!DOCTYPE/i, "$name: no DOCTYPE");
@@ -336,6 +346,12 @@ subtest 'encode_json called exactly once per render, with correct data shape' =>
 			sub { $chart->render_animated_bar_chart(\@SIMPLE_DATA) }],
 		['render_animated_line_chart',
 			sub { $chart->render_animated_line_chart(\@SIMPLE_DATA) }],
+		['render_pie_chart',
+			sub { $chart->render_pie_chart(\@SIMPLE_DATA) }],
+		['render_animated_pie_chart',
+			sub { $chart->render_animated_pie_chart(\@SIMPLE_DATA) }],
+		['render_pie_chart_snippet',
+			sub { $chart->render_pie_chart_snippet(\@SIMPLE_DATA) }],
 	) {
 		my ($name, $code) = @$pair;
 		my $sp = spy('HTML::D3::encode_json');
@@ -450,6 +466,17 @@ subtest 'render methods do not clobber $_, $@, or $!' => sub {
 	is($_, 'sentinel', '$_ is unchanged after render_animated_line_chart');
 	is($@, '',         '$@ is unchanged after render_animated_line_chart');
 
+	$chart->render_pie_chart(\@SIMPLE_DATA);
+	is($_, 'sentinel', '$_ is unchanged after render_pie_chart');
+	is($@, '',         '$@ is unchanged after render_pie_chart');
+
+	$chart->render_animated_pie_chart(\@SIMPLE_DATA);
+	is($_, 'sentinel', '$_ is unchanged after render_animated_pie_chart');
+
+	$chart->render_pie_chart_snippet(\@SIMPLE_DATA);
+	is($_, 'sentinel', '$_ is unchanged after render_pie_chart_snippet');
+	is($@, '',         '$@ is unchanged after render_pie_chart_snippet');
+
 	$chart->render_line_chart_with_tooltips(\@SIMPLE_DATA);
 	is($_, 'sentinel', '$_ is unchanged after render_line_chart_with_tooltips');
 	is($@, '',         '$@ is unchanged after render_line_chart_with_tooltips');
@@ -526,6 +553,8 @@ subtest 'title propagates to page <title> and <h1> but not to fragments' => sub 
 		$chart->render_multi_series_line_chart_with_interactive_legends(\@MULTI_DATA),
 		$chart->render_animated_bar_chart(\@SIMPLE_DATA),
 		$chart->render_animated_line_chart(\@SIMPLE_DATA),
+		$chart->render_pie_chart(\@SIMPLE_DATA),
+		$chart->render_animated_pie_chart(\@SIMPLE_DATA),
 	) {
 		like($html, qr/<title>\Q$TITLE\E<\/title>/, 'title appears in <title> tag');
 		like($html, qr/\Q$TITLE\E<\/h1>/,           'title appears in visible <h1>');
@@ -535,6 +564,7 @@ subtest 'title propagates to page <title> and <h1> but not to fragments' => sub 
 	for my $html (
 		$chart->render_line_chart_snippet(\@SIMPLE_DATA)->{html},
 		$chart->render_zoomable_line_chart_snippet(\@SIMPLE_DATA)->{html},
+		$chart->render_pie_chart_snippet(\@SIMPLE_DATA)->{html},
 	) {
 		unlike($html, qr/<title>/i, 'fragment has no <title> element');
 		unlike($html, qr/<h1/i,     'fragment has no <h1> element');
@@ -558,6 +588,8 @@ subtest 'D3 CDN script loaded by full-page methods, absent from fragments' => su
 		$chart->render_multi_series_line_chart_with_tooltips(\@MULTI_DATA),
 		$chart->render_animated_bar_chart(\@SIMPLE_DATA),
 		$chart->render_animated_line_chart(\@SIMPLE_DATA),
+		$chart->render_pie_chart(\@SIMPLE_DATA),
+		$chart->render_animated_pie_chart(\@SIMPLE_DATA),
 	) {
 		like($html, qr/\Q$D3_CDN\E/, "full-page output embeds D3 CDN script tag");
 	}
@@ -565,6 +597,7 @@ subtest 'D3 CDN script loaded by full-page methods, absent from fragments' => su
 	for my $html (
 		$chart->render_line_chart_snippet(\@SIMPLE_DATA)->{html},
 		$chart->render_zoomable_line_chart_snippet(\@SIMPLE_DATA)->{html},
+		$chart->render_pie_chart_snippet(\@SIMPLE_DATA)->{html},
 	) {
 		unlike($html, qr/\Q$D3_CDN\E/,
 			'fragment omits D3 CDN (caller is responsible)');
@@ -605,6 +638,12 @@ subtest 'no raw </b> tag appears in any render output' => sub {
 			$chart->render_animated_bar_chart(\@SIMPLE_DATA)],
 		['render_animated_line_chart',
 			$chart->render_animated_line_chart(\@SIMPLE_DATA)],
+		['render_pie_chart',
+			$chart->render_pie_chart(\@SIMPLE_DATA)],
+		['render_animated_pie_chart',
+			$chart->render_animated_pie_chart(\@SIMPLE_DATA)],
+		['render_pie_chart_snippet',
+			$chart->render_pie_chart_snippet(\@SIMPLE_DATA)->{html}],
 	) {
 		my ($name, $html) = @$pair;
 		unlike($html, qr{</b>}, "$name: no raw </b> in output");
@@ -620,6 +659,52 @@ subtest 'no raw </b> tag appears in any render output' => sub {
 # d3.easeLinear so the line draws itself left-to-right; circles must fade in
 # afterwards via an opacity transition.
 # ─────────────────────────────────────────────────────────────────────────────
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 16. Pie chart method consistency
+#
+# All three pie methods share the same d3.pie() / d3.arc() / schemeCategory10
+# structure; the animated variant adds attrTween / d3.interpolate; the snippet
+# omits the page shell.  Verified cross-method so a shared-helper refactor
+# cannot silently break one variant.
+# ─────────────────────────────────────────────────────────────────────────────
+
+subtest 'pie chart methods share consistent D3 structure' => sub {
+	my $chart = HTML::D3->new(width => 800, height => 600, title => 'Pie Suite');
+
+	my $pie_html      = $chart->render_pie_chart(\@SIMPLE_DATA);
+	my $anim_html     = $chart->render_animated_pie_chart(\@SIMPLE_DATA);
+	my $snip_html     = $chart->render_pie_chart_snippet(\@SIMPLE_DATA)->{html};
+
+	# All three must use the same fundamental D3 pie primitives.
+	for my $pair (
+		['render_pie_chart',          $pie_html],
+		['render_animated_pie_chart', $anim_html],
+		['render_pie_chart_snippet',  $snip_html],
+	) {
+		my ($name, $html) = @$pair;
+		like($html, qr/d3\.pie\(\)/,          "$name: d3.pie() present");
+		like($html, qr/d3\.arc\(\)/,           "$name: d3.arc() present");
+		like($html, qr/d3\.schemeCategory10/, "$name: schemeCategory10 colour scheme present");
+		like($html, qr/d3\.scaleOrdinal/,     "$name: d3.scaleOrdinal maps colours");
+		like($html, qr/d3\.sum/,               "$name: d3.sum computes total for percentages");
+	}
+
+	# Static and snippet must NOT have animation artefacts.
+	unlike($pie_html,  qr/attrTween/, 'render_pie_chart: no attrTween in static version');
+	unlike($snip_html, qr/attrTween/, 'render_pie_chart_snippet: no attrTween in snippet');
+
+	# Animated must have both tween and fade-in.
+	like($anim_html, qr/attrTween/,              'render_animated_pie_chart: attrTween present');
+	like($anim_html, qr/d3\.interpolate/,         'render_animated_pie_chart: d3.interpolate present');
+	like($anim_html, qr/\.attr\("opacity",\s*0\)/, 'render_animated_pie_chart: labels fade in from opacity 0');
+
+	# Snippet must have no page shell; full-page must.
+	unlike($snip_html, qr/<!DOCTYPE/i, 'snippet: no DOCTYPE');
+	unlike($snip_html, qr/<html/i,     'snippet: no <html>');
+	like($pie_html,    qr/<!DOCTYPE/i, 'full-page pie: has DOCTYPE');
+	like($anim_html,   qr/<!DOCTYPE/i, 'full-page animated pie: has DOCTYPE');
+};
 
 subtest 'on-load drawing animations present in animated chart methods' => sub {
 	my $chart = HTML::D3->new(width => 800, height => 600, title => 'Anim Test');

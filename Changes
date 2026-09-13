@@ -10,6 +10,13 @@ Revision history for HTML-D3 - Visualise various charts using D3
 	  the line traces itself left-to-right via the stroke-dashoffset technique with
 	  d3.easeLinear (1500 ms), followed by data-point circles fading in from
 	  opacity 0 once the line is complete
+	- Added render_pie_chart(): full-page pie chart with percentage labels inside
+	  each slice and a colour legend; slices coloured with d3.schemeCategory10
+	- Added render_animated_pie_chart(): same as render_pie_chart() but slices fan
+	  out from zero on page load via attrTween/d3.interpolate (1000 ms), with
+	  percentage labels fading in once drawing is complete
+	- Added render_pie_chart_snippet(): embeddable pie chart fragment returning
+	  {svg_id, html} — no page shell, no D3 CDN tag; caller loads D3
 
 0.11 Thu Sep 10 09:32:08 PM EDT 2026
 	[ Bug Fixes ]

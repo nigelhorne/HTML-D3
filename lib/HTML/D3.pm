@@ -592,6 +592,423 @@ HTML
 	return $html;
 }
 
+=head2 render_pie_chart
+
+    my $html = $chart->render_pie_chart($data);
+
+Generates HTML and JavaScript code to render a pie chart.
+Each slice is coloured with C<d3.schemeCategory10>; percentage labels appear
+inside each slice and a colour legend is shown to the right of the pie.
+Accepts the following arguments:
+
+=over 4
+
+=item * C<$data> - An array reference of data points.  Each data point is an
+array reference with two elements: the label (string) and the value (numeric).
+
+=back
+
+Returns a string containing the complete HTML5 document.
+
+=head3 Errors
+
+=over 4
+
+=item * Throws C<Data is not optional> when C<$data> is C<undef>.
+
+=item * Throws C<Data must be an array of arrays> when C<$data> is not an ARRAY reference.
+
+=back
+
+=head3 Side Effects
+
+None.
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    $self : HTML::D3                         -- required
+    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+
+=head4 Output
+
+    Str -- complete HTML5 document; pie rendered with C<d3.pie()> and
+           C<d3.arc()>; slices coloured with C<d3.schemeCategory10>;
+           percentage label inside each slice; legend to the right.
+
+=cut
+
+sub render_pie_chart {
+	my ($self, $data) = @_;
+
+	die 'Data is not optional' if(!defined($data));
+	die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
+
+	my $json_data = encode_json([
+		map { { label => $_->[0], value => $_->[1] } } @$data
+	]);
+
+	my $html = $self->_preamble();
+	$html .= $self->_head();
+	$html .= <<"HTML";
+<body>
+    <h1 style="text-align: center;">$self->{title}</h1>
+    <svg id="chart" width="$self->{width}" height="$self->{height}" style="border: 1px solid black;"></svg>
+    <script>
+	const data = $json_data;
+
+	const width = $self->{width};
+	const height = $self->{height};
+	const radius = Math.min(width, height) / 2 - 40;
+
+	const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+	const pie = d3.pie()
+	    .sort(null)
+	    .value(d => d.value);
+
+	const arc = d3.arc()
+	    .innerRadius(0)
+	    .outerRadius(radius);
+
+	const labelArc = d3.arc()
+	    .innerRadius(radius * 0.65)
+	    .outerRadius(radius * 0.65);
+
+	const total = d3.sum(data, d => d.value);
+
+	const svg = d3.select("#chart");
+
+	const pieGroup = svg.append("g")
+	    .attr("transform", `translate(\${width * 0.45},\${height / 2})`);
+
+	const arcs = pieGroup.selectAll(".arc")
+	    .data(pie(data))
+	    .join("g")
+	    .attr("class", "arc");
+
+	arcs.append("path")
+	    .attr("d", arc)
+	    .attr("fill", d => color(d.data.label))
+	    .attr("stroke", "white")
+	    .style("stroke-width", "2px");
+
+	arcs.append("text")
+	    .attr("transform", d => `translate(\${labelArc.centroid(d)})`)
+	    .attr("text-anchor", "middle")
+	    .attr("font-size", "11px")
+	    .attr("fill", "white")
+	    .attr("pointer-events", "none")
+	    .text(d => Math.round(d.data.value / total * 100) + "%");
+
+	// Legend
+	const legend = svg.append("g")
+	    .attr("transform", `translate(\${width * 0.72},\${(height - data.length * 22) / 2})`);
+
+	legend.selectAll("rect")
+	    .data(pie(data))
+	    .join("rect")
+	    .attr("x", 0)
+	    .attr("y", (d, i) => i * 22)
+	    .attr("width", 14)
+	    .attr("height", 14)
+	    .attr("fill", d => color(d.data.label));
+
+	legend.selectAll("text")
+	    .data(pie(data))
+	    .join("text")
+	    .attr("x", 20)
+	    .attr("y", (d, i) => i * 22 + 11)
+	    .attr("font-size", "12px")
+	    .text(d => `\${d.data.label}: \${d.data.value}`);
+    </script>
+</body>
+</html>
+HTML
+
+	return $html;
+}
+
+=head2 render_animated_pie_chart
+
+    my $html = $chart->render_animated_pie_chart($data);
+
+Generates HTML and JavaScript code to render an animated pie chart where each
+slice fans out from zero angle on page load using C<attrTween> and
+C<d3.interpolate>.  Percentage labels fade in once all slices are drawn.
+Accepts the following arguments:
+
+=over 4
+
+=item * C<$data> - An array reference of data points.  Each data point is an
+array reference with two elements: the label (string) and the value (numeric).
+
+=back
+
+Returns a string containing the complete HTML5 document.
+
+=head3 Errors
+
+=over 4
+
+=item * Throws C<Data is not optional> when C<$data> is C<undef>.
+
+=item * Throws C<Data must be an array of arrays> when C<$data> is not an ARRAY reference.
+
+=back
+
+=head3 Side Effects
+
+None.
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    $self : HTML::D3                         -- required
+    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+
+=head4 Output
+
+    Str -- complete HTML5 document; slices animate via C<attrTween> with
+           C<d3.interpolate> (1000 ms); percentage labels fade in afterwards.
+
+=cut
+
+sub render_animated_pie_chart {
+	my ($self, $data) = @_;
+
+	die 'Data is not optional' if(!defined($data));
+	die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
+
+	my $json_data = encode_json([
+		map { { label => $_->[0], value => $_->[1] } } @$data
+	]);
+
+	my $html = $self->_preamble();
+	$html .= $self->_head();
+	$html .= <<"HTML";
+<body>
+    <h1 style="text-align: center;">$self->{title}</h1>
+    <svg id="chart" width="$self->{width}" height="$self->{height}" style="border: 1px solid black;"></svg>
+    <script>
+	const data = $json_data;
+
+	const width = $self->{width};
+	const height = $self->{height};
+	const radius = Math.min(width, height) / 2 - 40;
+
+	const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+	const pie = d3.pie()
+	    .sort(null)
+	    .value(d => d.value);
+
+	const arc = d3.arc()
+	    .innerRadius(0)
+	    .outerRadius(radius);
+
+	const labelArc = d3.arc()
+	    .innerRadius(radius * 0.65)
+	    .outerRadius(radius * 0.65);
+
+	const total = d3.sum(data, d => d.value);
+
+	const svg = d3.select("#chart");
+
+	const pieGroup = svg.append("g")
+	    .attr("transform", `translate(\${width * 0.45},\${height / 2})`);
+
+	const arcs = pieGroup.selectAll(".arc")
+	    .data(pie(data))
+	    .join("g")
+	    .attr("class", "arc");
+
+	// Each slice fans out from zero angle using attrTween.
+	arcs.append("path")
+	    .attr("fill", d => color(d.data.label))
+	    .attr("stroke", "white")
+	    .style("stroke-width", "2px")
+	    .transition()
+	    .duration(1000)
+	    .attrTween("d", function(d) {
+		const i = d3.interpolate({ startAngle: 0, endAngle: 0 }, d);
+		return t => arc(i(t));
+	    });
+
+	// Percentage labels fade in after slices finish drawing.
+	arcs.append("text")
+	    .attr("transform", d => `translate(\${labelArc.centroid(d)})`)
+	    .attr("text-anchor", "middle")
+	    .attr("font-size", "11px")
+	    .attr("fill", "white")
+	    .attr("pointer-events", "none")
+	    .attr("opacity", 0)
+	    .text(d => Math.round(d.data.value / total * 100) + "%")
+	    .transition()
+	    .delay(1000)
+	    .duration(300)
+	    .attr("opacity", 1);
+
+	// Legend
+	const legend = svg.append("g")
+	    .attr("transform", `translate(\${width * 0.72},\${(height - data.length * 22) / 2})`);
+
+	legend.selectAll("rect")
+	    .data(pie(data))
+	    .join("rect")
+	    .attr("x", 0)
+	    .attr("y", (d, i) => i * 22)
+	    .attr("width", 14)
+	    .attr("height", 14)
+	    .attr("fill", d => color(d.data.label));
+
+	legend.selectAll("text")
+	    .data(pie(data))
+	    .join("text")
+	    .attr("x", 20)
+	    .attr("y", (d, i) => i * 22 + 11)
+	    .attr("font-size", "12px")
+	    .text(d => `\${d.data.label}: \${d.data.value}`);
+    </script>
+</body>
+</html>
+HTML
+
+	return $html;
+}
+
+=head2 render_pie_chart_snippet
+
+    my $fragment = $chart->render_pie_chart_snippet($data);
+
+Generates an embeddable pie chart fragment for use in existing HTML layouts.
+The caller is responsible for loading D3 in the page C<< <head> >>.
+Returns a hashref (not a full HTML document) so it can be spliced into a
+Mojolicious template or similar layout without corrupting the host page structure.
+
+=over 4
+
+=item * C<$data> - An array reference of data points.  Each data point is an
+array reference with two elements: the label (string) and the value (numeric).
+
+=back
+
+=head3 Errors
+
+=over 4
+
+=item * Throws C<Data must be an array of arrays> when C<$data> is not an ARRAY reference.
+
+=back
+
+=head3 Side Effects
+
+None.
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    $self : HTML::D3                         -- required
+    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required (undef dies)
+
+=head4 Output
+
+    HashRef -- C<{ svg_id =E<gt> 'chart', html =E<gt> Str }>; the html value
+               is an embeddable fragment containing only C<< <svg> >> and
+               C<< <script> >> elements — no DOCTYPE, no page shell, no D3
+               CDN tag (caller's responsibility).
+
+=cut
+
+sub render_pie_chart_snippet {
+	my ($self, $data) = @_;
+
+	die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
+
+	my $json_data = encode_json([
+		map { { label => $_->[0], value => $_->[1] } } @$data
+	]);
+
+	my $svg_id = 'chart';
+
+	my $html = <<"HTML";
+<svg id="$svg_id" width="$self->{width}" height="$self->{height}" style="border: 1px solid black;"></svg>
+<script>
+    const data = $json_data;
+
+    const width = $self->{width};
+    const height = $self->{height};
+    const radius = Math.min(width, height) / 2 - 40;
+
+    const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+    const pie = d3.pie()
+	.sort(null)
+	.value(d => d.value);
+
+    const arc = d3.arc()
+	.innerRadius(0)
+	.outerRadius(radius);
+
+    const labelArc = d3.arc()
+	.innerRadius(radius * 0.65)
+	.outerRadius(radius * 0.65);
+
+    const total = d3.sum(data, d => d.value);
+
+    const svg = d3.select("#$svg_id");
+
+    const pieGroup = svg.append("g")
+	.attr("transform", `translate(\${width * 0.45},\${height / 2})`);
+
+    const arcs = pieGroup.selectAll(".arc")
+	.data(pie(data))
+	.join("g")
+	.attr("class", "arc");
+
+    arcs.append("path")
+	.attr("d", arc)
+	.attr("fill", d => color(d.data.label))
+	.attr("stroke", "white")
+	.style("stroke-width", "2px");
+
+    arcs.append("text")
+	.attr("transform", d => `translate(\${labelArc.centroid(d)})`)
+	.attr("text-anchor", "middle")
+	.attr("font-size", "11px")
+	.attr("fill", "white")
+	.attr("pointer-events", "none")
+	.text(d => Math.round(d.data.value / total * 100) + "%");
+
+    // Legend
+    const legend = svg.append("g")
+	.attr("transform", `translate(\${width * 0.72},\${(height - data.length * 22) / 2})`);
+
+    legend.selectAll("rect")
+	.data(pie(data))
+	.join("rect")
+	.attr("x", 0)
+	.attr("y", (d, i) => i * 22)
+	.attr("width", 14)
+	.attr("height", 14)
+	.attr("fill", d => color(d.data.label));
+
+    legend.selectAll("text")
+	.data(pie(data))
+	.join("text")
+	.attr("x", 20)
+	.attr("y", (d, i) => i * 22 + 11)
+	.attr("font-size", "12px")
+	.text(d => `\${d.data.label}: \${d.data.value}`);
+</script>
+HTML
+
+	return { svg_id => $svg_id, html => $html };
+}
+
 =head2 render_line_chart_with_tooltips
 
     $html = $chart->render_line_chart_with_tooltips($data);

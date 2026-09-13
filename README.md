@@ -186,6 +186,111 @@ None.
            C<stroke-dashoffset> with C<d3.easeLinear>; data-point circles
            fade in with C<opacity> after the line transition completes.
 
+## render\_pie\_chart
+
+    my $html = $chart->render_pie_chart($data);
+
+Generates HTML and JavaScript code to render a pie chart.
+Each slice is coloured with `d3.schemeCategory10`; percentage labels appear
+inside each slice and a colour legend is shown to the right of the pie.
+Accepts the following arguments:
+
+- `$data` - An array reference of data points.  Each data point is an
+array reference with two elements: the label (string) and the value (numeric).
+
+Returns a string containing the complete HTML5 document.
+
+### Errors
+
+- Throws `Data is not optional` when `$data` is `undef`.
+- Throws `Data must be an array of arrays` when `$data` is not an ARRAY reference.
+
+### Side Effects
+
+None.
+
+### API SPECIFICATION
+
+#### Input
+
+    $self : HTML::D3                         -- required
+    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+
+#### Output
+
+    Str -- complete HTML5 document; pie rendered with C<d3.pie()> and
+           C<d3.arc()>; slices coloured with C<d3.schemeCategory10>;
+           percentage label inside each slice; legend to the right.
+
+## render\_animated\_pie\_chart
+
+    my $html = $chart->render_animated_pie_chart($data);
+
+Generates HTML and JavaScript code to render an animated pie chart where each
+slice fans out from zero angle on page load using `attrTween` and
+`d3.interpolate`.  Percentage labels fade in once all slices are drawn.
+Accepts the following arguments:
+
+- `$data` - An array reference of data points.  Each data point is an
+array reference with two elements: the label (string) and the value (numeric).
+
+Returns a string containing the complete HTML5 document.
+
+### Errors
+
+- Throws `Data is not optional` when `$data` is `undef`.
+- Throws `Data must be an array of arrays` when `$data` is not an ARRAY reference.
+
+### Side Effects
+
+None.
+
+### API SPECIFICATION
+
+#### Input
+
+    $self : HTML::D3                         -- required
+    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+
+#### Output
+
+    Str -- complete HTML5 document; slices animate via C<attrTween> with
+           C<d3.interpolate> (1000 ms); percentage labels fade in afterwards.
+
+## render\_pie\_chart\_snippet
+
+    my $fragment = $chart->render_pie_chart_snippet($data);
+
+Generates an embeddable pie chart fragment for use in existing HTML layouts.
+The caller is responsible for loading D3 in the page `<head>`.
+Returns a hashref (not a full HTML document) so it can be spliced into a
+Mojolicious template or similar layout without corrupting the host page structure.
+
+- `$data` - An array reference of data points.  Each data point is an
+array reference with two elements: the label (string) and the value (numeric).
+
+### Errors
+
+- Throws `Data must be an array of arrays` when `$data` is not an ARRAY reference.
+
+### Side Effects
+
+None.
+
+### API SPECIFICATION
+
+#### Input
+
+    $self : HTML::D3                         -- required
+    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required (undef dies)
+
+#### Output
+
+    HashRef -- C<{ svg_id =E<gt> 'chart', html =E<gt> Str }>; the html value
+               is an embeddable fragment containing only C<< <svg> >> and
+               C<< <script> >> elements — no DOCTYPE, no page shell, no D3
+               CDN tag (caller's responsibility).
+
 ## render\_line\_chart\_with\_tooltips
 
     $html = $chart->render_line_chart_with_tooltips($data);
@@ -518,3 +623,11 @@ Copyright 2025-2026 Nigel Horne.
 Usage is subject to the GPL2 licence terms.
 If you use it,
 please let me know.
+
+# POD ERRORS
+
+Hey! **The above document had some coding errors, which are explained below:**
+
+- Around line 921:
+
+    Non-ASCII character seen before =encoding in '—'. Assuming UTF-8

@@ -25,10 +25,13 @@ WriteMakefile(
 				type => 'git',
 				url => 'https://github.com/nigelhorne/HTML-D3.git',
 				web => 'https://github.com/nigelhorne/HTML-D3',
-			},
-			bugtracker => {
-				web => 'https://github.com/nigelhorne/HTML-D3/issues',
-			},
+			}, bugtracker => {
+				web => 'https://rt.cpan.org/Public/Dist/Display.html?Name=HTML-D3',
+				url => 'https://rt.cpan.org/Public/Dist/Display.html?Name=HTML-D3',
+				# web => 'https://github.com/nigelhorne/HTML-D3/issues',
+				# url => 'https://github.com/nigelhorne/HTML-D3/issues',
+				mailto => 'bug-HTML-D3@rt.cpan.org'
+			}
 		},
 	},
 	PREREQ_PM => {
