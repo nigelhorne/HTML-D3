@@ -18,7 +18,7 @@ use Test::Memory::Cycle;
 use Scalar::Util qw(refaddr);
 use Readonly;
 
-use HTML::D3;
+use_ok('HTML::D3');
 
 # ---------------------------------------------------------------------------
 # Shared fixtures -- one place to change labels/values if data shape evolves

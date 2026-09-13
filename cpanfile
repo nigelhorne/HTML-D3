@@ -10,7 +10,6 @@ on 'test' => sub {
 	requires 'IPC::System::Simple';
 	requires 'Readonly';
 	requires 'Test::DescribeMe';
-	requires 'Test::HTML::T5';
 	requires 'Test::Memory::Cycle';
 	requires 'Test::Mockingbird', '0.13';
 	requires 'Test::Most';

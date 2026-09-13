@@ -4,8 +4,10 @@ use warnings;
 use strict;
 
 use HTML::D3;
-use Test::HTML::T5;
+use Test::Needs 'Test::HTML::T5';
 use Test::Most tests => 14;
+
+Test::HTML::T5->import();
 
 my $chart = HTML::D3->new(
 	width  => 800,

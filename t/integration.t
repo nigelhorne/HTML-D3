@@ -29,11 +29,13 @@ use warnings;
 use Test::Most;
 use Test::Mockingbird;
 use Test::Returns;
-use Test::HTML::T5;
+use Test::Needs 'Test::HTML::T5';
 use Test::Without::Module;
 use Readonly;
 
-use HTML::D3;
+use_ok('HTML::D3');
+
+Test::HTML::T5->import();
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Shared fixtures
