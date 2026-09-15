@@ -1386,6 +1386,8 @@ sub render_zoomable_line_chart_snippet
 	my $tip_id = 'tooltip';
 	my $rst_id = 'reset-btn';
 
+	# Single-quote heredoc so <\/b> is preserved verbatim in the output —
+	# double-quote would require <\\/b> to survive Perl interpolation.
 	my $circle_handlers = <<'HANDLERS';
 		.on("mouseover", (event, d) => {
 		    let ttHtml = `Label: <b>${d.label}<\/b><br>Value: <b>${d.value}<\/b>`;

@@ -194,7 +194,7 @@ my %LEDGER = (
 	'snippet: non-hashref third element ignored'       => 1,
 	'snippet: exactly one extra in data'               => 1,
 
-	# render_zoomable_line_chart_snippet
+	# render_zoomable_line_chart_snippet (plain)
 	'zoom: die non-array'                              => 1,
 	'zoom: returns hashref'                            => 1,
 	'zoom: svg_id is chart'                            => 1,
@@ -211,6 +211,15 @@ my %LEDGER = (
 	'zoom: escaped <\/b> present'                      => 1,
 	'zoom: extra data serialised'                      => 1,
 	'zoom: Object.entries(d.extra) present'            => 1,
+
+	# render_zoomable_line_chart_snippet (animated => 1)
+	'zoom-anim: no stroke-dashoffset when not animated' => 1,
+	'zoom-anim: stroke-dashoffset present'             => 1,
+	'zoom-anim: initialDrawDone guard present'         => 1,
+	'zoom-anim: prefers-reduced-motion check present'  => 1,
+	'zoom-anim: d3.easeLinear present'                 => 1,
+	'zoom-anim: no DOCTYPE (still snippet)'            => 1,
+	'zoom-anim: svg_id unchanged'                      => 1,
 
 	# render_multi_series_line_chart_with_tooltips
 	'ms-tt: die non-array'                             => 1,
@@ -871,6 +880,42 @@ subtest 'render_zoomable_line_chart_snippet() -- brush-to-zoom JavaScript featur
 	mark('zoom: escaped <\/b> present');
 
 	diag('zoomable snippet length: ' . length($html)) if $ENV{TEST_VERBOSE};
+};
+
+subtest 'render_zoomable_line_chart_snippet() -- animated => 0 (no animation markup)' => sub {
+	my $html = HTML::D3->new()->render_zoomable_line_chart_snippet(\@SIMPLE_DATA)->{html};
+
+	unlike($html, qr/stroke-dashoffset/, 'stroke-dashoffset absent when animated omitted');
+	mark('zoom-anim: no stroke-dashoffset when not animated');
+};
+
+subtest 'render_zoomable_line_chart_snippet() -- animated => 1' => sub {
+	# When animated => 1, the emitted JS must include the stroke-dashoffset
+	# draw-on technique, the initialDrawDone guard, the prefers-reduced-motion
+	# check, and d3.easeLinear.  Return shape must be unchanged.
+	my $frag = HTML::D3->new(width => 800, height => 600)
+	                   ->render_zoomable_line_chart_snippet(\@SIMPLE_DATA, { animated => 1 });
+	my $html = $frag->{html};
+
+	like($html, qr/stroke-dashoffset/, 'stroke-dashoffset animation technique present');
+	mark('zoom-anim: stroke-dashoffset present');
+
+	like($html, qr/initialDrawDone/, 'initialDrawDone guard present');
+	mark('zoom-anim: initialDrawDone guard present');
+
+	like($html, qr/prefers-reduced-motion/, 'prefers-reduced-motion check present');
+	mark('zoom-anim: prefers-reduced-motion check present');
+
+	like($html, qr/d3\.easeLinear/, 'd3.easeLinear present');
+	mark('zoom-anim: d3.easeLinear present');
+
+	unlike($html, qr/<!DOCTYPE/i, 'fragment still has no DOCTYPE');
+	mark('zoom-anim: no DOCTYPE (still snippet)');
+
+	is($frag->{svg_id}, $SVG_ID, 'svg_id is still "chart" with animated flag');
+	mark('zoom-anim: svg_id unchanged');
+
+	diag('animated zoomable snippet length: ' . length($html)) if $ENV{TEST_VERBOSE};
 };
 
 subtest 'render_zoomable_line_chart_snippet() -- extra tooltip data' => sub {

@@ -1,11 +1,14 @@
 # Generated from Makefile.PL using makefilepl2cpanfile
 
-requires 'ExtUtils::MakeMaker', '6.64';   # Minimum version for TEST_REQUIRES
 requires 'JSON::MaybeXS';   # Required for encoding data to JSON
 requires 'Object::Configure', '0.24';
 requires 'Params::Get';
 requires 'Scalar::Util';
 recommends 'Test::HTML::T5';
+
+on 'configure' => sub {
+	requires 'ExtUtils::MakeMaker', '6.64';
+};
 
 on 'test' => sub {
 	requires 'IPC::System::Simple';
