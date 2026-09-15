@@ -1,5 +1,18 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
+0.13	Tue Sep 15 04:17:13 PM EDT 2026
+	[ Enhancements ]
+	- render_zoomable_line_chart_snippet: accept an optional second argument
+	  { animated => 1 } to animate the initial line draw on page load.
+	  The line traces itself left-to-right via stroke-dashoffset / d3.easeLinear
+	  (1200 ms); data-point circles then fade in from opacity 0 over 300 ms
+	  (after a 1200 ms delay so they appear only once the line reaches them).
+	  Subsequent zoom and reset redraws are never animated.
+	  Respects prefers-reduced-motion: when the user has requested reduced
+	  motion the chart draws immediately at full opacity.
+	  Omitting the second argument or passing { animated => 0 } gives the
+	  existing behaviour unchanged (backward-compatible).
+
 0.12	Sun Sep 13 08:14:05 AM EDT 2026
 	[ Enhancements ]
 	- Added render_animated_bar_chart(): bar chart with on-load grow animation —

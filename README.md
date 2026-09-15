@@ -4,7 +4,7 @@ HTML::D3 - A simple Perl module for generating charts using D3.js.
 
 # VERSION
 
-Version 0.12
+Version 0.13
 
 # SYNOPSIS
 
@@ -359,6 +359,7 @@ Returns a hash reference with:
 ## render\_zoomable\_line\_chart\_snippet
 
     my $fragment = $chart->render_zoomable_line_chart_snippet($data);
+    my $fragment = $chart->render_zoomable_line_chart_snippet($data, { animated => 1 });
     # $fragment->{svg_id} - the id attribute of the <svg> element
     # $fragment->{html}   - embeddable HTML fragment (style + button + svg + script)
 
@@ -371,7 +372,35 @@ the full dataset.
 The caller is responsible for loading D3 in the page `<head`>.
 
 Accepts the same arguments as `render_line_chart_snippet`: an array reference
-of data points, each `[$x, $y]` or `[$x, $y, \%extra]`.
+of data points, each `[$x, $y]` or `[$x, $y, \%extra]`, plus an optional
+second argument `$opts` (hashref).
+
+### Options
+
+- `animated` (boolean, default `0`) - when true, the initial page load
+animates the line drawing left-to-right via the `stroke-dashoffset` technique
+(1200 ms, `d3.easeLinear`), then fades in data-point circles after the line
+finishes (300 ms after a 1200 ms delay).  Respects
+`prefers-reduced-motion`: when the user has requested reduced motion the line
+is drawn immediately at full opacity.  Subsequent zoom and reset redraws are
+never animated regardless of this flag.
+
+### API SPECIFICATION
+
+Arguments:
+
+- `$data` (required) - arrayref of `[$x, $y]` or `[$x, $y, \%extra]` pairs.
+- `$opts` (optional) - hashref; recognised key: `animated` (boolean).
+
+Returns `{ svg_id => 'chart', html => Str }`.
+
+### Errors
+
+Dies with _Data must be an array of arrays_ if `$data` is not an arrayref.
+
+### Side Effects
+
+None.
 
 ## render\_multi\_series\_line\_chart\_with\_tooltips
 

@@ -17,11 +17,11 @@ HTML::D3 - A simple Perl module for generating charts using D3.js.
 
 =head1 VERSION
 
-Version 0.12
+Version 0.13
 
 =cut
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 =head1 SYNOPSIS
 
@@ -1313,6 +1313,7 @@ HTML
 =head2 render_zoomable_line_chart_snippet
 
     my $fragment = $chart->render_zoomable_line_chart_snippet($data);
+    my $fragment = $chart->render_zoomable_line_chart_snippet($data, { animated => 1 });
     # $fragment->{svg_id} - the id attribute of the <svg> element
     # $fragment->{html}   - embeddable HTML fragment (style + button + svg + script)
 
@@ -1325,13 +1326,51 @@ the full dataset.
 The caller is responsible for loading D3 in the page C<<head>>.
 
 Accepts the same arguments as C<render_line_chart_snippet>: an array reference
-of data points, each C<[$x, $y]> or C<[$x, $y, \%extra]>.
+of data points, each C<[$x, $y]> or C<[$x, $y, \%extra]>, plus an optional
+second argument C<$opts> (hashref).
+
+=head3 Options
+
+=over 4
+
+=item * C<animated> (boolean, default C<0>) - when true, the initial page load
+animates the line drawing left-to-right via the C<stroke-dashoffset> technique
+(1200 ms, C<d3.easeLinear>), then fades in data-point circles after the line
+finishes (300 ms after a 1200 ms delay).  Respects
+C<prefers-reduced-motion>: when the user has requested reduced motion the line
+is drawn immediately at full opacity.  Subsequent zoom and reset redraws are
+never animated regardless of this flag.
+
+=back
+
+=head3 API SPECIFICATION
+
+Arguments:
+
+=over 4
+
+=item * C<$data> (required) - arrayref of C<[$x, $y]> or C<[$x, $y, \%extra]> pairs.
+
+=item * C<$opts> (optional) - hashref; recognised key: C<animated> (boolean).
+
+=back
+
+Returns C<{ svg_id =E<gt> 'chart', html =E<gt> Str }>.
+
+=head3 Errors
+
+Dies with I<Data must be an array of arrays> if C<$data> is not an arrayref.
+
+=head3 Side Effects
+
+None.
 
 =cut
 
 sub render_zoomable_line_chart_snippet
 {
-	my ($self, $data) = @_;
+	my ($self, $data, $opts) = @_;
+	$opts //= {};
 
 	die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
 
@@ -1346,6 +1385,102 @@ sub render_zoomable_line_chart_snippet
 	my $svg_id = 'chart';
 	my $tip_id = 'tooltip';
 	my $rst_id = 'reset-btn';
+
+	my $circle_handlers = <<'HANDLERS';
+		.on("mouseover", (event, d) => {
+		    let ttHtml = `Label: <b>${d.label}<\/b><br>Value: <b>${d.value}<\/b>`;
+		    if (d.extra) {
+			Object.entries(d.extra).forEach(([k, v]) => {
+			    ttHtml += `<br>${k}: <b>${v}<\/b>`;
+			});
+		    }
+		    tooltip.style("opacity", 1)
+			   .html(ttHtml)
+			   .style("left", (event.pageX + 10) + "px")
+			   .style("top",  (event.pageY - 30) + "px");
+		})
+		.on("mousemove", (event) => {
+		    tooltip.style("left", (event.pageX + 10) + "px")
+			   .style("top",  (event.pageY - 30) + "px");
+		})
+		.on("mouseout", () => {
+		    tooltip.style("opacity", 0);
+		})
+HANDLERS
+
+	my $init_flag   = $opts->{animated} ? 'let initialDrawDone = false;' : '';
+
+	my $redraw_body;
+	if ($opts->{animated}) {
+		$redraw_body = <<"ANIM";
+	if (!initialDrawDone) {
+	    var prefersReduced = window.matchMedia &&
+		window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	    linePath.datum(newData).attr("d", lineFn);
+	    if (prefersReduced) {
+		linePath.attr("stroke-dasharray", null).attr("stroke-dashoffset", null);
+	    } else {
+		const L = linePath.node().getTotalLength();
+		linePath
+		    .attr("stroke-dasharray", L)
+		    .attr("stroke-dashoffset", L)
+		    .transition()
+		    .duration(1200)
+		    .ease(d3.easeLinear)
+		    .attr("stroke-dashoffset", 0);
+	    }
+	    chart.selectAll("circle.pt")
+		.data(newData, d => d.label)
+		.join(
+		    enter => enter.append("circle")
+			.attr("class", "pt")
+			.attr("r", 4)
+			.attr("fill", "steelblue")
+			.attr("cx", d => x(d.label))
+			.attr("cy", d => y(d.value))
+			.attr("opacity", prefersReduced ? 1 : 0)
+		)
+$circle_handlers		.transition()
+		.duration(prefersReduced ? 0 : 300)
+		.delay(prefersReduced ? 0 : 1200)
+		.attr("opacity", 1);
+	    initialDrawDone = true;
+	} else {
+	    linePath.datum(newData).transition(t).attr("d", lineFn);
+	    chart.selectAll("circle.pt")
+		.data(newData, d => d.label)
+		.join(
+		    enter => enter.append("circle")
+			.attr("class", "pt")
+			.attr("r", 4)
+			.attr("fill", "steelblue")
+			.attr("cx", d => x(d.label))
+			.attr("cy", d => y(d.value))
+		)
+$circle_handlers		.transition(t)
+		.attr("cx", d => x(d.label))
+		.attr("cy", d => y(d.value));
+	}
+ANIM
+	} else {
+		$redraw_body = <<"PLAIN";
+	linePath.datum(newData).transition(t).attr("d", lineFn);
+
+	chart.selectAll("circle.pt")
+	    .data(newData, d => d.label)
+	    .join(
+		enter => enter.append("circle")
+		    .attr("class", "pt")
+		    .attr("r", 4)
+		    .attr("fill", "steelblue")
+		    .attr("cx", d => x(d.label))
+		    .attr("cy", d => y(d.value))
+	    )
+$circle_handlers	    .transition(t)
+	    .attr("cx", d => x(d.label))
+	    .attr("cy", d => y(d.value));
+PLAIN
+	}
 
 	my $html = <<"HTML";
 <style>
@@ -1410,6 +1545,8 @@ sub render_zoomable_line_chart_snippet
     const yAxisG = chart.append("g");
     const xAxisG = chart.append("g").attr("transform", `translate(0,\${height})`);
 
+    $init_flag
+
     function redraw(newData, ms) {
 	x.domain(newData.map(d => d.label));
 	y.domain([Math.min(0, d3.min(newData, d => d.value)), d3.max(newData, d => d.value)]).nice();
@@ -1424,41 +1561,7 @@ sub render_zoomable_line_chart_snippet
 
 	yAxisG.transition(t).call(d3.axisLeft(y));
 
-	linePath.datum(newData).transition(t).attr("d", lineFn);
-
-	chart.selectAll("circle.pt")
-	    .data(newData, d => d.label)
-	    .join(
-		enter => enter.append("circle")
-		    .attr("class", "pt")
-		    .attr("r", 4)
-		    .attr("fill", "steelblue")
-		    .attr("cx", d => x(d.label))
-		    .attr("cy", d => y(d.value))
-	    )
-	    .on("mouseover", (event, d) => {
-		let ttHtml = `Label: <b>\${d.label}<\\/b><br>Value: <b>\${d.value}<\\/b>`;
-		if (d.extra) {
-		    Object.entries(d.extra).forEach(([k, v]) => {
-			ttHtml += `<br>\${k}: <b>\${v}<\\/b>`;
-		    });
-		}
-		tooltip.style("opacity", 1)
-		       .html(ttHtml)
-		       .style("left", (event.pageX + 10) + "px")
-		       .style("top",  (event.pageY - 30) + "px");
-	    })
-	    .on("mousemove", (event) => {
-		tooltip.style("left", (event.pageX + 10) + "px")
-		       .style("top",  (event.pageY - 30) + "px");
-	    })
-	    .on("mouseout", () => {
-		tooltip.style("opacity", 0);
-	    })
-	    .transition(t)
-	    .attr("cx", d => x(d.label))
-	    .attr("cy", d => y(d.value));
-    }
+$redraw_body    }
 
     redraw(currentData, 0);
 
