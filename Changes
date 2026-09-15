@@ -1,6 +1,6 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
-0.13	Tue Sep 15 04:17:13 PM EDT 2026
+0.13	Tue Sep 15 06:05:45 PM EDT 2026
 	[ Enhancements ]
 	- render_zoomable_line_chart_snippet: accept an optional second argument
 	  { animated => 1 } to animate the initial line draw on page load.
