@@ -1,8 +1,13 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
-0.15.0
+0.15	Tue Sep 16 2026
 	[ Enhancements ]
-	- Allow the pie chart separator character to be configured
+	- render_pie_chart, render_animated_pie_chart, render_pie_chart_snippet: new
+	  optional C<separator> key in the C<%opts> second argument controls the
+	  character shown between label and value in the legend (default C<'/'>).
+	  render_pie_chart and render_animated_pie_chart now accept the optional
+	  second hashref argument for the first time; existing callers passing only
+	  C<$data> are unaffected.
 
 0.14	Tue Sep 15 09:12:17 PM EDT 2026
 	[ Enhancements ]

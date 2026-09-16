@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-use Test::Most tests => 27;
+use Test::Most tests => 30;
 use_ok('HTML::D3');
 
 my $chart = HTML::D3->new(
@@ -64,6 +64,15 @@ unlike($zero->{html}, qr/"label":"Zero"/, 'Zero-value slice omitted from data');
 # ── negative value converted to absolute ─────────────────────────────────────
 my $neg = $chart->render_pie_chart_snippet([['Neg',-20],['Pos',80]]);
 like($neg->{html}, qr/"value":20/, 'Negative value converted to absolute');
+
+# ── separator option ──────────────────────────────────────────────────────────
+# The separator is interpolated into a JavaScript string literal in the D3
+# legend builder.  Verify the JS source contains the right string literal.
+like($html, qr/d\.data\.label \+ ' \/ '/, 'Default separator / present in legend JS');
+
+my $colon_frag = $chart->render_pie_chart_snippet(\@data, { separator => ':' });
+like($colon_frag->{html}, qr/d\.data\.label \+ ' : '/, 'Custom separator : present in legend JS');
+unlike($colon_frag->{html}, qr/d\.data\.label \+ ' \/ '/, 'Default separator / absent when overridden');
 
 # ── error handling ────────────────────────────────────────────────────────────
 throws_ok {

@@ -1,4 +1,4 @@
-# Generated from Makefile.PL using makefilepl2cpanfile
+# Maintained by hand; do not regenerate (would overwrite manual edits)
 
 requires 'JSON::MaybeXS';   # Required for encoding data to JSON
 requires 'Object::Configure', '0.24';

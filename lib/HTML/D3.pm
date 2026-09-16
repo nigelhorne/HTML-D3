@@ -11,19 +11,17 @@ use Params::Get;
 use Params::Validate::Strict;
 use Scalar::Util qw(blessed);
 
-# TODO: add animated tooltips to charts with legends
-
 =head1 NAME
 
 HTML::D3 - A simple Perl module for generating charts using D3.js.
 
 =head1 VERSION
 
-Version 0.14.1
+Version 0.15
 
 =cut
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 =head1 SYNOPSIS
 
@@ -64,9 +62,10 @@ The module generates HTML and JavaScript code to render the chart in a web brows
 
 The C<=head3 API SPECIFICATION> subsections use L<Params::Validate::Strict>
 schema syntax (C<< type => 'arrayref' >> etc.) as a documentation convention.
-C<Params::Validate::Strict> is not a runtime dependency of this module; the
-schemas describe the parameter contract in machine-readable notation and can be
-plumbed into a WAF or test generator if desired.
+The module is also used at runtime in C<new()> to validate constructor
+arguments; it is therefore a required runtime dependency.  The schemas describe
+the parameter contract in machine-readable notation and can be plumbed into a
+WAF or test generator if desired.
 
 =head2 new
 
@@ -87,53 +86,46 @@ Accepts the following optional arguments:
 
 =cut
 
-# Constructor to initialize chart properties
 sub new
 {
 	my $class = shift;
 
-	# Handle hash or hashref arguments
-        my $params = Params::Validate::Strict::validate_strict({
+	my $params = Params::Validate::Strict::validate_strict({
 		args => Params::Get::get_params(undef, \@_) || {},
 		schema => {
 			height => {
 				type => 'integer',
 				optional => 1,
 				minimum => 1,
-				# default => 600
 			}, width => {
 				type => 'integer',
 				optional => 1,
 				minimum => 1,
-				# default => 800
 			}, title => {
 				type => 'string',
 				optional => 1,
-				# default => 'Chart'
 			}
 		}
 	});
 
 	if(!defined($class)) {
 		if((scalar keys %{$params}) > 0) {
-			# Using HTML::D3->new(), not HTML::D3::new()
 			carp(__PACKAGE__, ' use ->new() not ::new() to instantiate');
 			return;
 		}
-		# FIXME: this only works when no arguments are given
+		# When called as HTML::D3::new(undef) with no args, default to the package.
+		# Passing args via ::new() is unsupported and carps above.
 		$class = __PACKAGE__;
 	} elsif(blessed($class)) {
-		# If $class is an object, clone it with new arguments
 		return bless { %{$class}, %{$params} }, ref($class);
 	}
 
 	$params = Object::Configure::configure($class, $params);
 
-	# Return the blessed object
 	return bless {
-		width => $params->{width}  || 800,  # Default chart width
-		height => $params->{height} || 600,  # Default chart height
-		title => $params->{title}  || 'Chart',  # Default chart title
+		width  => $params->{width}  || 800,
+		height => $params->{height} || 600,
+		title  => $params->{title}  || 'Chart',
 	}, $class;
 }
 
