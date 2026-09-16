@@ -17,11 +17,11 @@ HTML::D3 - A simple Perl module for generating charts using D3.js.
 
 =head1 VERSION
 
-Version 0.13
+Version 0.14
 
 =cut
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 =head1 SYNOPSIS
 
@@ -881,17 +881,44 @@ HTML
 
 =head2 render_pie_chart_snippet
 
-    my $fragment = $chart->render_pie_chart_snippet($data);
+    my $fragment = $chart->render_pie_chart_snippet(\@slices);
+    my $fragment = $chart->render_pie_chart_snippet(\@slices, \%opts);
+    # $fragment->{svg_id} - always 'pie_chart'
+    # $fragment->{html}   - embeddable fragment; caller must load D3 v7
 
-Generates an embeddable pie chart fragment for use in existing HTML layouts.
-The caller is responsible for loading D3 in the page C<< <head> >>.
-Returns a hashref (not a full HTML document) so it can be spliced into a
-Mojolicious template or similar layout without corrupting the host page structure.
+Generates an embeddable pie or donut chart fragment for use in existing HTML
+layouts.  Returns C<{ svg_id =E<gt> 'pie_chart', html =E<gt> Str }>.  The
+caller is responsible for loading D3 v7 before embedding the fragment.
+
+=head3 Data format
+
+Each element of C<\@slices> is C<[$label, $value]> or C<[$label, $value, \%extra]>.
+Negative values are silently converted to their absolute value.  Zero-value
+slices are silently omitted.  C<\%extra> key/value pairs are shown as
+additional rows in the hover tooltip.
+
+=head3 Options (C<\%opts>)
 
 =over 4
 
-=item * C<$data> - An array reference of data points.  Each data point is an
-array reference with two elements: the label (string) and the value (numeric).
+=item * C<animated> (bool, default 0) - fan slices in from arc-length 0 on
+first render using C<attrTween> / C<d3.easeBackOut> (800 ms, staggered).
+Respects C<prefers-reduced-motion>.
+
+=item * C<donut> (bool, default 0) - render as a donut chart (inner radius
+38% of outer radius); the total sum appears in the centre hole.
+
+=item * C<sort_slices> (string, default C<'none'>) - C<'value'> for
+largest-first, C<'label'> for alphabetical, C<'none'> for input order.
+
+=item * C<max_slices> (int, default 0) - when E<gt> 0, only the top N-1
+slices are shown individually; the rest are collapsed into an C<"Other"> slice.
+
+=item * C<legend> (bool, default 1) - render an HTML legend panel beside the chart.
+
+=item * C<color_scheme> (string, default C<'tableau10'>) - D3 categorical
+colour scheme.  Supported: C<tableau10>, C<category10>, C<set2>, C<set3>,
+C<paired>.
 
 =back
 
@@ -899,7 +926,7 @@ array reference with two elements: the label (string) and the value (numeric).
 
 =over 4
 
-=item * Throws C<Data must be an array of arrays> when C<$data> is not an ARRAY reference.
+=item * Throws C<Data must be an array of arrays> when C<\@slices> is not an ARRAY reference.
 
 =back
 
@@ -911,99 +938,246 @@ None.
 
 =head4 Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required (undef dies)
+    $self   : HTML::D3                          -- required
+    $data   : ArrayRef[ ArrayRef[Str, Num, ?HashRef] ] -- required (undef dies)
+    $opts   : HashRef                           -- optional
 
 =head4 Output
 
-    HashRef -- C<{ svg_id =E<gt> 'chart', html =E<gt> Str }>; the html value
-               is an embeddable fragment containing only C<< <svg> >> and
-               C<< <script> >> elements - no DOCTYPE, no page shell, no D3
-               CDN tag (caller's responsibility).
+    HashRef -- C<{ svg_id =E<gt> 'pie_chart', html =E<gt> Str }>;
+               embeddable fragment; no DOCTYPE, no page shell, no D3 CDN tag.
 
 =cut
 
 sub render_pie_chart_snippet {
-	my ($self, $data) = @_;
+	my ($self, $data, $opts) = @_;
+	$opts //= {};
 
 	die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
 
-	my $json_data = encode_json([
-		map { { label => $_->[0], value => $_->[1] } } @$data
-	]);
+	my $animated     = $opts->{animated}    ? 1 : 0;
+	my $donut        = $opts->{donut}       ? 1 : 0;
+	my $sort_slices  = $opts->{sort_slices} // 'none';
+	my $max_slices   = int($opts->{max_slices} // 0);
+	my $show_legend  = exists $opts->{legend} ? ($opts->{legend} ? 1 : 0) : 1;
+	my $color_scheme = $opts->{color_scheme} // 'tableau10';
 
-	my $svg_id = 'chart';
+	# Normalise: absolute values, drop zeros, pull optional extra hashref
+	my @slices;
+	for my $pt (@$data) {
+		my $val = abs($pt->[1] // 0);
+		next if $val == 0;
+		my %s = (label => $pt->[0], value => $val);
+		$s{extra} = $pt->[2] if ref($pt->[2]) eq 'HASH';
+		push @slices, \%s;
+	}
+
+	# Sort before max_slices so the "top N" is stable
+	if ($sort_slices eq 'value') {
+		@slices = sort { $b->{value} <=> $a->{value} } @slices;
+	} elsif ($sort_slices eq 'label') {
+		@slices = sort { $a->{label} cmp $b->{label} } @slices;
+	}
+
+	# Collapse tail into "Other"
+	if ($max_slices >= 2 && scalar(@slices) > $max_slices) {
+		my @by_val = sort { $b->{value} <=> $a->{value} } @slices;
+		my @top    = @by_val[0 .. $max_slices - 2];
+		my $other  = 0;
+		$other += $_->{value} for @by_val[$max_slices - 1 .. $#by_val];
+		push @top, { label => 'Other', value => $other };
+		@slices = @top;
+	}
+
+	my $json_data = encode_json(\@slices);
+
+	my $svg_id   = 'pie_chart';
+	my $tip_id   = 'pie_chart_tip';
+	my $leg_id   = 'pie_chart_legend';
+	my $wrap_id  = 'pie_chart_wrap';
+	my $width    = $self->{width};
+	my $height   = $self->{height};
+
+	my $inner_radius_js = $donut ? 'radius * 0.38' : '0';
+
+	# Animation initialisation (empty when not animated)
+	my $anim_init_js = $animated
+		? 'var noAnim = window.matchMedia("(prefers-reduced-motion: reduce)").matches;' . "\n" .
+		  "    let initialDrawDone = false;\n"
+		: '';
+
+	# Legend fade-in as part of the animation block
+	my $legend_anim_js = ($animated && $show_legend) ? <<"LANIM" : '';
+        d3.select("#$leg_id")
+            .style("opacity", 0)
+            .transition()
+            .delay(data.length * 60 + 100)
+            .duration(300)
+            .style("opacity", 1);
+LANIM
+
+	# Path drawing code — animated vs plain
+	my $anim_draw_js;
+	if ($animated) {
+		$anim_draw_js = <<"ANIM_DRAW";
+    if (!initialDrawDone && !noAnim) {
+        paths.attr("d", arc({ startAngle: 0, endAngle: 0 }))
+            .transition()
+            .duration(800)
+            .ease(d3.easeBackOut.overshoot(1.2))
+            .delay((d, i) => Math.min(i * 60, 300))
+            .attrTween("d", function(d) {
+                var interp = d3.interpolate({ startAngle: 0, endAngle: 0 }, d);
+                return function(t) { return arc(interp(t)); };
+            });
+$legend_anim_js        initialDrawDone = true;
+    } else {
+        paths.attr("d", arc);
+    }
+ANIM_DRAW
+	} else {
+		$anim_draw_js = "    paths.attr(\"d\", arc);\n";
+	}
+
+	# Centre label in donut hole
+	my $donut_center_js = $donut ? <<'DONUT' : '';
+    pieGroup.append("text")
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .attr("font-size", "16px")
+        .attr("font-weight", "bold")
+        .text(fmt(total));
+DONUT
+
+	# HTML legend panel — built by D3 against the legend div
+	# Single-quote heredoc so JS template-literal ${...} is preserved verbatim
+	my $legend_section_js = $show_legend ? <<"LEGEND_JS" : '';
+    d3.select("#$leg_id")
+        .selectAll(".bi-pie-legend-entry")
+        .data(pieSlices)
+        .join("div")
+        .attr("class", "bi-pie-legend-entry")
+        .attr("data-slice-index", (d, i) => i)
+        .html((d, i) => {
+            const pct = (d.data.value / total * 100).toFixed(1);
+            const sw = '<span class="bi-pie-swatch" style="background:' + color(d.data.label) + '"></span>';
+            return sw + ' ' + d.data.label + ' — ' + fmt(d.data.value) + ' (' + pct + '%)';
+        });
+LEGEND_JS
+
+	my $legend_div_html = $show_legend
+		? qq(    <div id="$leg_id" class="bi-pie-legend"></div>\n)
+		: '';
 
 	my $html = <<"HTML";
-<svg id="$svg_id" width="$self->{width}" height="$self->{height}" style="border: 1px solid black;"></svg>
+<style>
+    #$wrap_id {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+    }
+    .bi-pie-legend {
+	padding-left: 16px;
+	font-size: 13px;
+    }
+    .bi-pie-legend-entry {
+	margin: 4px 0;
+	white-space: nowrap;
+    }
+    .bi-pie-swatch {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	border-radius: 2px;
+	vertical-align: middle;
+	margin-right: 4px;
+    }
+    .bi-pie-tooltip {
+	position: absolute;
+	background: rgba(255,255,255,0.95);
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 6px 10px;
+	font-size: 12px;
+	pointer-events: none;
+	display: none;
+	line-height: 1.6;
+    }
+</style>
+<div id="$wrap_id">
+    <svg id="$svg_id" width="$width" height="$height"></svg>
+$legend_div_html</div>
+<div class="bi-pie-tooltip" id="$tip_id"></div>
 <script>
     const data = $json_data;
 
-    const width = $self->{width};
-    const height = $self->{height};
+    const SCHEMES = {
+        tableau10:  d3.schemeTableau10,
+        category10: d3.schemeCategory10,
+        set2:       d3.schemeSet2,
+        set3:       d3.schemeSet3,
+        paired:     d3.schemePaired,
+    };
+    const color = d3.scaleOrdinal(SCHEMES['$color_scheme'] || d3.schemeTableau10)
+        .domain(data.map(d => d.label));
+
+    const width  = $width;
+    const height = $height;
     const radius = Math.min(width, height) / 2 - 40;
+    const innerRadius = $inner_radius_js;
 
-    const color = d3.scaleOrdinal(d3.schemeCategory10);
+    const arc      = d3.arc().innerRadius(innerRadius).outerRadius(radius);
+    const labelArc = d3.arc().innerRadius(radius * 0.7).outerRadius(radius * 0.7);
 
-    const pie = d3.pie()
-	.sort(null)
-	.value(d => d.value);
-
-    const arc = d3.arc()
-	.innerRadius(0)
-	.outerRadius(radius);
-
-    const labelArc = d3.arc()
-	.innerRadius(radius * 0.65)
-	.outerRadius(radius * 0.65);
+    const pie = d3.pie().sort(null).value(d => d.value);
+    const pieSlices = pie(data);
 
     const total = d3.sum(data, d => d.value);
+    const fmt   = d3.format(",.2f");
 
-    const svg = d3.select("#$svg_id");
+    $anim_init_js
+    const svg     = d3.select("#$svg_id");
+    const tooltip = d3.select("#$tip_id");
 
     const pieGroup = svg.append("g")
-	.attr("transform", `translate(\${width * 0.45},\${height / 2})`);
+        .attr("transform", \`translate(\${$width * 0.5},\${$height / 2})\`);
 
     const arcs = pieGroup.selectAll(".arc")
-	.data(pie(data))
-	.join("g")
-	.attr("class", "arc");
+        .data(pieSlices)
+        .join("g")
+        .attr("class", "arc");
 
-    arcs.append("path")
-	.attr("d", arc)
-	.attr("fill", d => color(d.data.label))
-	.attr("stroke", "white")
-	.style("stroke-width", "2px");
+    const paths = arcs.append("path")
+        .attr("fill", d => color(d.data.label))
+        .attr("stroke", "white")
+        .style("stroke-width", "2px")
+        .attr("data-label", d => d.data.label)
+        .attr("data-value", d => d.data.value)
+        .on("mouseover", function(event, d) {
+            const pct = (d.data.value / total * 100).toFixed(1);
+            let tip = "<b>" + d.data.label + "<\\/b><br>" +
+                      fmt(d.data.value) + " (" + pct + "%)";
+            if (d.data.extra) {
+                Object.entries(d.data.extra).forEach(([k, v]) => {
+                    tip += "<br>" + k + ": " + v;
+                });
+            }
+            tooltip.html(tip)
+                   .style("display", "block")
+                   .style("left", (event.pageX + 12) + "px")
+                   .style("top",  (event.pageY - 24) + "px");
+        })
+        .on("mousemove", function(event) {
+            tooltip.style("left", (event.pageX + 12) + "px")
+                   .style("top",  (event.pageY - 24) + "px");
+        })
+        .on("mouseout", function() {
+            tooltip.style("display", "none");
+        });
 
-    arcs.append("text")
-	.attr("transform", d => `translate(\${labelArc.centroid(d)})`)
-	.attr("text-anchor", "middle")
-	.attr("font-size", "11px")
-	.attr("fill", "white")
-	.attr("pointer-events", "none")
-	.text(d => Math.round(d.data.value / total * 100) + "%");
-
-    // Legend
-    const legend = svg.append("g")
-	.attr("transform", `translate(\${width * 0.72},\${(height - data.length * 22) / 2})`);
-
-    legend.selectAll("rect")
-	.data(pie(data))
-	.join("rect")
-	.attr("x", 0)
-	.attr("y", (d, i) => i * 22)
-	.attr("width", 14)
-	.attr("height", 14)
-	.attr("fill", d => color(d.data.label));
-
-    legend.selectAll("text")
-	.data(pie(data))
-	.join("text")
-	.attr("x", 20)
-	.attr("y", (d, i) => i * 22 + 11)
-	.attr("font-size", "12px")
-	.text(d => `\${d.data.label}: \${d.data.value}`);
-</script>
+$anim_draw_js
+$donut_center_js
+$legend_section_js</script>
 HTML
 
 	return { svg_id => $svg_id, html => $html };

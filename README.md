@@ -4,7 +4,7 @@ HTML::D3 - A simple Perl module for generating charts using D3.js.
 
 # VERSION
 
-Version 0.13
+Version 0.14
 
 # SYNOPSIS
 
@@ -259,19 +259,41 @@ None.
 
 ## render\_pie\_chart\_snippet
 
-    my $fragment = $chart->render_pie_chart_snippet($data);
+    my $fragment = $chart->render_pie_chart_snippet(\@slices);
+    my $fragment = $chart->render_pie_chart_snippet(\@slices, \%opts);
+    # $fragment->{svg_id} - always 'pie_chart'
+    # $fragment->{html}   - embeddable fragment; caller must load D3 v7
 
-Generates an embeddable pie chart fragment for use in existing HTML layouts.
-The caller is responsible for loading D3 in the page `<head>`.
-Returns a hashref (not a full HTML document) so it can be spliced into a
-Mojolicious template or similar layout without corrupting the host page structure.
+Generates an embeddable pie or donut chart fragment for use in existing HTML
+layouts.  Returns `{ svg_id => 'pie_chart', html => Str }`.  The
+caller is responsible for loading D3 v7 before embedding the fragment.
 
-- `$data` - An array reference of data points.  Each data point is an
-array reference with two elements: the label (string) and the value (numeric).
+### Data format
+
+Each element of `\@slices` is `[$label, $value]` or `[$label, $value, \%extra]`.
+Negative values are silently converted to their absolute value.  Zero-value
+slices are silently omitted.  `\%extra` key/value pairs are shown as
+additional rows in the hover tooltip.
+
+### Options (`\%opts`)
+
+- `animated` (bool, default 0) - fan slices in from arc-length 0 on
+first render using `attrTween` / `d3.easeBackOut` (800 ms, staggered).
+Respects `prefers-reduced-motion`.
+- `donut` (bool, default 0) - render as a donut chart (inner radius
+38% of outer radius); the total sum appears in the centre hole.
+- `sort_slices` (string, default `'none'`) - `'value'` for
+largest-first, `'label'` for alphabetical, `'none'` for input order.
+- `max_slices` (int, default 0) - when > 0, only the top N-1
+slices are shown individually; the rest are collapsed into an `"Other"` slice.
+- `legend` (bool, default 1) - render an HTML legend panel beside the chart.
+- `color_scheme` (string, default `'tableau10'`) - D3 categorical
+colour scheme.  Supported: `tableau10`, `category10`, `set2`, `set3`,
+`paired`.
 
 ### Errors
 
-- Throws `Data must be an array of arrays` when `$data` is not an ARRAY reference.
+- Throws `Data must be an array of arrays` when `\@slices` is not an ARRAY reference.
 
 ### Side Effects
 
@@ -281,15 +303,14 @@ None.
 
 #### Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required (undef dies)
+    $self   : HTML::D3                          -- required
+    $data   : ArrayRef[ ArrayRef[Str, Num, ?HashRef] ] -- required (undef dies)
+    $opts   : HashRef                           -- optional
 
 #### Output
 
-    HashRef -- C<{ svg_id =E<gt> 'chart', html =E<gt> Str }>; the html value
-               is an embeddable fragment containing only C<< <svg> >> and
-               C<< <script> >> elements - no DOCTYPE, no page shell, no D3
-               CDN tag (caller's responsibility).
+    HashRef -- C<{ svg_id =E<gt> 'pie_chart', html =E<gt> Str }>;
+               embeddable fragment; no DOCTYPE, no page shell, no D3 CDN tag.
 
 ## render\_line\_chart\_with\_tooltips
 

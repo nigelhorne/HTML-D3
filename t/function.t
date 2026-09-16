@@ -490,7 +490,7 @@ subtest 'render_pie_chart_snippet - return structure' => sub {
 	my $fragment = $chart->render_pie_chart_snippet(\@SIMPLE_DATA);
 
 	returns_ok($fragment, { type => 'hashref' }, 'returns a hashref');
-	is($fragment->{svg_id}, 'chart', 'svg_id is "chart"');
+	is($fragment->{svg_id}, 'pie_chart', 'svg_id is "pie_chart"');
 	ok(defined($fragment->{html}), 'html key is present');
 	returns_ok($fragment->{html}, { type => 'string' }, 'html value is a string');
 };
@@ -503,7 +503,7 @@ subtest 'render_pie_chart_snippet - fragment must not contain page-shell element
 	unlike($html, qr/<head/i,                     'no <head> element in fragment');
 	unlike($html, qr/<body/i,                     'no <body> element in fragment');
 	unlike($html, qr{https://d3js\.org/d3\.v7},   'no D3 CDN tag — caller loads D3');
-	like($html,   qr/<svg id="chart"/,             'SVG element present');
+	like($html,   qr/<svg id="pie_chart"/,         'SVG element has id="pie_chart"');
 	like($html,   qr/d3\.pie\(\)/,                 'd3.pie() present in fragment');
 };
 
