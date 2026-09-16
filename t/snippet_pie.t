@@ -3,8 +3,8 @@
 use warnings;
 use strict;
 
-use HTML::D3;
-use Test::Most tests => 26;
+use Test::Most tests => 27;
+use_ok('HTML::D3');
 
 my $chart = HTML::D3->new(
 	width  => 800,
@@ -15,25 +15,25 @@ my $chart = HTML::D3->new(
 my @data = (['Apples', 40], ['Oranges', 30], ['Bananas', 30]);
 
 isa_ok($chart, 'HTML::D3', 'Chart object is created');
-is($chart->{width},  800,               'Width is set correctly');
-is($chart->{height}, 600,               'Height is set correctly');
+is($chart->{width},  800,           'Width is set correctly');
+is($chart->{height}, 600,           'Height is set correctly');
 is($chart->{title},  'Pie Snippet Test','Title is set correctly');
 
 # ── Basic return shape ────────────────────────────────────────────────────────
 my $fragment;
 lives_ok { $fragment = $chart->render_pie_chart_snippet(\@data) } 'Renders without error';
-is(ref($fragment), 'HASH',       'Returns a hash reference');
+is(ref($fragment), 'HASH', 'Returns a hash reference');
 is($fragment->{svg_id}, 'pie_chart', 'svg_id is "pie_chart"');
 
 my $html = $fragment->{html};
 like($html, qr/<svg id="pie_chart"/, 'SVG element has id="pie_chart"');
-like($html, qr/d3\.pie\(\)/,         'Contains d3.pie()');
-unlike($html, qr/<!DOCTYPE/i,        'No DOCTYPE (snippet)');
-unlike($html, qr/<html/i,            'No <html> wrapper');
-unlike($html, qr/<head/i,            'No <head> element');
-unlike($html, qr/<body/i,            'No <body> element');
+like($html, qr/d3\.pie\(\)/,     'Contains d3.pie()');
+unlike($html, qr/<!DOCTYPE/i,       'No DOCTYPE (snippet)');
+unlike($html, qr/<html/i,           'No <html> wrapper');
+unlike($html, qr/<head/i,           'No <head> element');
+unlike($html, qr/<body/i,           'No <body> element');
 unlike($html, qr{https://d3js\.org/d3\.v7}, 'No D3 CDN tag — caller loads D3');
-like($html, qr/schemeTableau10/,     'Default colour scheme is tableau10');
+like($html, qr/schemeTableau10/, 'Default colour scheme is tableau10');
 
 # ── animated => 1 ─────────────────────────────────────────────────────────────
 my $anim = $chart->render_pie_chart_snippet(\@data, { animated => 1 });
