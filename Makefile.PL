@@ -21,8 +21,7 @@ WriteMakefile(
 		: ()),
 	CONFIGURE_REQUIRES => {
 		'ExtUtils::MakeMaker' => 6.64,
-	},
-	META_MERGE => {
+	}, META_MERGE => {
 		optional_features => {
 			html_testing => {
 				description => 'Test the HTML output',
@@ -61,8 +60,9 @@ WriteMakefile(
 		'Test::Returns' => 0,
 		'Test::Warnings' => 0,
 		'Test::Without::Module' => 0,
-	}, dist => $dist,
-		clean => {
+	},
+	dist => $dist,
+	clean => {
 		FILES => 'HTML-D3-*',
 	},
 );

@@ -78,8 +78,12 @@ None.
 
 #### Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
+    non-arrayref dies.
 
 #### Output
 
@@ -113,8 +117,12 @@ None.
 
 #### Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
+    non-arrayref dies.
 
 #### Output
 
@@ -144,8 +152,12 @@ None.
 
 #### Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required (undef dies)
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
+    non-arrayref dies.
 
 #### Output
 
@@ -177,8 +189,12 @@ None.
 
 #### Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required (undef dies)
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
+    non-arrayref dies.
 
 #### Output
 
@@ -213,8 +229,12 @@ None.
 
 #### Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
+    non-arrayref dies.
 
 #### Output
 
@@ -249,8 +269,12 @@ None.
 
 #### Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
+    non-arrayref dies.
 
 #### Output
 
@@ -303,9 +327,18 @@ None.
 
 #### Input
 
-    $self   : HTML::D3                          -- required
-    $data   : ArrayRef[ ArrayRef[Str, Num, ?HashRef] ] -- required (undef dies)
-    $opts   : HashRef                           -- optional
+    {
+        data => { type => 'arrayref' },
+        opts => { type => 'hashref', optional => 1, default => {} },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]> or C<[ Str, Num, HashRef ]>;
+    passing C<undef> or a non-arrayref dies.
+    Recognised C<opts> keys: C<animated> (boolean, default C<0>),
+    C<donut> (boolean, default C<0>), C<sort_slices> (string: C<'value'>,
+    C<'label'>, or C<'none'>; default C<'none'>), C<max_slices> (integer,
+    default C<0>), C<legend> (boolean, default C<1>),
+    C<color_scheme> (string, default C<'tableau10'>).
 
 #### Output
 
@@ -339,8 +372,12 @@ None.
 
 #### Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
+    non-arrayref dies.
 
 #### Output
 
@@ -408,12 +445,21 @@ never animated regardless of this flag.
 
 ### API SPECIFICATION
 
-Arguments:
+#### Input
 
-- `$data` (required) - arrayref of `[$x, $y]` or `[$x, $y, \%extra]` pairs.
-- `$opts` (optional) - hashref; recognised key: `animated` (boolean).
+    {
+        data => { type => 'arrayref' },
+        opts => { type => 'hashref', optional => 1, default => {} },
+    }
 
-Returns `{ svg_id => 'chart', html => Str }`.
+    Each element of C<$data> is C<[ Str, Num ]> or C<[ Str, Num, HashRef ]>;
+    passing C<undef> or a non-arrayref dies.
+    Recognised C<opts> key: C<animated> (boolean, default C<0>).
+
+#### Output
+
+    HashRef -- C<{ svg_id =E<gt> 'chart', html =E<gt> Str }>;
+               embeddable fragment; no DOCTYPE, no page shell, no D3 CDN tag.
 
 ### Errors
 
@@ -455,8 +501,13 @@ None.
 
 #### Input
 
-    $self : HTML::D3                                                   -- required
-    $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is a hashref with keys C<name> (string) and
+    C<data> (arrayref of hashrefs with C<label> and C<value> keys);
+    passing C<undef> or a non-arrayref dies.
 
 #### Output
 
@@ -489,8 +540,13 @@ None.
 
 #### Input
 
-    $self : HTML::D3                                                   -- required
-    $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is a hashref with keys C<name> (string) and
+    C<data> (arrayref of hashrefs with C<label> and C<value> keys);
+    passing C<undef> or a non-arrayref dies.
 
 #### Output
 
@@ -523,8 +579,13 @@ None.
 
 #### Input
 
-    $self : HTML::D3                                                   -- required
-    $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is a hashref with keys C<name> (string) and
+    C<data> (arrayref of hashrefs with C<label> and C<value> keys);
+    passing C<undef> or a non-arrayref dies.
 
 #### Output
 
@@ -558,8 +619,13 @@ None.
 
 #### Input
 
-    $self : HTML::D3                                                   -- required
-    $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is a hashref with keys C<name> (string) and
+    C<data> (arrayref of hashrefs with C<label> and C<value> keys);
+    passing C<undef> or a non-arrayref dies.
 
 #### Output
 

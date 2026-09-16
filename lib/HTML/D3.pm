@@ -143,8 +143,12 @@ None.
 
 =head4 Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
+    non-arrayref dies.
 
 =head4 Output
 
@@ -262,8 +266,12 @@ None.
 
 =head4 Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
+    non-arrayref dies.
 
 =head4 Output
 
@@ -373,8 +381,12 @@ None.
 
 =head4 Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required (undef dies)
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
+    non-arrayref dies.
 
 =head4 Output
 
@@ -493,8 +505,12 @@ None.
 
 =head4 Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required (undef dies)
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
+    non-arrayref dies.
 
 =head4 Output
 
@@ -628,8 +644,12 @@ None.
 
 =head4 Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
+    non-arrayref dies.
 
 =head4 Output
 
@@ -766,8 +786,12 @@ None.
 
 =head4 Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required; undef dies
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
+    non-arrayref dies.
 
 =head4 Output
 
@@ -938,9 +962,18 @@ None.
 
 =head4 Input
 
-    $self   : HTML::D3                          -- required
-    $data   : ArrayRef[ ArrayRef[Str, Num, ?HashRef] ] -- required (undef dies)
-    $opts   : HashRef                           -- optional
+    {
+        data => { type => 'arrayref' },
+        opts => { type => 'hashref', optional => 1, default => {} },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]> or C<[ Str, Num, HashRef ]>;
+    passing C<undef> or a non-arrayref dies.
+    Recognised C<opts> keys: C<animated> (boolean, default C<0>),
+    C<donut> (boolean, default C<0>), C<sort_slices> (string: C<'value'>,
+    C<'label'>, or C<'none'>; default C<'none'>), C<max_slices> (integer,
+    default C<0>), C<legend> (boolean, default C<1>),
+    C<color_scheme> (string, default C<'tableau10'>).
 
 =head4 Output
 
@@ -1218,8 +1251,12 @@ None.
 
 =head4 Input
 
-    $self : HTML::D3                         -- required
-    $data : ArrayRef[ ArrayRef[Str, Num] ]   -- required
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
+    non-arrayref dies.
 
 =head4 Output
 
@@ -1519,17 +1556,21 @@ never animated regardless of this flag.
 
 =head3 API SPECIFICATION
 
-Arguments:
+=head4 Input
 
-=over 4
+    {
+        data => { type => 'arrayref' },
+        opts => { type => 'hashref', optional => 1, default => {} },
+    }
 
-=item * C<$data> (required) - arrayref of C<[$x, $y]> or C<[$x, $y, \%extra]> pairs.
+    Each element of C<$data> is C<[ Str, Num ]> or C<[ Str, Num, HashRef ]>;
+    passing C<undef> or a non-arrayref dies.
+    Recognised C<opts> key: C<animated> (boolean, default C<0>).
 
-=item * C<$opts> (optional) - hashref; recognised key: C<animated> (boolean).
+=head4 Output
 
-=back
-
-Returns C<{ svg_id =E<gt> 'chart', html =E<gt> Str }>.
+    HashRef -- C<{ svg_id =E<gt> 'chart', html =E<gt> Str }>;
+               embeddable fragment; no DOCTYPE, no page shell, no D3 CDN tag.
 
 =head3 Errors
 
@@ -1806,8 +1847,13 @@ None.
 
 =head4 Input
 
-    $self : HTML::D3                                                   -- required
-    $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is a hashref with keys C<name> (string) and
+    C<data> (arrayref of hashrefs with C<label> and C<value> keys);
+    passing C<undef> or a non-arrayref dies.
 
 =head4 Output
 
@@ -1967,8 +2013,13 @@ None.
 
 =head4 Input
 
-    $self : HTML::D3                                                   -- required
-    $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is a hashref with keys C<name> (string) and
+    C<data> (arrayref of hashrefs with C<label> and C<value> keys);
+    passing C<undef> or a non-arrayref dies.
 
 =head4 Output
 
@@ -2132,8 +2183,13 @@ None.
 
 =head4 Input
 
-    $self : HTML::D3                                                   -- required
-    $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is a hashref with keys C<name> (string) and
+    C<data> (arrayref of hashrefs with C<label> and C<value> keys);
+    passing C<undef> or a non-arrayref dies.
 
 =head4 Output
 
@@ -2334,8 +2390,13 @@ None.
 
 =head4 Input
 
-    $self : HTML::D3                                                   -- required
-    $data : ArrayRef[ HashRef{ name: Str, data: ArrayRef[HashRef] } ] -- required
+    {
+        data => { type => 'arrayref' },
+    }
+
+    Each element of C<$data> is a hashref with keys C<name> (string) and
+    C<data> (arrayref of hashrefs with C<label> and C<value> keys);
+    passing C<undef> or a non-arrayref dies.
 
 =head4 Output
 
