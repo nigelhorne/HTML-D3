@@ -1,5 +1,9 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
+0.14.1
+	[ Bug Fix ]
+	Fix the deliniator character
+
 0.14	Tue Sep 15 09:12:17 PM EDT 2026
 	[ Enhancements ]
 	- render_pie_chart_snippet: major upgrade. Now accepts an optional second

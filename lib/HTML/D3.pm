@@ -18,7 +18,7 @@ HTML::D3 - A simple Perl module for generating charts using D3.js.
 
 =head1 VERSION
 
-Version 0.14
+Version 0.14.1
 
 =cut
 
@@ -1101,7 +1101,7 @@ DONUT
         .html((d, i) => {
             const pct = (d.data.value / total * 100).toFixed(1);
             const sw = '<span class="bi-pie-swatch" style="background:' + color(d.data.label) + '"></span>';
-            return sw + ' ' + d.data.label + ' — ' + fmt(d.data.value) + ' (' + pct + '%)';
+            return sw + ' ' + d.data.label + ' / ' + fmt(d.data.value) + ' (' + pct + '%)';
         });
 LEGEND_JS
 
