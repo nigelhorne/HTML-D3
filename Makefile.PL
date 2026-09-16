@@ -22,13 +22,21 @@ WriteMakefile(
 	CONFIGURE_REQUIRES => {
 		'ExtUtils::MakeMaker' => 6.64,
 	}, META_MERGE => {
-		optional_features => {
+		prereqs => {
+			runtime => {
+				recommends => {
+					# 'Params::Validate::Strict' => 0,
+					'Test::HTML::T5' => 0,
+				},
+			},
+		}, optional_features => {
 			html_testing => {
 				description => 'Test the HTML output',
-				prereqs => { runtime => { recommends => { 'Test::HTML::T5' => 0 } } },
+				prereqs => {
+					runtime => { recommends => { 'Test::HTML::T5' => 0 } }
+				},
 			},
-		},
-		resources => {
+		}, resources => {
 			repository => {
 				type => 'git',
 				url => 'https://github.com/nigelhorne/HTML-D3.git',

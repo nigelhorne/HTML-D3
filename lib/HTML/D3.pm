@@ -1,5 +1,6 @@
 package HTML::D3;
 
+use 5.010;
 use strict;
 use warnings;
 
@@ -7,7 +8,7 @@ use Carp qw(carp);
 use JSON::MaybeXS;
 use Object::Configure;
 use Params::Get;
-use Scalar::Util;
+use Scalar::Util qw(blessed);
 
 # TODO: add animated tooltips to charts with legends
 
@@ -60,6 +61,12 @@ The module generates HTML and JavaScript code to render the chart in a web brows
 
 =head1 METHODS
 
+The C<=head3 API SPECIFICATION> subsections use L<Params::Validate::Strict>
+schema syntax (C<< type => 'arrayref' >> etc.) as a documentation convention.
+C<Params::Validate::Strict> is not a runtime dependency of this module; the
+schemas describe the parameter contract in machine-readable notation and can be
+plumbed into a WAF or test generator if desired.
+
 =head2 new
 
     my $chart = HTML::D3->new(%args);
@@ -95,7 +102,7 @@ sub new
 		}
 		# FIXME: this only works when no arguments are given
 		$class = __PACKAGE__;
-	} elsif(Scalar::Util::blessed($class)) {
+	} elsif(blessed($class)) {
 		# If $class is an object, clone it with new arguments
 		return bless { %{$class}, %{$params} }, ref($class);
 	}
@@ -395,20 +402,20 @@ None.
 =cut
 
 sub render_line_chart {
-    my ($self, $data) = @_;
+	my ($self, $data) = @_;
 
-    # Validate input data
-    die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
+	# Validate input data
+	die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
 
-    # Generate JSON for data
-    my $json_data = encode_json([
-	map { { label => $_->[0], value => $_->[1] } } @$data
-    ]);
+	# Generate JSON for data
+	my $json_data = encode_json([
+		map { { label => $_->[0], value => $_->[1] } } @$data
+	]);
 
-    # Generate HTML and D3.js code
-    my $html = $self->_preamble();
-    $html .= $self->_head();
-    $html .= <<"HTML";
+	# Generate HTML and D3.js code
+	my $html = $self->_preamble();
+	$html .= $self->_head();
+	$html .= <<"HTML";
 <body>
     <h1 style="text-align: center;">$self->{title}</h1>
     <svg id="chart" width="$self->{width}" height="$self->{height}" style="border: 1px solid black;"></svg>
@@ -468,7 +475,7 @@ sub render_line_chart {
 </html>
 HTML
 
-    return $html;
+	return $html;
 }
 
 =head2 render_animated_line_chart
@@ -2648,7 +2655,89 @@ Nigel Horne <njh@nigelhorne.com>
     post "<!DOCTYPE" ⊆ result
     post "d3.scalePoint" ⊆ result ∧ "d3.line()" ⊆ result
 
-=head2 render_lint_chart_with_tooltips
+=head2 render_animated_bar_chart
+
+    render_animated_bar_chart : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  data = undef              ⇒ die "Data is not optional"
+    pre  ref(data) ≠ 'ARRAY'      ⇒ die "Data must be an array of arrays"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post ".transition()" ⊆ result ∧ ".delay(" ⊆ result
+
+=head2 render_animated_line_chart
+
+    render_animated_line_chart : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of arrays"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post "stroke-dashoffset" ⊆ result ∧ "d3.easeLinear" ⊆ result
+
+=head2 render_pie_chart
+
+    render_pie_chart : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  data = undef              ⇒ die "Data is not optional"
+    pre  ref(data) ≠ 'ARRAY'      ⇒ die "Data must be an array of arrays"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post "d3.pie()" ⊆ result ∧ "d3.arc()" ⊆ result ∧ "d3.schemeCategory10" ⊆ result
+
+=head2 render_animated_pie_chart
+
+    render_animated_pie_chart : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
+
+    pre  data = undef              ⇒ die "Data is not optional"
+    pre  ref(data) ≠ 'ARRAY'      ⇒ die "Data must be an array of arrays"
+    post result ∈ Str
+    post "<!DOCTYPE" ⊆ result
+    post "attrTween" ⊆ result ∧ "d3.interpolate" ⊆ result
+
+=head2 render_line_chart_snippet
+
+    render_line_chart_snippet : HTML::D3 × (ArrayRef | undef) → HashRef ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of arrays"
+    post result ∈ HashRef
+    post result.svg_id = "chart"
+    post result.html ∈ Str
+    post "<!DOCTYPE" ∉ result.html
+
+=head2 render_zoomable_line_chart_snippet
+
+    render_zoomable_line_chart_snippet :
+        HTML::D3 × (ArrayRef | undef) × (HashRef | undef) → HashRef ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of arrays"
+    post result ∈ HashRef
+    post result.svg_id = "chart"
+    post result.html ∈ Str
+    post "<!DOCTYPE" ∉ result.html
+    post "d3.brushX()" ⊆ result.html
+    post opts.animated = 1  ⇒  "stroke-dashoffset" ⊆ result.html
+                              ∧ "initialDrawDone" ⊆ result.html
+
+=head2 render_pie_chart_snippet
+
+    render_pie_chart_snippet :
+        HTML::D3 × (ArrayRef | undef) × (HashRef | undef) → HashRef ∪ ⊥
+
+    pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of arrays"
+    pre  ∀ d ∈ data . d[1] < 0  ⇒  d[1] := |d[1]|      -- negative → absolute
+    pre  ∀ d ∈ data . d[1] = 0  ⇒  d ∉ result           -- zero → omitted
+    post result ∈ HashRef
+    post result.svg_id = "pie_chart"
+    post result.html ∈ Str
+    post "<!DOCTYPE" ∉ result.html
+    post "d3.pie()" ⊆ result.html ∧ "schemeTableau10" ⊆ result.html
+    post opts.animated = 1  ⇒  "attrTween" ⊆ result.html
+                              ∧ "initialDrawDone" ⊆ result.html
+    post opts.donut = 1     ⇒  "innerRadius" ⊆ result.html
+    post opts.max_slices = N ∧ N ≥ 2 ∧ |data| > N
+                            ⇒  |result_slices| = N ∧ "Other" ∈ result_labels
+
+=head2 render_line_chart_with_tooltips
 
     render_line_chart_with_tooltips : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
 
