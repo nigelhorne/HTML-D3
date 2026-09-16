@@ -8,6 +8,7 @@ use Carp qw(carp);
 use JSON::MaybeXS;
 use Object::Configure;
 use Params::Get;
+use Params::Validate::Strict;
 use Scalar::Util qw(blessed);
 
 # TODO: add animated tooltips to charts with legends
@@ -92,7 +93,26 @@ sub new
 	my $class = shift;
 
 	# Handle hash or hashref arguments
-	my $params = Params::Get::get_params(undef, @_) || {};
+        my $params = Params::Validate::Strict::validate_strict({
+		args => Params::Get::get_params(undef, \@_) || {},
+		schema => {
+			height => {
+				type => 'integer',
+				optional => 1,
+				minimum => 1,
+				# default => 600
+			}, width => {
+				type => 'integer',
+				optional => 1,
+				minimum => 1,
+				# default => 800
+			}, title => {
+				type => 'string',
+				optional => 1,
+				# default => 'Chart'
+			}
+		}
+	});
 
 	if(!defined($class)) {
 		if((scalar keys %{$params}) > 0) {
