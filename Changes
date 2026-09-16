@@ -1,6 +1,6 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
-0.15	Tue Sep 16 2026
+0.15	Wed Sep 16 01:51:38 PM EDT 2026
 	[ Enhancements ]
 	- render_pie_chart, render_animated_pie_chart, render_pie_chart_snippet: new
 	  optional C<separator> key in the C<%opts> second argument controls the

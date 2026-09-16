@@ -45,9 +45,10 @@ The module generates HTML and JavaScript code to render the chart in a web brows
 
 The `=head3 API SPECIFICATION` subsections use [Params::Validate::Strict](https://metacpan.org/pod/Params%3A%3AValidate%3A%3AStrict)
 schema syntax (`type => 'arrayref'` etc.) as a documentation convention.
-`Params::Validate::Strict` is not a runtime dependency of this module; the
-schemas describe the parameter contract in machine-readable notation and can be
-plumbed into a WAF or test generator if desired.
+The module is also used at runtime in `new()` to validate constructor
+arguments; it is therefore a required runtime dependency.  The schemas describe
+the parameter contract in machine-readable notation and can be plumbed into a
+WAF or test generator if desired.
 
 ## new
 
