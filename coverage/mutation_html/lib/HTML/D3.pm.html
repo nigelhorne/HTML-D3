@@ -359,7 +359,7 @@ Approximate LCSAJ segments: 83<br>
 </span><span class="">   18: 
 </span><span class="">   19: =head1 VERSION
 </span><span class="">   20: 
-</span><span class="">   21: Version 0.14
+</span><span class="">   21: Version 0.14.1
 </span><span class="">   22: 
 </span><span class="">   23: =cut
 </span><span class="">   24: 
@@ -428,31 +428,31 @@ Approximate LCSAJ segments: 83<br>
 </span><span class="">   87: =cut
 </span><span class="">   88: 
 </span><span class="">   89: # Constructor to initialize chart properties
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   90: sub new
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   91: {
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">92 → 97 → 110</span></span>   92: 	my $class = shift;
+</span><span class="">   90: sub new
+</span><span class="">   91: {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">92 → 97 → 110</span></span>   92: 	my $class = shift;
 </span><span class="">   93: 
 </span><span class="">   94: 	# Handle hash or hashref arguments
 </span><span class="">   95: 	my $params = Params::Get::get_params(undef, @_) || {};
 </span><span class="">   96: 
-</span><span class="">   97: 	if(!defined($class)) {
-</span><span class="">   98: 		if((scalar keys %{$params}) &gt; 0) {
-</span><span class="">   99: 			# Using HTML::D3-&gt;new(), not HTML::D3::new()
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  100: 			carp(__PACKAGE__, &#39; use -&gt;new() not ::new() to instantiate&#39;);
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  101: 			return;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   97: 	if(!defined($class)) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   98: 		if((scalar keys %{$params}) &gt; 0) {
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">   99: 			# Using HTML::D3-&gt;new(), not HTML::D3::new()
+</span><span class="">  100: 			carp(__PACKAGE__, &#39; use -&gt;new() not ::new() to instantiate&#39;);
+</span><span class="">  101: 			return;
 </span><span class="">  102: 		}
 </span><span class="">  103: 		# FIXME: this only works when no arguments are given
 </span><span class="">  104: 		$class = __PACKAGE__;
 </span><span class="">  105: 	} elsif(blessed($class)) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  106: 		# If $class is an object, clone it with new arguments
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  107: 		return bless { %{$class}, %{$params} }, ref($class);
-</span><span class="">  108: 	}
+</span><span class="">  106: 		# If $class is an object, clone it with new arguments
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  107: 		return bless { %{$class}, %{$params} }, ref($class);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  108: 	}
 </span><span class="">  109: 
 </span><span class="">  110: 	$params = Object::Configure::configure($class, $params);
 </span><span class="">  111: 
 </span><span class="">  112: 	# Return the blessed object
-</span><span class="">  113: 	return bless {
-</span><span class="">  114: 		width =&gt; $params-&gt;{width}  || 800,  # Default chart width
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  113: 	return bless {
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  114: 		width =&gt; $params-&gt;{width}  || 800,  # Default chart width
 </span><span class="">  115: 		height =&gt; $params-&gt;{height} || 600,  # Default chart height
 </span><span class="">  116: 		title =&gt; $params-&gt;{title}  || &#39;Chart&#39;,  # Default chart title
 </span><span class="">  117: 	}, $class;
@@ -564,8 +564,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class="">  223: 	    .call(d3.axisLeft(y));
 </span><span class="">  224: 
 </span><span class="">  225: 	// Add the x-axis with labels rotated for better readability
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  226: 	chart.append(&quot;g&quot;)
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  227: 	    .attr(&quot;transform&quot;, `translate(0,\${height})`)
+</span><span class="">  226: 	chart.append(&quot;g&quot;)
+</span><span class="">  227: 	    .attr(&quot;transform&quot;, `translate(0,\${height})`)
 </span><span class="">  228: 	    .call(d3.axisBottom(x))
 </span><span class="">  229: 	    .selectAll(&quot;text&quot;)
 </span><span class="">  230: 	    .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
@@ -575,8 +575,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class="">  234: &lt;/html&gt;
 </span><span class="">  235: HTML
 </span><span class="">  236: 
-</span><span class="">  237:     return $html;
-</span><span class="">  238: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  237:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  238: }
 </span><span class="">  239: 
 </span><span class="">  240: =head2 render_animated_bar_chart
 </span><span class="">  241: 
@@ -680,8 +680,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class="">  339: 	    .delay((d, i) =&gt; i * 100)
 </span><span class="">  340: 	    .attr(&quot;y&quot;, d =&gt; y(d.value))
 </span><span class="">  341: 	    .attr(&quot;height&quot;, d =&gt; height - y(d.value));
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  342: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  343: 	chart.append(&quot;g&quot;)
+</span><span class="">  342: 
+</span><span class="">  343: 	chart.append(&quot;g&quot;)
 </span><span class="">  344: 	    .call(d3.axisLeft(y));
 </span><span class="">  345: 
 </span><span class="">  346: 	chart.append(&quot;g&quot;)
@@ -695,8 +695,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class="">  354: &lt;/html&gt;
 </span><span class="">  355: HTML
 </span><span class="">  356: 
-</span><span class="">  357: 	return $html;
-</span><span class="">  358: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  357: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  358: }
 </span><span class="">  359: 
 </span><span class="">  360: =head2 render_line_chart
 </span><span class="">  361: 
@@ -797,8 +797,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class="">  456: 	    .data(data)
 </span><span class="">  457: 	    .join(&quot;circle&quot;)
 </span><span class="">  458: 	    .attr(&quot;cx&quot;, d =&gt; x(d.label))
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  459: 	    .attr(&quot;cy&quot;, d =&gt; y(d.value))
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  460: 	    .attr(&quot;r&quot;, 4)
+</span><span class="">  459: 	    .attr(&quot;cy&quot;, d =&gt; y(d.value))
+</span><span class="">  460: 	    .attr(&quot;r&quot;, 4)
 </span><span class="">  461: 	    .attr(&quot;fill&quot;, &quot;steelblue&quot;);
 </span><span class="">  462: 
 </span><span class="">  463: 	// Add axes
@@ -816,8 +816,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class="">  475: &lt;/html&gt;
 </span><span class="">  476: HTML
 </span><span class="">  477: 
-</span><span class="">  478: 	return $html;
-</span><span class="">  479: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  478: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  479: }
 </span><span class="">  480: 
 </span><span class="">  481: =head2 render_animated_line_chart
 </span><span class="">  482: 
@@ -930,8 +930,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class="">  589: 	    .data(data)
 </span><span class="">  590: 	    .join(&quot;circle&quot;)
 </span><span class="">  591: 	    .attr(&quot;cx&quot;, d =&gt; x(d.label))
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  592: 	    .attr(&quot;cy&quot;, d =&gt; y(d.value))
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  593: 	    .attr(&quot;r&quot;, 4)
+</span><span class="">  592: 	    .attr(&quot;cy&quot;, d =&gt; y(d.value))
+</span><span class="">  593: 	    .attr(&quot;r&quot;, 4)
 </span><span class="">  594: 	    .attr(&quot;fill&quot;, &quot;steelblue&quot;)
 </span><span class="">  595: 	    .attr(&quot;opacity&quot;, 0)
 </span><span class="">  596: 	    .transition()
@@ -953,8 +953,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class="">  612: &lt;/html&gt;
 </span><span class="">  613: HTML
 </span><span class="">  614: 
-</span><span class="">  615: 	return $html;
-</span><span class="">  616: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  615: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  616: }
 </span><span class="">  617: 
 </span><span class="">  618: =head2 render_pie_chart
 </span><span class="">  619: 
@@ -1068,8 +1068,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class="">  727: 	    .attr(&quot;font-size&quot;, &quot;11px&quot;)
 </span><span class="">  728: 	    .attr(&quot;fill&quot;, &quot;white&quot;)
 </span><span class="">  729: 	    .attr(&quot;pointer-events&quot;, &quot;none&quot;)
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  730: 	    .text(d =&gt; Math.round(d.data.value / total * 100) + &quot;%&quot;);
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  731: 
+</span><span class="">  730: 	    .text(d =&gt; Math.round(d.data.value / total * 100) + &quot;%&quot;);
+</span><span class="">  731: 
 </span><span class="">  732: 	// Legend
 </span><span class="">  733: 	const legend = svg.append(&quot;g&quot;)
 </span><span class="">  734: 	    .attr(&quot;transform&quot;, `translate(\${width * 0.72},\${(height - data.length * 22) / 2})`);
@@ -1095,8 +1095,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class="">  754: &lt;/html&gt;
 </span><span class="">  755: HTML
 </span><span class="">  756: 
-</span><span class="">  757: 	return $html;
-</span><span class="">  758: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  757: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  758: }
 </span><span class="">  759: 
 </span><span class="">  760: =head2 render_animated_pie_chart
 </span><span class="">  761: 
@@ -1217,8 +1217,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class="">  876: 	    .attr(&quot;fill&quot;, &quot;white&quot;)
 </span><span class="">  877: 	    .attr(&quot;pointer-events&quot;, &quot;none&quot;)
 </span><span class="">  878: 	    .attr(&quot;opacity&quot;, 0)
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  879: 	    .text(d =&gt; Math.round(d.data.value / total * 100) + &quot;%&quot;)
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  880: 	    .transition()
+</span><span class="">  879: 	    .text(d =&gt; Math.round(d.data.value / total * 100) + &quot;%&quot;)
+</span><span class="">  880: 	    .transition()
 </span><span class="">  881: 	    .delay(1000)
 </span><span class="">  882: 	    .duration(300)
 </span><span class="">  883: 	    .attr(&quot;opacity&quot;, 1);
@@ -1248,8 +1248,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class="">  907: &lt;/html&gt;
 </span><span class="">  908: HTML
 </span><span class="">  909: 
-</span><span class="">  910: 	return $html;
-</span><span class="">  911: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  910: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  911: }
 </span><span class="">  912: 
 </span><span class="">  913: =head2 render_pie_chart_snippet
 </span><span class="">  914: 
@@ -1347,22 +1347,51 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 1006: 	my @slices;
 </span><span class=""> 1007: 	for my $pt (@$data) {
 </span><span class=""> 1008: 		my $val = abs($pt-&gt;[1] // 0);
-</span><span class=""> 1009: 		next if $val == 0;
-</span><span class=""> 1010: 		my %s = (label =&gt; $pt-&gt;[0], value =&gt; $val);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1009: 		next if $val == 0;
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 1010: 		my %s = (label =&gt; $pt-&gt;[0], value =&gt; $val);
 </span><span class=""> 1011: 		$s{extra} = $pt-&gt;[2] if ref($pt-&gt;[2]) eq &#39;HASH&#39;;
 </span><span class=""> 1012: 		push @slices, \%s;
 </span><span class=""> 1013: 	}
 </span><span class=""> 1014: 
 </span><span class=""> 1015: 	# Sort before max_slices so the &quot;top N&quot; is stable
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">1016 → 1016 → 1023</span></span> 1016: 	if ($sort_slices eq &#39;value&#39;) {
-</span><span class=""> 1017: 		@slices = sort { $b-&gt;{value} &lt;=&gt; $a-&gt;{value} } @slices;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">1016 → 1016 → 1023</span></span> 1016: 	if ($sort_slices eq &#39;value&#39;) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 1017: 		@slices = sort { $b-&gt;{value} &lt;=&gt; $a-&gt;{value} } @slices;
 </span><span class=""> 1018: 	} elsif ($sort_slices eq &#39;label&#39;) {
 </span><span class=""> 1019: 		@slices = sort { $a-&gt;{label} cmp $b-&gt;{label} } @slices;
 </span><span class=""> 1020: 	}
 </span><span class=""> 1021: 
 </span><span class=""> 1022: 	# Collapse tail into &quot;Other&quot;
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">1023 → 1023 → 1032</span></span> 1023: 	if ($max_slices &gt;= 2 &amp;&amp; scalar(@slices) &gt; $max_slices) {
-</span><span class=""> 1024: 		my @by_val = sort { $b-&gt;{value} &lt;=&gt; $a-&gt;{value} } @slices;
+</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one)."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">1023 → 1023 → 1032</span></span> 1023: 	if ($max_slices &gt;= 2 &amp;&amp; scalar(@slices) &gt; $max_slices) {
+</span>
+					<details class="mutant-details">
+					<summary>Mutants (Total: 7, Killed: 4, Survived: 3)</summary>
+					<ul>
+				<li><b>NUM_BOUNDARY_1023_18_&gt;: Numeric boundary flip &gt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+
+								<div class="suggested-test">
+								<div class="suggest-label">🧪 Suggested Test</div>
+								<pre># Boundary test suggestion
+is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
+</pre>
+								</div>
+							</li><li><b>NUM_BOUNDARY_1023_18_&lt;: Numeric boundary flip &gt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+
+								<div class="suggested-test">
+								<div class="suggest-label">🧪 Suggested Test</div>
+								<pre># Boundary test suggestion
+is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
+</pre>
+								</div>
+							</li><li><b>NUM_BOUNDARY_1023_18_&lt;=: Numeric boundary flip &gt;= to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
+
+								<div class="suggested-test">
+								<div class="suggest-label">🧪 Suggested Test</div>
+								<pre># Boundary test suggestion
+is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
+</pre>
+								</div>
+							</li></ul></details>
+<span class=""> 1024: 		my @by_val = sort { $b-&gt;{value} &lt;=&gt; $a-&gt;{value} } @slices;
 </span><span class=""> 1025: 		my @top    = @by_val[0 .. $max_slices - 2];
 </span><span class=""> 1026: 		my $other  = 0;
 </span><span class=""> 1027: 		$other += $_-&gt;{value} for @by_val[$max_slices - 1 .. $#by_val];
@@ -1399,8 +1428,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 1058: 
 </span><span class=""> 1059: 	# Path drawing code &acirc;&#128;&#148; animated vs plain
 </span><span class=""> 1060: 	my $anim_draw_js;
-</span><span class=""> 1061: 	if ($animated) {
-</span><span class=""> 1062: 		$anim_draw_js = &lt;&lt;&quot;ANIM_DRAW&quot;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1061: 	if ($animated) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 1062: 		$anim_draw_js = &lt;&lt;&quot;ANIM_DRAW&quot;;
 </span><span class=""> 1063:     if (!initialDrawDone &amp;&amp; !noAnim) {
 </span><span class=""> 1064:         paths.attr(&quot;d&quot;, arc({ startAngle: 0, endAngle: 0 }))
 </span><span class=""> 1065:             .transition()
@@ -1442,7 +1471,7 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 1101:         .html((d, i) =&gt; {
 </span><span class=""> 1102:             const pct = (d.data.value / total * 100).toFixed(1);
 </span><span class=""> 1103:             const sw = &#39;&lt;span class=&quot;bi-pie-swatch&quot; style=&quot;background:&#39; + color(d.data.label) + &#39;&quot;&gt;&lt;/span&gt;&#39;;
-</span><span class=""> 1104:             return sw + &#39; &#39; + d.data.label + &#39; &acirc;&#128;&#148; &#39; + fmt(d.data.value) + &#39; (&#39; + pct + &#39;%)&#39;;
+</span><span class=""> 1104:             return sw + &#39; &#39; + d.data.label + &#39; / &#39; + fmt(d.data.value) + &#39; (&#39; + pct + &#39;%)&#39;;
 </span><span class=""> 1105:         });
 </span><span class=""> 1106: LEGEND_JS
 </span><span class=""> 1107: 
@@ -1502,8 +1531,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 1161:     const color = d3.scaleOrdinal(SCHEMES[&#39;$color_scheme&#39;] || d3.schemeTableau10)
 </span><span class=""> 1162:         .domain(data.map(d =&gt; d.label));
 </span><span class=""> 1163: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1164:     const width  = $width;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1165:     const height = $height;
+</span><span class=""> 1164:     const width  = $width;
+</span><span class=""> 1165:     const height = $height;
 </span><span class=""> 1166:     const radius = Math.min(width, height) / 2 - 40;
 </span><span class=""> 1167:     const innerRadius = $inner_radius_js;
 </span><span class=""> 1168: 
@@ -1720,8 +1749,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 1379: &lt;/html&gt;
 </span><span class=""> 1380: HTML
 </span><span class=""> 1381: 
-</span><span class=""> 1382:     return $html;
-</span><span class=""> 1383: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1382:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1383: }
 </span><span class=""> 1384: 
 </span><span class=""> 1385: =head2 render_line_chart_snippet
 </span><span class=""> 1386: 
@@ -1754,8 +1783,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 1413: 
 </span><span class=""> 1414: Returns a hash reference with:
 </span><span class=""> 1415: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1416: =over 4
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 1417: 
+</span><span class=""> 1416: =over 4
+</span><span class=""> 1417: 
 </span><span class=""> 1418: =item * C&lt;svg_id&gt; - The C&lt;id&gt; attribute used on the C&lt;&lt;svg&gt;&gt; element.
 </span><span class=""> 1419: 
 </span><span class=""> 1420: =item * C&lt;html&gt; - The embeddable fragment string.
@@ -1976,8 +2005,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 1635: 	my $init_flag   = $opts-&gt;{animated} ? &#39;let initialDrawDone = false;&#39; : &#39;&#39;;
 </span><span class=""> 1636: 
 </span><span class=""> 1637: 	my $redraw_body;
-</span><span class=""> 1638: 	if ($opts-&gt;{animated}) {
-</span><span class=""> 1639: 		$redraw_body = &lt;&lt;&quot;ANIM&quot;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1638: 	if ($opts-&gt;{animated}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 1639: 		$redraw_body = &lt;&lt;&quot;ANIM&quot;;
 </span><span class=""> 1640: 	if (!initialDrawDone) {
 </span><span class=""> 1641: 	    var prefersReduced = window.matchMedia &amp;&amp;
 </span><span class=""> 1642: 		window.matchMedia(&#39;(prefers-reduced-motion: reduce)&#39;).matches;
@@ -2096,8 +2125,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 1755: 	.x(d =&gt; x(d.label))
 </span><span class=""> 1756: 	.y(d =&gt; y(d.value));
 </span><span class=""> 1757: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1758:     // Brush appended first so circles sit above it and receive mouse events
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1759:     const brush = d3.brushX()
+</span><span class=""> 1758:     // Brush appended first so circles sit above it and receive mouse events
+</span><span class=""> 1759:     const brush = d3.brushX()
 </span><span class=""> 1760: 	.extent([[0, 0], [width, height]])
 </span><span class=""> 1761: 	.on(&quot;end&quot;, brushed);
 </span><span class=""> 1762:     const brushGroup = chart.append(&quot;g&quot;).attr(&quot;class&quot;, &quot;brush&quot;).call(brush);
@@ -2261,8 +2290,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 1920: 	const x = d3.scalePoint()
 </span><span class=""> 1921: 	    .domain(allLabels)
 </span><span class=""> 1922: 	    .range([0, width]);
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1923: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1924: 	const y = d3.scaleLinear()
+</span><span class=""> 1923: 
+</span><span class=""> 1924: 	const y = d3.scaleLinear()
 </span><span class=""> 1925: 	    .domain([0, d3.max(data.flatMap(series =&gt; series.data.map(d =&gt; d.value)))])
 </span><span class=""> 1926: 	    .nice()
 </span><span class=""> 1927: 	    .range([height, 0]);
@@ -2323,8 +2352,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 1982: &lt;/html&gt;
 </span><span class=""> 1983: HTML
 </span><span class=""> 1984: 
-</span><span class=""> 1985:     return $html;
-</span><span class=""> 1986: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1985:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1986: }
 </span><span class=""> 1987: 
 </span><span class=""> 1988: =head2 render_multi_series_line_chart_with_animated_tooltips
 </span><span class=""> 1989: 
@@ -2463,8 +2492,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 2122: 		.attr(&quot;stroke-width&quot;, 2)
 </span><span class=""> 2123: 		.attr(&quot;d&quot;, line);
 </span><span class=""> 2124: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2125: 	    // Add points and tooltips
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 2126: 	    chart.selectAll(\`circle.series-\${i}\`)
+</span><span class=""> 2125: 	    // Add points and tooltips
+</span><span class=""> 2126: 	    chart.selectAll(\`circle.series-\${i}\`)
 </span><span class=""> 2127: 		.data(series.data)
 </span><span class=""> 2128: 		.join(&quot;circle&quot;)
 </span><span class=""> 2129: 		.attr(&quot;class&quot;, \`series-\${i}\`)
@@ -2493,8 +2522,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 2152: &lt;/html&gt;
 </span><span class=""> 2153: HTML
 </span><span class=""> 2154: 
-</span><span class=""> 2155:     return $html;
-</span><span class=""> 2156: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2155:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 2156: }
 </span><span class=""> 2157: 
 </span><span class=""> 2158: =head2 render_multi_series_line_chart_with_legends
 </span><span class=""> 2159: 
@@ -2670,8 +2699,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 2329:                            .style(&quot;transform&quot;, &quot;translateY(-10px)&quot;);
 </span><span class=""> 2330:                 });
 </span><span class=""> 2331:         });
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2332: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 2333:         // Add legend
+</span><span class=""> 2332: 
+</span><span class=""> 2333:         // Add legend
 </span><span class=""> 2334:         data.forEach((series, i) =&gt; {
 </span><span class=""> 2335:             const legend = legendArea.append(&quot;g&quot;)
 </span><span class=""> 2336:                 .attr(&quot;transform&quot;, `translate(0, \${i * 20})`)
@@ -2679,8 +2708,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 2338: 
 </span><span class=""> 2339:             legend.append(&quot;rect&quot;)
 </span><span class=""> 2340:                 .attr(&quot;width&quot;, 12)
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2341:                 .attr(&quot;height&quot;, 12)
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 2342:                 .attr(&quot;fill&quot;, color(i));
+</span><span class=""> 2341:                 .attr(&quot;height&quot;, 12)
+</span><span class=""> 2342:                 .attr(&quot;fill&quot;, color(i));
 </span><span class=""> 2343: 
 </span><span class=""> 2344:             legend.append(&quot;text&quot;)
 </span><span class=""> 2345:                 .attr(&quot;x&quot;, 20)
@@ -2694,14 +2723,14 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 2353:             //     d3.selectAll(\`path.line-\${i}\`).style(&quot;opacity&quot;, visible);
 </span><span class=""> 2354:             //     d3.selectAll(\`circle.series-\${i}\`).style(&quot;opacity&quot;, visible);
 </span><span class=""> 2355:             // });
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2356:         });
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 2357:     &lt;/script&gt;
+</span><span class=""> 2356:         });
+</span><span class=""> 2357:     &lt;/script&gt;
 </span><span class=""> 2358: &lt;/body&gt;
 </span><span class=""> 2359: &lt;/html&gt;
 </span><span class=""> 2360: HTML
 </span><span class=""> 2361: 
-</span><span class=""> 2362:     return $html;
-</span><span class=""> 2363: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2362:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 2363: }
 </span><span class=""> 2364: 
 </span><span class=""> 2365: =head2 render_multi_series_line_chart_with_interactive_legends
 </span><span class=""> 2366: 
@@ -2912,8 +2941,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 2571: &lt;/html&gt;
 </span><span class=""> 2572: HTML
 </span><span class=""> 2573: 
-</span><span class=""> 2574:     return $html;
-</span><span class=""> 2575: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2574:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 2575: }
 </span><span class=""> 2576: 
 </span><span class=""> 2577: sub _preamble
 </span><span class=""> 2578: {
@@ -2921,8 +2950,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 2580: &lt;!DOCTYPE html&gt;
 </span><span class=""> 2581: &lt;html lang=&quot;en&quot;&gt;
 </span><span class=""> 2582: HTML
-</span><span class=""> 2583: 	return $html;
-</span><span class=""> 2584: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2583: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 2584: }
 </span><span class=""> 2585: 
 </span><span class=""> 2586: sub _head
 </span><span class=""> 2587: {
@@ -2936,8 +2965,8 @@ Approximate LCSAJ segments: 83<br>
 </span><span class=""> 2595: 	&lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
 </span><span class=""> 2596: &lt;/head&gt;
 </span><span class=""> 2597: HTML
-</span><span class=""> 2598: 	return $html;
-</span><span class=""> 2599: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2598: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 2599: }
 </span><span class=""> 2600: 
 </span><span class=""> 2601: =head1 SUPPORT
 </span><span class=""> 2602: 
