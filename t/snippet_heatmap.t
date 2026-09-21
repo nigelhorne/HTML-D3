@@ -29,7 +29,7 @@ is($fragment->{svg_id}, 'heatmap', 'svg_id is "heatmap"');
 
 my $html = $fragment->{html};
 like($html, qr/<svg id="heatmap"/,   'SVG element has id="heatmap"');
-like($html, qr/scaleSequential/,     'Uses d3.scaleSequential');
+like($html, qr/scaleSequential/, 'Uses d3.scaleSequential');
 like($html, qr/interpolateYlOrRd/,   'Default color scheme is YlOrRd');
 unlike($html, qr/<!DOCTYPE/i,        'No DOCTYPE (snippet)');
 unlike($html, qr/<html/i,            'No <html> wrapper');
@@ -88,5 +88,5 @@ throws_ok { $chart->render_heatmap_snippet(\@triples, { cell_padding => 9 }) }
 my @zeros = (['A', 'X', 0], ['B', 'Y', 0]);
 my $f_zeros;
 lives_ok { $f_zeros = $chart->render_heatmap_snippet(\@zeros) }
-    'All-zero values render without error (degenerate domain fallback)';
+	'All-zero values render without error (degenerate domain fallback)';
 ok(length($f_zeros->{html}) > 0, 'All-zero output is non-empty');
