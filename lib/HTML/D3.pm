@@ -1426,9 +1426,15 @@ sub render_heatmap_snippet {
 
 	my $json_data = encode_json(\@triples);
 
-	my $x_label_json  = encode_json($x_label);
-	my $y_label_json  = encode_json($y_label);
-	my $val_label_json = encode_json($val_label);
+	# encode_json only accepts refs; escape label strings manually for JS
+	my ($x_label_esc, $y_label_esc, $val_label_esc) = map {
+		my $s = $_;
+		$s =~ s/\\/\\\\/g;
+		$s =~ s/"/\\"/g;
+		$s =~ s/\n/\\n/g;
+		$s =~ s/\r/\\r/g;
+		$s
+	} ($x_label, $y_label, $val_label);
 
 	my $svg_id = 'heatmap';
 	my $tip_id = 'heatmap_tip';
@@ -1512,9 +1518,9 @@ LEGBLOCK
     var data = $json_data;
     var cellPad = $cell_padding;
     var showVals0 = $show_values;
-    var xLabelStr = $x_label_json;
-    var yLabelStr = $y_label_json;
-    var valLabelStr = $val_label_json;
+    var xLabelStr = "$x_label_esc";
+    var yLabelStr = "$y_label_esc";
+    var valLabelStr = "$val_label_esc";
     var margin = { top: $margin_top, right: $margin_right, bottom: $margin_bottom, left: $margin_left };
     var innerW = $inner_w;
     var innerH = $inner_h;
