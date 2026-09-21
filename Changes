@@ -1,6 +1,6 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
-0.16
+0.16	Mon Sep 21 07:34:35 PM EDT 2026
 	[ Enhancements ]
 	- render_heatmap_snippet: new snippet method that generates an embeddable
 	  D3 v7 grid heatmap. Accepts an array of [$x, $y, $value] triples and an
