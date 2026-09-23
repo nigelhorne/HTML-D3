@@ -1467,5 +1467,289 @@ subtest 'render_bar_chart_snippet - no circular references with combined opts' =
 };
 
 # ---------------------------------------------------------------------------
+# render_pie_chart_snippet -- XSS (esc function)
+# ---------------------------------------------------------------------------
+
+subtest 'render_pie_chart_snippet - esc() function present in output' => sub {
+	my $html = HTML::D3->new()->render_pie_chart_snippet(
+		[['Alpha', 300], ['Beta', 150]],
+	)->{html};
+	like($html, qr/function esc\(/, 'esc() helper present in pie snippet output');
+};
+
+# ---------------------------------------------------------------------------
+# id opt -- all five snippet methods honour the id override
+# ---------------------------------------------------------------------------
+
+subtest 'id opt - render_pie_chart_snippet custom id' => sub {
+	my $res = HTML::D3->new()->render_pie_chart_snippet(
+		[['A', 1], ['B', 2]], { id => 'my_pie' },
+	);
+	is($res->{svg_id}, 'my_pie', 'svg_id set to custom value');
+	like($res->{html}, qr/id="my_pie"/, 'custom id present in SVG element');
+};
+
+subtest 'id opt - render_heatmap_snippet custom id' => sub {
+	my $res = HTML::D3->new()->render_heatmap_snippet(\@HEATMAP_DATA, { id => 'my_heat' });
+	is($res->{svg_id}, 'my_heat', 'svg_id set to custom value');
+	like($res->{html}, qr/id="my_heat"/, 'custom id present in SVG element');
+};
+
+subtest 'id opt - render_bar_chart_snippet custom id' => sub {
+	my $res = HTML::D3->new()->render_bar_chart_snippet(\@BAR_DATA, { id => 'my_bar' });
+	is($res->{svg_id}, 'my_bar', 'svg_id set to custom value');
+	like($res->{html}, qr/id="my_bar"/, 'custom id present in SVG element');
+};
+
+subtest 'id opt - render_line_chart_snippet custom id' => sub {
+	my $res = HTML::D3->new()->render_line_chart_snippet(\@SIMPLE_DATA, { id => 'my_line' });
+	is($res->{svg_id}, 'my_line', 'svg_id set to custom value');
+	like($res->{html}, qr/id="my_line"/, 'custom id present in SVG element');
+};
+
+subtest 'id opt - render_zoomable_line_chart_snippet custom id' => sub {
+	my $res = HTML::D3->new()->render_zoomable_line_chart_snippet(\@SIMPLE_DATA, { id => 'my_zoom' });
+	is($res->{svg_id}, 'my_zoom', 'svg_id set to custom value');
+	like($res->{html}, qr/id="my_zoom"/, 'custom id present in SVG element');
+};
+
+# ---------------------------------------------------------------------------
+# responsive opt
+# ---------------------------------------------------------------------------
+
+subtest 'responsive opt - snippet per-call override' => sub {
+	my $chart    = HTML::D3->new();
+	my $def_html = $chart->render_bar_chart_snippet(\@BAR_DATA)->{html};
+	unlike($def_html, qr/viewBox/, 'no viewBox by default in bar snippet');
+
+	my $resp_html = $chart->render_bar_chart_snippet(\@BAR_DATA, { responsive => 1 })->{html};
+	like($resp_html, qr/viewBox/, 'viewBox present when responsive => 1');
+};
+
+subtest 'responsive opt - per-call on heatmap snippet' => sub {
+	my $html = HTML::D3->new()->render_heatmap_snippet(\@HEATMAP_DATA, { responsive => 1 })->{html};
+	like($html, qr/viewBox/, 'viewBox present in responsive heatmap snippet');
+};
+
+subtest 'responsive opt - constructor sets full-page default' => sub {
+	my $chart = HTML::D3->new(responsive => 1);
+	my $html  = $chart->render_bar_chart(\@SIMPLE_DATA);
+	like($html, qr/viewBox/, 'viewBox present in full-page render when constructor responsive');
+};
+
+subtest 'responsive opt - constructor applies to snippet unless overridden' => sub {
+	my $chart = HTML::D3->new(responsive => 1);
+	my $html  = $chart->render_bar_chart_snippet(\@BAR_DATA)->{html};
+	like($html, qr/viewBox/, 'constructor responsive => 1 propagates to snippet');
+
+	# Per-call responsive => 0 overrides constructor setting
+	my $html_off = $chart->render_bar_chart_snippet(\@BAR_DATA, { responsive => 0 })->{html};
+	unlike($html_off, qr/viewBox/, 'per-call responsive => 0 overrides constructor');
+};
+
+# ---------------------------------------------------------------------------
+# render_scatter_chart_snippet
+# ---------------------------------------------------------------------------
+
+subtest 'render_scatter_chart_snippet - validation: documented error conditions' => sub {
+	my $chart = HTML::D3->new();
+
+	throws_ok(
+		sub { $chart->render_scatter_chart_snippet('not an array') },
+		qr/Data must be an array of arrays/,
+		'non-arrayref data dies',
+	);
+
+	throws_ok(
+		sub { $chart->render_scatter_chart_snippet(['scalar']) },
+		qr/Each data point must be an array reference/,
+		'non-arrayref element dies',
+	);
+
+	throws_ok(
+		sub { $chart->render_scatter_chart_snippet([[99]]) },
+		qr/Each data point must have at least 2 elements/,
+		'single-element point dies',
+	);
+
+	throws_ok(
+		sub { $chart->render_scatter_chart_snippet([['not_num', 5]]) },
+		qr/X value must be numeric/,
+		'non-numeric X dies',
+	);
+
+	throws_ok(
+		sub { $chart->render_scatter_chart_snippet([[5, 'not_num']]) },
+		qr/Y value must be numeric/,
+		'non-numeric Y dies',
+	);
+};
+
+subtest 'render_scatter_chart_snippet - return structure' => sub {
+	my $chart  = HTML::D3->new(width => 600, height => 400);
+	Readonly my @SC_DATA => ([10, 20], [30, 40], [50, 15]);
+	my $result = $chart->render_scatter_chart_snippet(\@SC_DATA);
+
+	returns_ok($result, { type => 'hashref' }, 'returns a hashref');
+	is($result->{svg_id}, 'scatter_chart', 'svg_id is "scatter_chart"');
+	ok(defined $result->{html} && length($result->{html}) > 0, 'html is non-empty');
+};
+
+subtest 'render_scatter_chart_snippet - fragment has no page-shell elements' => sub {
+	Readonly my @SC_DATA => ([10, 20], [30, 40]);
+	my $html = HTML::D3->new()->render_scatter_chart_snippet(\@SC_DATA)->{html};
+
+	unlike($html, qr/<!DOCTYPE/i,        'no DOCTYPE');
+	unlike($html, qr/<html/i,            'no html wrapper');
+	unlike($html, qr/<head/i,            'no head element');
+	unlike($html, qr/<body/i,            'no body element');
+	unlike($html, qr{https://d3js\.org}, 'no D3 CDN tag');
+};
+
+subtest 'render_scatter_chart_snippet - key JS patterns' => sub {
+	Readonly my @SC_DATA => ([10, 20], [30, 40], [50, 60]);
+	my $html = HTML::D3->new()->render_scatter_chart_snippet(\@SC_DATA)->{html};
+
+	like($html, qr/d3\.scaleLinear/, 'd3.scaleLinear present');
+	like($html, qr/sc-circle/,       'sc-circle class present');
+	like($html, qr/function esc\(/, 'esc() XSS helper present');
+	like($html, qr/mouseover/,       'mouseover handler present');
+};
+
+subtest 'render_scatter_chart_snippet - animated => 1 code paths' => sub {
+	Readonly my @SC_DATA => ([1, 2], [3, 4]);
+	my $html = HTML::D3->new()->render_scatter_chart_snippet(\@SC_DATA, { animated => 1 })->{html};
+	like($html, qr/prefers-reduced-motion/, 'prefers-reduced-motion guard present');
+	like($html, qr/opacity.*0/,             'circles start at opacity 0');
+};
+
+subtest 'render_scatter_chart_snippet - x_label and y_label' => sub {
+	Readonly my @SC_DATA => ([1, 2], [3, 4]);
+	my $html = HTML::D3->new()->render_scatter_chart_snippet(\@SC_DATA, {
+		x_label => 'Time (s)', y_label => 'Velocity',
+	})->{html};
+	like($html, qr/Time \(s\)/, 'x_label present');
+	like($html, qr/Velocity/,   'y_label present');
+};
+
+subtest 'render_scatter_chart_snippet - extra hashref in tooltip' => sub {
+	my $html = HTML::D3->new()->render_scatter_chart_snippet(
+		[[10, 20, { label => 'Alpha' }]],
+	)->{html};
+	like($html, qr/d\.extra/, 'd.extra rendering code present');
+};
+
+subtest 'render_scatter_chart_snippet - id opt and responsive opt' => sub {
+	Readonly my @SC_DATA => ([1, 2], [3, 4]);
+
+	my $id_res  = HTML::D3->new()->render_scatter_chart_snippet(\@SC_DATA, { id => 'sc2' });
+	is($id_res->{svg_id}, 'sc2', 'custom id in svg_id');
+	like($id_res->{html}, qr/id="sc2"/, 'custom id in SVG element');
+
+	my $resp_html = HTML::D3->new()->render_scatter_chart_snippet(\@SC_DATA, { responsive => 1 })->{html};
+	like($resp_html, qr/viewBox/, 'viewBox present when responsive');
+};
+
+subtest 'render_scatter_chart_snippet - no circular references' => sub {
+	Readonly my @SC_DATA => ([1, 2], [3, 4], [5, 6]);
+	my $result = HTML::D3->new()->render_scatter_chart_snippet(\@SC_DATA);
+	memory_cycle_ok($result, 'no circular refs in scatter snippet result');
+};
+
+# ---------------------------------------------------------------------------
+# render_table_snippet
+# ---------------------------------------------------------------------------
+
+Readonly my @TABLE_HEADERS => ('Name', 'Value', 'Category');
+Readonly my @TABLE_ROWS    => (['Alpha', 300, 'A'], ['Beta', 150, 'B']);
+
+subtest 'render_table_snippet - validation: documented error conditions' => sub {
+	my $chart = HTML::D3->new();
+
+	throws_ok(
+		sub { $chart->render_table_snippet('not an array') },
+		qr/Data must be an array of arrays/,
+		'non-arrayref data dies',
+	);
+
+	throws_ok(
+		sub { $chart->render_table_snippet([]) },
+		qr/Data must have at least one row/,
+		'empty data dies',
+	);
+
+	throws_ok(
+		sub { $chart->render_table_snippet(['not_a_row']) },
+		qr/Each row must be an array reference/,
+		'non-arrayref header row dies',
+	);
+
+	throws_ok(
+		sub { $chart->render_table_snippet([['H1', 'H2'], 'bad_row']) },
+		qr/Each row must be an array reference/,
+		'non-arrayref data row dies',
+	);
+};
+
+subtest 'render_table_snippet - return structure' => sub {
+	my $data   = [[@TABLE_HEADERS], @TABLE_ROWS];
+	my $result = HTML::D3->new()->render_table_snippet($data);
+
+	returns_ok($result, { type => 'hashref' }, 'returns a hashref');
+	is($result->{table_id}, 'data_table', 'table_id is "data_table"');
+	ok(!exists $result->{svg_id}, 'no svg_id key');
+	ok(defined $result->{html} && length($result->{html}) > 0, 'html is non-empty');
+};
+
+subtest 'render_table_snippet - fragment has no page-shell elements' => sub {
+	my $html = HTML::D3->new()->render_table_snippet([[@TABLE_HEADERS], @TABLE_ROWS])->{html};
+
+	unlike($html, qr/<!DOCTYPE/i, 'no DOCTYPE');
+	unlike($html, qr/<html/i,     'no html wrapper');
+	unlike($html, qr/<head/i,     'no head element');
+	unlike($html, qr/<body/i,     'no body element');
+};
+
+subtest 'render_table_snippet - sortable default and override' => sub {
+	my $data = [[@TABLE_HEADERS], @TABLE_ROWS];
+	my $html_on  = HTML::D3->new()->render_table_snippet($data)->{html};
+	like($html_on, qr/dt-sortable/, 'dt-sortable class present by default');
+	like($html_on, qr/d3\.select/,  'd3.select present when sortable');
+
+	my $html_off = HTML::D3->new()->render_table_snippet($data, { sortable => 0 })->{html};
+	unlike($html_off, qr/dt-sortable/, 'dt-sortable class absent when sortable => 0');
+};
+
+subtest 'render_table_snippet - caption opt' => sub {
+	my $html = HTML::D3->new()->render_table_snippet(
+		[[@TABLE_HEADERS], @TABLE_ROWS], { caption => 'Q1 Report' },
+	)->{html};
+	like($html, qr/<caption>Q1 Report<\/caption>/, 'caption element present');
+};
+
+subtest 'render_table_snippet - id opt changes table_id and element id' => sub {
+	my $result = HTML::D3->new()->render_table_snippet(
+		[[@TABLE_HEADERS], @TABLE_ROWS], { id => 'custom_tbl' },
+	);
+	is($result->{table_id}, 'custom_tbl', 'table_id set to custom value');
+	like($result->{html}, qr/id="custom_tbl"/, 'custom id in table element');
+};
+
+subtest 'render_table_snippet - XSS escaping in headers and cells' => sub {
+	my $html = HTML::D3->new()->render_table_snippet([
+		['Col<b>Header</b>', 'Val'],
+		['<em>cell</em>', '&amp;data'],
+	])->{html};
+	like($html, qr/Col&lt;b&gt;Header&lt;\/b&gt;/, 'HTML tags in header escaped');
+	like($html, qr/&lt;em&gt;cell&lt;\/em&gt;/,    'HTML tags in cell escaped');
+	unlike($html, qr/<th[^>]*>Col<b>/,              'raw HTML tags absent from th');
+};
+
+subtest 'render_table_snippet - no circular references' => sub {
+	my $result = HTML::D3->new()->render_table_snippet([[@TABLE_HEADERS], @TABLE_ROWS]);
+	memory_cycle_ok($result, 'no circular refs in table snippet result');
+};
+
+# ---------------------------------------------------------------------------
 
 done_testing();
