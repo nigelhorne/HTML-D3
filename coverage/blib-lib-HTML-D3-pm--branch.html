@@ -20,7 +20,7 @@ https://pjcj.net
 <h1>Branch Coverage</h1>
 <table>
 <tr><td class="h" align="right">File:</td><td align="left">blib/lib/HTML/D3.pm</td></tr>
-<tr><td class="h" align="right">Coverage:</td><td align="left" class="c2">99.1%</td></tr>
+<tr><td class="h" align="right">Coverage:</td><td align="left" class="c2">97.8%</td></tr>
 </table>
 <div><br/></div>
 <table>
@@ -72,17 +72,50 @@ https://pjcj.net
 <tr><td class="h"><a id="L1450">1450</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$y_label ? :</td></tr>
 <tr><td class="h"><a id="L1454">1454</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$animated ? :</td></tr>
 <tr><td class="h"><a id="L1465">1465</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$legend ? :</td></tr>
-<tr><td class="h"><a id="L1683">1683</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L1833">1833</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L1838">1838</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ref $_-&gt;[2] eq &quot;HASH&quot;</td></tr>
-<tr><td class="h"><a id="L2000">2000</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L2005">2005</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ref $_-&gt;[2] eq &quot;HASH&quot;</td></tr>
-<tr><td class="h"><a id="L2038">2038</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;animated&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L2041">2041</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($opts-&gt;{&#39;animated&#39;}) { }</td></tr>
-<tr><td class="h"><a id="L2279">2279</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L2445">2445</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L2615">2615</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L2824">2824</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L1749">1749</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L1752">1752</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $orientation eq &quot;vertical&quot; or $orientation eq &quot;horizontal&quot;</td></tr>
+<tr><td class="h"><a id="L1757">1757</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless grep {$sort_bars eq $_;} &quot;value&quot;, &quot;label&quot;, &quot;none&quot;</td></tr>
+<tr><td class="h"><a id="L1761">1761</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;show_values&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L1762">1762</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;animated&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L1769">1769</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $pt eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L1771">1771</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless scalar @$pt &gt;= 2</td></tr>
+<tr><td class="h"><a id="L1773">1773</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $pt-&gt;[1]</td></tr>
+<tr><td class="h"><a id="L1774">1774</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number($pt-&gt;[1])</td></tr>
+<tr><td class="h"><a id="L1775">1775</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">defined $pt-&gt;[0] ? :</td></tr>
+<tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">scalar @$pt &gt;= 3 &amp;&amp; ref $pt-&gt;[2] eq &#39;HASH&#39; ? :</td></tr>
+<tr><td class="h"><a id="L1784">1784</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($sort_bars eq &#39;value&#39;) { }</td></tr>
+<tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($sort_bars eq &#39;label&#39;) { }</td></tr>
+<tr><td class="h"><a id="L1791">1791</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($max_bars and scalar @bars &gt; $max_bars)</td></tr>
+<tr><td class="h"><a id="L1795">1795</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if @rest</td></tr>
+<tr><td class="h"><a id="L1801">1801</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if exists $_-&gt;{&#39;extra&#39;}</td></tr>
+<tr><td class="h"><a id="L1817">1817</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$color eq &#39;categorical&#39; ? :</td></tr>
+<tr><td class="h"><a id="L1818">1818</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$is_categorical ? :</td></tr>
+<tr><td class="h"><a id="L1827">1827</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$orientation eq &#39;vertical&#39; &amp;&amp; scalar @bars &gt; 8 ? :</td></tr>
+<tr><td class="h"><a id="L1831">1831</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($orientation eq &#39;vertical&#39;) { }</td></tr>
+<tr><td class="h"><a id="L1834">1834</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$rotate_labels ? :</td></tr>
+<tr><td class="h"><a id="L1840">1840</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$show_values ? :</td></tr>
+<tr><td class="h"><a id="L1841">1841</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"><a id="L1848">1848</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$is_categorical ? :</td></tr>
+<tr><td class="h"><a id="L1855">1855</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$rotate_labels ? :</td></tr>
+<tr><td class="h"><a id="L1865">1865</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($show_values)</td></tr>
+<tr><td class="h"><a id="L1866">1866</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($orientation eq &#39;vertical&#39;) { }</td></tr>
+<tr><td class="h"><a id="L1893">1893</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($x_label)</td></tr>
+<tr><td class="h"><a id="L1909">1909</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($animated)</td></tr>
+<tr><td class="h"><a id="L1910">1910</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($orientation eq &#39;vertical&#39;) { }</td></tr>
+<tr><td class="h"><a id="L1938">1938</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($orientation eq &#39;vertical&#39;) { }</td></tr>
+<tr><td class="h"><a id="L2133">2133</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L2283">2283</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L2288">2288</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ref $_-&gt;[2] eq &quot;HASH&quot;</td></tr>
+<tr><td class="h"><a id="L2450">2450</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L2455">2455</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ref $_-&gt;[2] eq &quot;HASH&quot;</td></tr>
+<tr><td class="h"><a id="L2488">2488</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;animated&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L2491">2491</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($opts-&gt;{&#39;animated&#39;}) { }</td></tr>
+<tr><td class="h"><a id="L2729">2729</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L2895">2895</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L3065">3065</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L3274">3274</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
 </table>
 </body>
 </html>
