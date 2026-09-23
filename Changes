@@ -1,5 +1,24 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
+0.18
+	[ Enhancements ]
+	- render_bar_chart_snippet: new snippet method that generates an embeddable
+	  D3 v7 bar chart. Accepts an array of [$label, $value] (or
+	  [$label, $value, \%extra]) pairs and an optional \%opts hashref with keys:
+	  orientation ('vertical'/'horizontal', default 'vertical'),
+	  sort_bars ('value'/'label'/'none', default 'none'),
+	  max_bars (int, default 0; collapses tail into "Other"),
+	  color (CSS colour or 'categorical' for Tableau-10 palette, default
+	  'steelblue'), show_values (bool, default 0; prints values on bars),
+	  animated (bool, default 0; bars grow from baseline with 800 ms stagger;
+	  respects prefers-reduced-motion), value_label (tooltip label, default
+	  'Value'), x_label (bottom-axis label, default ''). Returns
+	  { svg_id => 'bar_chart', html => Str }. Negative values are silently
+	  converted to their absolute value; undef values are silently skipped.
+	  X-axis labels are rotated -45 degrees when more than 8 bars are shown in
+	  vertical orientation. Extra \%extra fields appear as additional tooltip
+	  rows. Returns a Perl character string (UTF-8 flag set).
+
 0.17	Tue Sep 22 08:45:56 PM EDT 2026
 	[ Bug Fixes ]
 	- All render_*_snippet methods now return a Perl character string (UTF-8

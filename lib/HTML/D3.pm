@@ -19,11 +19,11 @@ HTML::D3 - A simple Perl module for generating charts using D3.js.
 
 =head1 VERSION
 
-Version 0.17
+Version 0.18
 
 =cut
 
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 =head1 SYNOPSIS
 
@@ -1620,6 +1620,456 @@ LEGBLOCK
 
 $legend_block
 $anim_block})();
+</script>
+HTML
+
+	return { svg_id => $svg_id, html => $html };
+}
+
+=head2 render_bar_chart_snippet
+
+    my $result = $chart->render_bar_chart_snippet(\@bars);
+    my $result = $chart->render_bar_chart_snippet(\@bars, \%opts);
+
+Generates an embeddable D3.js v7 bar chart fragment.  Returns a hashref
+C<{ svg_id =E<gt> 'bar_chart', html =E<gt> $str }> where C<$str> is a
+self-contained HTML fragment (no page shell, no D3 CDN tag) that the caller
+embeds directly after loading D3.js.  C<$str> is a Perl character string
+with the UTF-8 flag set (or pure ASCII when all labels are ASCII).
+
+Each element of C<\@bars> is an array reference:
+
+    [ $label, $value ]
+    [ $label, $value, \%extra ]
+
+C<$label> is the category name (string); C<$value> is a non-negative number
+(negative values are silently converted to their absolute value); the optional
+C<\%extra> hashref supplies additional key/value pairs shown in the hover
+tooltip.  Data points with an undefined C<$value> are silently skipped.
+
+=head3 Options (C<\%opts>)
+
+=over 4
+
+=item C<orientation> (string, default C<'vertical'>)
+
+C<'vertical'> draws bars rising from a horizontal category axis.
+C<'horizontal'> draws bars extending from a vertical category axis.
+
+=item C<sort_bars> (string, default C<'none'>)
+
+Sort order applied before rendering: C<'value'> sorts descending by bar
+height, C<'label'> sorts ascending alphabetically, C<'none'> preserves the
+input order.
+
+=item C<max_bars> (integer, default C<0>)
+
+When non-zero, only the first C<max_bars> entries (after any sort) are
+rendered; the remaining entries are collapsed into a single C<Other> bar
+whose value equals their sum.  Zero means no limit.
+
+=item C<color> (string, default C<'steelblue'>)
+
+Either a CSS colour value (e.g. C<'steelblue'>, C<'#4e79a7'>) applied to all
+bars, or the special token C<'categorical'>, which colours each bar
+distinctively using D3's Tableau-10 palette.
+
+=item C<show_values> (bool, default C<0>)
+
+When true, the numeric value of each bar is printed above vertical bars or
+to the right of horizontal bars.
+
+=item C<animated> (bool, default C<0>)
+
+When true, bars grow from the baseline on page load: vertical bars rise from
+the bottom; horizontal bars extend from the left.  An 800 ms D3 transition
+with a per-bar stagger up to 100 ms is used.  The animation is suppressed
+when C<prefers-reduced-motion> is set in the viewer's OS.
+
+=item C<value_label> (string, default C<'Value'>)
+
+Label shown in the hover tooltip before the numeric value.
+
+=item C<x_label> (string, default C<''>)
+
+When non-empty, a text label is rendered below the bottom axis.
+
+=back
+
+=head3 Errors
+
+=over 4
+
+=item * Throws C<Data must be an array of arrays> when C<$data> is not an
+ARRAY reference.
+
+=item * Throws C<Each data point must be an array reference> when an element
+is not an array reference.
+
+=item * Throws C<Each data point must have at least 2 elements> when an
+element has fewer than 2 items.
+
+=item * Throws C<Value must be numeric> when a C<$value> is not a number.
+
+=item * Throws C<orientation must be 'vertical' or 'horizontal'> on an
+invalid orientation value.
+
+=item * Throws C<sort_bars must be 'value', 'label', or 'none'> on an
+invalid sort_bars value.
+
+=back
+
+=head3 Side Effects
+
+None.
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    {
+        data => { type => 'arrayref' },
+        opts => { type => 'hashref', optional => 1 },
+    }
+
+    Each element of C<$data>: C<[ Str, Num ]> or C<[ Str, Num, HashRef ]>;
+    undef C<$value> silently skipped; negative C<$value> becomes positive.
+
+=head4 Output
+
+    HashRef -- { svg_id => 'bar_chart', html => Str }
+    html is a Perl character string (UTF-8 flag set, or pure ASCII).
+
+=cut
+
+sub render_bar_chart_snippet {
+	my ($self, $data, $opts) = @_;
+	$opts //= {};
+
+	die 'Data must be an array of arrays' unless ref($data) eq 'ARRAY';
+
+	my $orientation = $opts->{orientation} // 'vertical';
+	die "orientation must be 'vertical' or 'horizontal'"
+		unless $orientation eq 'vertical' || $orientation eq 'horizontal';
+
+	my $sort_bars = $opts->{sort_bars} // 'none';
+	die "sort_bars must be 'value', 'label', or 'none'"
+		unless grep { $sort_bars eq $_ } qw(value label none);
+
+	my $max_bars    = int($opts->{max_bars}   // 0);
+	my $color       = $opts->{color}          // 'steelblue';
+	my $show_values = $opts->{show_values}   ? 1 : 0;
+	my $animated    = $opts->{animated}      ? 1 : 0;
+	my $value_label = $opts->{value_label}   // 'Value';
+	my $x_label     = $opts->{x_label}       // '';
+
+	# Normalise data points; negative values become positive (bars show magnitude)
+	my @bars;
+	for my $pt (@$data) {
+		die 'Each data point must be an array reference'
+			unless ref($pt) eq 'ARRAY';
+		die 'Each data point must have at least 2 elements'
+			unless scalar(@$pt) >= 2;
+		next unless defined $pt->[1];
+		die 'Value must be numeric' unless looks_like_number($pt->[1]);
+		push @bars, {
+			label => defined($pt->[0]) ? "$pt->[0]" : '',
+			value => abs($pt->[1] + 0),
+			(scalar(@$pt) >= 3 && ref($pt->[2]) eq 'HASH'
+				? (extra => $pt->[2]) : ()),
+		};
+	}
+
+	# Sort before optional truncation
+	if ($sort_bars eq 'value') {
+		@bars = sort { $b->{value} <=> $a->{value} } @bars;
+	} elsif ($sort_bars eq 'label') {
+		@bars = sort { $a->{label} cmp $b->{label} } @bars;
+	}
+
+	# Truncate and collapse the tail into an "Other" bar
+	if ($max_bars && scalar(@bars) > $max_bars) {
+		my @rest  = splice @bars, $max_bars;
+		my $other = 0;
+		$other += $_->{value} for @rest;
+		push @bars, { label => 'Other', value => $other } if @rest;
+	}
+
+	# Serialise to JSON for embedding in the <script> block
+	my $json_data = $_JSON->encode([map {
+		my %h = (label => $_->{label}, value => $_->{value} + 0);
+		$h{extra} = $_->{extra} if exists $_->{extra};
+		\%h;
+	} @bars]);
+
+	# Escape strings for safe embedding inside JS double-quoted string literals
+	my $js_esc = sub {
+		my $s = shift;
+		$s =~ s/\\/\\\\/g;
+		$s =~ s/"/\\"/g;
+		$s =~ s/\n/\\n/g;
+		$s =~ s/\r/\\r/g;
+		$s
+	};
+	my $value_label_esc = $js_esc->($value_label);
+	my $x_label_esc     = $js_esc->($x_label);
+
+	my $is_categorical = ($color eq 'categorical') ? 1 : 0;
+	my $color_esc      = $is_categorical ? 'steelblue' : $js_esc->($color);
+
+	my $svg_id = 'bar_chart';
+	my $tip_id = 'bar_chart_tip';
+
+	my $width  = $self->{width};
+	my $height = $self->{height};
+
+	# Rotate x-axis labels when there are more than 8 vertical bars
+	my $rotate_labels = ($orientation eq 'vertical' && scalar(@bars) > 8) ? 1 : 0;
+
+	# Margins depend on orientation, label rotation, and optional features
+	my ($margin_top, $margin_right, $margin_bottom, $margin_left);
+	if ($orientation eq 'vertical') {
+		$margin_top    = 20;
+		$margin_right  = 20;
+		$margin_bottom = $rotate_labels
+			? ($x_label ? 105 : 85)
+			: ($x_label ? 55  : 40);
+		$margin_left   = 55;
+	} else {
+		$margin_top    = 20;
+		$margin_right  = $show_values ? 60 : 20;
+		$margin_bottom = $x_label ? 55 : 40;
+		$margin_left   = 130;
+	}
+	my $inner_w = $width  - $margin_left - $margin_right;
+	my $inner_h = $height - $margin_top  - $margin_bottom;
+
+	# JS colour initialiser and per-bar fill callback
+	my $color_init_js = $is_categorical
+		? 'var colorOf = d3.scaleOrdinal(d3.schemeTableau10)'
+		  . ".domain(data.map(function(d){return d.label;}));"
+		: "var colorOf = function() { return \"$color_esc\"; };";
+	my $color_func_js = 'function(d) { return colorOf(d.label); }';
+
+	# Rotate x-axis tick labels (vertical orientation with many bars only)
+	my $rotate_block = $rotate_labels ? <<"ROT" : '';
+    g.selectAll(".bc-x-axis text")
+        .attr("transform", "rotate(-45)")
+        .attr("text-anchor", "end")
+        .attr("dx", "-0.6em")
+        .attr("dy", "0.15em");
+ROT
+
+	# Optional inline value labels rendered on each bar
+	my $show_values_block = '';
+	if ($show_values) {
+		if ($orientation eq 'vertical') {
+			$show_values_block = <<"SVB";
+    g.selectAll(".bc-val-text").data(data).join("text")
+        .attr("class",        "bc-val-text")
+        .attr("x",            function(d) { return xScale(d.label) + xScale.bandwidth() / 2; })
+        .attr("y",            function(d) { return yScale(d.value) - 4; })
+        .attr("text-anchor",  "middle")
+        .attr("font-size",    "11px")
+        .attr("fill",         "#333")
+        .text(function(d) { return d.value.toLocaleString(); });
+SVB
+		} else {
+			$show_values_block = <<"SVB";
+    g.selectAll(".bc-val-text").data(data).join("text")
+        .attr("class",             "bc-val-text")
+        .attr("x",                 function(d) { return xScale(d.value) + 4; })
+        .attr("y",                 function(d) { return yScale(d.label) + yScale.bandwidth() / 2; })
+        .attr("dominant-baseline", "middle")
+        .attr("font-size",         "11px")
+        .attr("fill",              "#333")
+        .text(function(d) { return d.value.toLocaleString(); });
+SVB
+		}
+	}
+
+	# Optional text label below the bottom axis
+	my $x_label_block = '';
+	if ($x_label) {
+		my $lx = $margin_left + int($inner_w / 2);
+		my $ly = $height - 5;
+		$x_label_block = <<"XLB";
+    svg.append("text")
+        .attr("x",           $lx)
+        .attr("y",           $ly)
+        .attr("text-anchor", "middle")
+        .attr("font-size",   "12px")
+        .attr("fill",        "#555")
+        .text("$x_label_esc");
+XLB
+	}
+
+	# Optional grow-from-baseline animation on page load
+	my $anim_block = '';
+	if ($animated) {
+		if ($orientation eq 'vertical') {
+			$anim_block = <<"ANIM";
+    var noAnim = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!noAnim) {
+        var delayPer = data.length > 1 ? Math.min(100, 600 / (data.length - 1)) : 0;
+        bars.attr("height", 0).attr("y", innerH)
+            .transition().duration(800)
+            .delay(function(d, i) { return i * delayPer; })
+            .attr("height", function(d) { return Math.max(0, innerH - yScale(d.value)); })
+            .attr("y",      function(d) { return yScale(d.value); });
+    }
+ANIM
+		} else {
+			$anim_block = <<"ANIM";
+    var noAnim = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!noAnim) {
+        var delayPer = data.length > 1 ? Math.min(100, 600 / (data.length - 1)) : 0;
+        bars.attr("width", 0)
+            .transition().duration(800)
+            .delay(function(d, i) { return i * delayPer; })
+            .attr("width", function(d) { return Math.max(0, xScale(d.value)); });
+    }
+ANIM
+		}
+	}
+
+	# Orientation-specific D3 scale/axis/bar JavaScript
+	my $chart_js;
+	if ($orientation eq 'vertical') {
+		$chart_js = <<"JS";
+    var g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var xScale = d3.scaleBand()
+        .domain(data.map(function(d) { return d.label; }))
+        .range([0, innerW])
+        .padding(0.2);
+    var yMax = d3.max(data, function(d) { return d.value; }) || 0;
+    var yScale = d3.scaleLinear()
+        .domain([0, yMax]).nice()
+        .range([innerH, 0]);
+
+    g.append("g").attr("class", "bc-x-axis")
+        .attr("transform", "translate(0," + innerH + ")")
+        .call(d3.axisBottom(xScale));
+    g.append("g").attr("class", "bc-y-axis")
+        .call(d3.axisLeft(yScale));
+
+$rotate_block    var bars = g.selectAll(".bc-bar").data(data).join("rect")
+        .attr("class",  "bc-bar")
+        .attr("x",      function(d) { return xScale(d.label); })
+        .attr("y",      function(d) { return yScale(d.value); })
+        .attr("width",  xScale.bandwidth())
+        .attr("height", function(d) { return Math.max(0, innerH - yScale(d.value)); })
+        .attr("fill",   $color_func_js)
+        .attr("rx", 2)
+        .on("mouseover", function(event, d) {
+            var tc = "<strong>" + esc(d.label) + "<\\/strong><br>" + esc(valLabel) + ": " + d.value.toLocaleString();
+            if (d.extra) {
+                Object.entries(d.extra).forEach(function(kv) {
+                    tc += "<br>" + esc(kv[0]) + ": " + esc(String(kv[1]));
+                });
+            }
+            tip.html(tc)
+               .style("display", "block")
+               .style("left", (event.pageX + 12) + "px")
+               .style("top",  (event.pageY - 24) + "px");
+        })
+        .on("mousemove", function(event) {
+            tip.style("left", (event.pageX + 12) + "px")
+               .style("top",  (event.pageY - 24) + "px");
+        })
+        .on("mouseout", function() { tip.style("display", "none"); });
+
+$anim_block$show_values_block$x_label_block
+JS
+	} else {
+		$chart_js = <<"JS";
+    var g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var yScale = d3.scaleBand()
+        .domain(data.map(function(d) { return d.label; }))
+        .range([0, innerH])
+        .padding(0.2);
+    var xMax = d3.max(data, function(d) { return d.value; }) || 0;
+    var xScale = d3.scaleLinear()
+        .domain([0, xMax]).nice()
+        .range([0, innerW]);
+
+    g.append("g").attr("class", "bc-x-axis")
+        .attr("transform", "translate(0," + innerH + ")")
+        .call(d3.axisBottom(xScale));
+    g.append("g").attr("class", "bc-y-axis")
+        .call(d3.axisLeft(yScale));
+
+    var bars = g.selectAll(".bc-bar").data(data).join("rect")
+        .attr("class",  "bc-bar")
+        .attr("x",      0)
+        .attr("y",      function(d) { return yScale(d.label); })
+        .attr("width",  function(d) { return Math.max(0, xScale(d.value)); })
+        .attr("height", yScale.bandwidth())
+        .attr("fill",   $color_func_js)
+        .attr("rx", 2)
+        .on("mouseover", function(event, d) {
+            var tc = "<strong>" + esc(d.label) + "<\\/strong><br>" + esc(valLabel) + ": " + d.value.toLocaleString();
+            if (d.extra) {
+                Object.entries(d.extra).forEach(function(kv) {
+                    tc += "<br>" + esc(kv[0]) + ": " + esc(String(kv[1]));
+                });
+            }
+            tip.html(tc)
+               .style("display", "block")
+               .style("left", (event.pageX + 12) + "px")
+               .style("top",  (event.pageY - 24) + "px");
+        })
+        .on("mousemove", function(event) {
+            tip.style("left", (event.pageX + 12) + "px")
+               .style("top",  (event.pageY - 24) + "px");
+        })
+        .on("mouseout", function() { tip.style("display", "none"); });
+
+$anim_block$show_values_block$x_label_block
+JS
+	}
+
+	my $html = <<"HTML";
+<style>
+    #$svg_id { display: block; }
+    #$tip_id {
+	position: absolute;
+	background: rgba(255,255,255,0.95);
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 6px 10px;
+	font-size: 12px;
+	pointer-events: none;
+	display: none;
+	line-height: 1.6;
+    }
+    .bc-bar { cursor: default; }
+    .bc-bar:hover { opacity: 0.8; }
+    .bc-val-text { pointer-events: none; }
+</style>
+<svg id="$svg_id" width="$width" height="$height"></svg>
+<div id="$tip_id"></div>
+<script>
+(function() {
+    var data     = $json_data;
+    var innerW   = $inner_w;
+    var innerH   = $inner_h;
+    var valLabel = "$value_label_esc";
+    var margin   = { top: $margin_top, right: $margin_right, bottom: $margin_bottom, left: $margin_left };
+    $color_init_js
+
+    function esc(s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    var svg = d3.select("#$svg_id");
+    var tip = d3.select("#$tip_id");
+
+$chart_js})();
 </script>
 HTML
 
