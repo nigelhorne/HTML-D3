@@ -125,9 +125,9 @@ sub new
 	$params = Object::Configure::configure($class, $params);
 
 	return bless {
-		width  => $params->{width}  || 800,
+		width => $params->{width} || 800,
 		height => $params->{height} || 600,
-		title  => $params->{title}  || 'Chart',
+		title => $params->{title} || 'Chart',
 	}, $class;
 }
 
@@ -155,10 +155,6 @@ Returns a string containing the HTML and JavaScript code for the chart.
 =item * Throws C<Data must be an array of arrays> when C<$data> is not an ARRAY reference.
 
 =back
-
-=head3 Side Effects
-
-None.
 
 =head3 API SPECIFICATION
 
@@ -282,10 +278,6 @@ Returns a string containing the complete HTML5 document.
 
 =back
 
-=head3 Side Effects
-
-None.
-
 =head3 API SPECIFICATION
 
 =head4 Input
@@ -396,10 +388,6 @@ Returns a string containing the HTML and JavaScript code for the chart.
 =item * Throws C<Data must be an array of arrays> when C<$data> is not an ARRAY reference.
 
 =back
-
-=head3 Side Effects
-
-None.
 
 =head3 API SPECIFICATION
 
@@ -520,10 +508,6 @@ Returns a string containing the complete HTML5 document.
 =item * Throws C<Data must be an array of arrays> when C<$data> is not an ARRAY reference.
 
 =back
-
-=head3 Side Effects
-
-None.
 
 =head3 API SPECIFICATION
 
@@ -669,10 +653,6 @@ Returns a string containing the complete HTML5 document.
 =item * Throws C<Data must be an array of arrays> when C<$data> is not an ARRAY reference.
 
 =back
-
-=head3 Side Effects
-
-None.
 
 =head3 API SPECIFICATION
 
@@ -830,10 +810,6 @@ Returns a string containing the complete HTML5 document.
 =item * Throws C<Data must be an array of arrays> when C<$data> is not an ARRAY reference.
 
 =back
-
-=head3 Side Effects
-
-None.
 
 =head3 API SPECIFICATION
 
@@ -1019,10 +995,6 @@ C<Label / 12.34 (42.0%)>, C<':'> produces C<Label : 12.34 (42.0%)>).
 =item * Throws C<Data must be an array of arrays> when C<\@slices> is not an ARRAY reference.
 
 =back
-
-=head3 Side Effects
-
-None.
 
 =head3 API SPECIFICATION
 
@@ -1719,10 +1691,6 @@ invalid sort_bars value.
 
 =back
 
-=head3 Side Effects
-
-None.
-
 =head3 API SPECIFICATION
 
 =head4 Input
@@ -1730,6 +1698,8 @@ None.
     {
         data => { type => 'arrayref' },
         opts => { type => 'hashref', optional => 1 },
+	orientation => { type => 'string', memberof => [ 'vertical', 'horizontal' ], optional => 1 },
+	sort_bars => { type => 'string', memberof => [ 'value', 'label', 'none' ], optional => 1 }
     }
 
     Each element of C<$data>: C<[ Str, Num ]> or C<[ Str, Num, HashRef ]>;
@@ -1756,12 +1726,12 @@ sub render_bar_chart_snippet {
 	die "sort_bars must be 'value', 'label', or 'none'"
 		unless grep { $sort_bars eq $_ } qw(value label none);
 
-	my $max_bars    = int($opts->{max_bars}   // 0);
-	my $color       = $opts->{color}          // 'steelblue';
-	my $show_values = $opts->{show_values}   ? 1 : 0;
-	my $animated    = $opts->{animated}      ? 1 : 0;
-	my $value_label = $opts->{value_label}   // 'Value';
-	my $x_label     = $opts->{x_label}       // '';
+	my $max_bars    = int($opts->{max_bars} // 0);
+	my $color       = $opts->{color}       // 'steelblue';
+	my $show_values = $opts->{show_values} ? 1 : 0;
+	my $animated    = $opts->{animated}    ? 1 : 0;
+	my $value_label = $opts->{value_label} // 'Value';
+	my $x_label     = $opts->{x_label}     // '';
 
 	# Normalise data points; negative values become positive (bars show magnitude)
 	my @bars;
@@ -2103,10 +2073,6 @@ letter not appear literally inside C<< <script> >> blocks.
 
 =back
 
-=head3 Side Effects
-
-None.
-
 =head3 API SPECIFICATION
 
 =head4 Input
@@ -2436,10 +2402,6 @@ never animated regardless of this flag.
 
 Dies with I<Data must be an array of arrays> if C<$data> is not an arrayref.
 
-=head3 Side Effects
-
-None.
-
 =cut
 
 sub render_zoomable_line_chart_snippet
@@ -2699,10 +2661,6 @@ Tooltip strings use C<< <\/b> >> rather than C<< </b> >> for html-tidy complianc
 
 =back
 
-=head3 Side Effects
-
-None.
-
 =head3 API SPECIFICATION
 
 =head4 Input
@@ -2864,10 +2822,6 @@ Tooltip strings use C<< <\/b> >> for html-tidy compliance.
 =item * Throws C<Data must be an array of hashes> when C<$data> is not an ARRAY reference.
 
 =back
-
-=head3 Side Effects
-
-None.
 
 =head3 API SPECIFICATION
 
@@ -3034,10 +2988,6 @@ a C<.legend> CSS class used by the D3-generated legend elements.
 =item * Throws C<Data must be an array of hashes> when C<$data> is not an ARRAY reference.
 
 =back
-
-=head3 Side Effects
-
-None.
 
 =head3 API SPECIFICATION
 
@@ -3241,10 +3191,6 @@ handler (opacity is set to C<isVisible ? 0 : 1> on each click).
 =item * Throws C<Data must be an array of hashes> when C<$data> is not an ARRAY reference.
 
 =back
-
-=head3 Side Effects
-
-None.
 
 =head3 API SPECIFICATION
 

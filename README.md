@@ -1,12 +1,12 @@
-## Name
+# NAME
 
 HTML::D3 - A simple Perl module for generating charts using D3.js.
 
-## Version
+# VERSION
 
 Version 0.18
 
-## Synopsis
+# SYNOPSIS
 
 ```perl
 use HTML::D3;
@@ -38,12 +38,12 @@ $html = $chart->render_line_chart($data);
 print $html;
 ```
 
-## Description
+# DESCRIPTION
 
 HTML::D3 is a Perl module that provides functionality to create simple charts using D3.js.
 The module generates HTML and JavaScript code to render the chart in a web browser.
 
-## Methods
+# METHODS
 
 The `=head3 API SPECIFICATION` subsections use [Params::Validate::Strict](https://metacpan.org/pod/Params%3A%3AValidate%3A%3AStrict)
 schema syntax (`type => 'arrayref'` etc.) as a documentation convention.
@@ -52,7 +52,7 @@ arguments; it is therefore a required runtime dependency.  The schemas describe
 the parameter contract in machine-readable notation and can be plumbed into a
 WAF or test generator if desired.
 
-### New
+## new
 
 ```perl
 my $chart = HTML::D3->new(%args);
@@ -65,7 +65,7 @@ Accepts the following optional arguments:
 - `height` - The height of the chart (default: 600).
 - `title` - The title of the chart (default: 'Chart').
 
-### Render\_Bar\_Chart
+## render\_bar\_chart
 
 ```perl
 my $html = $chart->render_bar_chart($data);
@@ -78,18 +78,14 @@ be an array reference with two elements: the label (string) and the value (numer
 
 Returns a string containing the HTML and JavaScript code for the chart.
 
-#### Errors
+### Errors
 
 - Throws `Data is not optional` when `$data` is `undef`.
 - Throws `Data must be an array of arrays` when `$data` is not an ARRAY reference.
 
-#### Side Effects
+### API SPECIFICATION
 
-None.
-
-#### Api Specification
-
-##### Input
+#### Input
 
 ```perl
 {
@@ -103,14 +99,14 @@ Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
 non-arrayref dies.
 ```
 
-##### Output
+#### Output
 
 ```
 Str -- complete HTML5 document starting with C<< <!DOCTYPE html> >>;
        D3.js loaded from CDN; bar chart rendered with C<d3.scaleBand>.
 ```
 
-### Render\_Animated\_Bar\_Chart
+## render\_animated\_bar\_chart
 
 ```perl
 my $html = $chart->render_animated_bar_chart($data);
@@ -126,18 +122,14 @@ array reference with two elements: the label (string) and the value (numeric).
 
 Returns a string containing the complete HTML5 document.
 
-#### Errors
+### Errors
 
 - Throws `Data is not optional` when `$data` is `undef`.
 - Throws `Data must be an array of arrays` when `$data` is not an ARRAY reference.
 
-#### Side Effects
+### API SPECIFICATION
 
-None.
-
-#### Api Specification
-
-##### Input
+#### Input
 
 ```perl
 {
@@ -148,14 +140,14 @@ Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
 non-arrayref dies.
 ```
 
-##### Output
+#### Output
 
 ```
 Str -- complete HTML5 document; each bar animates from height=0 upward
        using C<d3.transition()> with a staggered per-bar delay.
 ```
 
-### Render\_Line\_Chart
+## render\_line\_chart
 
 ```perl
 my $html = $chart->render_line_chart($data);
@@ -168,17 +160,13 @@ be an array reference with two elements: the label (string) and the value (numer
 
 Returns a string containing the HTML and JavaScript code for the chart.
 
-#### Errors
+### Errors
 
 - Throws `Data must be an array of arrays` when `$data` is not an ARRAY reference.
 
-#### Side Effects
+### API SPECIFICATION
 
-None.
-
-#### Api Specification
-
-##### Input
+#### Input
 
 ```perl
 {
@@ -189,13 +177,13 @@ Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
 non-arrayref dies.
 ```
 
-##### Output
+#### Output
 
 ```
 Str -- complete HTML5 document; line chart with C<d3.scalePoint> and C<d3.line()>.
 ```
 
-### Render\_Animated\_Line\_Chart
+## render\_animated\_line\_chart
 
 ```perl
 my $html = $chart->render_animated_line_chart($data);
@@ -211,17 +199,13 @@ array reference with two elements: the label (string) and the value (numeric).
 
 Returns a string containing the complete HTML5 document.
 
-#### Errors
+### Errors
 
 - Throws `Data must be an array of arrays` when `$data` is not an ARRAY reference.
 
-#### Side Effects
+### API SPECIFICATION
 
-None.
-
-#### Api Specification
-
-##### Input
+#### Input
 
 ```perl
 {
@@ -232,7 +216,7 @@ Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
 non-arrayref dies.
 ```
 
-##### Output
+#### Output
 
 ```
 Str -- complete HTML5 document; the line path animates via
@@ -240,7 +224,7 @@ Str -- complete HTML5 document; the line path animates via
        fade in with C<opacity> after the line transition completes.
 ```
 
-### Render\_Pie\_Chart
+## render\_pie\_chart
 
 ```perl
 my $html = $chart->render_pie_chart($data);
@@ -260,18 +244,14 @@ array reference with two elements: the label (string) and the value (numeric).
 
 Returns a string containing the complete HTML5 document.
 
-#### Errors
+### Errors
 
 - Throws `Data is not optional` when `$data` is `undef`.
 - Throws `Data must be an array of arrays` when `$data` is not an ARRAY reference.
 
-#### Side Effects
+### API SPECIFICATION
 
-None.
-
-#### Api Specification
-
-##### Input
+#### Input
 
 ```perl
 {
@@ -288,7 +268,7 @@ Recognised C<opts> key: C<separator> (string, default C<'/'>)
 - character shown between label and value in the SVG legend.
 ```
 
-##### Output
+#### Output
 
 ```
 Str -- complete HTML5 document; pie rendered with C<d3.pie()> and
@@ -296,7 +276,7 @@ Str -- complete HTML5 document; pie rendered with C<d3.pie()> and
        percentage label inside each slice; legend to the right.
 ```
 
-### Render\_Animated\_Pie\_Chart
+## render\_animated\_pie\_chart
 
 ```perl
 my $html = $chart->render_animated_pie_chart($data);
@@ -316,18 +296,14 @@ array reference with two elements: the label (string) and the value (numeric).
 
 Returns a string containing the complete HTML5 document.
 
-#### Errors
+### Errors
 
 - Throws `Data is not optional` when `$data` is `undef`.
 - Throws `Data must be an array of arrays` when `$data` is not an ARRAY reference.
 
-#### Side Effects
+### API SPECIFICATION
 
-None.
-
-#### Api Specification
-
-##### Input
+#### Input
 
 ```perl
 {
@@ -344,14 +320,14 @@ Recognised C<opts> key: C<separator> (string, default C<'/'>)
 - character shown between label and value in the SVG legend.
 ```
 
-##### Output
+#### Output
 
 ```
 Str -- complete HTML5 document; slices animate via C<attrTween> with
        C<d3.interpolate> (1000 ms); percentage labels fade in afterwards.
 ```
 
-### Render\_Pie\_Chart\_Snippet
+## render\_pie\_chart\_snippet
 
 ```perl
 my $fragment = $chart->render_pie_chart_snippet(\@slices);
@@ -364,14 +340,14 @@ Generates an embeddable pie or donut chart fragment for use in existing HTML
 layouts.  Returns `{ svg_id => 'pie_chart', html => Str }`.  The
 caller is responsible for loading D3 v7 before embedding the fragment.
 
-#### Data Format
+### Data format
 
 Each element of `\@slices` is `[$label, $value]` or `[$label, $value, \%extra]`.
 Negative values are silently converted to their absolute value.  Zero-value
 slices are silently omitted.  `\%extra` key/value pairs are shown as
 additional rows in the hover tooltip.
 
-#### Options (`\%Opts`)
+### Options (`\%opts`)
 
 - `animated` (bool, default 0) - fan slices in from arc-length 0 on
 first render using `attrTween` / `d3.easeBackOut` (800 ms, staggered).
@@ -390,17 +366,13 @@ colour scheme.  Supported: `tableau10`, `category10`, `set2`, `set3`,
 label and value in each legend entry (e.g. `'/'` produces
 `Label / 12.34 (42.0%)`, `':'` produces `Label : 12.34 (42.0%)`).
 
-#### Errors
+### Errors
 
 - Throws `Data must be an array of arrays` when `\@slices` is not an ARRAY reference.
 
-#### Side Effects
+### API SPECIFICATION
 
-None.
-
-#### Api Specification
-
-##### Input
+#### Input
 
 ```perl
 {
@@ -419,14 +391,14 @@ C<separator> (string, default C<'/'> - shown between label and value in
 legend entries).
 ```
 
-##### Output
+#### Output
 
 ```
 HashRef -- C<{ svg_id =E<gt> 'pie_chart', html =E<gt> Str }>;
            embeddable fragment; no DOCTYPE, no page shell, no D3 CDN tag.
 ```
 
-### Render\_Heatmap\_Snippet
+## render\_heatmap\_snippet
 
 ```perl
 my $fragment = $chart->render_heatmap_snippet(\@triples);
@@ -441,7 +413,7 @@ its colour encodes the cell's numeric value using a sequential D3 colour
 scale.  Returns `{ svg_id => 'heatmap', html => Str }`.  The
 caller is responsible for loading D3 v7 before embedding the fragment.
 
-#### Data Format
+### Data format
 
 Each element of `\@triples` is `[$x_label, $y_label, $value]`.
 `$value` must be numeric or `undef` (`undef` rows are silently
@@ -449,7 +421,7 @@ skipped).  Zero is a valid value and maps to the lightest cell colour.
 The caller is responsible for any aggregation: if multiple triples share
 the same (x\_label, y\_label) pair, the last one wins.
 
-#### Options (`\%Opts`)
+### Options (`\%opts`)
 
 - `color_scheme` (string, default `'YlOrRd'`) - D3 sequential
 colour scheme.  Supported: `YlOrRd`, `Blues`, `Greens`, `Purples`,
@@ -464,7 +436,7 @@ Auto-suppressed when any cell is narrower than 28 px.
 - `animated` (bool, default 0) - Fade cells in on first load.
 Respects `prefers-reduced-motion`.
 
-#### Errors
+### Errors
 
 - Dies with `Data must be an array of arrays` when `\@triples`
 is not an ARRAY reference.
@@ -479,14 +451,14 @@ unsupported `color_scheme` value.
 - Dies with `cell_padding must be between 0 and 8` when
 `cell_padding` is outside the valid range.
 
-#### Side Effects
+### Side Effects
 
 Appends a tooltip `div` to the page when the fragment is rendered in
 the browser.
 
-#### Api Specification
+### API SPECIFICATION
 
-##### Input
+#### Input
 
 ```perl
 {
@@ -502,14 +474,14 @@ default C<0>), C<cell_padding> (integer 0-8, default C<2>),
 C<legend> (boolean, default C<1>), C<animated> (boolean, default C<0>).
 ```
 
-##### Output
+#### Output
 
 ```
 HashRef -- C<{ svg_id =E<gt> 'heatmap', html =E<gt> Str }>;
            embeddable fragment; no DOCTYPE, no page shell, no D3 CDN tag.
 ```
 
-### Render\_Bar\_Chart\_Snippet
+## render\_bar\_chart\_snippet
 
 ```perl
 my $result = $chart->render_bar_chart_snippet(\@bars);
@@ -534,7 +506,7 @@ Each element of `\@bars` is an array reference:
 `\%extra` hashref supplies additional key/value pairs shown in the hover
 tooltip.  Data points with an undefined `$value` are silently skipped.
 
-#### Options (`\%Opts`)
+### Options (`\%opts`)
 
 - `orientation` (string, default `'vertical'`)
 
@@ -579,7 +551,7 @@ tooltip.  Data points with an undefined `$value` are silently skipped.
 
     When non-empty, a text label is rendered below the bottom axis.
 
-#### Errors
+### Errors
 
 - Throws `Data must be an array of arrays` when `$data` is not an
 ARRAY reference.
@@ -593,32 +565,30 @@ invalid orientation value.
 - Throws `sort_bars must be 'value', 'label', or 'none'` on an
 invalid sort\_bars value.
 
-#### Side Effects
+### API SPECIFICATION
 
-None.
-
-#### Api Specification
-
-##### Input
+#### Input
 
 ```perl
 {
     data => { type => 'arrayref' },
     opts => { type => 'hashref', optional => 1 },
+    orientation => { type => 'string', memberof => [ 'vertical', 'horizontal' ], optional => 1 },
+    sort_bars => { type => 'string', memberof => [ 'value', 'label', 'none' ], optional => 1 }
 }
 
 Each element of C<$data>: C<[ Str, Num ]> or C<[ Str, Num, HashRef ]>;
 undef C<$value> silently skipped; negative C<$value> becomes positive.
 ```
 
-##### Output
+#### Output
 
 ```perl
 HashRef -- { svg_id => 'bar_chart', html => Str }
 html is a Perl character string (UTF-8 flag set, or pure ASCII).
 ```
 
-### Render\_Line\_Chart\_With\_Tooltips
+## render\_line\_chart\_with\_tooltips
 
 ```
 $html = $chart->render_line_chart_with_tooltips($data);
@@ -635,17 +605,13 @@ The JavaScript tooltip strings use `<\/b>` (with a backslash) rather than
 `</b>` to satisfy html-tidy's requirement that `</` followed by a
 letter not appear literally inside `<script>` blocks.
 
-#### Errors
+### Errors
 
 - Throws `Data must be an array of arrays` when `$data` is not an ARRAY reference.
 
-#### Side Effects
+### API SPECIFICATION
 
-None.
-
-#### Api Specification
-
-##### Input
+#### Input
 
 ```perl
 {
@@ -656,14 +622,14 @@ Each element of C<$data> is C<[ Str, Num ]>; passing C<undef> or a
 non-arrayref dies.
 ```
 
-##### Output
+#### Output
 
 ```perl
 Str -- complete HTML5 document; mouseover tooltip reveals label and value.
        Tooltip strings use C<< <\/b> >> not C<< </b> >>.
 ```
 
-### Render\_Line\_Chart\_Snippet
+## render\_line\_chart\_snippet
 
 ```perl
 my $fragment = $chart->render_line_chart_snippet($data);
@@ -699,7 +665,7 @@ Returns a hash reference with:
 - `svg_id` - The `id` attribute used on the `<svg`> element.
 - `html` - The embeddable fragment string.
 
-### Render\_Zoomable\_Line\_Chart\_Snippet
+## render\_zoomable\_line\_chart\_snippet
 
 ```perl
 my $fragment = $chart->render_zoomable_line_chart_snippet($data);
@@ -720,7 +686,7 @@ Accepts the same arguments as `render_line_chart_snippet`: an array reference
 of data points, each `[$x, $y]` or `[$x, $y, \%extra]`, plus an optional
 second argument `$opts` (hashref).
 
-#### Options
+### Options
 
 - `animated` (boolean, default `0`) - when true, the initial page load
 animates the line drawing left-to-right via the `stroke-dashoffset` technique
@@ -730,9 +696,9 @@ finishes (300 ms after a 1200 ms delay).  Respects
 is drawn immediately at full opacity.  Subsequent zoom and reset redraws are
 never animated regardless of this flag.
 
-#### Api Specification
+### API SPECIFICATION
 
-##### Input
+#### Input
 
 ```perl
 {
@@ -745,22 +711,18 @@ passing C<undef> or a non-arrayref dies.
 Recognised C<opts> key: C<animated> (boolean, default C<0>).
 ```
 
-##### Output
+#### Output
 
 ```
 HashRef -- C<{ svg_id =E<gt> 'chart', html =E<gt> Str }>;
            embeddable fragment; no DOCTYPE, no page shell, no D3 CDN tag.
 ```
 
-#### Errors
+### Errors
 
 Dies with _Data must be an array of arrays_ if `$data` is not an arrayref.
 
-#### Side Effects
-
-None.
-
-### Render\_Multi\_Series\_Line\_Chart\_With\_Tooltips
+## render\_multi\_series\_line\_chart\_with\_tooltips
 
 ```
 $html = $chart->render_multi_series_line_chart_with_tooltips($data);
@@ -784,17 +746,13 @@ hashrefs).
 Returns a string containing the HTML and JavaScript code for the chart.
 Tooltip strings use `<\/b>` rather than `</b>` for html-tidy compliance.
 
-#### Errors
+### Errors
 
 - Throws `Data must be an array of hashes` when `$data` is not an ARRAY reference.
 
-#### Side Effects
+### API SPECIFICATION
 
-None.
-
-#### Api Specification
-
-##### Input
+#### Input
 
 ```perl
 {
@@ -806,13 +764,13 @@ C<data> (arrayref of hashrefs with C<label> and C<value> keys);
 passing C<undef> or a non-arrayref dies.
 ```
 
-##### Output
+#### Output
 
-```
+```perl
 Str -- complete HTML5 document; one coloured line per series with mouseover tooltips.
 ```
 
-### Render\_Multi\_Series\_Line\_Chart\_With\_Animated\_Tooltips
+## render\_multi\_series\_line\_chart\_with\_animated\_tooltips
 
 ```
 $html = $chart->render_multi_series_line_chart_with_animated_tooltips($data);
@@ -829,17 +787,13 @@ Returns a string containing the complete HTML5 document.
 The tooltip appears with a CSS `translateY` slide-in animation.
 Tooltip strings use `<\/b>` for html-tidy compliance.
 
-#### Errors
+### Errors
 
 - Throws `Data must be an array of hashes` when `$data` is not an ARRAY reference.
 
-#### Side Effects
+### API SPECIFICATION
 
-None.
-
-#### Api Specification
-
-##### Input
+#### Input
 
 ```perl
 {
@@ -851,13 +805,13 @@ C<data> (arrayref of hashrefs with C<label> and C<value> keys);
 passing C<undef> or a non-arrayref dies.
 ```
 
-##### Output
+#### Output
 
-```
+```perl
 Str -- complete HTML5 document; animated tooltip uses CSS translateY transition.
 ```
 
-### Render\_Multi\_Series\_Line\_Chart\_With\_Legends
+## render\_multi\_series\_line\_chart\_with\_legends
 
 ```
 $html = $chart->render_multi_series_line_chart_with_legends($data);
@@ -874,17 +828,13 @@ an array reference of `{ name, data }` series hashes.
 Returns a string containing the complete HTML5 document. The stylesheet defines
 a `.legend` CSS class used by the D3-generated legend elements.
 
-#### Errors
+### Errors
 
 - Throws `Data must be an array of hashes` when `$data` is not an ARRAY reference.
 
-#### Side Effects
+### API SPECIFICATION
 
-None.
-
-#### Api Specification
-
-##### Input
+#### Input
 
 ```perl
 {
@@ -896,14 +846,14 @@ C<data> (arrayref of hashrefs with C<label> and C<value> keys);
 passing C<undef> or a non-arrayref dies.
 ```
 
-##### Output
+#### Output
 
 ```
 Str -- complete HTML5 document; static colour legend rendered as SVG C<g> elements
        with the C<.legend> CSS class applied via D3 C<.attr("class", "legend")>.
 ```
 
-### Render\_Multi\_Series\_Line\_Chart\_With\_Interactive\_Legends
+## render\_multi\_series\_line\_chart\_with\_interactive\_legends
 
 ```
 $html = $chart->render_multi_series_line_chart_with_interactive_legends($data);
@@ -920,17 +870,13 @@ Returns a string containing the complete HTML5 document. Clicking a legend entry
 toggles that series' opacity using an `isVisible` boolean flag in the D3 click
 handler (opacity is set to `isVisible ? 0 : 1` on each click).
 
-#### Errors
+### Errors
 
 - Throws `Data must be an array of hashes` when `$data` is not an ARRAY reference.
 
-#### Side Effects
+### API SPECIFICATION
 
-None.
-
-#### Api Specification
-
-##### Input
+#### Input
 
 ```perl
 {
@@ -942,7 +888,7 @@ C<data> (arrayref of hashrefs with C<label> and C<value> keys);
 passing C<undef> or a non-arrayref dies.
 ```
 
-##### Output
+#### Output
 
 ```
 Str -- complete HTML5 document; legend clicks toggle series visibility.
@@ -950,7 +896,7 @@ Str -- complete HTML5 document; legend clicks toggle series visibility.
        Opacity toggled by C<isVisible ? 0 : 1>.
 ```
 
-## Support
+# SUPPORT
 
 This module is provided as-is without any warranty.
 
@@ -968,22 +914,22 @@ perldoc HTML::D3
 
 You can also look for information at:
 
-## Bugs
+# BUGS
 
 It would help to have the render routine to return the head and body components separately.
 
-## See Also
+# SEE ALSO
 
 - [Configure an Object at Runtime](https://metacpan.org/pod/Object%3A%3AConfigure)
 - [Test Dashboard](https://nigelhorne.github.io/HTML-D3/coverage/)
 
-## Author
+# AUTHOR
 
 Nigel Horne <njh@nigelhorne.com>
 
-## Formal Specification
+# FORMAL SPECIFICATION
 
-### Render\_Bar\_Chart
+## render\_bar\_chart
 
 ```
 render_bar_chart : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
@@ -995,7 +941,7 @@ post "<!DOCTYPE" ⊆ result
 post ∀ d ∈ data . d[0] ⊆ result
 ```
 
-### Render\_Line\_Chart
+## render\_line\_chart
 
 ```
 render_line_chart : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
@@ -1006,7 +952,7 @@ post "<!DOCTYPE" ⊆ result
 post "d3.scalePoint" ⊆ result ∧ "d3.line()" ⊆ result
 ```
 
-### Render\_Animated\_Bar\_Chart
+## render\_animated\_bar\_chart
 
 ```
 render_animated_bar_chart : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
@@ -1018,7 +964,7 @@ post "<!DOCTYPE" ⊆ result
 post ".transition()" ⊆ result ∧ ".delay(" ⊆ result
 ```
 
-### Render\_Animated\_Line\_Chart
+## render\_animated\_line\_chart
 
 ```
 render_animated_line_chart : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
@@ -1029,7 +975,7 @@ post "<!DOCTYPE" ⊆ result
 post "stroke-dashoffset" ⊆ result ∧ "d3.easeLinear" ⊆ result
 ```
 
-### Render\_Pie\_Chart
+## render\_pie\_chart
 
 ```
 render_pie_chart : HTML::D3 × (ArrayRef | undef) × (HashRef | undef) → Str ∪ ⊥
@@ -1042,7 +988,7 @@ post "d3.pie()" ⊆ result ∧ "d3.arc()" ⊆ result ∧ "d3.schemeCategory10" �
 post opts.separator = S        ⇒  " S " ⊆ result (SVG legend: label S value)
 ```
 
-### Render\_Animated\_Pie\_Chart
+## render\_animated\_pie\_chart
 
 ```
 render_animated_pie_chart : HTML::D3 × (ArrayRef | undef) × (HashRef | undef) → Str ∪ ⊥
@@ -1055,7 +1001,7 @@ post "attrTween" ⊆ result ∧ "d3.interpolate" ⊆ result
 post opts.separator = S        ⇒  " S " ⊆ result (SVG legend: label S value)
 ```
 
-### Render\_Line\_Chart\_Snippet
+## render\_line\_chart\_snippet
 
 ```
 render_line_chart_snippet : HTML::D3 × (ArrayRef | undef) → HashRef ∪ ⊥
@@ -1067,7 +1013,7 @@ post result.html ∈ Str
 post "<!DOCTYPE" ∉ result.html
 ```
 
-### Render\_Zoomable\_Line\_Chart\_Snippet
+## render\_zoomable\_line\_chart\_snippet
 
 ```
 render_zoomable_line_chart_snippet :
@@ -1083,7 +1029,7 @@ post opts.animated = 1  ⇒  "stroke-dashoffset" ⊆ result.html
                           ∧ "initialDrawDone" ⊆ result.html
 ```
 
-### Render\_Pie\_Chart\_Snippet
+## render\_pie\_chart\_snippet
 
 ```
 render_pie_chart_snippet :
@@ -1105,7 +1051,7 @@ post opts.max_slices = N ∧ N ≥ 2 ∧ |data| > N
 post opts.separator = S ⇒  " S " ⊆ result.html (HTML legend: label S value (pct%))
 ```
 
-### Render\_Heatmap\_Snippet
+## render\_heatmap\_snippet
 
 ```
 render_heatmap_snippet :
@@ -1133,9 +1079,9 @@ post opts.animated = 1         ⇒ "prefers-reduced-motion" ⊆ result.html
 post opts.legend = 1           ⇒ "linearGradient" ⊆ result.html
 ```
 
-### Render\_Line\_Chart\_With\_Tooltips
+## render\_line\_chart\_with\_tooltips
 
-```
+```perl
 render_line_chart_with_tooltips : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
 
 pre  ref(data) ≠ 'ARRAY'  ⇒ die "Data must be an array of arrays"
@@ -1145,7 +1091,7 @@ post "mouseover" ⊆ result
 post "</b>" ∉ result ∧ "<\/b>" ∈ result
 ```
 
-### Render\_Multi\_Series\_Line\_Chart\_With\_Tooltips
+## render\_multi\_series\_line\_chart\_with\_tooltips
 
 ```
 render_multi_series_line_chart_with_tooltips : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
@@ -1156,7 +1102,7 @@ post "<!DOCTYPE" ⊆ result
 post "</b>" ∉ result ∧ "<\/b>" ∈ result
 ```
 
-### Render\_Multi\_Series\_Line\_Chart\_With\_Animated\_Tooltips
+## render\_multi\_series\_line\_chart\_with\_animated\_tooltips
 
 ```
 render_multi_series_line_chart_with_animated_tooltips : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
@@ -1168,7 +1114,7 @@ post "translateY" ⊆ result
 post "</b>" ∉ result ∧ "<\/b>" ∈ result
 ```
 
-### Render\_Multi\_Series\_Line\_Chart\_With\_Legends
+## render\_multi\_series\_line\_chart\_with\_legends
 
 ```
 render_multi_series_line_chart_with_legends : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
@@ -1179,7 +1125,7 @@ post "<!DOCTYPE" ⊆ result
 post ".legend" ⊆ result
 ```
 
-### Render\_Multi\_Series\_Line\_Chart\_With\_Interactive\_Legends
+## render\_multi\_series\_line\_chart\_with\_interactive\_legends
 
 ```
 render_multi_series_line_chart_with_interactive_legends : HTML::D3 × (ArrayRef | undef) → Str ∪ ⊥
@@ -1192,7 +1138,7 @@ post "isVisible ? 0 : 1" ⊆ result
 post ".legend" ⊆ result
 ```
 
-## License and Copyright
+# LICENSE AND COPYRIGHT
 
 Copyright 2025-2026 Nigel Horne.
 
