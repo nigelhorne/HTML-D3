@@ -1,6 +1,6 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
-0.19	
+0.19	Tue Oct 13 03:35:05 PM EDT 2026
 	[ Enhancements ]
 	- render_stacked_bar_snippet: new snippet method that generates an embeddable
 	  D3 v7 stacked bar chart. Accepts an arrayref of hashrefs (one row per
