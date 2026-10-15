@@ -19,7 +19,7 @@ HTML::D3 - A simple Perl module for generating charts using D3.js.
 
 =head1 VERSION
 
-Version 0.19
+Version 0.20
 
 =cut
 
