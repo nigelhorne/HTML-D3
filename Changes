@@ -1,6 +1,6 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
-0.21
+0.21	Fri Oct 16 09:19:00 PM EDT 2026
 	[ Enhancements ]
 	- The categorical colour schemes are defined once and exposed to Perl.  New
 	  methods categorical_schemes() (the names a scheme option accepts),
