@@ -4,7 +4,7 @@ HTML::D3 - A simple Perl module for generating charts using D3.js.
 
 # VERSION
 
-Version 0.21
+Version 0.23
 
 # SYNOPSIS
 
@@ -252,8 +252,10 @@ Returns a string containing the complete HTML5 document.
     my $html = $chart->render_pie_chart($data, { separator => ':' });
 
 Generates HTML and JavaScript code to render a pie chart.
-Each slice is coloured with `d3.schemeCategory10`; percentage labels appear
-inside each slice and a colour legend is shown to the right of the pie.
+Each slice is coloured with the ten hex values of `d3.schemeCategory10`,
+inlined into the page rather than read from D3's own palette (see `palette`);
+percentage labels appear inside each slice and a colour legend is shown to the
+right of the pie.
 Accepts the following arguments:
 
 - `$data` - An array reference of data points.  Each data point is an
@@ -289,8 +291,8 @@ Returns a string containing the complete HTML5 document.
 #### Output
 
     Str -- complete HTML5 document; pie rendered with C<d3.pie()> and
-           C<d3.arc()>; slices coloured with C<d3.schemeCategory10>;
-           percentage label inside each slice; legend to the right.
+           C<d3.arc()>; slices coloured with category10's hex values,
+           inlined; percentage label inside each slice; legend to the right.
 
 ## render\_animated\_pie\_chart
 
@@ -1439,7 +1441,8 @@ Nigel Horne <njh@nigelhorne.com>
     pre  ref(data) ≠ 'ARRAY'      ⇒ die "Data must be an array of arrays"
     post result ∈ Str
     post "<!DOCTYPE" ⊆ result
-    post "d3.pie()" ⊆ result ∧ "d3.arc()" ⊆ result ∧ "d3.schemeCategory10" ⊆ result
+    post "d3.pie()" ⊆ result ∧ "d3.arc()" ⊆ result ∧ "'#1f77b4'" ⊆ result
+                                      -- category10's colours, inlined: no d3.scheme* is read
     post opts.separator = S        ⇒  " S " ⊆ result (SVG legend: label S value)
 
 ## render\_animated\_pie\_chart
@@ -1576,10 +1579,10 @@ Nigel Horne <njh@nigelhorne.com>
     post opts.x_label ≠ ''          ⇒ "msl-axis-label" ⊆ result.html
     post opts.y_label ≠ ''          ⇒ "msl-axis-label" ⊆ result.html
     post opts.scheme = S ∧ S ∈ categorical_schemes()
-                                    ⇒ the D3 expression of S ⊆ result.html
+                                    ⇒ the colours of S, as a JS array, ⊆ result.html
     post opts.scheme ∉ categorical_schemes()
-                                    ⇒ the default scheme's expression ⊆ result.html
-                                      -- not d3.scheme<S>
+                                    ⇒ the default scheme's colours ⊆ result.html
+                                      -- not a d3.scheme<S> expression
     post opts.animated = 1          ⇒ "stroke-dashoffset" ⊆ result.html
                                       ∧ "prefers-reduced-motion" ⊆ result.html
 
