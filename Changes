@@ -1,6 +1,6 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
-0.23	
+0.23	Sat Oct 17 08:28:48 AM EDT 2026
 	[ Enhancements ]
 	- The chart snippets inline each categorical scheme's colours as a literal
 	  hex array, taken from the one definition that palette() and colour_at()
