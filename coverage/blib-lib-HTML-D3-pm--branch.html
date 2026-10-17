@@ -28,201 +28,205 @@ https://pjcj.net
 <tr><td class="h"><a id="L122">122</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (not defined $class) { }</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif (&amp;blessed($class)) { }</td></tr>
 <tr><td class="h"><a id="L123">123</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (scalar keys %{$params;} &gt; 0)</td></tr>
-<tr><td class="h"><a id="L194">194</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $data</td></tr>
-<tr><td class="h"><a id="L197">197</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L312">312</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $data</td></tr>
-<tr><td class="h"><a id="L313">313</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L423">423</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L544">544</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L696">696</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $data</td></tr>
-<tr><td class="h"><a id="L697">697</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L852">852</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $data</td></tr>
-<tr><td class="h"><a id="L853">853</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L1039">1039</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L1041">1041</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;animated&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L1042">1042</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;donut&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L1045">1045</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;legend&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L262">262</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $index and &amp;looks_like_number($index) and $index == int $index and $index &gt;= 0</td></tr>
+<tr><td class="h"><a id="L321">321</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $data</td></tr>
+<tr><td class="h"><a id="L324">324</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L439">439</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $data</td></tr>
+<tr><td class="h"><a id="L440">440</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L550">550</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L671">671</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L823">823</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $data</td></tr>
+<tr><td class="h"><a id="L824">824</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L979">979</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $data</td></tr>
+<tr><td class="h"><a id="L980">980</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L1167">1167</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L1169">1169</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;animated&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L1170">1170</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;donut&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L1173">1173</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;legend&#39;} ? :</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">exists $opts-&gt;{&#39;legend&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L1053">1053</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $val == 0</td></tr>
-<tr><td class="h"><a id="L1055">1055</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ref $pt-&gt;[2] eq &quot;HASH&quot;</td></tr>
-<tr><td class="h"><a id="L1060">1060</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($sort_slices eq &#39;value&#39;) { }</td></tr>
+<tr><td class="h"><a id="L1183">1183</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $val == 0</td></tr>
+<tr><td class="h"><a id="L1185">1185</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ref $pt-&gt;[2] eq &quot;HASH&quot;</td></tr>
+<tr><td class="h"><a id="L1190">1190</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($sort_slices eq &#39;value&#39;) { }</td></tr>
 <tr><td class="h"></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">elsif ($sort_slices eq &#39;label&#39;) { }</td></tr>
-<tr><td class="h"><a id="L1067">1067</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($max_slices &gt;= 2 and scalar @slices &gt; $max_slices)</td></tr>
-<tr><td class="h"><a id="L1085">1085</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L1088">1088</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$donut ? :</td></tr>
-<tr><td class="h"><a id="L1091">1091</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$animated ? :</td></tr>
-<tr><td class="h"><a id="L1097">1097</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$animated &amp;&amp; $show_legend ? :</td></tr>
-<tr><td class="h"><a id="L1108">1108</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($animated) { }</td></tr>
-<tr><td class="h"><a id="L1130">1130</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$donut ? :</td></tr>
-<tr><td class="h"><a id="L1141">1141</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$show_legend ? :</td></tr>
-<tr><td class="h"><a id="L1155">1155</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$show_legend ? :</td></tr>
-<tr><td class="h"><a id="L1385">1385</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L1398">1398</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless exists $color_scheme_map{$color_scheme}</td></tr>
-<tr><td class="h"><a id="L1401">1401</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">defined $opts-&gt;{&#39;cell_padding&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L1402">1402</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $cell_padding &gt;= 0 and $cell_padding &lt;= 8</td></tr>
-<tr><td class="h"><a id="L1408">1408</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;show_values&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L1409">1409</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;legend&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L1197">1197</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($max_slices &gt;= 2 and scalar @slices &gt; $max_slices)</td></tr>
+<tr><td class="h"><a id="L1215">1215</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L1218">1218</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$donut ? :</td></tr>
+<tr><td class="h"><a id="L1221">1221</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$animated ? :</td></tr>
+<tr><td class="h"><a id="L1227">1227</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$animated &amp;&amp; $show_legend ? :</td></tr>
+<tr><td class="h"><a id="L1238">1238</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($animated) { }</td></tr>
+<tr><td class="h"><a id="L1260">1260</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$donut ? :</td></tr>
+<tr><td class="h"><a id="L1271">1271</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$show_legend ? :</td></tr>
+<tr><td class="h"><a id="L1285">1285</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$show_legend ? :</td></tr>
+<tr><td class="h"><a id="L1509">1509</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L1522">1522</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless exists $color_scheme_map{$color_scheme}</td></tr>
+<tr><td class="h"><a id="L1525">1525</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">defined $opts-&gt;{&#39;cell_padding&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L1526">1526</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $cell_padding &gt;= 0 and $cell_padding &lt;= 8</td></tr>
+<tr><td class="h"><a id="L1532">1532</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;show_values&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L1533">1533</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;legend&#39;} ? :</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">exists $opts-&gt;{&#39;legend&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L1410">1410</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;animated&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L1414">1414</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $pt eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L1416">1416</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless scalar @$pt &gt;= 3</td></tr>
-<tr><td class="h"><a id="L1418">1418</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $pt-&gt;[2]</td></tr>
-<tr><td class="h"><a id="L1419">1419</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number($pt-&gt;[2])</td></tr>
-<tr><td class="h"><a id="L1441">1441</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L1445">1445</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$legend ? :</td></tr>
-<tr><td class="h"><a id="L1446">1446</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
-<tr><td class="h"><a id="L1447">1447</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$y_label ? :</td></tr>
-<tr><td class="h"><a id="L1451">1451</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$animated ? :</td></tr>
-<tr><td class="h"><a id="L1462">1462</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$legend ? :</td></tr>
-<tr><td class="h"><a id="L1746">1746</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L1749">1749</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $orientation eq &quot;vertical&quot; or $orientation eq &quot;horizontal&quot;</td></tr>
-<tr><td class="h"><a id="L1754">1754</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless grep {$sort_bars eq $_;} &quot;value&quot;, &quot;label&quot;, &quot;none&quot;</td></tr>
-<tr><td class="h"><a id="L1758">1758</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;show_values&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L1759">1759</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;animated&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L1766">1766</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $pt eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L1768">1768</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless scalar @$pt &gt;= 2</td></tr>
-<tr><td class="h"><a id="L1770">1770</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $pt-&gt;[1]</td></tr>
-<tr><td class="h"><a id="L1771">1771</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number($pt-&gt;[1])</td></tr>
-<tr><td class="h"><a id="L1772">1772</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">defined $pt-&gt;[0] ? :</td></tr>
+<tr><td class="h"><a id="L1534">1534</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;animated&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L1538">1538</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $pt eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L1540">1540</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless scalar @$pt &gt;= 3</td></tr>
+<tr><td class="h"><a id="L1542">1542</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $pt-&gt;[2]</td></tr>
+<tr><td class="h"><a id="L1543">1543</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number($pt-&gt;[2])</td></tr>
+<tr><td class="h"><a id="L1565">1565</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L1569">1569</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$legend ? :</td></tr>
+<tr><td class="h"><a id="L1570">1570</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"><a id="L1571">1571</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$y_label ? :</td></tr>
+<tr><td class="h"><a id="L1575">1575</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$animated ? :</td></tr>
+<tr><td class="h"><a id="L1586">1586</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$legend ? :</td></tr>
+<tr><td class="h"><a id="L1870">1870</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L1873">1873</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $orientation eq &quot;vertical&quot; or $orientation eq &quot;horizontal&quot;</td></tr>
+<tr><td class="h"><a id="L1878">1878</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless grep {$sort_bars eq $_;} &quot;value&quot;, &quot;label&quot;, &quot;none&quot;</td></tr>
+<tr><td class="h"><a id="L1882">1882</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;show_values&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L1883">1883</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;animated&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L1890">1890</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $pt eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L1892">1892</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless scalar @$pt &gt;= 2</td></tr>
+<tr><td class="h"><a id="L1894">1894</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $pt-&gt;[1]</td></tr>
+<tr><td class="h"><a id="L1895">1895</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number($pt-&gt;[1])</td></tr>
+<tr><td class="h"><a id="L1896">1896</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">defined $pt-&gt;[0] ? :</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">scalar @$pt &gt;= 3 &amp;&amp; ref $pt-&gt;[2] eq &#39;HASH&#39; ? :</td></tr>
-<tr><td class="h"><a id="L1781">1781</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($sort_bars eq &#39;value&#39;) { }</td></tr>
+<tr><td class="h"><a id="L1905">1905</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($sort_bars eq &#39;value&#39;) { }</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($sort_bars eq &#39;label&#39;) { }</td></tr>
-<tr><td class="h"><a id="L1788">1788</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($max_bars and scalar @bars &gt; $max_bars)</td></tr>
-<tr><td class="h"><a id="L1792">1792</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if @rest</td></tr>
-<tr><td class="h"><a id="L1798">1798</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if exists $_-&gt;{&#39;extra&#39;}</td></tr>
-<tr><td class="h"><a id="L1814">1814</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$color eq &#39;categorical&#39; ? :</td></tr>
-<tr><td class="h"><a id="L1815">1815</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$is_categorical ? :</td></tr>
-<tr><td class="h"><a id="L1823">1823</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L1827">1827</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$orientation eq &#39;vertical&#39; &amp;&amp; scalar @bars &gt; 8 ? :</td></tr>
-<tr><td class="h"><a id="L1831">1831</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($orientation eq &#39;vertical&#39;) { }</td></tr>
-<tr><td class="h"><a id="L1834">1834</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"><a id="L1912">1912</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($max_bars and scalar @bars &gt; $max_bars)</td></tr>
+<tr><td class="h"><a id="L1916">1916</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if @rest</td></tr>
+<tr><td class="h"><a id="L1922">1922</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if exists $_-&gt;{&#39;extra&#39;}</td></tr>
+<tr><td class="h"><a id="L1938">1938</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$color eq &#39;categorical&#39; ? :</td></tr>
+<tr><td class="h"><a id="L1939">1939</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$is_categorical ? :</td></tr>
+<tr><td class="h"><a id="L1947">1947</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L1951">1951</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$orientation eq &#39;vertical&#39; &amp;&amp; scalar @bars &gt; 8 ? :</td></tr>
+<tr><td class="h"><a id="L1955">1955</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($orientation eq &#39;vertical&#39;) { }</td></tr>
+<tr><td class="h"><a id="L1958">1958</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$rotate_labels ? :</td></tr>
-<tr><td class="h"><a id="L1840">1840</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$show_values ? :</td></tr>
-<tr><td class="h"><a id="L1841">1841</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
-<tr><td class="h"><a id="L1848">1848</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$is_categorical ? :</td></tr>
-<tr><td class="h"><a id="L1855">1855</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$rotate_labels ? :</td></tr>
-<tr><td class="h"><a id="L1865">1865</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($show_values)</td></tr>
-<tr><td class="h"><a id="L1866">1866</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($orientation eq &#39;vertical&#39;) { }</td></tr>
-<tr><td class="h"><a id="L1893">1893</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($x_label)</td></tr>
-<tr><td class="h"><a id="L1909">1909</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($animated)</td></tr>
-<tr><td class="h"><a id="L1910">1910</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($orientation eq &#39;vertical&#39;) { }</td></tr>
-<tr><td class="h"><a id="L1938">1938</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($orientation eq &#39;vertical&#39;) { }</td></tr>
-<tr><td class="h"><a id="L2129">2129</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L2324">2324</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L2329">2329</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ref $_-&gt;[2] eq &quot;HASH&quot;</td></tr>
-<tr><td class="h"><a id="L2339">2339</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L2493">2493</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L2498">2498</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ref $_-&gt;[2] eq &quot;HASH&quot;</td></tr>
-<tr><td class="h"><a id="L2509">2509</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L2536">2536</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;animated&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L2539">2539</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($opts-&gt;{&#39;animated&#39;}) { }</td></tr>
-<tr><td class="h"><a id="L2773">2773</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L2935">2935</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L3101">3101</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L3306">3306</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L3560">3560</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $series_data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L3563">3563</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $s eq &quot;HASH&quot; and defined $s-&gt;{&#39;name&#39;} and ref $s-&gt;{&#39;data&#39;} eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L3590">3590</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L3594">3594</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$y_label ? :</td></tr>
-<tr><td class="h"><a id="L3596">3596</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
-<tr><td class="h"><a id="L3600">3600</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
-<tr><td class="h"><a id="L3609">3609</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$y_label ? :</td></tr>
-<tr><td class="h"><a id="L3619">3619</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$animated ? :</td></tr>
-<tr><td class="h"><a id="L3856">3856</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L3883">3883</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $pt eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L3884">3884</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless scalar @$pt &gt;= 2</td></tr>
-<tr><td class="h"><a id="L3885">3885</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number($pt-&gt;[0])</td></tr>
-<tr><td class="h"><a id="L3886">3886</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number($pt-&gt;[1])</td></tr>
-<tr><td class="h"><a id="L3888">3888</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ref $pt-&gt;[2] eq &quot;HASH&quot;</td></tr>
-<tr><td class="h"><a id="L3889">3889</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (ref $pt-&gt;[3] eq &quot;HASH&quot;)</td></tr>
-<tr><td class="h"><a id="L3890">3890</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if defined $pt-&gt;[3]{&#39;series&#39;}</td></tr>
-<tr><td class="h"><a id="L3891">3891</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if defined $pt-&gt;[3]{&#39;size&#39;} and &amp;looks_like_number($pt-&gt;[3]{&#39;size&#39;})</td></tr>
-<tr><td class="h"><a id="L3901">3901</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (defined $p-&gt;{&#39;series&#39;} and not $seen_series{$p-&gt;{&#39;series&#39;}}++)</td></tr>
-<tr><td class="h"><a id="L3904">3904</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (defined $p-&gt;{&#39;size&#39;})</td></tr>
-<tr><td class="h"><a id="L3905">3905</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if not defined $size_min or $p-&gt;{&#39;size&#39;} &lt; $size_min</td></tr>
-<tr><td class="h"><a id="L3906">3906</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if not defined $size_max or $p-&gt;{&#39;size&#39;} &gt; $size_max</td></tr>
-<tr><td class="h"><a id="L3921">3921</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">$color eq &#39;categorical&#39; ? :</td></tr>
-<tr><td class="h"><a id="L3922">3922</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$is_categorical || $has_series ? :</td></tr>
-<tr><td class="h"><a id="L3932">3932</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$has_series ? :</td></tr>
-<tr><td class="h"><a id="L3934">3934</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L3937">3937</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
-<tr><td class="h"><a id="L3938">3938</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$y_label ? :</td></tr>
-<tr><td class="h"><a id="L3945">3945</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($has_series) { }</td></tr>
+<tr><td class="h"><a id="L1964">1964</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$show_values ? :</td></tr>
+<tr><td class="h"><a id="L1965">1965</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"><a id="L1972">1972</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$is_categorical ? :</td></tr>
+<tr><td class="h"><a id="L1979">1979</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$rotate_labels ? :</td></tr>
+<tr><td class="h"><a id="L1989">1989</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($show_values)</td></tr>
+<tr><td class="h"><a id="L1990">1990</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($orientation eq &#39;vertical&#39;) { }</td></tr>
+<tr><td class="h"><a id="L2017">2017</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($x_label)</td></tr>
+<tr><td class="h"><a id="L2033">2033</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($animated)</td></tr>
+<tr><td class="h"><a id="L2034">2034</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($orientation eq &#39;vertical&#39;) { }</td></tr>
+<tr><td class="h"><a id="L2062">2062</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($orientation eq &#39;vertical&#39;) { }</td></tr>
+<tr><td class="h"><a id="L2253">2253</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L2448">2448</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L2453">2453</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ref $_-&gt;[2] eq &quot;HASH&quot;</td></tr>
+<tr><td class="h"><a id="L2463">2463</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L2617">2617</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L2622">2622</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ref $_-&gt;[2] eq &quot;HASH&quot;</td></tr>
+<tr><td class="h"><a id="L2633">2633</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L2660">2660</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;animated&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L2663">2663</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($opts-&gt;{&#39;animated&#39;}) { }</td></tr>
+<tr><td class="h"><a id="L2897">2897</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L3059">3059</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L3225">3225</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L3430">3430</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L3686">3686</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $series_data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L3689">3689</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $s eq &quot;HASH&quot; and defined $s-&gt;{&#39;name&#39;} and ref $s-&gt;{&#39;data&#39;} eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L3716">3716</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L3720">3720</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$y_label ? :</td></tr>
+<tr><td class="h"><a id="L3722">3722</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"><a id="L3726">3726</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"><a id="L3735">3735</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$y_label ? :</td></tr>
+<tr><td class="h"><a id="L3745">3745</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$animated ? :</td></tr>
+<tr><td class="h"><a id="L3984">3984</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L4012">4012</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $pt eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L4013">4013</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless scalar @$pt &gt;= 2</td></tr>
+<tr><td class="h"><a id="L4014">4014</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number($pt-&gt;[0])</td></tr>
+<tr><td class="h"><a id="L4015">4015</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number($pt-&gt;[1])</td></tr>
+<tr><td class="h"><a id="L4017">4017</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ref $pt-&gt;[2] eq &quot;HASH&quot;</td></tr>
+<tr><td class="h"><a id="L4018">4018</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (ref $pt-&gt;[3] eq &quot;HASH&quot;)</td></tr>
+<tr><td class="h"><a id="L4019">4019</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if defined $pt-&gt;[3]{&#39;series&#39;}</td></tr>
+<tr><td class="h"><a id="L4020">4020</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if defined $pt-&gt;[3]{&#39;size&#39;} and &amp;looks_like_number($pt-&gt;[3]{&#39;size&#39;})</td></tr>
+<tr><td class="h"><a id="L4030">4030</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (defined $p-&gt;{&#39;series&#39;} and not $seen_series{$p-&gt;{&#39;series&#39;}}++)</td></tr>
+<tr><td class="h"><a id="L4033">4033</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (defined $p-&gt;{&#39;size&#39;})</td></tr>
+<tr><td class="h"><a id="L4034">4034</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if not defined $size_min or $p-&gt;{&#39;size&#39;} &lt; $size_min</td></tr>
+<tr><td class="h"><a id="L4035">4035</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if not defined $size_max or $p-&gt;{&#39;size&#39;} &gt; $size_max</td></tr>
+<tr><td class="h"><a id="L4050">4050</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">$color eq &#39;categorical&#39; ? :</td></tr>
+<tr><td class="h"><a id="L4051">4051</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$is_categorical || $has_series ? :</td></tr>
+<tr><td class="h"><a id="L4061">4061</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$has_series ? :</td></tr>
+<tr><td class="h"><a id="L4063">4063</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L4066">4066</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"><a id="L4067">4067</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$y_label ? :</td></tr>
+<tr><td class="h"><a id="L4074">4074</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($has_series) { }</td></tr>
 <tr><td class="h"></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">elsif ($is_categorical) { }</td></tr>
-<tr><td class="h"><a id="L3959">3959</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($has_size and defined $size_min)</td></tr>
-<tr><td class="h"><a id="L3967">3967</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$has_series ? :</td></tr>
-<tr><td class="h"><a id="L3971">3971</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$animated ? :</td></tr>
-<tr><td class="h"><a id="L3984">3984</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
-<tr><td class="h"><a id="L3993">3993</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$y_label ? :</td></tr>
-<tr><td class="h"><a id="L4004">4004</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$has_series ? :</td></tr>
-<tr><td class="h"><a id="L4016">4016</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$has_series ? :</td></tr>
-<tr><td class="h"><a id="L4019">4019</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$has_size ? :</td></tr>
-<tr><td class="h"><a id="L4199">4199</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L4200">4200</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless @$data</td></tr>
-<tr><td class="h"><a id="L4201">4201</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data-&gt;[0] eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L4203">4203</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">exists $opts-&gt;{&#39;sortable&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L4228">4228</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $row eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L4238">4238</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$caption ? :</td></tr>
-<tr><td class="h"><a id="L4242">4242</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$sortable ? :</td></tr>
-<tr><td class="h"><a id="L4243">4243</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$sortable ? :</td></tr>
-<tr><td class="h"><a id="L4255">4255</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$sortable ? :</td></tr>
-<tr><td class="h"><a id="L4406">4406</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L4416">4416</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $orient eq &quot;v&quot; or $orient eq &quot;h&quot;</td></tr>
-<tr><td class="h"><a id="L4418">4418</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if defined $sort_by and $sort_by ne &quot;value&quot; and $sort_by ne &quot;label&quot;</td></tr>
-<tr><td class="h"><a id="L4423">4423</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $row eq &quot;HASH&quot;</td></tr>
-<tr><td class="h"><a id="L4424">4424</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number(scalar($row-&gt;{$val_col} // &quot;x&quot;))</td></tr>
-<tr><td class="h"><a id="L4426">4426</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $cats_seen{$cat}++</td></tr>
-<tr><td class="h"><a id="L4434">4434</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (defined $sort_by and $sort_by eq &#39;label&#39;) { }</td></tr>
+<tr><td class="h"><a id="L4088">4088</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($has_size and defined $size_min)</td></tr>
+<tr><td class="h"><a id="L4096">4096</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$has_series ? :</td></tr>
+<tr><td class="h"><a id="L4100">4100</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$animated ? :</td></tr>
+<tr><td class="h"><a id="L4113">4113</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"><a id="L4122">4122</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$y_label ? :</td></tr>
+<tr><td class="h"><a id="L4133">4133</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$has_series ? :</td></tr>
+<tr><td class="h"><a id="L4145">4145</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$has_series ? :</td></tr>
+<tr><td class="h"><a id="L4148">4148</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$has_size ? :</td></tr>
+<tr><td class="h"><a id="L4328">4328</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L4329">4329</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless @$data</td></tr>
+<tr><td class="h"><a id="L4330">4330</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data-&gt;[0] eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L4332">4332</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">exists $opts-&gt;{&#39;sortable&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L4357">4357</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $row eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L4367">4367</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$caption ? :</td></tr>
+<tr><td class="h"><a id="L4371">4371</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$sortable ? :</td></tr>
+<tr><td class="h"><a id="L4372">4372</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$sortable ? :</td></tr>
+<tr><td class="h"><a id="L4384">4384</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$sortable ? :</td></tr>
+<tr><td class="h"><a id="L4537">4537</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L4549">4549</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $orient eq &quot;v&quot; or $orient eq &quot;h&quot;</td></tr>
+<tr><td class="h"><a id="L4551">4551</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if defined $sort_by and $sort_by ne &quot;value&quot; and $sort_by ne &quot;label&quot;</td></tr>
+<tr><td class="h"><a id="L4556">4556</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $row eq &quot;HASH&quot;</td></tr>
+<tr><td class="h"><a id="L4557">4557</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number(scalar($row-&gt;{$val_col} // &quot;x&quot;))</td></tr>
+<tr><td class="h"><a id="L4559">4559</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $cats_seen{$cat}++</td></tr>
+<tr><td class="h"><a id="L4567">4567</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (defined $sort_by and $sort_by eq &#39;label&#39;) { }</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif (defined $sort_by and $sort_by eq &#39;value&#39;) { }</td></tr>
-<tr><td class="h"><a id="L4468">4468</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L4471">4471</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$orient eq &#39;v&#39; ? :</td></tr>
-<tr><td class="h"><a id="L4474">4474</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"><a id="L4601">4601</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L4604">4604</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$orient eq &#39;v&#39; ? :</td></tr>
+<tr><td class="h"><a id="L4607">4607</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$is_v ? :</td></tr>
-<tr><td class="h"><a id="L4475">4475</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$is_v ? :</td></tr>
-<tr><td class="h"><a id="L4480">4480</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
-<tr><td class="h"><a id="L4490">4490</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($is_v) { }</td></tr>
-<tr><td class="h"><a id="L4695">4695</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L4707">4707</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $row eq &quot;HASH&quot;</td></tr>
-<tr><td class="h"><a id="L4708">4708</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number(scalar($row-&gt;{$bar_col} // &quot;x&quot;))</td></tr>
-<tr><td class="h"><a id="L4709">4709</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number(scalar($row-&gt;{$line_col} // &quot;x&quot;))</td></tr>
-<tr><td class="h"><a id="L4713">4713</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">defined $row-&gt;{$x_col} ? :</td></tr>
-<tr><td class="h"><a id="L4736">4736</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L4945">4945</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot; or ref $data eq &quot;HASH&quot;</td></tr>
-<tr><td class="h"><a id="L4950">4950</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;label&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L4608">4608</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$is_v ? :</td></tr>
+<tr><td class="h"><a id="L4613">4613</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"><a id="L4623">4623</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($is_v) { }</td></tr>
+<tr><td class="h"><a id="L4825">4825</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L4837">4837</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $row eq &quot;HASH&quot;</td></tr>
+<tr><td class="h"><a id="L4838">4838</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number(scalar($row-&gt;{$bar_col} // &quot;x&quot;))</td></tr>
+<tr><td class="h"><a id="L4839">4839</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number(scalar($row-&gt;{$line_col} // &quot;x&quot;))</td></tr>
+<tr><td class="h"><a id="L4843">4843</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">defined $row-&gt;{$x_col} ? :</td></tr>
+<tr><td class="h"><a id="L4866">4866</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L5077">5077</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot; or ref $data eq &quot;HASH&quot;</td></tr>
+<tr><td class="h"><a id="L5082">5082</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;label&#39;} ? :</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">exists $opts-&gt;{&#39;label&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L4960">4960</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (ref $data eq &#39;ARRAY&#39;) { }</td></tr>
-<tr><td class="h"><a id="L4962">4962</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $row eq &quot;HASH&quot;</td></tr>
-<tr><td class="h"><a id="L4963">4963</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless exists $row-&gt;{&#39;path&#39;}</td></tr>
-<tr><td class="h"><a id="L4965">4965</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number(scalar($row-&gt;{&#39;value&#39;} // &quot;x&quot;))</td></tr>
-<tr><td class="h"><a id="L5007">5007</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L5010">5010</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$label ? :</td></tr>
-<tr><td class="h"><a id="L5200">5200</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless @$bins</td></tr>
-<tr><td class="h"><a id="L5204">5204</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $b eq &quot;HASH&quot;</td></tr>
-<tr><td class="h"><a id="L5207">5207</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $b-&gt;{&#39;count&#39;} and &amp;looks_like_number($b-&gt;{&#39;count&#39;})</td></tr>
-<tr><td class="h"><a id="L5208">5208</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $b-&gt;{&#39;count&#39;} + 0 &gt;= 0</td></tr>
-<tr><td class="h"><a id="L5210">5210</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">defined $b-&gt;{&#39;lo&#39;} &amp;&amp; &amp;looks_like_number($b-&gt;{&#39;lo&#39;}) ? :</td></tr>
-<tr><td class="h"><a id="L5211">5211</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">defined $b-&gt;{&#39;hi&#39;} &amp;&amp; &amp;looks_like_number($b-&gt;{&#39;hi&#39;}) ? :</td></tr>
-<tr><td class="h"><a id="L5214">5214</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless (defined $label and length $label)</td></tr>
-<tr><td class="h"><a id="L5215">5215</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $lo and defined $hi</td></tr>
-<tr><td class="h"><a id="L5231">5231</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L5234">5234</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
-<tr><td class="h"><a id="L5246">5246</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (defined $opts-&gt;{&#39;color&#39;}) { }</td></tr>
+<tr><td class="h"><a id="L5094">5094</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (ref $data eq &#39;ARRAY&#39;) { }</td></tr>
+<tr><td class="h"><a id="L5096">5096</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $row eq &quot;HASH&quot;</td></tr>
+<tr><td class="h"><a id="L5097">5097</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless exists $row-&gt;{&#39;path&#39;}</td></tr>
+<tr><td class="h"><a id="L5099">5099</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number(scalar($row-&gt;{&#39;value&#39;} // &quot;x&quot;))</td></tr>
+<tr><td class="h"><a id="L5141">5141</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L5144">5144</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$label ? :</td></tr>
+<tr><td class="h"><a id="L5333">5333</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless @$bins</td></tr>
+<tr><td class="h"><a id="L5337">5337</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $b eq &quot;HASH&quot;</td></tr>
+<tr><td class="h"><a id="L5340">5340</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $b-&gt;{&#39;count&#39;} and &amp;looks_like_number($b-&gt;{&#39;count&#39;})</td></tr>
+<tr><td class="h"><a id="L5341">5341</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $b-&gt;{&#39;count&#39;} + 0 &gt;= 0</td></tr>
+<tr><td class="h"><a id="L5343">5343</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">defined $b-&gt;{&#39;lo&#39;} &amp;&amp; &amp;looks_like_number($b-&gt;{&#39;lo&#39;}) ? :</td></tr>
+<tr><td class="h"><a id="L5344">5344</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">defined $b-&gt;{&#39;hi&#39;} &amp;&amp; &amp;looks_like_number($b-&gt;{&#39;hi&#39;}) ? :</td></tr>
+<tr><td class="h"><a id="L5347">5347</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless (defined $label and length $label)</td></tr>
+<tr><td class="h"><a id="L5348">5348</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $lo and defined $hi</td></tr>
+<tr><td class="h"><a id="L5364">5364</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L5367">5367</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"><a id="L5379">5379</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (defined $opts-&gt;{&#39;color&#39;}) { }</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif (defined $opts-&gt;{&#39;scheme&#39;}) { }</td></tr>
-<tr><td class="h"><a id="L5253">5253</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
-<tr><td class="h"><a id="L5333">5333</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
-<tr><td class="h"><a id="L5336">5336</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($opts-&gt;{&#39;binned&#39;})</td></tr>
-<tr><td class="h"><a id="L5340">5340</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">exists $opts-&gt;{&#39;bins&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L5341">5341</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (defined $bins_opt)</td></tr>
-<tr><td class="h"><a id="L5342">5342</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number($bins_opt) and $bins_opt == int $bins_opt and $bins_opt &gt;= 1</td></tr>
-<tr><td class="h"><a id="L5348">5348</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number(scalar($v // &quot;x&quot;))</td></tr>
-<tr><td class="h"><a id="L5372">5372</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L5377">5377</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
-<tr><td class="h"><a id="L5382">5382</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">defined $bins_opt ? :</td></tr>
-<tr><td class="h"><a id="L5386">5386</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
-<tr><td class="h"><a id="L5483">5483</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">defined $override ? :</td></tr>
-<tr><td class="h"><a id="L5484">5484</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$responsive ? :</td></tr>
-<tr><td class="h"><a id="L5498">5498</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L5387">5387</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"><a id="L5467">5467</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless ref $data eq &quot;ARRAY&quot;</td></tr>
+<tr><td class="h"><a id="L5470">5470</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($opts-&gt;{&#39;binned&#39;})</td></tr>
+<tr><td class="h"><a id="L5474">5474</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">exists $opts-&gt;{&#39;bins&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L5475">5475</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (defined $bins_opt)</td></tr>
+<tr><td class="h"><a id="L5476">5476</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number($bins_opt) and $bins_opt == int $bins_opt and $bins_opt &gt;= 1</td></tr>
+<tr><td class="h"><a id="L5482">5482</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;looks_like_number(scalar($v // &quot;x&quot;))</td></tr>
+<tr><td class="h"><a id="L5506">5506</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L5511">5511</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"><a id="L5516">5516</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">defined $bins_opt ? :</td></tr>
+<tr><td class="h"><a id="L5520">5520</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$x_label ? :</td></tr>
+<tr><td class="h"><a id="L5596">5596</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">defined $scheme ? :</td></tr>
+<tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless defined $scheme and exists $CATEGORICAL_SCHEMES{$scheme}</td></tr>
+<tr><td class="h"><a id="L5614">5614</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">exists $CATEGORICAL_SCHEMES{$scheme} ? :</td></tr>
+<tr><td class="h"><a id="L5662">5662</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">defined $override ? :</td></tr>
+<tr><td class="h"><a id="L5663">5663</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$responsive ? :</td></tr>
+<tr><td class="h"><a id="L5677">5677</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">$opts-&gt;{&#39;responsive&#39;} // $self-&gt;{&#39;responsive&#39;} ? :</td></tr>
 </table>
 </body>
 </html>
