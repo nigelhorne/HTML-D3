@@ -294,9 +294,9 @@ a.intra-dot:hover { color: #7700bb; }
 </div><div class='summary'>
 <strong>Structural Coverage (Approximate)</strong><p>
 TER1 (Statement): 98.08%<br>
-TER2 (Branch): 94.98%<br>
+TER2 (Branch): 95.00%<br>
 TER3 (LCSAJ): 100.0% (38/38)<br>
-Approximate LCSAJ segments: 419<br>
+Approximate LCSAJ segments: 421<br>
 </div>
 
     <div class="legend">
@@ -4911,7 +4911,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 4457: 		$s =~ s/&quot;/\\&quot;/g;
 </span><span class=""> 4458: 		$s =~ s/\n/\\n/g;
 </span><span class=""> 4459: 		$s =~ s/\r/\\r/g;
-</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths."> 4460: 		return $s;
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values."> 4460: 		return $s;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -5866,108 +5866,112 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class=""> 5385: The caller owns the binning, so C&lt;d3.bin()&gt; is never called: one bar is drawn
 </span><span class=""> 5386: per entry, in the order supplied, and the supplied counts are authoritative.
 </span><span class=""> 5387: 
-</span><span class=""> 5388: =item * C&lt;scheme&gt; (string, optional) - D3 categorical colour scheme (for example
-</span><span class=""> 5389: C&lt;&#39;tableau10&#39;&gt; or C&lt;&#39;category10&#39;&gt;) whose first colour is used as the bar fill
-</span><span class=""> 5390: when C&lt;color&gt; is not given.
-</span><span class=""> 5391: That colour is C&lt;colour_at($scheme, 0)&gt;, so a caller shading the same data by
-</span><span class=""> 5392: hand starts from the same colour the bars do.
-</span><span class=""> 5393: 
-</span><span class=""> 5394: =item * C&lt;x_label&gt; (string, optional) - label shown below the X axis.
-</span><span class=""> 5395: 
-</span><span class=""> 5396: =item * C&lt;color&gt; (string, default C&lt;&#39;steelblue&#39;&gt;) - bar fill colour.
+</span><span class=""> 5388: The bin labels are drawn rotated.  The plot gives up as much room as they need,
+</span><span class=""> 5389: up to half the chart&#39;s height and a quarter of its width, so that they and
+</span><span class=""> 5390: C&lt;x_label&gt; do not overlap and stay inside the chart.
+</span><span class=""> 5391: 
+</span><span class=""> 5392: =item * C&lt;scheme&gt; (string, optional) - D3 categorical colour scheme (for example
+</span><span class=""> 5393: C&lt;&#39;tableau10&#39;&gt; or C&lt;&#39;category10&#39;&gt;) whose first colour is used as the bar fill
+</span><span class=""> 5394: when C&lt;color&gt; is not given.
+</span><span class=""> 5395: That colour is C&lt;colour_at($scheme, 0)&gt;, so a caller shading the same data by
+</span><span class=""> 5396: hand starts from the same colour the bars do.
 </span><span class=""> 5397: 
-</span><span class=""> 5398: =item * C&lt;id&gt; (string, optional) - override the default C&lt;svg_id&gt; value.
+</span><span class=""> 5398: =item * C&lt;x_label&gt; (string, optional) - label shown below the X axis.
 </span><span class=""> 5399: 
-</span><span class=""> 5400: =item * C&lt;responsive&gt; (boolean, optional) - SVG responsive sizing override.
+</span><span class=""> 5400: =item * C&lt;color&gt; (string, default C&lt;&#39;steelblue&#39;&gt;) - bar fill colour.
 </span><span class=""> 5401: 
-</span><span class=""> 5402: =back
+</span><span class=""> 5402: =item * C&lt;id&gt; (string, optional) - override the default C&lt;svg_id&gt; value.
 </span><span class=""> 5403: 
-</span><span class=""> 5404: Returns C&lt;{ svg_id =E&lt;gt&gt; &#39;histogram&#39;, html =E&lt;gt&gt; Str }&gt;.
+</span><span class=""> 5404: =item * C&lt;responsive&gt; (boolean, optional) - SVG responsive sizing override.
 </span><span class=""> 5405: 
-</span><span class=""> 5406: =head3 Errors
+</span><span class=""> 5406: =back
 </span><span class=""> 5407: 
-</span><span class=""> 5408: =over 4
+</span><span class=""> 5408: Returns C&lt;{ svg_id =E&lt;gt&gt; &#39;histogram&#39;, html =E&lt;gt&gt; Str }&gt;.
 </span><span class=""> 5409: 
-</span><span class=""> 5410: =item * Throws C&lt;Data must be an array of numeric values&gt; when C&lt;$data&gt; is
-</span><span class=""> 5411: not an ARRAY reference.
-</span><span class=""> 5412: 
-</span><span class=""> 5413: =item * Throws C&lt;Each value must be numeric&gt; when any element is non-numeric.
-</span><span class=""> 5414: 
-</span><span class=""> 5415: =item * Throws C&lt;bins must be a positive integer&gt; when C&lt;bins&gt; is defined
-</span><span class=""> 5416: but not a positive integer.
-</span><span class=""> 5417: 
-</span><span class=""> 5418: =item * Throws C&lt;Data must contain at least one bin&gt; when C&lt;binned&gt; is set and
-</span><span class=""> 5419: C&lt;$data&gt; holds no bins.
-</span><span class=""> 5420: 
-</span><span class=""> 5421: =item * Throws C&lt;Each pre-binned entry must be a hash reference&gt; when a
-</span><span class=""> 5422: pre-binned element is not a hashref.
-</span><span class=""> 5423: 
-</span><span class=""> 5424: =item * Throws C&lt;Bin count must be numeric&gt; when a pre-binned C&lt;count&gt; is
-</span><span class=""> 5425: missing or not numeric.
-</span><span class=""> 5426: 
-</span><span class=""> 5427: =item * Throws C&lt;Bin count must not be negative&gt; when a pre-binned C&lt;count&gt; is
-</span><span class=""> 5428: negative.
-</span><span class=""> 5429: 
-</span><span class=""> 5430: =item * Throws C&lt;Each pre-binned entry must have a label or numeric lo and hi&gt;
-</span><span class=""> 5431: when a pre-binned entry has neither a C&lt;label&gt; nor a numeric C&lt;lo&gt;/C&lt;hi&gt; pair.
-</span><span class=""> 5432: 
-</span><span class=""> 5433: =back
-</span><span class=""> 5434: 
-</span><span class=""> 5435: =head3 API SPECIFICATION
+</span><span class=""> 5410: =head3 Errors
+</span><span class=""> 5411: 
+</span><span class=""> 5412: =over 4
+</span><span class=""> 5413: 
+</span><span class=""> 5414: =item * Throws C&lt;Data must be an array of numeric values&gt; when C&lt;$data&gt; is
+</span><span class=""> 5415: not an ARRAY reference.
+</span><span class=""> 5416: 
+</span><span class=""> 5417: =item * Throws C&lt;Each value must be numeric&gt; when any element is non-numeric.
+</span><span class=""> 5418: 
+</span><span class=""> 5419: =item * Throws C&lt;bins must be a positive integer&gt; when C&lt;bins&gt; is defined
+</span><span class=""> 5420: but not a positive integer.
+</span><span class=""> 5421: 
+</span><span class=""> 5422: =item * Throws C&lt;Data must contain at least one bin&gt; when C&lt;binned&gt; is set and
+</span><span class=""> 5423: C&lt;$data&gt; holds no bins.
+</span><span class=""> 5424: 
+</span><span class=""> 5425: =item * Throws C&lt;Each pre-binned entry must be a hash reference&gt; when a
+</span><span class=""> 5426: pre-binned element is not a hashref.
+</span><span class=""> 5427: 
+</span><span class=""> 5428: =item * Throws C&lt;Bin count must be numeric&gt; when a pre-binned C&lt;count&gt; is
+</span><span class=""> 5429: missing or not numeric.
+</span><span class=""> 5430: 
+</span><span class=""> 5431: =item * Throws C&lt;Bin count must not be negative&gt; when a pre-binned C&lt;count&gt; is
+</span><span class=""> 5432: negative.
+</span><span class=""> 5433: 
+</span><span class=""> 5434: =item * Throws C&lt;Each pre-binned entry must have a label or numeric lo and hi&gt;
+</span><span class=""> 5435: when a pre-binned entry has neither a C&lt;label&gt; nor a numeric C&lt;lo&gt;/C&lt;hi&gt; pair.
 </span><span class=""> 5436: 
-</span><span class=""> 5437: =head4 Input
+</span><span class=""> 5437: =back
 </span><span class=""> 5438: 
-</span><span class=""> 5439:     {
-</span><span class=""> 5440:         data =&gt; { type =&gt; &#39;arrayref&#39; },
-</span><span class=""> 5441:         opts =&gt; {
-</span><span class=""> 5442:             type     =&gt; &#39;hashref&#39;,
-</span><span class=""> 5443:             optional =&gt; 1,
-</span><span class=""> 5444:             keys     =&gt; {
-</span><span class=""> 5445:                 bins    =&gt; { type =&gt; &#39;integer&#39;, optional =&gt; 1, default =&gt; 20 },
-</span><span class=""> 5446:                 binned  =&gt; { type =&gt; &#39;boolean&#39;, optional =&gt; 1, default =&gt; 0 },
-</span><span class=""> 5447:                 x_label =&gt; { type =&gt; &#39;string&#39;,  optional =&gt; 1, default =&gt; &#39;&#39; },
-</span><span class=""> 5448:                 color   =&gt; { type =&gt; &#39;string&#39;,  optional =&gt; 1, default =&gt; &#39;steelblue&#39; },
-</span><span class=""> 5449:                 scheme  =&gt; { type =&gt; &#39;string&#39;,  optional =&gt; 1 },
-</span><span class=""> 5450:                 id      =&gt; { type =&gt; &#39;string&#39;,  optional =&gt; 1, default =&gt; &#39;histogram&#39; },
-</span><span class=""> 5451:                 responsive =&gt; { type =&gt; &#39;boolean&#39;, optional =&gt; 1 },
-</span><span class=""> 5452:             },
-</span><span class=""> 5453:         },
-</span><span class=""> 5454:     }
-</span><span class=""> 5455: 
-</span><span class=""> 5456: =head4 Output
-</span><span class=""> 5457: 
-</span><span class=""> 5458:     HashRef -- { svg_id =&gt; Str, html =&gt; Str }
+</span><span class=""> 5439: =head3 API SPECIFICATION
+</span><span class=""> 5440: 
+</span><span class=""> 5441: =head4 Input
+</span><span class=""> 5442: 
+</span><span class=""> 5443:     {
+</span><span class=""> 5444:         data =&gt; { type =&gt; &#39;arrayref&#39; },
+</span><span class=""> 5445:         opts =&gt; {
+</span><span class=""> 5446:             type     =&gt; &#39;hashref&#39;,
+</span><span class=""> 5447:             optional =&gt; 1,
+</span><span class=""> 5448:             keys     =&gt; {
+</span><span class=""> 5449:                 bins    =&gt; { type =&gt; &#39;integer&#39;, optional =&gt; 1, default =&gt; 20 },
+</span><span class=""> 5450:                 binned  =&gt; { type =&gt; &#39;boolean&#39;, optional =&gt; 1, default =&gt; 0 },
+</span><span class=""> 5451:                 x_label =&gt; { type =&gt; &#39;string&#39;,  optional =&gt; 1, default =&gt; &#39;&#39; },
+</span><span class=""> 5452:                 color   =&gt; { type =&gt; &#39;string&#39;,  optional =&gt; 1, default =&gt; &#39;steelblue&#39; },
+</span><span class=""> 5453:                 scheme  =&gt; { type =&gt; &#39;string&#39;,  optional =&gt; 1 },
+</span><span class=""> 5454:                 id      =&gt; { type =&gt; &#39;string&#39;,  optional =&gt; 1, default =&gt; &#39;histogram&#39; },
+</span><span class=""> 5455:                 responsive =&gt; { type =&gt; &#39;boolean&#39;, optional =&gt; 1 },
+</span><span class=""> 5456:             },
+</span><span class=""> 5457:         },
+</span><span class=""> 5458:     }
 </span><span class=""> 5459: 
-</span><span class=""> 5460: =cut
+</span><span class=""> 5460: =head4 Output
 </span><span class=""> 5461: 
-</span><span class=""> 5462: # _render_histogram_binned($self, \@bins, \%opts)
-</span><span class=""> 5463: # Internal helper for the binned =&gt; 1 path of render_histogram_snippet.
-</span><span class=""> 5464: # $bins: [ {label=&gt;&#39;[0,10)&#39;,count=&gt;N}, ... ] or [ {lo=&gt;0,hi=&gt;10,count=&gt;N}, ... ]
-</span><span class=""> 5465: sub _render_histogram_binned
-</span><span class=""> 5466: {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5467 → 5479 → 5499</span></span> 5467: 	my ($self, $bins, $opts) = @_;
-</span><span class=""> 5468: 
-</span><span class=""> 5469: 	my $js_esc = sub {
-</span><span class=""> 5470: 		my $s = shift;
-</span><span class=""> 5471: 		$s =~ s/\\/\\\\/g; $s =~ s/&quot;/\\&quot;/g;
-</span><span class=""> 5472: 		$s =~ s/\n/\\n/g;  $s =~ s/\r/\\r/g;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5473: 		return $s;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5474: 	};
-</span><span class=""> 5475: 
-</span><span class=""> 5476: 	die &#39;Data must contain at least one bin&#39; unless @$bins;
-</span><span class=""> 5477: 
-</span><span class=""> 5478: 	my @norm;
-</span><span class=""> 5479: 	for my $b (@$bins) {
-</span><span class=""> 5480: 		die &#39;Each pre-binned entry must be a hash reference&#39;
-</span><span class=""> 5481: 			unless ref($b) eq &#39;HASH&#39;;
-</span><span class=""> 5482: 		die &#39;Bin count must be numeric&#39;
-</span><span class=""> 5483: 			unless defined($b-&gt;{count}) &amp;&amp; looks_like_number($b-&gt;{count});
-</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one)."> 5484: 		die &#39;Bin count must not be negative&#39; unless $b-&gt;{count} + 0 &gt;= 0;
+</span><span class=""> 5462:     HashRef -- { svg_id =&gt; Str, html =&gt; Str }
+</span><span class=""> 5463: 
+</span><span class=""> 5464: =cut
+</span><span class=""> 5465: 
+</span><span class=""> 5466: # _render_histogram_binned($self, \@bins, \%opts)
+</span><span class=""> 5467: # Internal helper for the binned =&gt; 1 path of render_histogram_snippet.
+</span><span class=""> 5468: # $bins: [ {label=&gt;&#39;[0,10)&#39;,count=&gt;N}, ... ] or [ {lo=&gt;0,hi=&gt;10,count=&gt;N}, ... ]
+</span><span class=""> 5469: sub _render_histogram_binned
+</span><span class=""> 5470: {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5471 → 5483 → 5503</span></span> 5471: 	my ($self, $bins, $opts) = @_;
+</span><span class=""> 5472: 
+</span><span class=""> 5473: 	my $js_esc = sub {
+</span><span class=""> 5474: 		my $s = shift;
+</span><span class=""> 5475: 		$s =~ s/\\/\\\\/g; $s =~ s/&quot;/\\&quot;/g;
+</span><span class=""> 5476: 		$s =~ s/\n/\\n/g;  $s =~ s/\r/\\r/g;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5477: 		return $s;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5478: 	};
+</span><span class=""> 5479: 
+</span><span class=""> 5480: 	die &#39;Data must contain at least one bin&#39; unless @$bins;
+</span><span class=""> 5481: 
+</span><span class=""> 5482: 	my @norm;
+</span><span class=""> 5483: 	for my $b (@$bins) {
+</span><span class=""> 5484: 		die &#39;Each pre-binned entry must be a hash reference&#39;
+</span><span class=""> 5485: 			unless ref($b) eq &#39;HASH&#39;;
+</span><span class=""> 5486: 		die &#39;Bin count must be numeric&#39;
+</span><span class=""> 5487: 			unless defined($b-&gt;{count}) &amp;&amp; looks_like_number($b-&gt;{count});
+</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one)."> 5488: 		die &#39;Bin count must not be negative&#39; unless $b-&gt;{count} + 0 &gt;= 0;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 3, Killed: 0, Survived: 3)</summary>
 					<ul>
-				<li><b>NUM_BOUNDARY_5484_63_&gt;: Numeric boundary flip &gt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+				<li><b>NUM_BOUNDARY_5488_63_&gt;: Numeric boundary flip &gt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -5975,7 +5979,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>NUM_BOUNDARY_5484_63_&lt;: Numeric boundary flip &gt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+							</li><li><b>NUM_BOUNDARY_5488_63_&lt;: Numeric boundary flip &gt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -5983,7 +5987,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>NUM_BOUNDARY_5484_63_&lt;=: Numeric boundary flip &gt;= to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
+							</li><li><b>NUM_BOUNDARY_5488_63_&lt;=: Numeric boundary flip &gt;= to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -5992,153 +5996,177 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class=""> 5485: 
-</span><span class=""> 5486: 		my $lo = (defined($b-&gt;{lo}) &amp;&amp; looks_like_number($b-&gt;{lo})) ? $b-&gt;{lo} + 0 : undef;
-</span><span class=""> 5487: 		my $hi = (defined($b-&gt;{hi}) &amp;&amp; looks_like_number($b-&gt;{hi})) ? $b-&gt;{hi} + 0 : undef;
-</span><span class=""> 5488: 
-</span><span class=""> 5489: 		my $label = $b-&gt;{label};
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5490: 		if(!defined($label) || !length($label)) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 5491: 			die &#39;Each pre-binned entry must have a label or numeric lo and hi&#39;
-</span><span class=""> 5492: 				unless defined($lo) &amp;&amp; defined($hi);
-</span><span class=""> 5493: 			$label = sprintf(&#39;[%g,%g)&#39;, $lo, $hi);
-</span><span class=""> 5494: 		}
-</span><span class=""> 5495: 
-</span><span class=""> 5496: 		push @norm, { label =&gt; &quot;$label&quot;, count =&gt; $b-&gt;{count} + 0 };
-</span><span class=""> 5497: 	}
-</span><span class=""> 5498: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5499 → 5522 → 5530</span></span> 5499: 	my $json_data = $_JSON-&gt;encode(\@norm);
-</span><span class=""> 5500: 
-</span><span class=""> 5501: 	my $x_label   = $opts-&gt;{x_label} // &#39;&#39;;
-</span><span class=""> 5502: 	my $svg_id    = $opts-&gt;{id}      // &#39;histogram&#39;;
-</span><span class=""> 5503: 	my $tip_id    = $svg_id . &#39;_tip&#39;;
-</span><span class=""> 5504: 	my $width     = $self-&gt;{width};
-</span><span class=""> 5505: 	my $height    = $self-&gt;{height};
-</span><span class=""> 5506: 	my $svg_attrs = ($opts-&gt;{responsive} // $self-&gt;{responsive})
-</span><span class=""> 5507: 		? qq{viewBox=&quot;0 0 $width $height&quot; width=&quot;100%&quot; height=&quot;auto&quot;}
-</span><span class=""> 5508: 		: qq{width=&quot;$width&quot; height=&quot;$height&quot;};
-</span><span class=""> 5509: 
-</span><span class=""> 5510: 	my $margin_bottom = $x_label ? 60 : 40;
-</span><span class=""> 5511: 	my $margin_left   = 55;
-</span><span class=""> 5512: 	my $margin_top    = 20;
-</span><span class=""> 5513: 	my $margin_right  = 20;
-</span><span class=""> 5514: 	my $inner_w = $width  - $margin_left - $margin_right;
-</span><span class=""> 5515: 	my $inner_h = $height - $margin_top  - $margin_bottom;
-</span><span class=""> 5516: 
-</span><span class=""> 5517: 	my $x_label_esc = $js_esc-&gt;($x_label);
-</span><span class=""> 5518: 
-</span><span class=""> 5519: 	# Bar fill: an explicit colour wins, otherwise the first colour of the
-</span><span class=""> 5520: 	# requested D3 categorical scheme, otherwise the default colour.
-</span><span class=""> 5521: 	my $fill_js = &#39;&quot;steelblue&quot;&#39;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5522: 	if(defined $opts-&gt;{color}) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 5523: 		$fill_js = &#39;&quot;&#39; . $js_esc-&gt;($opts-&gt;{color}) . &#39;&quot;&#39;;
-</span><span class=""> 5524: 	} elsif(defined $opts-&gt;{scheme}) {
-</span><span class=""> 5525: 		# The scheme&#39;s first colour, which is the one colour_at($scheme, 0)
-</span><span class=""> 5526: 		# reports to a Perl caller colouring the same data by hand.
-</span><span class=""> 5527: 		$fill_js = _scheme_js($opts-&gt;{scheme}) . &#39;[0]&#39;;
-</span><span class=""> 5528: 	}
-</span><span class=""> 5529: 
-</span><span class=""> 5530: 	my $x_label_block = $x_label ? &lt;&lt;&quot;XLB&quot; : &#39;&#39;;
-</span><span class=""> 5531:     g.append(&quot;text&quot;)
-</span><span class=""> 5532:         .attr(&quot;class&quot;,&quot;hg-axis-label&quot;)
-</span><span class=""> 5533:         .attr(&quot;x&quot;, innerW / 2)
-</span><span class=""> 5534:         .attr(&quot;y&quot;, innerH + (margin.bottom - 10))
-</span><span class=""> 5535:         .attr(&quot;text-anchor&quot;,&quot;middle&quot;)
-</span><span class=""> 5536:         .text(&quot;$x_label_esc&quot;);
-</span><span class=""> 5537: XLB
-</span><span class=""> 5538: 
-</span><span class=""> 5539: 	my $html = &lt;&lt;&quot;HTML&quot;;
-</span><span class=""> 5540: &lt;style&gt;
-</span><span class=""> 5541:     #$tip_id {
-</span><span class=""> 5542: 	position:absolute;background:rgba(255,255,255,0.95);border:1px solid #ccc;
-</span><span class=""> 5543: 	border-radius:4px;padding:6px 10px;font-size:12px;pointer-events:none;
-</span><span class=""> 5544: 	display:none;line-height:1.6;
-</span><span class=""> 5545:     }
-</span><span class=""> 5546:     .hg-axis-label{font-size:11px;fill:#555;}
-</span><span class=""> 5547:     .hg-bar{cursor:default;}
-</span><span class=""> 5548: &lt;/style&gt;
-</span><span class=""> 5549: &lt;svg id=&quot;$svg_id&quot; $svg_attrs&gt;&lt;/svg&gt;
-</span><span class=""> 5550: &lt;div id=&quot;$tip_id&quot;&gt;&lt;/div&gt;
-</span><span class=""> 5551: &lt;script&gt;
-</span><span class=""> 5552: (function(){
-</span><span class=""> 5553:     var bins = $json_data;
-</span><span class=""> 5554:     var margin = {top:$margin_top,right:$margin_right,bottom:$margin_bottom,left:$margin_left};
-</span><span class=""> 5555:     var innerW = $inner_w;
-</span><span class=""> 5556:     var innerH = $inner_h;
-</span><span class=""> 5557:     var svg = d3.select(&quot;#$svg_id&quot;);
-</span><span class=""> 5558:     var g = svg.append(&quot;g&quot;).attr(&quot;transform&quot;,&quot;translate(&quot;+margin.left+&quot;,&quot;+margin.top+&quot;)&quot;);
-</span><span class=""> 5559:     var tip = d3.select(&quot;#$tip_id&quot;);
-</span><span class=""> 5560: 
-</span><span class=""> 5561:     function esc(s) {
-</span><span class=""> 5562:         return String(s).replace(/&amp;/g, &#39;&amp;amp;&#39;).replace(/&lt;/g, &#39;&amp;lt;&#39;).replace(/&gt;/g, &#39;&amp;gt;&#39;);
-</span><span class=""> 5563:     }
-</span><span class=""> 5564: 
-</span><span class=""> 5565:     var xScale = d3.scaleBand()
-</span><span class=""> 5566:         .domain(bins.map(function(d){return d.label;}))
-</span><span class=""> 5567:         .range([0, innerW])
-</span><span class=""> 5568:         .padding(0.05);
-</span><span class=""> 5569: 
-</span><span class=""> 5570:     var yScale = d3.scaleLinear()
-</span><span class=""> 5571:         .domain([0, d3.max(bins, function(d){return d.count;})]).nice()
-</span><span class=""> 5572:         .range([innerH, 0]);
-</span><span class=""> 5573: 
-</span><span class=""> 5574:     g.append(&quot;g&quot;).attr(&quot;class&quot;,&quot;hg-x-axis&quot;)
-</span><span class=""> 5575:         .attr(&quot;transform&quot;,&quot;translate(0,&quot;+innerH+&quot;)&quot;)
-</span><span class=""> 5576:         .call(d3.axisBottom(xScale))
-</span><span class=""> 5577:         .selectAll(&quot;text&quot;)
-</span><span class=""> 5578:         .attr(&quot;transform&quot;,&quot;rotate(-45)&quot;)
-</span><span class=""> 5579:         .style(&quot;text-anchor&quot;,&quot;end&quot;);
-</span><span class=""> 5580:     g.append(&quot;g&quot;).attr(&quot;class&quot;,&quot;hg-y-axis&quot;).call(d3.axisLeft(yScale).ticks(6));
-</span><span class=""> 5581: 
-</span><span class=""> 5582:     $x_label_block
-</span><span class=""> 5583:     g.selectAll(&quot;.hg-bar&quot;).data(bins).join(&quot;rect&quot;)
-</span><span class=""> 5584:         .attr(&quot;class&quot;,&quot;hg-bar&quot;)
-</span><span class=""> 5585:         .attr(&quot;x&quot;,function(d){return xScale(d.label);})
-</span><span class=""> 5586:         .attr(&quot;y&quot;,function(d){return yScale(d.count);})
-</span><span class=""> 5587:         .attr(&quot;width&quot;,xScale.bandwidth())
-</span><span class=""> 5588:         .attr(&quot;height&quot;,function(d){return innerH - yScale(d.count);})
-</span><span class=""> 5589:         .attr(&quot;fill&quot;,$fill_js)
-</span><span class=""> 5590:         .on(&quot;mouseover&quot;,function(event,d){
-</span><span class=""> 5591:             tip.style(&quot;display&quot;,&quot;block&quot;)
-</span><span class=""> 5592:                .html(&quot;&lt;b&gt;&quot;+esc(d.label)+&quot;&lt;\\/b&gt;&lt;br\/&gt;Count: &quot;+d.count);
-</span><span class=""> 5593:         })
-</span><span class=""> 5594:         .on(&quot;mousemove&quot;,function(event){
-</span><span class=""> 5595:             tip.style(&quot;left&quot;,(event.offsetX+12)+&quot;px&quot;).style(&quot;top&quot;,(event.offsetY-28)+&quot;px&quot;);
-</span><span class=""> 5596:         })
-</span><span class=""> 5597:         .on(&quot;mouseout&quot;,function(){tip.style(&quot;display&quot;,&quot;none&quot;);});
-</span><span class=""> 5598: })();
-</span><span class=""> 5599: &lt;/script&gt;
-</span><span class=""> 5600: HTML
-</span><span class=""> 5601: 
-</span><span class=""> 5602: 	return { svg_id =&gt; $svg_id, html =&gt; $html };
-</span><span class=""> 5603: }
-</span><span class=""> 5604: 
-</span><span class=""> 5605: sub render_histogram_snippet
-</span><span class=""> 5606: {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5607 → 5619 → 5623</span></span> 5607: 	my $self = shift;
-</span><span class=""> 5608: 	my $raw  = Params::Get::get_params(&#39;data&#39;, \@_) // {};
-</span><span class=""> 5609: 	die &#39;Data must be an array of numeric values&#39; unless ref($raw-&gt;{data}) eq &#39;ARRAY&#39;;
-</span><span class=""> 5610: 	Params::Validate::Strict::validate_strict({
-</span><span class=""> 5611: 		args   =&gt; $raw,
-</span><span class=""> 5612: 		schema =&gt; { data =&gt; { type =&gt; &#39;arrayref&#39;, error_msg =&gt; &#39;Data must be an array of numeric values&#39; } },
-</span><span class=""> 5613: 		unknown_parameter_handler =&gt; &#39;ignore&#39;,
-</span><span class=""> 5614: 	});
-</span><span class=""> 5615: 	my $data = $raw-&gt;{data};
-</span><span class=""> 5616: 	my $opts = {%$raw}; delete $opts-&gt;{data};
-</span><span class=""> 5617: 
-</span><span class=""> 5618: 	# Pre-binned path: the caller has already computed the bins.
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5619: 	if ($opts-&gt;{binned}) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5620: 		return $self-&gt;_render_histogram_binned($data, $opts);
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5621: 	}
-</span><span class=""> 5622: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5623 → 5624 → 5629</span></span> 5623: 	my $bins_opt = exists($opts-&gt;{bins}) ? $opts-&gt;{bins} : 20;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5624: 	if (defined $bins_opt) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 5625: 		die &#39;bins must be a positive integer&#39;
-</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one)."> 5626: 			unless looks_like_number($bins_opt) &amp;&amp; $bins_opt == int($bins_opt) &amp;&amp; $bins_opt &gt;= 1;
+<span class=""> 5489: 
+</span><span class=""> 5490: 		my $lo = (defined($b-&gt;{lo}) &amp;&amp; looks_like_number($b-&gt;{lo})) ? $b-&gt;{lo} + 0 : undef;
+</span><span class=""> 5491: 		my $hi = (defined($b-&gt;{hi}) &amp;&amp; looks_like_number($b-&gt;{hi})) ? $b-&gt;{hi} + 0 : undef;
+</span><span class=""> 5492: 
+</span><span class=""> 5493: 		my $label = $b-&gt;{label};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5494: 		if(!defined($label) || !length($label)) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 5495: 			die &#39;Each pre-binned entry must have a label or numeric lo and hi&#39;
+</span><span class=""> 5496: 				unless defined($lo) &amp;&amp; defined($hi);
+</span><span class=""> 5497: 			$label = sprintf(&#39;[%g,%g)&#39;, $lo, $hi);
+</span><span class=""> 5498: 		}
+</span><span class=""> 5499: 
+</span><span class=""> 5500: 		push @norm, { label =&gt; &quot;$label&quot;, count =&gt; $b-&gt;{count} + 0 };
+</span><span class=""> 5501: 	}
+</span><span class=""> 5502: 
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5503 → 5535 → 5543</span></span> 5503: 	my $json_data = $_JSON-&gt;encode(\@norm);
+</span><span class=""> 5504: 
+</span><span class=""> 5505: 	my $x_label   = $opts-&gt;{x_label} // &#39;&#39;;
+</span><span class=""> 5506: 	my $svg_id    = $opts-&gt;{id}      // &#39;histogram&#39;;
+</span><span class=""> 5507: 	my $tip_id    = $svg_id . &#39;_tip&#39;;
+</span><span class=""> 5508: 	my $width     = $self-&gt;{width};
+</span><span class=""> 5509: 	my $height    = $self-&gt;{height};
+</span><span class=""> 5510: 	my $svg_attrs = ($opts-&gt;{responsive} // $self-&gt;{responsive})
+</span><span class=""> 5511: 		? qq{viewBox=&quot;0 0 $width $height&quot; width=&quot;100%&quot; height=&quot;auto&quot;}
+</span><span class=""> 5512: 		: qq{width=&quot;$width&quot; height=&quot;$height&quot;};
+</span><span class=""> 5513: 
+</span><span class=""> 5514: 	my $margin_bottom = $x_label ? 60 : 40;
+</span><span class=""> 5515: 	my $margin_left   = 55;
+</span><span class=""> 5516: 	my $margin_top    = 20;
+</span><span class=""> 5517: 	my $margin_right  = 20;
+</span><span class=""> 5518: 	my $inner_w = $width  - $margin_left - $margin_right;
+</span><span class=""> 5519: 	my $inner_h = $height - $margin_top  - $margin_bottom;
+</span><span class=""> 5520: 
+</span><span class=""> 5521: 	my $x_label_esc = $js_esc-&gt;($x_label);
+</span><span class=""> 5522: 
+</span><span class=""> 5523: 	# The rotated tick labels hang below the axis and out to its left by however
+</span><span class=""> 5524: 	# long they are, which is only known once they are drawn, so the script
+</span><span class=""> 5525: 	# measures them and takes the room out of the plot.  This is what keeps the
+</span><span class=""> 5526: 	# axis label clear of them.
+</span><span class=""> 5527: 	#
+</span><span class=""> 5528: 	# The label also carries its font as attributes, because an SVG saved from the
+</span><span class=""> 5529: 	# page leaves the stylesheet behind.
+</span><span class=""> 5530: 	my $x_label_room = $x_label ? 24 : 4;
+</span><span class=""> 5531: 
+</span><span class=""> 5532: 	# Bar fill: an explicit colour wins, otherwise the first colour of the
+</span><span class=""> 5533: 	# requested D3 categorical scheme, otherwise the default colour.
+</span><span class=""> 5534: 	my $fill_js = &#39;&quot;steelblue&quot;&#39;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5535: 	if(defined $opts-&gt;{color}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 5536: 		$fill_js = &#39;&quot;&#39; . $js_esc-&gt;($opts-&gt;{color}) . &#39;&quot;&#39;;
+</span><span class=""> 5537: 	} elsif(defined $opts-&gt;{scheme}) {
+</span><span class=""> 5538: 		# The scheme&#39;s first colour, which is the one colour_at($scheme, 0)
+</span><span class=""> 5539: 		# reports to a Perl caller colouring the same data by hand.
+</span><span class=""> 5540: 		$fill_js = _scheme_js($opts-&gt;{scheme}) . &#39;[0]&#39;;
+</span><span class=""> 5541: 	}
+</span><span class=""> 5542: 
+</span><span class=""> 5543: 	my $x_label_block = $x_label ? &lt;&lt;&quot;XLB&quot; : &#39;&#39;;
+</span><span class=""> 5544:     g.append(&quot;text&quot;)
+</span><span class=""> 5545:         .attr(&quot;class&quot;,&quot;hg-axis-label&quot;)
+</span><span class=""> 5546:         .attr(&quot;font-size&quot;,&quot;11px&quot;)
+</span><span class=""> 5547:         .attr(&quot;font-family&quot;,&quot;sans-serif&quot;)
+</span><span class=""> 5548:         .attr(&quot;x&quot;, innerW / 2)
+</span><span class=""> 5549:         .attr(&quot;y&quot;, innerH + (margin.bottom - 10))
+</span><span class=""> 5550:         .attr(&quot;text-anchor&quot;,&quot;middle&quot;)
+</span><span class=""> 5551:         .text(&quot;$x_label_esc&quot;);
+</span><span class=""> 5552: XLB
+</span><span class=""> 5553: 
+</span><span class=""> 5554: 	my $html = &lt;&lt;&quot;HTML&quot;;
+</span><span class=""> 5555: &lt;style&gt;
+</span><span class=""> 5556:     #$tip_id {
+</span><span class=""> 5557: 	position:absolute;background:rgba(255,255,255,0.95);border:1px solid #ccc;
+</span><span class=""> 5558: 	border-radius:4px;padding:6px 10px;font-size:12px;pointer-events:none;
+</span><span class=""> 5559: 	display:none;line-height:1.6;
+</span><span class=""> 5560:     }
+</span><span class=""> 5561:     .hg-axis-label{font-size:11px;fill:#555;}
+</span><span class=""> 5562:     .hg-bar{cursor:default;}
+</span><span class=""> 5563: &lt;/style&gt;
+</span><span class=""> 5564: &lt;svg id=&quot;$svg_id&quot; $svg_attrs&gt;&lt;/svg&gt;
+</span><span class=""> 5565: &lt;div id=&quot;$tip_id&quot;&gt;&lt;/div&gt;
+</span><span class=""> 5566: &lt;script&gt;
+</span><span class=""> 5567: (function(){
+</span><span class=""> 5568:     var bins = $json_data;
+</span><span class=""> 5569:     var margin = {top:$margin_top,right:$margin_right,bottom:$margin_bottom,left:$margin_left};
+</span><span class=""> 5570:     var innerW = $inner_w;
+</span><span class=""> 5571:     var innerH = $inner_h;
+</span><span class=""> 5572:     var svg = d3.select(&quot;#$svg_id&quot;);
+</span><span class=""> 5573:     var g = svg.append(&quot;g&quot;).attr(&quot;transform&quot;,&quot;translate(&quot;+margin.left+&quot;,&quot;+margin.top+&quot;)&quot;);
+</span><span class=""> 5574:     var tip = d3.select(&quot;#$tip_id&quot;);
+</span><span class=""> 5575: 
+</span><span class=""> 5576:     function esc(s) {
+</span><span class=""> 5577:         return String(s).replace(/&amp;/g, &#39;&amp;amp;&#39;).replace(/&lt;/g, &#39;&amp;lt;&#39;).replace(/&gt;/g, &#39;&amp;gt;&#39;);
+</span><span class=""> 5578:     }
+</span><span class=""> 5579: 
+</span><span class=""> 5580:     var xScale = d3.scaleBand()
+</span><span class=""> 5581:         .domain(bins.map(function(d){return d.label;}))
+</span><span class=""> 5582:         .range([0, innerW])
+</span><span class=""> 5583:         .padding(0.05);
+</span><span class=""> 5584: 
+</span><span class=""> 5585:     var xAxis = g.append(&quot;g&quot;).attr(&quot;class&quot;,&quot;hg-x-axis&quot;);
+</span><span class=""> 5586:     function drawXAxis() {
+</span><span class=""> 5587:         xAxis.attr(&quot;transform&quot;,&quot;translate(0,&quot;+innerH+&quot;)&quot;)
+</span><span class=""> 5588:             .call(d3.axisBottom(xScale))
+</span><span class=""> 5589:             .selectAll(&quot;text&quot;)
+</span><span class=""> 5590:             .attr(&quot;transform&quot;,&quot;rotate(-45)&quot;)
+</span><span class=""> 5591:             .style(&quot;text-anchor&quot;,&quot;end&quot;);
+</span><span class=""> 5592:     }
+</span><span class=""> 5593:     drawXAxis();
+</span><span class=""> 5594: 
+</span><span class=""> 5595:     var axisBox = xAxis.node().getBBox();
+</span><span class=""> 5596:     margin.bottom = Math.max(margin.bottom, Math.min(Math.ceil(axisBox.height) + $x_label_room, $height / 2));
+</span><span class=""> 5597:     margin.left   = Math.max(margin.left,   Math.min(Math.ceil(-axisBox.x) + 4, $width / 4));
+</span><span class=""> 5598:     innerW = $width  - margin.left - margin.right;
+</span><span class=""> 5599:     innerH = $height - margin.top  - margin.bottom;
+</span><span class=""> 5600:     g.attr(&quot;transform&quot;,&quot;translate(&quot;+margin.left+&quot;,&quot;+margin.top+&quot;)&quot;);
+</span><span class=""> 5601:     xScale.range([0, innerW]);
+</span><span class=""> 5602:     drawXAxis();
+</span><span class=""> 5603: 
+</span><span class=""> 5604:     var yScale = d3.scaleLinear()
+</span><span class=""> 5605:         .domain([0, d3.max(bins, function(d){return d.count;})]).nice()
+</span><span class=""> 5606:         .range([innerH, 0]);
+</span><span class=""> 5607: 
+</span><span class=""> 5608:     g.append(&quot;g&quot;).attr(&quot;class&quot;,&quot;hg-y-axis&quot;).call(d3.axisLeft(yScale).ticks(6));
+</span><span class=""> 5609: 
+</span><span class=""> 5610:     $x_label_block
+</span><span class=""> 5611:     g.selectAll(&quot;.hg-bar&quot;).data(bins).join(&quot;rect&quot;)
+</span><span class=""> 5612:         .attr(&quot;class&quot;,&quot;hg-bar&quot;)
+</span><span class=""> 5613:         .attr(&quot;x&quot;,function(d){return xScale(d.label);})
+</span><span class=""> 5614:         .attr(&quot;y&quot;,function(d){return yScale(d.count);})
+</span><span class=""> 5615:         .attr(&quot;width&quot;,xScale.bandwidth())
+</span><span class=""> 5616:         .attr(&quot;height&quot;,function(d){return innerH - yScale(d.count);})
+</span><span class=""> 5617:         .attr(&quot;fill&quot;,$fill_js)
+</span><span class=""> 5618:         .on(&quot;mouseover&quot;,function(event,d){
+</span><span class=""> 5619:             tip.style(&quot;display&quot;,&quot;block&quot;)
+</span><span class=""> 5620:                .html(&quot;&lt;b&gt;&quot;+esc(d.label)+&quot;&lt;\\/b&gt;&lt;br\/&gt;Count: &quot;+d.count);
+</span><span class=""> 5621:         })
+</span><span class=""> 5622:         .on(&quot;mousemove&quot;,function(event){
+</span><span class=""> 5623:             tip.style(&quot;left&quot;,(event.offsetX+12)+&quot;px&quot;).style(&quot;top&quot;,(event.offsetY-28)+&quot;px&quot;);
+</span><span class=""> 5624:         })
+</span><span class=""> 5625:         .on(&quot;mouseout&quot;,function(){tip.style(&quot;display&quot;,&quot;none&quot;);});
+</span><span class=""> 5626: })();
+</span><span class=""> 5627: &lt;/script&gt;
+</span><span class=""> 5628: HTML
+</span><span class=""> 5629: 
+</span><span class=""> 5630: 	return { svg_id =&gt; $svg_id, html =&gt; $html };
+</span><span class=""> 5631: }
+</span><span class=""> 5632: 
+</span><span class=""> 5633: sub render_histogram_snippet
+</span><span class=""> 5634: {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5635 → 5647 → 5651</span></span> 5635: 	my $self = shift;
+</span><span class=""> 5636: 	my $raw  = Params::Get::get_params(&#39;data&#39;, \@_) // {};
+</span><span class=""> 5637: 	die &#39;Data must be an array of numeric values&#39; unless ref($raw-&gt;{data}) eq &#39;ARRAY&#39;;
+</span><span class=""> 5638: 	Params::Validate::Strict::validate_strict({
+</span><span class=""> 5639: 		args   =&gt; $raw,
+</span><span class=""> 5640: 		schema =&gt; { data =&gt; { type =&gt; &#39;arrayref&#39;, error_msg =&gt; &#39;Data must be an array of numeric values&#39; } },
+</span><span class=""> 5641: 		unknown_parameter_handler =&gt; &#39;ignore&#39;,
+</span><span class=""> 5642: 	});
+</span><span class=""> 5643: 	my $data = $raw-&gt;{data};
+</span><span class=""> 5644: 	my $opts = {%$raw}; delete $opts-&gt;{data};
+</span><span class=""> 5645: 
+</span><span class=""> 5646: 	# Pre-binned path: the caller has already computed the bins.
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5647: 	if ($opts-&gt;{binned}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5648: 		return $self-&gt;_render_histogram_binned($data, $opts);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5649: 	}
+</span><span class=""> 5650: 
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5651 → 5652 → 5657</span></span> 5651: 	my $bins_opt = exists($opts-&gt;{bins}) ? $opts-&gt;{bins} : 20;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5652: 	if (defined $bins_opt) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 5653: 		die &#39;bins must be a positive integer&#39;
+</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one)."> 5654: 			unless looks_like_number($bins_opt) &amp;&amp; $bins_opt == int($bins_opt) &amp;&amp; $bins_opt &gt;= 1;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 4, Killed: 1, Survived: 3)</summary>
 					<ul>
-				<li><b>NUM_BOUNDARY_5626_84_&gt;: Numeric boundary flip &gt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+				<li><b>NUM_BOUNDARY_5654_84_&gt;: Numeric boundary flip &gt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -6146,7 +6174,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>NUM_BOUNDARY_5626_84_&lt;: Numeric boundary flip &gt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+							</li><li><b>NUM_BOUNDARY_5654_84_&lt;: Numeric boundary flip &gt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -6154,7 +6182,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>NUM_BOUNDARY_5626_84_&lt;=: Numeric boundary flip &gt;= to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
+							</li><li><b>NUM_BOUNDARY_5654_84_&lt;=: Numeric boundary flip &gt;= to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -6163,225 +6191,225 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class=""> 5627: 	}
-</span><span class=""> 5628: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5629 → 5630 → 5635</span></span> 5629: 	my @values;
-</span><span class=""> 5630: 	for my $v (@$data) {
-</span><span class=""> 5631: 		die &#39;Each value must be numeric&#39; unless looks_like_number($v // &#39;x&#39;);
-</span><span class=""> 5632: 		push @values, $v + 0;
-</span><span class=""> 5633: 	}
-</span><span class=""> 5634: 
-</span><span class=""> 5635: 	my $json_data = $_JSON-&gt;encode(\@values);
-</span><span class=""> 5636: 
-</span><span class=""> 5637: 	my $js_esc = sub {
-</span><span class=""> 5638: 		my $s = shift;
-</span><span class=""> 5639: 		$s =~ s/\\/\\\\/g; $s =~ s/&quot;/\\&quot;/g;
-</span><span class=""> 5640: 		$s =~ s/\n/\\n/g;  $s =~ s/\r/\\r/g;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5641: 		return $s;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5642: 	};
-</span><span class=""> 5643: 
-</span><span class=""> 5644: 	my $x_label = $opts-&gt;{x_label} // &#39;&#39;;
-</span><span class=""> 5645: 	my $color   = $opts-&gt;{color}   // &#39;steelblue&#39;;
-</span><span class=""> 5646: 
-</span><span class=""> 5647: 	my $x_label_esc = $js_esc-&gt;($x_label);
-</span><span class=""> 5648: 	my $color_esc   = $js_esc-&gt;($color);
-</span><span class=""> 5649: 
-</span><span class=""> 5650: 	my $svg_id  = $opts-&gt;{id} // &#39;histogram&#39;;
-</span><span class=""> 5651: 	my $tip_id  = $svg_id . &#39;_tip&#39;;
-</span><span class=""> 5652: 	my $width   = $self-&gt;{width};
-</span><span class=""> 5653: 	my $height  = $self-&gt;{height};
-</span><span class=""> 5654: 	my $svg_attrs = ($opts-&gt;{responsive} // $self-&gt;{responsive})
-</span><span class=""> 5655: 		? qq{viewBox=&quot;0 0 $width $height&quot; width=&quot;100%&quot; height=&quot;auto&quot;}
-</span><span class=""> 5656: 		: qq{width=&quot;$width&quot; height=&quot;$height&quot;};
-</span><span class=""> 5657: 
-</span><span class=""> 5658: 	my $margin_top    = 20;
-</span><span class=""> 5659: 	my $margin_right  = 20;
-</span><span class=""> 5660: 	my $margin_bottom = $x_label ? 60 : 40;
-</span><span class=""> 5661: 	my $margin_left   = 55;
-</span><span class=""> 5662: 	my $inner_w = $width  - $margin_left - $margin_right;
-</span><span class=""> 5663: 	my $inner_h = $height - $margin_top  - $margin_bottom;
+<span class=""> 5655: 	}
+</span><span class=""> 5656: 
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5657 → 5658 → 5663</span></span> 5657: 	my @values;
+</span><span class=""> 5658: 	for my $v (@$data) {
+</span><span class=""> 5659: 		die &#39;Each value must be numeric&#39; unless looks_like_number($v // &#39;x&#39;);
+</span><span class=""> 5660: 		push @values, $v + 0;
+</span><span class=""> 5661: 	}
+</span><span class=""> 5662: 
+</span><span class=""> 5663: 	my $json_data = $_JSON-&gt;encode(\@values);
 </span><span class=""> 5664: 
-</span><span class=""> 5665: 	my $bins_js = defined($bins_opt)
-</span><span class=""> 5666: 		? &quot;var numBins = $bins_opt;&quot;
-</span><span class=""> 5667: 		: &#39;var numBins = Math.ceil(Math.log2(values.length) + 1);&#39;;
-</span><span class=""> 5668: 
-</span><span class=""> 5669: 	my $x_label_block = $x_label ? &lt;&lt;&quot;XLB&quot; : &#39;&#39;;
-</span><span class=""> 5670:     g.append(&quot;text&quot;)
-</span><span class=""> 5671:         .attr(&quot;class&quot;,&quot;hg-axis-label&quot;)
-</span><span class=""> 5672:         .attr(&quot;x&quot;, innerW / 2)
-</span><span class=""> 5673:         .attr(&quot;y&quot;, innerH + (margin.bottom - 10))
-</span><span class=""> 5674:         .attr(&quot;text-anchor&quot;,&quot;middle&quot;)
-</span><span class=""> 5675:         .text(&quot;$x_label_esc&quot;);
-</span><span class=""> 5676: XLB
+</span><span class=""> 5665: 	my $js_esc = sub {
+</span><span class=""> 5666: 		my $s = shift;
+</span><span class=""> 5667: 		$s =~ s/\\/\\\\/g; $s =~ s/&quot;/\\&quot;/g;
+</span><span class=""> 5668: 		$s =~ s/\n/\\n/g;  $s =~ s/\r/\\r/g;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5669: 		return $s;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5670: 	};
+</span><span class=""> 5671: 
+</span><span class=""> 5672: 	my $x_label = $opts-&gt;{x_label} // &#39;&#39;;
+</span><span class=""> 5673: 	my $color   = $opts-&gt;{color}   // &#39;steelblue&#39;;
+</span><span class=""> 5674: 
+</span><span class=""> 5675: 	my $x_label_esc = $js_esc-&gt;($x_label);
+</span><span class=""> 5676: 	my $color_esc   = $js_esc-&gt;($color);
 </span><span class=""> 5677: 
-</span><span class=""> 5678: 	my $html = &lt;&lt;&quot;HTML&quot;;
-</span><span class=""> 5679: &lt;style&gt;
-</span><span class=""> 5680:     #$tip_id {
-</span><span class=""> 5681: 	position:absolute;background:rgba(255,255,255,0.95);border:1px solid #ccc;
-</span><span class=""> 5682: 	border-radius:4px;padding:6px 10px;font-size:12px;pointer-events:none;
-</span><span class=""> 5683: 	display:none;line-height:1.6;
-</span><span class=""> 5684:     }
-</span><span class=""> 5685:     .hg-axis-label{font-size:11px;fill:#555;}
-</span><span class=""> 5686:     .hg-bar{cursor:default;}
-</span><span class=""> 5687: &lt;/style&gt;
-</span><span class=""> 5688: &lt;svg id=&quot;$svg_id&quot; $svg_attrs&gt;&lt;/svg&gt;
-</span><span class=""> 5689: &lt;div id=&quot;$tip_id&quot;&gt;&lt;/div&gt;
-</span><span class=""> 5690: &lt;script&gt;
-</span><span class=""> 5691: (function(){
-</span><span class=""> 5692:     var values = $json_data;
-</span><span class=""> 5693:     var margin = {top:$margin_top,right:$margin_right,bottom:$margin_bottom,left:$margin_left};
-</span><span class=""> 5694:     var innerW = $inner_w;
-</span><span class=""> 5695:     var innerH = $inner_h;
-</span><span class=""> 5696:     $bins_js
-</span><span class=""> 5697:     var svg = d3.select(&quot;#$svg_id&quot;);
-</span><span class=""> 5698:     var g = svg.append(&quot;g&quot;).attr(&quot;transform&quot;,&quot;translate(&quot;+margin.left+&quot;,&quot;+margin.top+&quot;)&quot;);
-</span><span class=""> 5699:     var tip = d3.select(&quot;#$tip_id&quot;);
-</span><span class=""> 5700: 
-</span><span class=""> 5701:     var xScale = d3.scaleLinear()
-</span><span class=""> 5702:         .domain([d3.min(values), d3.max(values)]).nice()
-</span><span class=""> 5703:         .range([0, innerW]);
-</span><span class=""> 5704: 
-</span><span class=""> 5705:     var binner = d3.bin().domain(xScale.domain()).thresholds(xScale.ticks(numBins));
-</span><span class=""> 5706:     var bins = binner(values);
-</span><span class=""> 5707: 
-</span><span class=""> 5708:     var yScale = d3.scaleLinear()
-</span><span class=""> 5709:         .domain([0, d3.max(bins, function(d){return d.length;})]).nice()
-</span><span class=""> 5710:         .range([innerH, 0]);
-</span><span class=""> 5711: 
-</span><span class=""> 5712:     g.append(&quot;g&quot;).attr(&quot;class&quot;,&quot;hg-x-axis&quot;)
-</span><span class=""> 5713:         .attr(&quot;transform&quot;,&quot;translate(0,&quot;+innerH+&quot;)&quot;).call(d3.axisBottom(xScale));
-</span><span class=""> 5714:     g.append(&quot;g&quot;).attr(&quot;class&quot;,&quot;hg-y-axis&quot;).call(d3.axisLeft(yScale).ticks(6));
-</span><span class=""> 5715: 
-</span><span class=""> 5716:     $x_label_block
-</span><span class=""> 5717:     g.selectAll(&quot;.hg-bar&quot;).data(bins).join(&quot;rect&quot;)
-</span><span class=""> 5718:         .attr(&quot;class&quot;,&quot;hg-bar&quot;)
-</span><span class=""> 5719:         .attr(&quot;x&quot;,function(d){return xScale(d.x0)+1;})
-</span><span class=""> 5720:         .attr(&quot;y&quot;,function(d){return yScale(d.length);})
-</span><span class=""> 5721:         .attr(&quot;width&quot;,function(d){return Math.max(0, xScale(d.x1)-xScale(d.x0)-2);})
-</span><span class=""> 5722:         .attr(&quot;height&quot;,function(d){return innerH - yScale(d.length);})
-</span><span class=""> 5723:         .attr(&quot;fill&quot;,&quot;$color_esc&quot;)
-</span><span class=""> 5724:         .on(&quot;mouseover&quot;,function(event,d){
-</span><span class=""> 5725:             tip.style(&quot;display&quot;,&quot;block&quot;)
-</span><span class=""> 5726:                .html(&quot;&lt;b&gt;&quot;+d.x0.toFixed(2)+&quot; &acirc;&#128;&#147; &quot;+d.x1.toFixed(2)+&quot;&lt;\\/b&gt;&lt;br\/&gt;Count: &quot;+d.length);
-</span><span class=""> 5727:         })
-</span><span class=""> 5728:         .on(&quot;mousemove&quot;,function(event){
-</span><span class=""> 5729:             tip.style(&quot;left&quot;,(event.offsetX+12)+&quot;px&quot;).style(&quot;top&quot;,(event.offsetY-28)+&quot;px&quot;);
-</span><span class=""> 5730:         })
-</span><span class=""> 5731:         .on(&quot;mouseout&quot;,function(){tip.style(&quot;display&quot;,&quot;none&quot;);});
-</span><span class=""> 5732: })();
-</span><span class=""> 5733: &lt;/script&gt;
-</span><span class=""> 5734: HTML
+</span><span class=""> 5678: 	my $svg_id  = $opts-&gt;{id} // &#39;histogram&#39;;
+</span><span class=""> 5679: 	my $tip_id  = $svg_id . &#39;_tip&#39;;
+</span><span class=""> 5680: 	my $width   = $self-&gt;{width};
+</span><span class=""> 5681: 	my $height  = $self-&gt;{height};
+</span><span class=""> 5682: 	my $svg_attrs = ($opts-&gt;{responsive} // $self-&gt;{responsive})
+</span><span class=""> 5683: 		? qq{viewBox=&quot;0 0 $width $height&quot; width=&quot;100%&quot; height=&quot;auto&quot;}
+</span><span class=""> 5684: 		: qq{width=&quot;$width&quot; height=&quot;$height&quot;};
+</span><span class=""> 5685: 
+</span><span class=""> 5686: 	my $margin_top    = 20;
+</span><span class=""> 5687: 	my $margin_right  = 20;
+</span><span class=""> 5688: 	my $margin_bottom = $x_label ? 60 : 40;
+</span><span class=""> 5689: 	my $margin_left   = 55;
+</span><span class=""> 5690: 	my $inner_w = $width  - $margin_left - $margin_right;
+</span><span class=""> 5691: 	my $inner_h = $height - $margin_top  - $margin_bottom;
+</span><span class=""> 5692: 
+</span><span class=""> 5693: 	my $bins_js = defined($bins_opt)
+</span><span class=""> 5694: 		? &quot;var numBins = $bins_opt;&quot;
+</span><span class=""> 5695: 		: &#39;var numBins = Math.ceil(Math.log2(values.length) + 1);&#39;;
+</span><span class=""> 5696: 
+</span><span class=""> 5697: 	my $x_label_block = $x_label ? &lt;&lt;&quot;XLB&quot; : &#39;&#39;;
+</span><span class=""> 5698:     g.append(&quot;text&quot;)
+</span><span class=""> 5699:         .attr(&quot;class&quot;,&quot;hg-axis-label&quot;)
+</span><span class=""> 5700:         .attr(&quot;x&quot;, innerW / 2)
+</span><span class=""> 5701:         .attr(&quot;y&quot;, innerH + (margin.bottom - 10))
+</span><span class=""> 5702:         .attr(&quot;text-anchor&quot;,&quot;middle&quot;)
+</span><span class=""> 5703:         .text(&quot;$x_label_esc&quot;);
+</span><span class=""> 5704: XLB
+</span><span class=""> 5705: 
+</span><span class=""> 5706: 	my $html = &lt;&lt;&quot;HTML&quot;;
+</span><span class=""> 5707: &lt;style&gt;
+</span><span class=""> 5708:     #$tip_id {
+</span><span class=""> 5709: 	position:absolute;background:rgba(255,255,255,0.95);border:1px solid #ccc;
+</span><span class=""> 5710: 	border-radius:4px;padding:6px 10px;font-size:12px;pointer-events:none;
+</span><span class=""> 5711: 	display:none;line-height:1.6;
+</span><span class=""> 5712:     }
+</span><span class=""> 5713:     .hg-axis-label{font-size:11px;fill:#555;}
+</span><span class=""> 5714:     .hg-bar{cursor:default;}
+</span><span class=""> 5715: &lt;/style&gt;
+</span><span class=""> 5716: &lt;svg id=&quot;$svg_id&quot; $svg_attrs&gt;&lt;/svg&gt;
+</span><span class=""> 5717: &lt;div id=&quot;$tip_id&quot;&gt;&lt;/div&gt;
+</span><span class=""> 5718: &lt;script&gt;
+</span><span class=""> 5719: (function(){
+</span><span class=""> 5720:     var values = $json_data;
+</span><span class=""> 5721:     var margin = {top:$margin_top,right:$margin_right,bottom:$margin_bottom,left:$margin_left};
+</span><span class=""> 5722:     var innerW = $inner_w;
+</span><span class=""> 5723:     var innerH = $inner_h;
+</span><span class=""> 5724:     $bins_js
+</span><span class=""> 5725:     var svg = d3.select(&quot;#$svg_id&quot;);
+</span><span class=""> 5726:     var g = svg.append(&quot;g&quot;).attr(&quot;transform&quot;,&quot;translate(&quot;+margin.left+&quot;,&quot;+margin.top+&quot;)&quot;);
+</span><span class=""> 5727:     var tip = d3.select(&quot;#$tip_id&quot;);
+</span><span class=""> 5728: 
+</span><span class=""> 5729:     var xScale = d3.scaleLinear()
+</span><span class=""> 5730:         .domain([d3.min(values), d3.max(values)]).nice()
+</span><span class=""> 5731:         .range([0, innerW]);
+</span><span class=""> 5732: 
+</span><span class=""> 5733:     var binner = d3.bin().domain(xScale.domain()).thresholds(xScale.ticks(numBins));
+</span><span class=""> 5734:     var bins = binner(values);
 </span><span class=""> 5735: 
-</span><span class=""> 5736: 	return { svg_id =&gt; $svg_id, html =&gt; $html };
-</span><span class=""> 5737: }
-</span><span class=""> 5738: 
-</span><span class=""> 5739: # The definition of one scheme, by name, or a die that names what was asked for.
-</span><span class=""> 5740: sub _categorical_scheme
-</span><span class=""> 5741: {
-</span><span class=""> 5742: 	my $scheme = shift;
+</span><span class=""> 5736:     var yScale = d3.scaleLinear()
+</span><span class=""> 5737:         .domain([0, d3.max(bins, function(d){return d.length;})]).nice()
+</span><span class=""> 5738:         .range([innerH, 0]);
+</span><span class=""> 5739: 
+</span><span class=""> 5740:     g.append(&quot;g&quot;).attr(&quot;class&quot;,&quot;hg-x-axis&quot;)
+</span><span class=""> 5741:         .attr(&quot;transform&quot;,&quot;translate(0,&quot;+innerH+&quot;)&quot;).call(d3.axisBottom(xScale));
+</span><span class=""> 5742:     g.append(&quot;g&quot;).attr(&quot;class&quot;,&quot;hg-y-axis&quot;).call(d3.axisLeft(yScale).ticks(6));
 </span><span class=""> 5743: 
-</span><span class=""> 5744: 	die &#39;Unknown scheme: &#39; . (defined($scheme) ? $scheme : &#39;(none)&#39;)
-</span><span class=""> 5745: 		unless defined($scheme) &amp;&amp; exists($CATEGORICAL_SCHEMES{$scheme});
-</span><span class=""> 5746: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5747: 	return $CATEGORICAL_SCHEMES{$scheme};
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5748: }
-</span><span class=""> 5749: 
-</span><span class=""> 5750: # A scheme&#39;s colours as JavaScript source: a literal array, in the scheme&#39;s
-</span><span class=""> 5751: # order, built from the one definition.  The snippets inline this rather than a
-</span><span class=""> 5752: # d3.scheme* expression, so the browser draws the numbers palette() handed a
-</span><span class=""> 5753: # map, and an upgrade of d3 cannot change a chart&#39;s colours.
-</span><span class=""> 5754: sub _scheme_colours_js
-</span><span class=""> 5755: {
-</span><span class=""> 5756: 	my $scheme = shift;
-</span><span class=""> 5757: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5758: 	return &#39;[&#39; . join(&#39;, &#39;, map { &quot;&#39;$_&#39;&quot; } @{_categorical_scheme($scheme)-&gt;{colours}}) . &#39;]&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5759: }
-</span><span class=""> 5760: 
-</span><span class=""> 5761: # The colours of a scheme as a JS array, or the default scheme&#39;s for a name that
-</span><span class=""> 5762: # is not one.  The snippets used to capitalise the name they were handed and
-</span><span class=""> 5763: # look up the expression that spelling produced, which turned a name they did
-</span><span class=""> 5764: # not know into an undefined function in the browser; drawing with the
-</span><span class=""> 5765: # documented default is what the snippets that look their scheme up in a table
-</span><span class=""> 5766: # have always done.
-</span><span class=""> 5767: sub _scheme_js
-</span><span class=""> 5768: {
-</span><span class=""> 5769: 	my $scheme = shift;
-</span><span class=""> 5770: 
-</span><span class=""> 5771: 	# exists() first: naming a scheme that is not one must not add it to the
-</span><span class=""> 5772: 	# vocabulary, which is what dereferencing the missing entry would do.
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5773: 	return exists($CATEGORICAL_SCHEMES{$scheme})
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5774: 		? _scheme_colours_js($scheme)
-</span><span class=""> 5775: 		: _default_scheme_js();
-</span><span class=""> 5776: }
+</span><span class=""> 5744:     $x_label_block
+</span><span class=""> 5745:     g.selectAll(&quot;.hg-bar&quot;).data(bins).join(&quot;rect&quot;)
+</span><span class=""> 5746:         .attr(&quot;class&quot;,&quot;hg-bar&quot;)
+</span><span class=""> 5747:         .attr(&quot;x&quot;,function(d){return xScale(d.x0)+1;})
+</span><span class=""> 5748:         .attr(&quot;y&quot;,function(d){return yScale(d.length);})
+</span><span class=""> 5749:         .attr(&quot;width&quot;,function(d){return Math.max(0, xScale(d.x1)-xScale(d.x0)-2);})
+</span><span class=""> 5750:         .attr(&quot;height&quot;,function(d){return innerH - yScale(d.length);})
+</span><span class=""> 5751:         .attr(&quot;fill&quot;,&quot;$color_esc&quot;)
+</span><span class=""> 5752:         .on(&quot;mouseover&quot;,function(event,d){
+</span><span class=""> 5753:             tip.style(&quot;display&quot;,&quot;block&quot;)
+</span><span class=""> 5754:                .html(&quot;&lt;b&gt;&quot;+d.x0.toFixed(2)+&quot; &acirc;&#128;&#147; &quot;+d.x1.toFixed(2)+&quot;&lt;\\/b&gt;&lt;br\/&gt;Count: &quot;+d.length);
+</span><span class=""> 5755:         })
+</span><span class=""> 5756:         .on(&quot;mousemove&quot;,function(event){
+</span><span class=""> 5757:             tip.style(&quot;left&quot;,(event.offsetX+12)+&quot;px&quot;).style(&quot;top&quot;,(event.offsetY-28)+&quot;px&quot;);
+</span><span class=""> 5758:         })
+</span><span class=""> 5759:         .on(&quot;mouseout&quot;,function(){tip.style(&quot;display&quot;,&quot;none&quot;);});
+</span><span class=""> 5760: })();
+</span><span class=""> 5761: &lt;/script&gt;
+</span><span class=""> 5762: HTML
+</span><span class=""> 5763: 
+</span><span class=""> 5764: 	return { svg_id =&gt; $svg_id, html =&gt; $html };
+</span><span class=""> 5765: }
+</span><span class=""> 5766: 
+</span><span class=""> 5767: # The definition of one scheme, by name, or a die that names what was asked for.
+</span><span class=""> 5768: sub _categorical_scheme
+</span><span class=""> 5769: {
+</span><span class=""> 5770: 	my $scheme = shift;
+</span><span class=""> 5771: 
+</span><span class=""> 5772: 	die &#39;Unknown scheme: &#39; . (defined($scheme) ? $scheme : &#39;(none)&#39;)
+</span><span class=""> 5773: 		unless defined($scheme) &amp;&amp; exists($CATEGORICAL_SCHEMES{$scheme});
+</span><span class=""> 5774: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5775: 	return $CATEGORICAL_SCHEMES{$scheme};
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5776: }
 </span><span class=""> 5777: 
-</span><span class=""> 5778: sub _default_scheme_js
-</span><span class=""> 5779: {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5780: 	return _scheme_colours_js($DEFAULT_CATEGORICAL_SCHEME);
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5781: }
-</span><span class=""> 5782: 
-</span><span class=""> 5783: # The table the snippets look a scheme up in, built from the definition above, so
-</span><span class=""> 5784: # that a scheme added there is understood by every snippet that offers a scheme
-</span><span class=""> 5785: # rather than by the ones somebody remembered to edit.  Each value is the
-</span><span class=""> 5786: # scheme&#39;s colours as a literal array: the same numbers palette() returns.
-</span><span class=""> 5787: sub _schemes_js
-</span><span class=""> 5788: {
-</span><span class=""> 5789: 	my ($self, $declaration) = @_;
-</span><span class=""> 5790: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5791: 	return $declaration . &#39; SCHEMES = { &#39;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5792: 		. join(&#39;, &#39;, map { &quot;$_: &quot; . _scheme_colours_js($_) } sort keys %CATEGORICAL_SCHEMES)
-</span><span class=""> 5793: 		. &#39; };&#39;;
-</span><span class=""> 5794: }
-</span><span class=""> 5795: 
-</span><span class=""> 5796: sub _preamble
-</span><span class=""> 5797: {
-</span><span class=""> 5798: 	my $html = &lt;&lt;&#39;HTML&#39;;
-</span><span class=""> 5799: &lt;!DOCTYPE html&gt;
-</span><span class=""> 5800: &lt;html lang=&quot;en&quot;&gt;
-</span><span class=""> 5801: HTML
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5802: 	return $html;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5803: }
-</span><span class=""> 5804: 
-</span><span class=""> 5805: sub _head
-</span><span class=""> 5806: {
-</span><span class=""> 5807: 	my $self = shift;
-</span><span class=""> 5808: 
-</span><span class=""> 5809: 	my $html = &lt;&lt;&quot;HTML&quot;;
-</span><span class=""> 5810: &lt;head&gt;
-</span><span class=""> 5811: 	&lt;meta charset=&quot;UTF-8&quot;&gt;
-</span><span class=""> 5812: 	&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-</span><span class=""> 5813: 	&lt;title&gt;$self-&gt;{title}&lt;/title&gt;
-</span><span class=""> 5814: 	&lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
-</span><span class=""> 5815: &lt;/head&gt;
-</span><span class=""> 5816: HTML
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5817: 	return $html;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5818: }
-</span><span class=""> 5819: 
-</span><span class=""> 5820: sub _svg_attrs
-</span><span class=""> 5821: {
-</span><span class=""> 5822: 	my ($self, $override) = @_;
-</span><span class=""> 5823: 	my $responsive = defined($override) ? $override : $self-&gt;{responsive};
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5824: 	return $responsive
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5825: 		? qq{viewBox=&quot;0 0 $self-&gt;{width} $self-&gt;{height}&quot; width=&quot;100%&quot; height=&quot;auto&quot;}
-</span><span class=""> 5826: 		: qq{width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;};
-</span><span class=""> 5827: }
-</span><span class=""> 5828: 
-</span><span class=""> 5829: # _render_snippet_shell($opts, $container_id, $script)
-</span><span class=""> 5830: # Used exclusively by new snippet methods (scatter, table).
-</span><span class=""> 5831: # Returns a minimal HTML fragment with a container div and the provided script block.
-</span><span class=""> 5832: sub _render_snippet_shell
-</span><span class=""> 5833: {
-</span><span class=""> 5834: 	my ($self, $opts, $container_id, $script) = @_;
-</span><span class=""> 5835: 	my $w = $self-&gt;{width};
-</span><span class=""> 5836: 	my $h = $self-&gt;{height};
-</span><span class=""> 5837: 	my $svg_attrs = ($opts-&gt;{responsive} // $self-&gt;{responsive})
-</span><span class=""> 5838: 		? qq{viewBox=&quot;0 0 $w $h&quot; width=&quot;100%&quot; height=&quot;auto&quot;}
-</span><span class=""> 5839: 		: qq{width=&quot;$w&quot; height=&quot;$h&quot;};
-</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values."> 5840: 	return &lt;&lt;&quot;SHELL&quot;;
+</span><span class=""> 5778: # A scheme&#39;s colours as JavaScript source: a literal array, in the scheme&#39;s
+</span><span class=""> 5779: # order, built from the one definition.  The snippets inline this rather than a
+</span><span class=""> 5780: # d3.scheme* expression, so the browser draws the numbers palette() handed a
+</span><span class=""> 5781: # map, and an upgrade of d3 cannot change a chart&#39;s colours.
+</span><span class=""> 5782: sub _scheme_colours_js
+</span><span class=""> 5783: {
+</span><span class=""> 5784: 	my $scheme = shift;
+</span><span class=""> 5785: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5786: 	return &#39;[&#39; . join(&#39;, &#39;, map { &quot;&#39;$_&#39;&quot; } @{_categorical_scheme($scheme)-&gt;{colours}}) . &#39;]&#39;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5787: }
+</span><span class=""> 5788: 
+</span><span class=""> 5789: # The colours of a scheme as a JS array, or the default scheme&#39;s for a name that
+</span><span class=""> 5790: # is not one.  The snippets used to capitalise the name they were handed and
+</span><span class=""> 5791: # look up the expression that spelling produced, which turned a name they did
+</span><span class=""> 5792: # not know into an undefined function in the browser; drawing with the
+</span><span class=""> 5793: # documented default is what the snippets that look their scheme up in a table
+</span><span class=""> 5794: # have always done.
+</span><span class=""> 5795: sub _scheme_js
+</span><span class=""> 5796: {
+</span><span class=""> 5797: 	my $scheme = shift;
+</span><span class=""> 5798: 
+</span><span class=""> 5799: 	# exists() first: naming a scheme that is not one must not add it to the
+</span><span class=""> 5800: 	# vocabulary, which is what dereferencing the missing entry would do.
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5801: 	return exists($CATEGORICAL_SCHEMES{$scheme})
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5802: 		? _scheme_colours_js($scheme)
+</span><span class=""> 5803: 		: _default_scheme_js();
+</span><span class=""> 5804: }
+</span><span class=""> 5805: 
+</span><span class=""> 5806: sub _default_scheme_js
+</span><span class=""> 5807: {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5808: 	return _scheme_colours_js($DEFAULT_CATEGORICAL_SCHEME);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5809: }
+</span><span class=""> 5810: 
+</span><span class=""> 5811: # The table the snippets look a scheme up in, built from the definition above, so
+</span><span class=""> 5812: # that a scheme added there is understood by every snippet that offers a scheme
+</span><span class=""> 5813: # rather than by the ones somebody remembered to edit.  Each value is the
+</span><span class=""> 5814: # scheme&#39;s colours as a literal array: the same numbers palette() returns.
+</span><span class=""> 5815: sub _schemes_js
+</span><span class=""> 5816: {
+</span><span class=""> 5817: 	my ($self, $declaration) = @_;
+</span><span class=""> 5818: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5819: 	return $declaration . &#39; SCHEMES = { &#39;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5820: 		. join(&#39;, &#39;, map { &quot;$_: &quot; . _scheme_colours_js($_) } sort keys %CATEGORICAL_SCHEMES)
+</span><span class=""> 5821: 		. &#39; };&#39;;
+</span><span class=""> 5822: }
+</span><span class=""> 5823: 
+</span><span class=""> 5824: sub _preamble
+</span><span class=""> 5825: {
+</span><span class=""> 5826: 	my $html = &lt;&lt;&#39;HTML&#39;;
+</span><span class=""> 5827: &lt;!DOCTYPE html&gt;
+</span><span class=""> 5828: &lt;html lang=&quot;en&quot;&gt;
+</span><span class=""> 5829: HTML
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5830: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5831: }
+</span><span class=""> 5832: 
+</span><span class=""> 5833: sub _head
+</span><span class=""> 5834: {
+</span><span class=""> 5835: 	my $self = shift;
+</span><span class=""> 5836: 
+</span><span class=""> 5837: 	my $html = &lt;&lt;&quot;HTML&quot;;
+</span><span class=""> 5838: &lt;head&gt;
+</span><span class=""> 5839: 	&lt;meta charset=&quot;UTF-8&quot;&gt;
+</span><span class=""> 5840: 	&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+</span><span class=""> 5841: 	&lt;title&gt;$self-&gt;{title}&lt;/title&gt;
+</span><span class=""> 5842: 	&lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
+</span><span class=""> 5843: &lt;/head&gt;
+</span><span class=""> 5844: HTML
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5845: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5846: }
+</span><span class=""> 5847: 
+</span><span class=""> 5848: sub _svg_attrs
+</span><span class=""> 5849: {
+</span><span class=""> 5850: 	my ($self, $override) = @_;
+</span><span class=""> 5851: 	my $responsive = defined($override) ? $override : $self-&gt;{responsive};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5852: 	return $responsive
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5853: 		? qq{viewBox=&quot;0 0 $self-&gt;{width} $self-&gt;{height}&quot; width=&quot;100%&quot; height=&quot;auto&quot;}
+</span><span class=""> 5854: 		: qq{width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;};
+</span><span class=""> 5855: }
+</span><span class=""> 5856: 
+</span><span class=""> 5857: # _render_snippet_shell($opts, $container_id, $script)
+</span><span class=""> 5858: # Used exclusively by new snippet methods (scatter, table).
+</span><span class=""> 5859: # Returns a minimal HTML fragment with a container div and the provided script block.
+</span><span class=""> 5860: sub _render_snippet_shell
+</span><span class=""> 5861: {
+</span><span class=""> 5862: 	my ($self, $opts, $container_id, $script) = @_;
+</span><span class=""> 5863: 	my $w = $self-&gt;{width};
+</span><span class=""> 5864: 	my $h = $self-&gt;{height};
+</span><span class=""> 5865: 	my $svg_attrs = ($opts-&gt;{responsive} // $self-&gt;{responsive})
+</span><span class=""> 5866: 		? qq{viewBox=&quot;0 0 $w $h&quot; width=&quot;100%&quot; height=&quot;auto&quot;}
+</span><span class=""> 5867: 		: qq{width=&quot;$w&quot; height=&quot;$h&quot;};
+</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths."> 5868: 	return &lt;&lt;&quot;SHELL&quot;;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
 					<ul>
-				<li><b>BOOL_NEGATE_5840_2: Negate boolean return expression</b><br>MEDIUM: Add tests asserting both true and false outcomes
+				<li><b>BOOL_NEGATE_5868_2: Negate boolean return expression</b><br>MEDIUM: Add tests asserting both true and false outcomes
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -6389,7 +6417,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 ok( !func(INPUT), &#39;Verify boolean branch behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>RETURN_UNDEF_5840_2: Replace return expression with undef</b><br>LOW: Mutation survived, but impact may be minor
+							</li><li><b>RETURN_UNDEF_5868_2: Replace return expression with undef</b><br>LOW: Mutation survived, but impact may be minor
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -6398,457 +6426,457 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class=""> 5841: &lt;div id=&quot;${container_id}_wrap&quot; style=&quot;position:relative;&quot;&gt;
-</span><span class=""> 5842:     &lt;svg id=&quot;$container_id&quot; $svg_attrs&gt;&lt;/svg&gt;
-</span><span class=""> 5843:     &lt;div id=&quot;${container_id}_tip&quot; style=&quot;position:absolute;background:rgba(255,255,255,0.95);border:1px solid #ccc;border-radius:4px;padding:6px 10px;font-size:12px;pointer-events:none;display:none;line-height:1.6;&quot;&gt;&lt;/div&gt;
-</span><span class=""> 5844: &lt;/div&gt;
-</span><span class=""> 5845: $script
-</span><span class=""> 5846: SHELL
-</span><span class=""> 5847: }
-</span><span class=""> 5848: 
-</span><span class=""> 5849: =head1 SUPPORT
-</span><span class=""> 5850: 
-</span><span class=""> 5851: This module is provided as-is without any warranty.
-</span><span class=""> 5852: 
-</span><span class=""> 5853: Please report any bugs or feature requests to C&lt;bug-html-d3 at rt.cpan.org&gt;,
-</span><span class=""> 5854: or through the web interface at
-</span><span class=""> 5855: L&lt;http://rt.cpan.org/NoAuth/ReportBug.html?Queue=HTML-D3&gt;.
-</span><span class=""> 5856: I will be notified, and then you&#39;ll
-</span><span class=""> 5857: automatically be notified of progress on your bug as I make changes.
-</span><span class=""> 5858: 
-</span><span class=""> 5859: You can find documentation for this module with the perldoc command.
-</span><span class=""> 5860: 
-</span><span class=""> 5861:     perldoc HTML::D3
-</span><span class=""> 5862: 
-</span><span class=""> 5863: You can also look for information at:
-</span><span class=""> 5864: 
-</span><span class=""> 5865: =head1 BUGS
-</span><span class=""> 5866: 
-</span><span class=""> 5867: It would help to have the render routine to return the head and body components separately.
-</span><span class=""> 5868: 
-</span><span class=""> 5869: =head1 SEE ALSO
-</span><span class=""> 5870: 
-</span><span class=""> 5871: =over 4
-</span><span class=""> 5872: 
-</span><span class=""> 5873: =item * L&lt;Configure an Object at Runtime|Object::Configure&gt;
-</span><span class=""> 5874: 
-</span><span class=""> 5875: =item * L&lt;Test Dashboard|https://nigelhorne.github.io/HTML-D3/coverage/&gt;
+<span class=""> 5869: &lt;div id=&quot;${container_id}_wrap&quot; style=&quot;position:relative;&quot;&gt;
+</span><span class=""> 5870:     &lt;svg id=&quot;$container_id&quot; $svg_attrs&gt;&lt;/svg&gt;
+</span><span class=""> 5871:     &lt;div id=&quot;${container_id}_tip&quot; style=&quot;position:absolute;background:rgba(255,255,255,0.95);border:1px solid #ccc;border-radius:4px;padding:6px 10px;font-size:12px;pointer-events:none;display:none;line-height:1.6;&quot;&gt;&lt;/div&gt;
+</span><span class=""> 5872: &lt;/div&gt;
+</span><span class=""> 5873: $script
+</span><span class=""> 5874: SHELL
+</span><span class=""> 5875: }
 </span><span class=""> 5876: 
-</span><span class=""> 5877: =back
+</span><span class=""> 5877: =head1 SUPPORT
 </span><span class=""> 5878: 
-</span><span class=""> 5879: =head1 AUTHOR
+</span><span class=""> 5879: This module is provided as-is without any warranty.
 </span><span class=""> 5880: 
-</span><span class=""> 5881: Nigel Horne &lt;njh@nigelhorne.com&gt;
-</span><span class=""> 5882: 
-</span><span class=""> 5883: =encoding UTF-8
-</span><span class=""> 5884: 
-</span><span class=""> 5885: =head1 FORMAL SPECIFICATION
+</span><span class=""> 5881: Please report any bugs or feature requests to C&lt;bug-html-d3 at rt.cpan.org&gt;,
+</span><span class=""> 5882: or through the web interface at
+</span><span class=""> 5883: L&lt;http://rt.cpan.org/NoAuth/ReportBug.html?Queue=HTML-D3&gt;.
+</span><span class=""> 5884: I will be notified, and then you&#39;ll
+</span><span class=""> 5885: automatically be notified of progress on your bug as I make changes.
 </span><span class=""> 5886: 
-</span><span class=""> 5887: =head2 render_bar_chart
+</span><span class=""> 5887: You can find documentation for this module with the perldoc command.
 </span><span class=""> 5888: 
-</span><span class=""> 5889:     render_bar_chart : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 5889:     perldoc HTML::D3
 </span><span class=""> 5890: 
-</span><span class=""> 5891:     pre  data = undef              &acirc;&#135;&#146; die &quot;Data is not optional&quot;
-</span><span class=""> 5892:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;      &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
-</span><span class=""> 5893:     post result &acirc;&#136;&#136; Str
-</span><span class=""> 5894:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
-</span><span class=""> 5895:     post &acirc;&#136;&#128; d &acirc;&#136;&#136; data . d[0] &acirc;&#138;&#134; result
+</span><span class=""> 5891: You can also look for information at:
+</span><span class=""> 5892: 
+</span><span class=""> 5893: =head1 BUGS
+</span><span class=""> 5894: 
+</span><span class=""> 5895: It would help to have the render routine to return the head and body components separately.
 </span><span class=""> 5896: 
-</span><span class=""> 5897: =head2 render_line_chart
+</span><span class=""> 5897: =head1 SEE ALSO
 </span><span class=""> 5898: 
-</span><span class=""> 5899:     render_line_chart : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 5899: =over 4
 </span><span class=""> 5900: 
-</span><span class=""> 5901:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
-</span><span class=""> 5902:     post result &acirc;&#136;&#136; Str
-</span><span class=""> 5903:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
-</span><span class=""> 5904:     post &quot;d3.scalePoint&quot; &acirc;&#138;&#134; result &acirc;&#136;&sect; &quot;d3.line()&quot; &acirc;&#138;&#134; result
-</span><span class=""> 5905: 
-</span><span class=""> 5906: =head2 render_animated_bar_chart
-</span><span class=""> 5907: 
-</span><span class=""> 5908:     render_animated_bar_chart : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
-</span><span class=""> 5909: 
-</span><span class=""> 5910:     pre  data = undef              &acirc;&#135;&#146; die &quot;Data is not optional&quot;
-</span><span class=""> 5911:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;      &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
-</span><span class=""> 5912:     post result &acirc;&#136;&#136; Str
-</span><span class=""> 5913:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
-</span><span class=""> 5914:     post &quot;.transition()&quot; &acirc;&#138;&#134; result &acirc;&#136;&sect; &quot;.delay(&quot; &acirc;&#138;&#134; result
-</span><span class=""> 5915: 
-</span><span class=""> 5916: =head2 render_animated_line_chart
-</span><span class=""> 5917: 
-</span><span class=""> 5918:     render_animated_line_chart : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
-</span><span class=""> 5919: 
-</span><span class=""> 5920:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class=""> 5901: =item * L&lt;Configure an Object at Runtime|Object::Configure&gt;
+</span><span class=""> 5902: 
+</span><span class=""> 5903: =item * L&lt;Test Dashboard|https://nigelhorne.github.io/HTML-D3/coverage/&gt;
+</span><span class=""> 5904: 
+</span><span class=""> 5905: =back
+</span><span class=""> 5906: 
+</span><span class=""> 5907: =head1 AUTHOR
+</span><span class=""> 5908: 
+</span><span class=""> 5909: Nigel Horne &lt;njh@nigelhorne.com&gt;
+</span><span class=""> 5910: 
+</span><span class=""> 5911: =encoding UTF-8
+</span><span class=""> 5912: 
+</span><span class=""> 5913: =head1 FORMAL SPECIFICATION
+</span><span class=""> 5914: 
+</span><span class=""> 5915: =head2 render_bar_chart
+</span><span class=""> 5916: 
+</span><span class=""> 5917:     render_bar_chart : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 5918: 
+</span><span class=""> 5919:     pre  data = undef              &acirc;&#135;&#146; die &quot;Data is not optional&quot;
+</span><span class=""> 5920:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;      &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
 </span><span class=""> 5921:     post result &acirc;&#136;&#136; Str
 </span><span class=""> 5922:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
-</span><span class=""> 5923:     post &quot;stroke-dashoffset&quot; &acirc;&#138;&#134; result &acirc;&#136;&sect; &quot;d3.easeLinear&quot; &acirc;&#138;&#134; result
+</span><span class=""> 5923:     post &acirc;&#136;&#128; d &acirc;&#136;&#136; data . d[0] &acirc;&#138;&#134; result
 </span><span class=""> 5924: 
-</span><span class=""> 5925: =head2 render_pie_chart
+</span><span class=""> 5925: =head2 render_line_chart
 </span><span class=""> 5926: 
-</span><span class=""> 5927:     render_pie_chart : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 5927:     render_line_chart : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
 </span><span class=""> 5928: 
-</span><span class=""> 5929:     pre  data = undef              &acirc;&#135;&#146; die &quot;Data is not optional&quot;
-</span><span class=""> 5930:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;      &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
-</span><span class=""> 5931:     post result &acirc;&#136;&#136; Str
-</span><span class=""> 5932:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
-</span><span class=""> 5933:     post &quot;d3.pie()&quot; &acirc;&#138;&#134; result &acirc;&#136;&sect; &quot;d3.arc()&quot; &acirc;&#138;&#134; result &acirc;&#136;&sect; &quot;&#39;#1f77b4&#39;&quot; &acirc;&#138;&#134; result
-</span><span class=""> 5934:                                       -- category10&#39;s colours, inlined: no d3.scheme* is read
-</span><span class=""> 5935:     post opts.separator = S        &acirc;&#135;&#146;  &quot; S &quot; &acirc;&#138;&#134; result (SVG legend: label S value)
-</span><span class=""> 5936: 
-</span><span class=""> 5937: =head2 render_animated_pie_chart
-</span><span class=""> 5938: 
-</span><span class=""> 5939:     render_animated_pie_chart : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
-</span><span class=""> 5940: 
-</span><span class=""> 5941:     pre  data = undef              &acirc;&#135;&#146; die &quot;Data is not optional&quot;
-</span><span class=""> 5942:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;      &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
-</span><span class=""> 5943:     post result &acirc;&#136;&#136; Str
-</span><span class=""> 5944:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
-</span><span class=""> 5945:     post &quot;attrTween&quot; &acirc;&#138;&#134; result &acirc;&#136;&sect; &quot;d3.interpolate&quot; &acirc;&#138;&#134; result
-</span><span class=""> 5946:     post opts.separator = S        &acirc;&#135;&#146;  &quot; S &quot; &acirc;&#138;&#134; result (SVG legend: label S value)
+</span><span class=""> 5929:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class=""> 5930:     post result &acirc;&#136;&#136; Str
+</span><span class=""> 5931:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class=""> 5932:     post &quot;d3.scalePoint&quot; &acirc;&#138;&#134; result &acirc;&#136;&sect; &quot;d3.line()&quot; &acirc;&#138;&#134; result
+</span><span class=""> 5933: 
+</span><span class=""> 5934: =head2 render_animated_bar_chart
+</span><span class=""> 5935: 
+</span><span class=""> 5936:     render_animated_bar_chart : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 5937: 
+</span><span class=""> 5938:     pre  data = undef              &acirc;&#135;&#146; die &quot;Data is not optional&quot;
+</span><span class=""> 5939:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;      &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class=""> 5940:     post result &acirc;&#136;&#136; Str
+</span><span class=""> 5941:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class=""> 5942:     post &quot;.transition()&quot; &acirc;&#138;&#134; result &acirc;&#136;&sect; &quot;.delay(&quot; &acirc;&#138;&#134; result
+</span><span class=""> 5943: 
+</span><span class=""> 5944: =head2 render_animated_line_chart
+</span><span class=""> 5945: 
+</span><span class=""> 5946:     render_animated_line_chart : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
 </span><span class=""> 5947: 
-</span><span class=""> 5948: =head2 render_line_chart_snippet
-</span><span class=""> 5949: 
-</span><span class=""> 5950:     render_line_chart_snippet :
-</span><span class=""> 5951:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 5948:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class=""> 5949:     post result &acirc;&#136;&#136; Str
+</span><span class=""> 5950:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class=""> 5951:     post &quot;stroke-dashoffset&quot; &acirc;&#138;&#134; result &acirc;&#136;&sect; &quot;d3.easeLinear&quot; &acirc;&#138;&#134; result
 </span><span class=""> 5952: 
-</span><span class=""> 5953:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
-</span><span class=""> 5954:     post result &acirc;&#136;&#136; HashRef
-</span><span class=""> 5955:     post result.svg_id = opts.id // &quot;chart&quot;
-</span><span class=""> 5956:     post result.html &acirc;&#136;&#136; Str
-</span><span class=""> 5957:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
-</span><span class=""> 5958: 
-</span><span class=""> 5959: =head2 render_zoomable_line_chart_snippet
-</span><span class=""> 5960: 
-</span><span class=""> 5961:     render_zoomable_line_chart_snippet :
-</span><span class=""> 5962:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
-</span><span class=""> 5963: 
-</span><span class=""> 5964:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
-</span><span class=""> 5965:     post result &acirc;&#136;&#136; HashRef
-</span><span class=""> 5966:     post result.svg_id = opts.id // &quot;chart&quot;
-</span><span class=""> 5967:     post result.html &acirc;&#136;&#136; Str
-</span><span class=""> 5968:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
-</span><span class=""> 5969:     post &quot;d3.brushX()&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 5970:     post opts.animated = 1  &acirc;&#135;&#146;  &quot;stroke-dashoffset&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 5971:                               &acirc;&#136;&sect; &quot;initialDrawDone&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 5972: 
-</span><span class=""> 5973: =head2 render_pie_chart_snippet
-</span><span class=""> 5974: 
-</span><span class=""> 5975:     render_pie_chart_snippet :
-</span><span class=""> 5976:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 5953: =head2 render_pie_chart
+</span><span class=""> 5954: 
+</span><span class=""> 5955:     render_pie_chart : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 5956: 
+</span><span class=""> 5957:     pre  data = undef              &acirc;&#135;&#146; die &quot;Data is not optional&quot;
+</span><span class=""> 5958:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;      &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class=""> 5959:     post result &acirc;&#136;&#136; Str
+</span><span class=""> 5960:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class=""> 5961:     post &quot;d3.pie()&quot; &acirc;&#138;&#134; result &acirc;&#136;&sect; &quot;d3.arc()&quot; &acirc;&#138;&#134; result &acirc;&#136;&sect; &quot;&#39;#1f77b4&#39;&quot; &acirc;&#138;&#134; result
+</span><span class=""> 5962:                                       -- category10&#39;s colours, inlined: no d3.scheme* is read
+</span><span class=""> 5963:     post opts.separator = S        &acirc;&#135;&#146;  &quot; S &quot; &acirc;&#138;&#134; result (SVG legend: label S value)
+</span><span class=""> 5964: 
+</span><span class=""> 5965: =head2 render_animated_pie_chart
+</span><span class=""> 5966: 
+</span><span class=""> 5967:     render_animated_pie_chart : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 5968: 
+</span><span class=""> 5969:     pre  data = undef              &acirc;&#135;&#146; die &quot;Data is not optional&quot;
+</span><span class=""> 5970:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;      &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class=""> 5971:     post result &acirc;&#136;&#136; Str
+</span><span class=""> 5972:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class=""> 5973:     post &quot;attrTween&quot; &acirc;&#138;&#134; result &acirc;&#136;&sect; &quot;d3.interpolate&quot; &acirc;&#138;&#134; result
+</span><span class=""> 5974:     post opts.separator = S        &acirc;&#135;&#146;  &quot; S &quot; &acirc;&#138;&#134; result (SVG legend: label S value)
+</span><span class=""> 5975: 
+</span><span class=""> 5976: =head2 render_line_chart_snippet
 </span><span class=""> 5977: 
-</span><span class=""> 5978:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
-</span><span class=""> 5979:     pre  &acirc;&#136;&#128; d &acirc;&#136;&#136; data . d[1] &lt; 0  &acirc;&#135;&#146;  d[1] := |d[1]|      -- negative &acirc;&#134;&#146; absolute
-</span><span class=""> 5980:     pre  &acirc;&#136;&#128; d &acirc;&#136;&#136; data . d[1] = 0  &acirc;&#135;&#146;  d &acirc;&#136;&#137; result           -- zero &acirc;&#134;&#146; omitted
-</span><span class=""> 5981:     post result &acirc;&#136;&#136; HashRef
-</span><span class=""> 5982:     post result.svg_id = &quot;pie_chart&quot;
-</span><span class=""> 5983:     post result.html &acirc;&#136;&#136; Str
-</span><span class=""> 5984:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
-</span><span class=""> 5985:     post &quot;d3.pie()&quot; &acirc;&#138;&#134; result.html &acirc;&#136;&sect; &quot;schemeTableau10&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 5986:     post opts.color_scheme = S &acirc;&#136;&sect; S &acirc;&#136;&#136; categorical_schemes()
-</span><span class=""> 5987:                             &acirc;&#135;&#146; the D3 expression of S &acirc;&#138;&#134; result.html
-</span><span class=""> 5988:     post opts.color_scheme &acirc;&#136;&#137; categorical_schemes()
-</span><span class=""> 5989:                             &acirc;&#135;&#146; &quot;schemeTableau10&quot; &acirc;&#138;&#134; result.html  -- the default scheme
-</span><span class=""> 5990:     post opts.animated = 1  &acirc;&#135;&#146;  &quot;attrTween&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 5991:                               &acirc;&#136;&sect; &quot;initialDrawDone&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 5992:     post opts.donut = 1     &acirc;&#135;&#146;  &quot;innerRadius&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 5993:     post opts.max_slices = N &acirc;&#136;&sect; N &acirc;&#137;&yen; 2 &acirc;&#136;&sect; |data| &gt; N
-</span><span class=""> 5994:                             &acirc;&#135;&#146;  |result_slices| = N &acirc;&#136;&sect; &quot;Other&quot; &acirc;&#136;&#136; result_labels
-</span><span class=""> 5995:     post opts.separator = S &acirc;&#135;&#146;  &quot; S &quot; &acirc;&#138;&#134; result.html (HTML legend: label S value (pct%))
-</span><span class=""> 5996: 
-</span><span class=""> 5997: =head2 render_heatmap_snippet
-</span><span class=""> 5998: 
-</span><span class=""> 5999:     render_heatmap_snippet :
-</span><span class=""> 6000:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
-</span><span class=""> 6001: 
-</span><span class=""> 6002:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;       &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
-</span><span class=""> 6003:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . ref(pt) &acirc;&#137;&nbsp; &#39;ARRAY&#39;
-</span><span class=""> 6004:                                    &acirc;&#135;&#146; die &quot;Each data point must be an array reference&quot;
-</span><span class=""> 6005:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . |pt| &lt; 3   &acirc;&#135;&#146; die &quot;Each data point must have at least 3 elements&quot;
-</span><span class=""> 6006:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . defined(pt[2]) &acirc;&#136;&sect; &Acirc;&not;numeric(pt[2])
-</span><span class=""> 6007:                                    &acirc;&#135;&#146; die &quot;Value must be numeric&quot;
-</span><span class=""> 6008:     pre  opts.color_scheme = S &acirc;&#136;&sect; S &acirc;&#136;&#137; {YlOrRd,Blues,Greens,Purples,RdPu,YlGnBu}
-</span><span class=""> 6009:                                    &acirc;&#135;&#146; die &quot;Unknown color_scheme: S&quot;
-</span><span class=""> 6010:     pre  opts.cell_padding = N &acirc;&#136;&sect; (N &lt; 0 &acirc;&#136;&uml; N &gt; 8)
-</span><span class=""> 6011:                                    &acirc;&#135;&#146; die &quot;cell_padding must be between 0 and 8&quot;
-</span><span class=""> 6012:     pre  &acirc;&#136;&#128; pt &acirc;&#136;&#136; data . pt[2] = undef &acirc;&#135;&#146; pt &acirc;&#136;&#137; result     -- undef rows skipped
-</span><span class=""> 6013:     pre  &acirc;&#136;&#131; pt&acirc;&#130;&#129;,pt&acirc;&#130;&#130; &acirc;&#136;&#136; data . pt&acirc;&#130;&#129;[0]=pt&acirc;&#130;&#130;[0] &acirc;&#136;&sect; pt&acirc;&#130;&#129;[1]=pt&acirc;&#130;&#130;[1]
-</span><span class=""> 6014:                                    &acirc;&#135;&#146; last-write wins
-</span><span class=""> 6015:     post result &acirc;&#136;&#136; HashRef
-</span><span class=""> 6016:     post result.svg_id = &quot;heatmap&quot;
-</span><span class=""> 6017:     post result.html &acirc;&#136;&#136; Str
-</span><span class=""> 6018:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
-</span><span class=""> 6019:     post &quot;scaleSequential&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6020:     post opts.animated = 1         &acirc;&#135;&#146; &quot;prefers-reduced-motion&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6021:     post opts.legend = 1           &acirc;&#135;&#146; &quot;linearGradient&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6022: 
-</span><span class=""> 6023: =head2 render_bar_chart_snippet
+</span><span class=""> 5978:     render_line_chart_snippet :
+</span><span class=""> 5979:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 5980: 
+</span><span class=""> 5981:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class=""> 5982:     post result &acirc;&#136;&#136; HashRef
+</span><span class=""> 5983:     post result.svg_id = opts.id // &quot;chart&quot;
+</span><span class=""> 5984:     post result.html &acirc;&#136;&#136; Str
+</span><span class=""> 5985:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
+</span><span class=""> 5986: 
+</span><span class=""> 5987: =head2 render_zoomable_line_chart_snippet
+</span><span class=""> 5988: 
+</span><span class=""> 5989:     render_zoomable_line_chart_snippet :
+</span><span class=""> 5990:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 5991: 
+</span><span class=""> 5992:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class=""> 5993:     post result &acirc;&#136;&#136; HashRef
+</span><span class=""> 5994:     post result.svg_id = opts.id // &quot;chart&quot;
+</span><span class=""> 5995:     post result.html &acirc;&#136;&#136; Str
+</span><span class=""> 5996:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
+</span><span class=""> 5997:     post &quot;d3.brushX()&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 5998:     post opts.animated = 1  &acirc;&#135;&#146;  &quot;stroke-dashoffset&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 5999:                               &acirc;&#136;&sect; &quot;initialDrawDone&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6000: 
+</span><span class=""> 6001: =head2 render_pie_chart_snippet
+</span><span class=""> 6002: 
+</span><span class=""> 6003:     render_pie_chart_snippet :
+</span><span class=""> 6004:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 6005: 
+</span><span class=""> 6006:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class=""> 6007:     pre  &acirc;&#136;&#128; d &acirc;&#136;&#136; data . d[1] &lt; 0  &acirc;&#135;&#146;  d[1] := |d[1]|      -- negative &acirc;&#134;&#146; absolute
+</span><span class=""> 6008:     pre  &acirc;&#136;&#128; d &acirc;&#136;&#136; data . d[1] = 0  &acirc;&#135;&#146;  d &acirc;&#136;&#137; result           -- zero &acirc;&#134;&#146; omitted
+</span><span class=""> 6009:     post result &acirc;&#136;&#136; HashRef
+</span><span class=""> 6010:     post result.svg_id = &quot;pie_chart&quot;
+</span><span class=""> 6011:     post result.html &acirc;&#136;&#136; Str
+</span><span class=""> 6012:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
+</span><span class=""> 6013:     post &quot;d3.pie()&quot; &acirc;&#138;&#134; result.html &acirc;&#136;&sect; &quot;schemeTableau10&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6014:     post opts.color_scheme = S &acirc;&#136;&sect; S &acirc;&#136;&#136; categorical_schemes()
+</span><span class=""> 6015:                             &acirc;&#135;&#146; the D3 expression of S &acirc;&#138;&#134; result.html
+</span><span class=""> 6016:     post opts.color_scheme &acirc;&#136;&#137; categorical_schemes()
+</span><span class=""> 6017:                             &acirc;&#135;&#146; &quot;schemeTableau10&quot; &acirc;&#138;&#134; result.html  -- the default scheme
+</span><span class=""> 6018:     post opts.animated = 1  &acirc;&#135;&#146;  &quot;attrTween&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6019:                               &acirc;&#136;&sect; &quot;initialDrawDone&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6020:     post opts.donut = 1     &acirc;&#135;&#146;  &quot;innerRadius&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6021:     post opts.max_slices = N &acirc;&#136;&sect; N &acirc;&#137;&yen; 2 &acirc;&#136;&sect; |data| &gt; N
+</span><span class=""> 6022:                             &acirc;&#135;&#146;  |result_slices| = N &acirc;&#136;&sect; &quot;Other&quot; &acirc;&#136;&#136; result_labels
+</span><span class=""> 6023:     post opts.separator = S &acirc;&#135;&#146;  &quot; S &quot; &acirc;&#138;&#134; result.html (HTML legend: label S value (pct%))
 </span><span class=""> 6024: 
-</span><span class=""> 6025:     render_bar_chart_snippet :
-</span><span class=""> 6026:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
-</span><span class=""> 6027: 
-</span><span class=""> 6028:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;       &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
-</span><span class=""> 6029:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . ref(pt) &acirc;&#137;&nbsp; &#39;ARRAY&#39;
-</span><span class=""> 6030:                                    &acirc;&#135;&#146; die &quot;Each data point must be an array reference&quot;
-</span><span class=""> 6031:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . |pt| &lt; 2   &acirc;&#135;&#146; die &quot;Each data point must have at least 2 elements&quot;
-</span><span class=""> 6032:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . defined(pt[1]) &acirc;&#136;&sect; &Acirc;&not;numeric(pt[1])
-</span><span class=""> 6033:                                    &acirc;&#135;&#146; die &quot;Value must be numeric&quot;
-</span><span class=""> 6034:     pre  opts.orientation &acirc;&#136;&#137; {&#39;vertical&#39;,&#39;horizontal&#39;}
-</span><span class=""> 6035:                                    &acirc;&#135;&#146; die &quot;orientation must be &#39;vertical&#39; or &#39;horizontal&#39;&quot;
-</span><span class=""> 6036:     pre  opts.sort_bars &acirc;&#136;&#137; {&#39;value&#39;,&#39;label&#39;,&#39;none&#39;}
-</span><span class=""> 6037:                                    &acirc;&#135;&#146; die &quot;sort_bars must be &#39;value&#39;, &#39;label&#39;, or &#39;none&#39;&quot;
-</span><span class=""> 6038:     pre  &acirc;&#136;&#128; pt &acirc;&#136;&#136; data . pt[1] &lt; 0  &acirc;&#135;&#146;  pt[1] := |pt[1]|      -- negative &acirc;&#134;&#146; absolute
-</span><span class=""> 6039:     pre  &acirc;&#136;&#128; pt &acirc;&#136;&#136; data . pt[1] = undef &acirc;&#135;&#146; pt &acirc;&#136;&#137; result          -- undef rows skipped
-</span><span class=""> 6040:     post result &acirc;&#136;&#136; HashRef
-</span><span class=""> 6041:     post result.svg_id = opts.id // &quot;bar_chart&quot;
-</span><span class=""> 6042:     post result.html &acirc;&#136;&#136; Str
-</span><span class=""> 6043:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
-</span><span class=""> 6044:     post &quot;d3.scaleBand&quot; &acirc;&#138;&#134; result.html &acirc;&#136;&sect; &quot;d3.scaleLinear&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6045:     post opts.animated = 1         &acirc;&#135;&#146; &quot;prefers-reduced-motion&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6046:     post opts.color = &#39;categorical&#39; &acirc;&#135;&#146; the default scheme&#39;s expression
-</span><span class=""> 6047:                                       (&quot;schemeTableau10&quot;) &acirc;&#138;&#134; result.html
-</span><span class=""> 6048:     post opts.max_bars = N &acirc;&#136;&sect; N &acirc;&#137;&yen; 2 &acirc;&#136;&sect; |data| &gt; N
-</span><span class=""> 6049:                             &acirc;&#135;&#146; |result_bars| = N &acirc;&#136;&sect; &quot;Other&quot; &acirc;&#136;&#136; result_labels
+</span><span class=""> 6025: =head2 render_heatmap_snippet
+</span><span class=""> 6026: 
+</span><span class=""> 6027:     render_heatmap_snippet :
+</span><span class=""> 6028:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 6029: 
+</span><span class=""> 6030:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;       &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class=""> 6031:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . ref(pt) &acirc;&#137;&nbsp; &#39;ARRAY&#39;
+</span><span class=""> 6032:                                    &acirc;&#135;&#146; die &quot;Each data point must be an array reference&quot;
+</span><span class=""> 6033:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . |pt| &lt; 3   &acirc;&#135;&#146; die &quot;Each data point must have at least 3 elements&quot;
+</span><span class=""> 6034:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . defined(pt[2]) &acirc;&#136;&sect; &Acirc;&not;numeric(pt[2])
+</span><span class=""> 6035:                                    &acirc;&#135;&#146; die &quot;Value must be numeric&quot;
+</span><span class=""> 6036:     pre  opts.color_scheme = S &acirc;&#136;&sect; S &acirc;&#136;&#137; {YlOrRd,Blues,Greens,Purples,RdPu,YlGnBu}
+</span><span class=""> 6037:                                    &acirc;&#135;&#146; die &quot;Unknown color_scheme: S&quot;
+</span><span class=""> 6038:     pre  opts.cell_padding = N &acirc;&#136;&sect; (N &lt; 0 &acirc;&#136;&uml; N &gt; 8)
+</span><span class=""> 6039:                                    &acirc;&#135;&#146; die &quot;cell_padding must be between 0 and 8&quot;
+</span><span class=""> 6040:     pre  &acirc;&#136;&#128; pt &acirc;&#136;&#136; data . pt[2] = undef &acirc;&#135;&#146; pt &acirc;&#136;&#137; result     -- undef rows skipped
+</span><span class=""> 6041:     pre  &acirc;&#136;&#131; pt&acirc;&#130;&#129;,pt&acirc;&#130;&#130; &acirc;&#136;&#136; data . pt&acirc;&#130;&#129;[0]=pt&acirc;&#130;&#130;[0] &acirc;&#136;&sect; pt&acirc;&#130;&#129;[1]=pt&acirc;&#130;&#130;[1]
+</span><span class=""> 6042:                                    &acirc;&#135;&#146; last-write wins
+</span><span class=""> 6043:     post result &acirc;&#136;&#136; HashRef
+</span><span class=""> 6044:     post result.svg_id = &quot;heatmap&quot;
+</span><span class=""> 6045:     post result.html &acirc;&#136;&#136; Str
+</span><span class=""> 6046:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
+</span><span class=""> 6047:     post &quot;scaleSequential&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6048:     post opts.animated = 1         &acirc;&#135;&#146; &quot;prefers-reduced-motion&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6049:     post opts.legend = 1           &acirc;&#135;&#146; &quot;linearGradient&quot; &acirc;&#138;&#134; result.html
 </span><span class=""> 6050: 
-</span><span class=""> 6051: =head2 render_multi_series_line_chart_snippet
+</span><span class=""> 6051: =head2 render_bar_chart_snippet
 </span><span class=""> 6052: 
-</span><span class=""> 6053:     render_multi_series_line_chart_snippet :
+</span><span class=""> 6053:     render_bar_chart_snippet :
 </span><span class=""> 6054:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
 </span><span class=""> 6055: 
-</span><span class=""> 6056:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;        &acirc;&#135;&#146; die &quot;Data must be an array of series&quot;
-</span><span class=""> 6057:     pre  &acirc;&#136;&#131; s &acirc;&#136;&#136; data . ref(s) &acirc;&#137;&nbsp; &#39;HASH&#39;
-</span><span class=""> 6058:                                     &acirc;&#135;&#146; die &quot;Each series must be a hashref with name and data&quot;
-</span><span class=""> 6059:     pre  &acirc;&#136;&#131; s &acirc;&#136;&#136; data . &Acirc;&not;defined(s.name) &acirc;&#136;&uml; ref(s.data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;
-</span><span class=""> 6060:                                     &acirc;&#135;&#146; die &quot;Each series must be a hashref with name and data&quot;
-</span><span class=""> 6061:     post result &acirc;&#136;&#136; HashRef
-</span><span class=""> 6062:     post result.svg_id = opts.id // &quot;chart&quot;
-</span><span class=""> 6063:     post result.html &acirc;&#136;&#136; Str
-</span><span class=""> 6064:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
-</span><span class=""> 6065:     post &quot;d3.scalePoint&quot; &acirc;&#138;&#134; result.html &acirc;&#136;&sect; &quot;d3.scaleLinear&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6066:     post &quot;d3.line()&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6067:     post #{path &acirc;&#136;&#136; result.html : class = &quot;msl-line&quot;} = |data|   -- one path per series
-</span><span class=""> 6068:     post opts.x_label &acirc;&#137;&nbsp; &#39;&#39;          &acirc;&#135;&#146; &quot;msl-axis-label&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6069:     post opts.y_label &acirc;&#137;&nbsp; &#39;&#39;          &acirc;&#135;&#146; &quot;msl-axis-label&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6070:     post opts.scheme = S &acirc;&#136;&sect; S &acirc;&#136;&#136; categorical_schemes()
-</span><span class=""> 6071:                                     &acirc;&#135;&#146; the colours of S, as a JS array, &acirc;&#138;&#134; result.html
-</span><span class=""> 6072:     post opts.scheme &acirc;&#136;&#137; categorical_schemes()
-</span><span class=""> 6073:                                     &acirc;&#135;&#146; the default scheme&#39;s colours &acirc;&#138;&#134; result.html
-</span><span class=""> 6074:                                       -- not a d3.scheme&lt;S&gt; expression
-</span><span class=""> 6075:     post opts.animated = 1          &acirc;&#135;&#146; &quot;stroke-dashoffset&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6076:                                       &acirc;&#136;&sect; &quot;prefers-reduced-motion&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6077: 
-</span><span class=""> 6078: =head2 render_scatter_chart_snippet
-</span><span class=""> 6079: 
-</span><span class=""> 6080:     render_scatter_chart_snippet :
-</span><span class=""> 6081:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
-</span><span class=""> 6082: 
-</span><span class=""> 6083:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;       &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
-</span><span class=""> 6084:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . ref(pt) &acirc;&#137;&nbsp; &#39;ARRAY&#39;
-</span><span class=""> 6085:                                    &acirc;&#135;&#146; die &quot;Each data point must be an array reference&quot;
-</span><span class=""> 6086:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . |pt| &lt; 2   &acirc;&#135;&#146; die &quot;Each data point must have at least 2 elements&quot;
-</span><span class=""> 6087:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . &Acirc;&not;numeric(pt[0])
-</span><span class=""> 6088:                                    &acirc;&#135;&#146; die &quot;X value must be numeric&quot;
-</span><span class=""> 6089:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . &Acirc;&not;numeric(pt[1])
-</span><span class=""> 6090:                                    &acirc;&#135;&#146; die &quot;Y value must be numeric&quot;
-</span><span class=""> 6091:     post result &acirc;&#136;&#136; HashRef
-</span><span class=""> 6092:     post result.svg_id = opts.id // &quot;scatter_chart&quot;
-</span><span class=""> 6093:     post result.html &acirc;&#136;&#136; Str
-</span><span class=""> 6094:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
-</span><span class=""> 6095:     post &quot;d3.scaleLinear&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6096:     post opts.animated = 1         &acirc;&#135;&#146; &quot;prefers-reduced-motion&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6097:     post opts.colour_by_series = 1 &acirc;&#136;&sect; &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . defined(pt[3].series)
-</span><span class=""> 6098:                                    &acirc;&#135;&#146; &quot;scaleOrdinal&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6099:                                      &acirc;&#136;&sect; &quot;seriesNames&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6100:                                      &acirc;&#136;&sect; legend drawn (margin right = 140)
-</span><span class=""> 6101:     post opts.colour_by_series = 1 &acirc;&#136;&sect; opts.scheme = S &acirc;&#136;&sect; S &acirc;&#136;&#136; categorical_schemes()
-</span><span class=""> 6102:                                    &acirc;&#135;&#146; the D3 expression of S &acirc;&#138;&#134; result.html
-</span><span class=""> 6103:     post opts.colour_by_series = 1 &acirc;&#136;&sect; opts.scheme &acirc;&#136;&#137; categorical_schemes()
-</span><span class=""> 6104:                                    &acirc;&#135;&#146; the default scheme&#39;s expression &acirc;&#138;&#134; result.html
-</span><span class=""> 6105:     post &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . defined(pt[3].size)
-</span><span class=""> 6106:                                    &acirc;&#135;&#146; &quot;d3.scaleSqrt&quot; &acirc;&#138;&#134; result.html &acirc;&#136;&sect; &quot;rScale&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6107:     post opts.radius_range = [A,B]
-</span><span class=""> 6108:                                    &acirc;&#135;&#146; &quot;range([A,B])&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6109:     post &acirc;&#136;&#128; pt &acirc;&#136;&#136; data . pt[3].size = undef
-</span><span class=""> 6110:                                    &acirc;&#135;&#146; &quot;rScale&quot; &acirc;&#136;&#137; result.html      -- fixed radius
-</span><span class=""> 6111: 
-</span><span class=""> 6112: =head2 render_table_snippet
-</span><span class=""> 6113: 
-</span><span class=""> 6114:     render_table_snippet :
-</span><span class=""> 6115:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
-</span><span class=""> 6116: 
-</span><span class=""> 6117:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;       &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
-</span><span class=""> 6118:     pre  |data| = 0                &acirc;&#135;&#146; die &quot;Data must have at least one row (header row)&quot;
-</span><span class=""> 6119:     pre  &acirc;&#136;&#131; row &acirc;&#136;&#136; data . ref(row) &acirc;&#137;&nbsp; &#39;ARRAY&#39;
-</span><span class=""> 6120:                                    &acirc;&#135;&#146; die &quot;Each row must be an array reference&quot;
-</span><span class=""> 6121:     post result &acirc;&#136;&#136; HashRef
-</span><span class=""> 6122:     post result.table_id = opts.id // &quot;data_table&quot;
-</span><span class=""> 6123:     post result.html &acirc;&#136;&#136; Str
-</span><span class=""> 6124:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
-</span><span class=""> 6125:     post opts.sortable &acirc;&#137;&nbsp; 0         &acirc;&#135;&#146; &quot;dt-sortable&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6126: 
-</span><span class=""> 6127: =head2 render_stacked_bar_snippet
-</span><span class=""> 6128: 
-</span><span class=""> 6129:     render_stacked_bar_snippet :
-</span><span class=""> 6130:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
-</span><span class=""> 6131: 
-</span><span class=""> 6132:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;        &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
-</span><span class=""> 6133:     pre  &acirc;&#136;&#131; row &acirc;&#136;&#136; data . ref(row) &acirc;&#137;&nbsp; &#39;HASH&#39;
-</span><span class=""> 6134:                                     &acirc;&#135;&#146; die &quot;Each data point must be a hash reference&quot;
-</span><span class=""> 6135:     pre  &acirc;&#136;&#131; row &acirc;&#136;&#136; data . &Acirc;&not;numeric(row[val_col])
-</span><span class=""> 6136:                                     &acirc;&#135;&#146; die &quot;Value must be numeric&quot;
-</span><span class=""> 6137:     pre  opts.orient &acirc;&#136;&#137; {&#39;v&#39;,&#39;h&#39;}    &acirc;&#135;&#146; die &quot;orient must be &#39;v&#39; or &#39;h&#39;&quot;
-</span><span class=""> 6138:     pre  defined(opts.sort) &acirc;&#136;&sect; opts.sort &acirc;&#136;&#137; {&#39;value&#39;,&#39;label&#39;}
-</span><span class=""> 6139:                                     &acirc;&#135;&#146; die &quot;sort must be &#39;value&#39; or &#39;label&#39;&quot;
-</span><span class=""> 6140:     post result &acirc;&#136;&#136; HashRef
-</span><span class=""> 6141:     post result.svg_id = opts.id // &quot;stacked_bar&quot;
-</span><span class=""> 6142:     post result.html &acirc;&#136;&#136; Str
-</span><span class=""> 6143:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
-</span><span class=""> 6144:     post &quot;d3.stack()&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6145:     post &quot;SCHEMES&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6146:     post opts.scheme = S &acirc;&#136;&sect; S &acirc;&#136;&#136; categorical_schemes()
-</span><span class=""> 6147:                                     &acirc;&#135;&#146; the D3 expression of S &acirc;&#138;&#134; result.html
-</span><span class=""> 6148:     post opts.scheme &acirc;&#136;&#137; categorical_schemes()
-</span><span class=""> 6149:                                     &acirc;&#135;&#146; the default scheme&#39;s expression &acirc;&#138;&#134; result.html
-</span><span class=""> 6150: 
-</span><span class=""> 6151: =head2 render_combo_snippet
-</span><span class=""> 6152: 
-</span><span class=""> 6153:     render_combo_snippet :
-</span><span class=""> 6154:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
-</span><span class=""> 6155: 
-</span><span class=""> 6156:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;        &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
-</span><span class=""> 6157:     pre  &acirc;&#136;&#131; row &acirc;&#136;&#136; data . ref(row) &acirc;&#137;&nbsp; &#39;HASH&#39;
-</span><span class=""> 6158:                                     &acirc;&#135;&#146; die &quot;Each data point must be a hash reference&quot;
-</span><span class=""> 6159:     pre  &acirc;&#136;&#131; row &acirc;&#136;&#136; data . &Acirc;&not;numeric(row[bar_col])
-</span><span class=""> 6160:                                     &acirc;&#135;&#146; die &quot;Bar value must be numeric&quot;
-</span><span class=""> 6161:     pre  &acirc;&#136;&#131; row &acirc;&#136;&#136; data . &Acirc;&not;numeric(row[line_col])
-</span><span class=""> 6162:                                     &acirc;&#135;&#146; die &quot;Line value must be numeric&quot;
-</span><span class=""> 6163:     post result &acirc;&#136;&#136; HashRef
-</span><span class=""> 6164:     post result.svg_id = opts.id // &quot;combo_chart&quot;
-</span><span class=""> 6165:     post result.html &acirc;&#136;&#136; Str
-</span><span class=""> 6166:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
-</span><span class=""> 6167:     post &quot;d3.scaleBand&quot; &acirc;&#138;&#134; result.html &acirc;&#136;&sect; &quot;d3.scaleLinear&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6168:     post &quot;axisRight&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6169:     post &quot;&lt;/b&gt;&quot; &acirc;&#136;&#137; result.html &acirc;&#136;&sect; &quot;&lt;\/b&gt;&quot; &acirc;&#136;&#136; result.html
-</span><span class=""> 6170: 
-</span><span class=""> 6171: =head2 render_treemap_snippet
-</span><span class=""> 6172: 
-</span><span class=""> 6173:     render_treemap_snippet :
-</span><span class=""> 6174:         HTML::D3 &Atilde;&#151; (ArrayRef | HashRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
-</span><span class=""> 6175: 
-</span><span class=""> 6176:     pre  ref(data) &acirc;&#136;&#137; {&#39;ARRAY&#39;,&#39;HASH&#39;}
-</span><span class=""> 6177:                                     &acirc;&#135;&#146; die &quot;Data must be an array of hashes or a hash tree&quot;
-</span><span class=""> 6178:     pre  ref(data) = &#39;ARRAY&#39; &acirc;&#136;&sect; &acirc;&#136;&#131; row &acirc;&#136;&#136; data . ref(row) &acirc;&#137;&nbsp; &#39;HASH&#39;
-</span><span class=""> 6179:                                     &acirc;&#135;&#146; die &quot;Each flat row must be a hash reference&quot;
-</span><span class=""> 6180:     pre  ref(data) = &#39;ARRAY&#39; &acirc;&#136;&sect; &acirc;&#136;&#131; row &acirc;&#136;&#136; data . &Acirc;&not;exists(row.path)
-</span><span class=""> 6181:                                     &acirc;&#135;&#146; die &quot;Each flat row must have a &#39;path&#39; key&quot;
-</span><span class=""> 6182:     pre  ref(data) = &#39;ARRAY&#39; &acirc;&#136;&sect; &acirc;&#136;&#131; row &acirc;&#136;&#136; data . &Acirc;&not;numeric(row.value)
-</span><span class=""> 6183:                                     &acirc;&#135;&#146; die &quot;Each flat row must have a numeric &#39;value&#39; key&quot;
-</span><span class=""> 6184:     post result &acirc;&#136;&#136; HashRef
-</span><span class=""> 6185:     post result.svg_id = opts.id // &quot;treemap&quot;
-</span><span class=""> 6186:     post result.html &acirc;&#136;&#136; Str
-</span><span class=""> 6187:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
-</span><span class=""> 6188:     post &quot;d3.treemap()&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6189:     post ref(data) = &#39;ARRAY&#39; &acirc;&#135;&#146; &quot;d3.stratify()&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6190:     post ref(data) = &#39;HASH&#39;  &acirc;&#135;&#146; &quot;d3.hierarchy(&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6191:     post opts.scheme = S &acirc;&#136;&sect; S &acirc;&#136;&#136; categorical_schemes()
-</span><span class=""> 6192:                                     &acirc;&#135;&#146; the D3 expression of S &acirc;&#138;&#134; result.html
-</span><span class=""> 6193:     post opts.scheme &acirc;&#136;&#137; categorical_schemes()
-</span><span class=""> 6194:                                     &acirc;&#135;&#146; the default scheme&#39;s expression &acirc;&#138;&#134; result.html
-</span><span class=""> 6195: 
-</span><span class=""> 6196: =head2 render_histogram_snippet
-</span><span class=""> 6197: 
-</span><span class=""> 6198:     render_histogram_snippet :
-</span><span class=""> 6199:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 6056:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;       &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class=""> 6057:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . ref(pt) &acirc;&#137;&nbsp; &#39;ARRAY&#39;
+</span><span class=""> 6058:                                    &acirc;&#135;&#146; die &quot;Each data point must be an array reference&quot;
+</span><span class=""> 6059:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . |pt| &lt; 2   &acirc;&#135;&#146; die &quot;Each data point must have at least 2 elements&quot;
+</span><span class=""> 6060:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . defined(pt[1]) &acirc;&#136;&sect; &Acirc;&not;numeric(pt[1])
+</span><span class=""> 6061:                                    &acirc;&#135;&#146; die &quot;Value must be numeric&quot;
+</span><span class=""> 6062:     pre  opts.orientation &acirc;&#136;&#137; {&#39;vertical&#39;,&#39;horizontal&#39;}
+</span><span class=""> 6063:                                    &acirc;&#135;&#146; die &quot;orientation must be &#39;vertical&#39; or &#39;horizontal&#39;&quot;
+</span><span class=""> 6064:     pre  opts.sort_bars &acirc;&#136;&#137; {&#39;value&#39;,&#39;label&#39;,&#39;none&#39;}
+</span><span class=""> 6065:                                    &acirc;&#135;&#146; die &quot;sort_bars must be &#39;value&#39;, &#39;label&#39;, or &#39;none&#39;&quot;
+</span><span class=""> 6066:     pre  &acirc;&#136;&#128; pt &acirc;&#136;&#136; data . pt[1] &lt; 0  &acirc;&#135;&#146;  pt[1] := |pt[1]|      -- negative &acirc;&#134;&#146; absolute
+</span><span class=""> 6067:     pre  &acirc;&#136;&#128; pt &acirc;&#136;&#136; data . pt[1] = undef &acirc;&#135;&#146; pt &acirc;&#136;&#137; result          -- undef rows skipped
+</span><span class=""> 6068:     post result &acirc;&#136;&#136; HashRef
+</span><span class=""> 6069:     post result.svg_id = opts.id // &quot;bar_chart&quot;
+</span><span class=""> 6070:     post result.html &acirc;&#136;&#136; Str
+</span><span class=""> 6071:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
+</span><span class=""> 6072:     post &quot;d3.scaleBand&quot; &acirc;&#138;&#134; result.html &acirc;&#136;&sect; &quot;d3.scaleLinear&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6073:     post opts.animated = 1         &acirc;&#135;&#146; &quot;prefers-reduced-motion&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6074:     post opts.color = &#39;categorical&#39; &acirc;&#135;&#146; the default scheme&#39;s expression
+</span><span class=""> 6075:                                       (&quot;schemeTableau10&quot;) &acirc;&#138;&#134; result.html
+</span><span class=""> 6076:     post opts.max_bars = N &acirc;&#136;&sect; N &acirc;&#137;&yen; 2 &acirc;&#136;&sect; |data| &gt; N
+</span><span class=""> 6077:                             &acirc;&#135;&#146; |result_bars| = N &acirc;&#136;&sect; &quot;Other&quot; &acirc;&#136;&#136; result_labels
+</span><span class=""> 6078: 
+</span><span class=""> 6079: =head2 render_multi_series_line_chart_snippet
+</span><span class=""> 6080: 
+</span><span class=""> 6081:     render_multi_series_line_chart_snippet :
+</span><span class=""> 6082:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 6083: 
+</span><span class=""> 6084:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;        &acirc;&#135;&#146; die &quot;Data must be an array of series&quot;
+</span><span class=""> 6085:     pre  &acirc;&#136;&#131; s &acirc;&#136;&#136; data . ref(s) &acirc;&#137;&nbsp; &#39;HASH&#39;
+</span><span class=""> 6086:                                     &acirc;&#135;&#146; die &quot;Each series must be a hashref with name and data&quot;
+</span><span class=""> 6087:     pre  &acirc;&#136;&#131; s &acirc;&#136;&#136; data . &Acirc;&not;defined(s.name) &acirc;&#136;&uml; ref(s.data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;
+</span><span class=""> 6088:                                     &acirc;&#135;&#146; die &quot;Each series must be a hashref with name and data&quot;
+</span><span class=""> 6089:     post result &acirc;&#136;&#136; HashRef
+</span><span class=""> 6090:     post result.svg_id = opts.id // &quot;chart&quot;
+</span><span class=""> 6091:     post result.html &acirc;&#136;&#136; Str
+</span><span class=""> 6092:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
+</span><span class=""> 6093:     post &quot;d3.scalePoint&quot; &acirc;&#138;&#134; result.html &acirc;&#136;&sect; &quot;d3.scaleLinear&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6094:     post &quot;d3.line()&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6095:     post #{path &acirc;&#136;&#136; result.html : class = &quot;msl-line&quot;} = |data|   -- one path per series
+</span><span class=""> 6096:     post opts.x_label &acirc;&#137;&nbsp; &#39;&#39;          &acirc;&#135;&#146; &quot;msl-axis-label&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6097:     post opts.y_label &acirc;&#137;&nbsp; &#39;&#39;          &acirc;&#135;&#146; &quot;msl-axis-label&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6098:     post opts.scheme = S &acirc;&#136;&sect; S &acirc;&#136;&#136; categorical_schemes()
+</span><span class=""> 6099:                                     &acirc;&#135;&#146; the colours of S, as a JS array, &acirc;&#138;&#134; result.html
+</span><span class=""> 6100:     post opts.scheme &acirc;&#136;&#137; categorical_schemes()
+</span><span class=""> 6101:                                     &acirc;&#135;&#146; the default scheme&#39;s colours &acirc;&#138;&#134; result.html
+</span><span class=""> 6102:                                       -- not a d3.scheme&lt;S&gt; expression
+</span><span class=""> 6103:     post opts.animated = 1          &acirc;&#135;&#146; &quot;stroke-dashoffset&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6104:                                       &acirc;&#136;&sect; &quot;prefers-reduced-motion&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6105: 
+</span><span class=""> 6106: =head2 render_scatter_chart_snippet
+</span><span class=""> 6107: 
+</span><span class=""> 6108:     render_scatter_chart_snippet :
+</span><span class=""> 6109:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 6110: 
+</span><span class=""> 6111:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;       &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class=""> 6112:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . ref(pt) &acirc;&#137;&nbsp; &#39;ARRAY&#39;
+</span><span class=""> 6113:                                    &acirc;&#135;&#146; die &quot;Each data point must be an array reference&quot;
+</span><span class=""> 6114:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . |pt| &lt; 2   &acirc;&#135;&#146; die &quot;Each data point must have at least 2 elements&quot;
+</span><span class=""> 6115:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . &Acirc;&not;numeric(pt[0])
+</span><span class=""> 6116:                                    &acirc;&#135;&#146; die &quot;X value must be numeric&quot;
+</span><span class=""> 6117:     pre  &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . &Acirc;&not;numeric(pt[1])
+</span><span class=""> 6118:                                    &acirc;&#135;&#146; die &quot;Y value must be numeric&quot;
+</span><span class=""> 6119:     post result &acirc;&#136;&#136; HashRef
+</span><span class=""> 6120:     post result.svg_id = opts.id // &quot;scatter_chart&quot;
+</span><span class=""> 6121:     post result.html &acirc;&#136;&#136; Str
+</span><span class=""> 6122:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
+</span><span class=""> 6123:     post &quot;d3.scaleLinear&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6124:     post opts.animated = 1         &acirc;&#135;&#146; &quot;prefers-reduced-motion&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6125:     post opts.colour_by_series = 1 &acirc;&#136;&sect; &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . defined(pt[3].series)
+</span><span class=""> 6126:                                    &acirc;&#135;&#146; &quot;scaleOrdinal&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6127:                                      &acirc;&#136;&sect; &quot;seriesNames&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6128:                                      &acirc;&#136;&sect; legend drawn (margin right = 140)
+</span><span class=""> 6129:     post opts.colour_by_series = 1 &acirc;&#136;&sect; opts.scheme = S &acirc;&#136;&sect; S &acirc;&#136;&#136; categorical_schemes()
+</span><span class=""> 6130:                                    &acirc;&#135;&#146; the D3 expression of S &acirc;&#138;&#134; result.html
+</span><span class=""> 6131:     post opts.colour_by_series = 1 &acirc;&#136;&sect; opts.scheme &acirc;&#136;&#137; categorical_schemes()
+</span><span class=""> 6132:                                    &acirc;&#135;&#146; the default scheme&#39;s expression &acirc;&#138;&#134; result.html
+</span><span class=""> 6133:     post &acirc;&#136;&#131; pt &acirc;&#136;&#136; data . defined(pt[3].size)
+</span><span class=""> 6134:                                    &acirc;&#135;&#146; &quot;d3.scaleSqrt&quot; &acirc;&#138;&#134; result.html &acirc;&#136;&sect; &quot;rScale&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6135:     post opts.radius_range = [A,B]
+</span><span class=""> 6136:                                    &acirc;&#135;&#146; &quot;range([A,B])&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6137:     post &acirc;&#136;&#128; pt &acirc;&#136;&#136; data . pt[3].size = undef
+</span><span class=""> 6138:                                    &acirc;&#135;&#146; &quot;rScale&quot; &acirc;&#136;&#137; result.html      -- fixed radius
+</span><span class=""> 6139: 
+</span><span class=""> 6140: =head2 render_table_snippet
+</span><span class=""> 6141: 
+</span><span class=""> 6142:     render_table_snippet :
+</span><span class=""> 6143:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 6144: 
+</span><span class=""> 6145:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;       &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class=""> 6146:     pre  |data| = 0                &acirc;&#135;&#146; die &quot;Data must have at least one row (header row)&quot;
+</span><span class=""> 6147:     pre  &acirc;&#136;&#131; row &acirc;&#136;&#136; data . ref(row) &acirc;&#137;&nbsp; &#39;ARRAY&#39;
+</span><span class=""> 6148:                                    &acirc;&#135;&#146; die &quot;Each row must be an array reference&quot;
+</span><span class=""> 6149:     post result &acirc;&#136;&#136; HashRef
+</span><span class=""> 6150:     post result.table_id = opts.id // &quot;data_table&quot;
+</span><span class=""> 6151:     post result.html &acirc;&#136;&#136; Str
+</span><span class=""> 6152:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
+</span><span class=""> 6153:     post opts.sortable &acirc;&#137;&nbsp; 0         &acirc;&#135;&#146; &quot;dt-sortable&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6154: 
+</span><span class=""> 6155: =head2 render_stacked_bar_snippet
+</span><span class=""> 6156: 
+</span><span class=""> 6157:     render_stacked_bar_snippet :
+</span><span class=""> 6158:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 6159: 
+</span><span class=""> 6160:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;        &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
+</span><span class=""> 6161:     pre  &acirc;&#136;&#131; row &acirc;&#136;&#136; data . ref(row) &acirc;&#137;&nbsp; &#39;HASH&#39;
+</span><span class=""> 6162:                                     &acirc;&#135;&#146; die &quot;Each data point must be a hash reference&quot;
+</span><span class=""> 6163:     pre  &acirc;&#136;&#131; row &acirc;&#136;&#136; data . &Acirc;&not;numeric(row[val_col])
+</span><span class=""> 6164:                                     &acirc;&#135;&#146; die &quot;Value must be numeric&quot;
+</span><span class=""> 6165:     pre  opts.orient &acirc;&#136;&#137; {&#39;v&#39;,&#39;h&#39;}    &acirc;&#135;&#146; die &quot;orient must be &#39;v&#39; or &#39;h&#39;&quot;
+</span><span class=""> 6166:     pre  defined(opts.sort) &acirc;&#136;&sect; opts.sort &acirc;&#136;&#137; {&#39;value&#39;,&#39;label&#39;}
+</span><span class=""> 6167:                                     &acirc;&#135;&#146; die &quot;sort must be &#39;value&#39; or &#39;label&#39;&quot;
+</span><span class=""> 6168:     post result &acirc;&#136;&#136; HashRef
+</span><span class=""> 6169:     post result.svg_id = opts.id // &quot;stacked_bar&quot;
+</span><span class=""> 6170:     post result.html &acirc;&#136;&#136; Str
+</span><span class=""> 6171:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
+</span><span class=""> 6172:     post &quot;d3.stack()&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6173:     post &quot;SCHEMES&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6174:     post opts.scheme = S &acirc;&#136;&sect; S &acirc;&#136;&#136; categorical_schemes()
+</span><span class=""> 6175:                                     &acirc;&#135;&#146; the D3 expression of S &acirc;&#138;&#134; result.html
+</span><span class=""> 6176:     post opts.scheme &acirc;&#136;&#137; categorical_schemes()
+</span><span class=""> 6177:                                     &acirc;&#135;&#146; the default scheme&#39;s expression &acirc;&#138;&#134; result.html
+</span><span class=""> 6178: 
+</span><span class=""> 6179: =head2 render_combo_snippet
+</span><span class=""> 6180: 
+</span><span class=""> 6181:     render_combo_snippet :
+</span><span class=""> 6182:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 6183: 
+</span><span class=""> 6184:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;        &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
+</span><span class=""> 6185:     pre  &acirc;&#136;&#131; row &acirc;&#136;&#136; data . ref(row) &acirc;&#137;&nbsp; &#39;HASH&#39;
+</span><span class=""> 6186:                                     &acirc;&#135;&#146; die &quot;Each data point must be a hash reference&quot;
+</span><span class=""> 6187:     pre  &acirc;&#136;&#131; row &acirc;&#136;&#136; data . &Acirc;&not;numeric(row[bar_col])
+</span><span class=""> 6188:                                     &acirc;&#135;&#146; die &quot;Bar value must be numeric&quot;
+</span><span class=""> 6189:     pre  &acirc;&#136;&#131; row &acirc;&#136;&#136; data . &Acirc;&not;numeric(row[line_col])
+</span><span class=""> 6190:                                     &acirc;&#135;&#146; die &quot;Line value must be numeric&quot;
+</span><span class=""> 6191:     post result &acirc;&#136;&#136; HashRef
+</span><span class=""> 6192:     post result.svg_id = opts.id // &quot;combo_chart&quot;
+</span><span class=""> 6193:     post result.html &acirc;&#136;&#136; Str
+</span><span class=""> 6194:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
+</span><span class=""> 6195:     post &quot;d3.scaleBand&quot; &acirc;&#138;&#134; result.html &acirc;&#136;&sect; &quot;d3.scaleLinear&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6196:     post &quot;axisRight&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6197:     post &quot;&lt;/b&gt;&quot; &acirc;&#136;&#137; result.html &acirc;&#136;&sect; &quot;&lt;\/b&gt;&quot; &acirc;&#136;&#136; result.html
+</span><span class=""> 6198: 
+</span><span class=""> 6199: =head2 render_treemap_snippet
 </span><span class=""> 6200: 
-</span><span class=""> 6201:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;        &acirc;&#135;&#146; die &quot;Data must be an array of numeric values&quot;
-</span><span class=""> 6202:     pre  &acirc;&#136;&#131; v &acirc;&#136;&#136; data . &Acirc;&not;numeric(v)  &acirc;&#135;&#146; die &quot;Each value must be numeric&quot;
-</span><span class=""> 6203:     pre  defined(opts.bins) &acirc;&#136;&sect; (&Acirc;&not;integer(opts.bins) &acirc;&#136;&uml; opts.bins &lt; 1)
-</span><span class=""> 6204:                                     &acirc;&#135;&#146; die &quot;bins must be a positive integer&quot;
-</span><span class=""> 6205:     pre  opts.binned = 1 &acirc;&#136;&sect; |data| = 0
-</span><span class=""> 6206:                                     &acirc;&#135;&#146; die &quot;Data must contain at least one bin&quot;
-</span><span class=""> 6207:     pre  opts.binned = 1 &acirc;&#136;&sect; &acirc;&#136;&#131; b &acirc;&#136;&#136; data . ref(b) &acirc;&#137;&nbsp; &#39;HASH&#39;
-</span><span class=""> 6208:                                     &acirc;&#135;&#146; die &quot;Each pre-binned entry must be a hash reference&quot;
-</span><span class=""> 6209:     pre  opts.binned = 1 &acirc;&#136;&sect; &acirc;&#136;&#131; b &acirc;&#136;&#136; data . &Acirc;&not;numeric(b.count)
-</span><span class=""> 6210:                                     &acirc;&#135;&#146; die &quot;Bin count must be numeric&quot;
-</span><span class=""> 6211:     pre  opts.binned = 1 &acirc;&#136;&sect; &acirc;&#136;&#131; b &acirc;&#136;&#136; data . b.count &lt; 0
-</span><span class=""> 6212:                                     &acirc;&#135;&#146; die &quot;Bin count must not be negative&quot;
-</span><span class=""> 6213:     pre  opts.binned = 1 &acirc;&#136;&sect; &acirc;&#136;&#131; b &acirc;&#136;&#136; data . &Acirc;&not;defined(b.label) &acirc;&#136;&sect; &Acirc;&not;(numeric(b.lo) &acirc;&#136;&sect; numeric(b.hi))
-</span><span class=""> 6214:                                     &acirc;&#135;&#146; die &quot;Each pre-binned entry must have a label or numeric lo and hi&quot;
-</span><span class=""> 6215:     pre  opts.binned = 1 &acirc;&#136;&sect; &Acirc;&not;defined(b.label) &acirc;&#136;&sect; numeric(b.lo) &acirc;&#136;&sect; numeric(b.hi)
-</span><span class=""> 6216:                                     &acirc;&#135;&#146; b.label := &quot;[lo,hi)&quot;
-</span><span class=""> 6217:     post result &acirc;&#136;&#136; HashRef
-</span><span class=""> 6218:     post result.svg_id = opts.id // &quot;histogram&quot;
-</span><span class=""> 6219:     post result.html &acirc;&#136;&#136; Str
-</span><span class=""> 6220:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
-</span><span class=""> 6221:     post opts.binned &acirc;&#137;&nbsp; 1            &acirc;&#135;&#146; &quot;d3.bin()&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6222:     post opts.binned = 1            &acirc;&#135;&#146; &quot;d3.bin()&quot; &acirc;&#136;&#137; result.html &acirc;&#136;&sect; &quot;scaleBand&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6223:     post opts.color defined         &acirc;&#135;&#146; c(clone)      -- explicit colour is the bar fill
-</span><span class=""> 6224:     post opts.color = undef &acirc;&#136;&sect; opts.scheme = S &acirc;&#136;&sect; S &acirc;&#136;&#136; categorical_schemes()
-</span><span class=""> 6225:                                     &acirc;&#135;&#146; the D3 expression of S subscripted &quot;[0]&quot;
-</span><span class=""> 6226:                                       &acirc;&#138;&#134; result.html            -- colour_at(S, 0)
-</span><span class=""> 6227:     post opts.color = undef &acirc;&#136;&sect; opts.scheme &acirc;&#136;&#137; categorical_schemes()
-</span><span class=""> 6228:                                     &acirc;&#135;&#146; the default scheme&#39;s first colour &acirc;&#138;&#134; result.html
-</span><span class=""> 6229:     post opts.bins = undef          &acirc;&#135;&#146; &quot;Math.log2&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6230:     post opts.x_label &acirc;&#137;&nbsp; &#39;&#39;         &acirc;&#135;&#146; &quot;hg-axis-label&quot; &acirc;&#138;&#134; result.html
-</span><span class=""> 6231: 
-</span><span class=""> 6232: =head2 render_line_chart_with_tooltips
-</span><span class=""> 6233: 
-</span><span class=""> 6234:     render_line_chart_with_tooltips : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
-</span><span class=""> 6235: 
-</span><span class=""> 6236:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
-</span><span class=""> 6237:     post result &acirc;&#136;&#136; Str
-</span><span class=""> 6238:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
-</span><span class=""> 6239:     post &quot;mouseover&quot; &acirc;&#138;&#134; result
-</span><span class=""> 6240:     post &quot;&lt;/b&gt;&quot; &acirc;&#136;&#137; result &acirc;&#136;&sect; &quot;&lt;\/b&gt;&quot; &acirc;&#136;&#136; result
-</span><span class=""> 6241: 
-</span><span class=""> 6242: =head2 render_multi_series_line_chart_with_tooltips
-</span><span class=""> 6243: 
-</span><span class=""> 6244:     render_multi_series_line_chart_with_tooltips : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
-</span><span class=""> 6245: 
-</span><span class=""> 6246:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
-</span><span class=""> 6247:     post result &acirc;&#136;&#136; Str
-</span><span class=""> 6248:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
-</span><span class=""> 6249:     post &quot;&lt;/b&gt;&quot; &acirc;&#136;&#137; result &acirc;&#136;&sect; &quot;&lt;\/b&gt;&quot; &acirc;&#136;&#136; result
-</span><span class=""> 6250: 
-</span><span class=""> 6251: =head2 render_multi_series_line_chart_with_animated_tooltips
-</span><span class=""> 6252: 
-</span><span class=""> 6253:     render_multi_series_line_chart_with_animated_tooltips : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
-</span><span class=""> 6254: 
-</span><span class=""> 6255:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;   &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
-</span><span class=""> 6256:     post result &acirc;&#136;&#136; Str
-</span><span class=""> 6257:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
-</span><span class=""> 6258:     post &quot;translateY&quot; &acirc;&#138;&#134; result
-</span><span class=""> 6259:     post &quot;&lt;/b&gt;&quot; &acirc;&#136;&#137; result &acirc;&#136;&sect; &quot;&lt;\/b&gt;&quot; &acirc;&#136;&#136; result
-</span><span class=""> 6260: 
-</span><span class=""> 6261: =head2 render_multi_series_line_chart_with_legends
-</span><span class=""> 6262: 
-</span><span class=""> 6263:     render_multi_series_line_chart_with_legends : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
-</span><span class=""> 6264: 
-</span><span class=""> 6265:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
-</span><span class=""> 6266:     post result &acirc;&#136;&#136; Str
-</span><span class=""> 6267:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
-</span><span class=""> 6268:     post &quot;.legend&quot; &acirc;&#138;&#134; result
+</span><span class=""> 6201:     render_treemap_snippet :
+</span><span class=""> 6202:         HTML::D3 &Atilde;&#151; (ArrayRef | HashRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 6203: 
+</span><span class=""> 6204:     pre  ref(data) &acirc;&#136;&#137; {&#39;ARRAY&#39;,&#39;HASH&#39;}
+</span><span class=""> 6205:                                     &acirc;&#135;&#146; die &quot;Data must be an array of hashes or a hash tree&quot;
+</span><span class=""> 6206:     pre  ref(data) = &#39;ARRAY&#39; &acirc;&#136;&sect; &acirc;&#136;&#131; row &acirc;&#136;&#136; data . ref(row) &acirc;&#137;&nbsp; &#39;HASH&#39;
+</span><span class=""> 6207:                                     &acirc;&#135;&#146; die &quot;Each flat row must be a hash reference&quot;
+</span><span class=""> 6208:     pre  ref(data) = &#39;ARRAY&#39; &acirc;&#136;&sect; &acirc;&#136;&#131; row &acirc;&#136;&#136; data . &Acirc;&not;exists(row.path)
+</span><span class=""> 6209:                                     &acirc;&#135;&#146; die &quot;Each flat row must have a &#39;path&#39; key&quot;
+</span><span class=""> 6210:     pre  ref(data) = &#39;ARRAY&#39; &acirc;&#136;&sect; &acirc;&#136;&#131; row &acirc;&#136;&#136; data . &Acirc;&not;numeric(row.value)
+</span><span class=""> 6211:                                     &acirc;&#135;&#146; die &quot;Each flat row must have a numeric &#39;value&#39; key&quot;
+</span><span class=""> 6212:     post result &acirc;&#136;&#136; HashRef
+</span><span class=""> 6213:     post result.svg_id = opts.id // &quot;treemap&quot;
+</span><span class=""> 6214:     post result.html &acirc;&#136;&#136; Str
+</span><span class=""> 6215:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
+</span><span class=""> 6216:     post &quot;d3.treemap()&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6217:     post ref(data) = &#39;ARRAY&#39; &acirc;&#135;&#146; &quot;d3.stratify()&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6218:     post ref(data) = &#39;HASH&#39;  &acirc;&#135;&#146; &quot;d3.hierarchy(&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6219:     post opts.scheme = S &acirc;&#136;&sect; S &acirc;&#136;&#136; categorical_schemes()
+</span><span class=""> 6220:                                     &acirc;&#135;&#146; the D3 expression of S &acirc;&#138;&#134; result.html
+</span><span class=""> 6221:     post opts.scheme &acirc;&#136;&#137; categorical_schemes()
+</span><span class=""> 6222:                                     &acirc;&#135;&#146; the default scheme&#39;s expression &acirc;&#138;&#134; result.html
+</span><span class=""> 6223: 
+</span><span class=""> 6224: =head2 render_histogram_snippet
+</span><span class=""> 6225: 
+</span><span class=""> 6226:     render_histogram_snippet :
+</span><span class=""> 6227:         HTML::D3 &Atilde;&#151; (ArrayRef | undef) &Atilde;&#151; (HashRef | undef) &acirc;&#134;&#146; HashRef &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 6228: 
+</span><span class=""> 6229:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;        &acirc;&#135;&#146; die &quot;Data must be an array of numeric values&quot;
+</span><span class=""> 6230:     pre  &acirc;&#136;&#131; v &acirc;&#136;&#136; data . &Acirc;&not;numeric(v)  &acirc;&#135;&#146; die &quot;Each value must be numeric&quot;
+</span><span class=""> 6231:     pre  defined(opts.bins) &acirc;&#136;&sect; (&Acirc;&not;integer(opts.bins) &acirc;&#136;&uml; opts.bins &lt; 1)
+</span><span class=""> 6232:                                     &acirc;&#135;&#146; die &quot;bins must be a positive integer&quot;
+</span><span class=""> 6233:     pre  opts.binned = 1 &acirc;&#136;&sect; |data| = 0
+</span><span class=""> 6234:                                     &acirc;&#135;&#146; die &quot;Data must contain at least one bin&quot;
+</span><span class=""> 6235:     pre  opts.binned = 1 &acirc;&#136;&sect; &acirc;&#136;&#131; b &acirc;&#136;&#136; data . ref(b) &acirc;&#137;&nbsp; &#39;HASH&#39;
+</span><span class=""> 6236:                                     &acirc;&#135;&#146; die &quot;Each pre-binned entry must be a hash reference&quot;
+</span><span class=""> 6237:     pre  opts.binned = 1 &acirc;&#136;&sect; &acirc;&#136;&#131; b &acirc;&#136;&#136; data . &Acirc;&not;numeric(b.count)
+</span><span class=""> 6238:                                     &acirc;&#135;&#146; die &quot;Bin count must be numeric&quot;
+</span><span class=""> 6239:     pre  opts.binned = 1 &acirc;&#136;&sect; &acirc;&#136;&#131; b &acirc;&#136;&#136; data . b.count &lt; 0
+</span><span class=""> 6240:                                     &acirc;&#135;&#146; die &quot;Bin count must not be negative&quot;
+</span><span class=""> 6241:     pre  opts.binned = 1 &acirc;&#136;&sect; &acirc;&#136;&#131; b &acirc;&#136;&#136; data . &Acirc;&not;defined(b.label) &acirc;&#136;&sect; &Acirc;&not;(numeric(b.lo) &acirc;&#136;&sect; numeric(b.hi))
+</span><span class=""> 6242:                                     &acirc;&#135;&#146; die &quot;Each pre-binned entry must have a label or numeric lo and hi&quot;
+</span><span class=""> 6243:     pre  opts.binned = 1 &acirc;&#136;&sect; &Acirc;&not;defined(b.label) &acirc;&#136;&sect; numeric(b.lo) &acirc;&#136;&sect; numeric(b.hi)
+</span><span class=""> 6244:                                     &acirc;&#135;&#146; b.label := &quot;[lo,hi)&quot;
+</span><span class=""> 6245:     post result &acirc;&#136;&#136; HashRef
+</span><span class=""> 6246:     post result.svg_id = opts.id // &quot;histogram&quot;
+</span><span class=""> 6247:     post result.html &acirc;&#136;&#136; Str
+</span><span class=""> 6248:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#136;&#137; result.html
+</span><span class=""> 6249:     post opts.binned &acirc;&#137;&nbsp; 1            &acirc;&#135;&#146; &quot;d3.bin()&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6250:     post opts.binned = 1            &acirc;&#135;&#146; &quot;d3.bin()&quot; &acirc;&#136;&#137; result.html &acirc;&#136;&sect; &quot;scaleBand&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6251:     post opts.color defined         &acirc;&#135;&#146; c(clone)      -- explicit colour is the bar fill
+</span><span class=""> 6252:     post opts.color = undef &acirc;&#136;&sect; opts.scheme = S &acirc;&#136;&sect; S &acirc;&#136;&#136; categorical_schemes()
+</span><span class=""> 6253:                                     &acirc;&#135;&#146; the D3 expression of S subscripted &quot;[0]&quot;
+</span><span class=""> 6254:                                       &acirc;&#138;&#134; result.html            -- colour_at(S, 0)
+</span><span class=""> 6255:     post opts.color = undef &acirc;&#136;&sect; opts.scheme &acirc;&#136;&#137; categorical_schemes()
+</span><span class=""> 6256:                                     &acirc;&#135;&#146; the default scheme&#39;s first colour &acirc;&#138;&#134; result.html
+</span><span class=""> 6257:     post opts.bins = undef          &acirc;&#135;&#146; &quot;Math.log2&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6258:     post opts.x_label &acirc;&#137;&nbsp; &#39;&#39;         &acirc;&#135;&#146; &quot;hg-axis-label&quot; &acirc;&#138;&#134; result.html
+</span><span class=""> 6259: 
+</span><span class=""> 6260: =head2 render_line_chart_with_tooltips
+</span><span class=""> 6261: 
+</span><span class=""> 6262:     render_line_chart_with_tooltips : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 6263: 
+</span><span class=""> 6264:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of arrays&quot;
+</span><span class=""> 6265:     post result &acirc;&#136;&#136; Str
+</span><span class=""> 6266:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class=""> 6267:     post &quot;mouseover&quot; &acirc;&#138;&#134; result
+</span><span class=""> 6268:     post &quot;&lt;/b&gt;&quot; &acirc;&#136;&#137; result &acirc;&#136;&sect; &quot;&lt;\/b&gt;&quot; &acirc;&#136;&#136; result
 </span><span class=""> 6269: 
-</span><span class=""> 6270: =head2 render_multi_series_line_chart_with_interactive_legends
+</span><span class=""> 6270: =head2 render_multi_series_line_chart_with_tooltips
 </span><span class=""> 6271: 
-</span><span class=""> 6272:     render_multi_series_line_chart_with_interactive_legends : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 6272:     render_multi_series_line_chart_with_tooltips : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
 </span><span class=""> 6273: 
-</span><span class=""> 6274:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;            &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
+</span><span class=""> 6274:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
 </span><span class=""> 6275:     post result &acirc;&#136;&#136; Str
 </span><span class=""> 6276:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
-</span><span class=""> 6277:     post &quot;isVisible&quot; &acirc;&#138;&#134; result
-</span><span class=""> 6278:     post &quot;isVisible ? 0 : 1&quot; &acirc;&#138;&#134; result
-</span><span class=""> 6279:     post &quot;.legend&quot; &acirc;&#138;&#134; result
+</span><span class=""> 6277:     post &quot;&lt;/b&gt;&quot; &acirc;&#136;&#137; result &acirc;&#136;&sect; &quot;&lt;\/b&gt;&quot; &acirc;&#136;&#136; result
+</span><span class=""> 6278: 
+</span><span class=""> 6279: =head2 render_multi_series_line_chart_with_animated_tooltips
 </span><span class=""> 6280: 
-</span><span class=""> 6281: =head1 LICENSE AND COPYRIGHT
+</span><span class=""> 6281:     render_multi_series_line_chart_with_animated_tooltips : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
 </span><span class=""> 6282: 
-</span><span class=""> 6283: Copyright 2025-2026 Nigel Horne.
-</span><span class=""> 6284: 
-</span><span class=""> 6285: Usage is subject to the GPL2 licence terms.
-</span><span class=""> 6286: If you use it,
-</span><span class=""> 6287: please let me know.
+</span><span class=""> 6283:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;   &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
+</span><span class=""> 6284:     post result &acirc;&#136;&#136; Str
+</span><span class=""> 6285:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class=""> 6286:     post &quot;translateY&quot; &acirc;&#138;&#134; result
+</span><span class=""> 6287:     post &quot;&lt;/b&gt;&quot; &acirc;&#136;&#137; result &acirc;&#136;&sect; &quot;&lt;\/b&gt;&quot; &acirc;&#136;&#136; result
 </span><span class=""> 6288: 
-</span><span class=""> 6289: =cut
+</span><span class=""> 6289: =head2 render_multi_series_line_chart_with_legends
 </span><span class=""> 6290: 
-</span><span class=""> 6291: 1;
+</span><span class=""> 6291:     render_multi_series_line_chart_with_legends : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 6292: 
+</span><span class=""> 6293:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;  &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
+</span><span class=""> 6294:     post result &acirc;&#136;&#136; Str
+</span><span class=""> 6295:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class=""> 6296:     post &quot;.legend&quot; &acirc;&#138;&#134; result
+</span><span class=""> 6297: 
+</span><span class=""> 6298: =head2 render_multi_series_line_chart_with_interactive_legends
+</span><span class=""> 6299: 
+</span><span class=""> 6300:     render_multi_series_line_chart_with_interactive_legends : HTML::D3 &Atilde;&#151; (ArrayRef | undef) &acirc;&#134;&#146; Str &acirc;&#136;&ordf; &acirc;&#138;&yen;
+</span><span class=""> 6301: 
+</span><span class=""> 6302:     pre  ref(data) &acirc;&#137;&nbsp; &#39;ARRAY&#39;            &acirc;&#135;&#146; die &quot;Data must be an array of hashes&quot;
+</span><span class=""> 6303:     post result &acirc;&#136;&#136; Str
+</span><span class=""> 6304:     post &quot;&lt;!DOCTYPE&quot; &acirc;&#138;&#134; result
+</span><span class=""> 6305:     post &quot;isVisible&quot; &acirc;&#138;&#134; result
+</span><span class=""> 6306:     post &quot;isVisible ? 0 : 1&quot; &acirc;&#138;&#134; result
+</span><span class=""> 6307:     post &quot;.legend&quot; &acirc;&#138;&#134; result
+</span><span class=""> 6308: 
+</span><span class=""> 6309: =head1 LICENSE AND COPYRIGHT
+</span><span class=""> 6310: 
+</span><span class=""> 6311: Copyright 2025-2026 Nigel Horne.
+</span><span class=""> 6312: 
+</span><span class=""> 6313: Usage is subject to the GPL2 licence terms.
+</span><span class=""> 6314: If you use it,
+</span><span class=""> 6315: please let me know.
+</span><span class=""> 6316: 
+</span><span class=""> 6317: =cut
+</span><span class=""> 6318: 
+</span><span class=""> 6319: 1;
 </span></pre>
 
 <script>
