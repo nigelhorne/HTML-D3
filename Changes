@@ -1,6 +1,6 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
-0.26
+0.26	Sat Oct 31 03:14:27 PM EDT 2026
 	[ Bug Fixes ]
 	- The color option of render_bar_chart_snippet, render_scatter_chart_snippet
 	  and render_histogram_snippet, and the bar_color and line_color options of
