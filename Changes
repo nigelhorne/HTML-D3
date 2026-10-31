@@ -1,6 +1,6 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
-0.25
+0.25	Sat Oct 31 11:33:41 AM EDT 2026
 	[ Bug Fixes ]
 	- render_pie_chart_snippet, render_stacked_bar_snippet and
 	  render_treemap_snippet wrote the colour scheme's name into the page's
