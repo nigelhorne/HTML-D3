@@ -360,11 +360,11 @@ Approximate LCSAJ segments: 427<br>
 </span><span class="">   19: 
 </span><span class="">   20: =head1 VERSION
 </span><span class="">   21: 
-</span><span class="">   22: Version 0.25
+</span><span class="">   22: Version 0.26
 </span><span class="">   23: 
 </span><span class="">   24: =cut
 </span><span class="">   25: 
-</span><span class="">   26: our $VERSION = &#39;0.25&#39;;
+</span><span class="">   26: our $VERSION = &#39;0.26&#39;;
 </span><span class="">   27: 
 </span><span class="">   28: =head1 SYNOPSIS
 </span><span class="">   29: 
@@ -460,24 +460,24 @@ Approximate LCSAJ segments: 427<br>
 </span><span class="">  119: 				optional =&gt; 1,
 </span><span class="">  120: 			}
 </span><span class="">  121: 		}
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  122: 	});
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  123: 
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  124: 	if(!defined($class)) {
-</span><span class="">  125: 		if((scalar keys %{$params}) &gt; 0) {
-</span><span class="">  126: 			carp(__PACKAGE__, &#39; use -&gt;new() not ::new() to instantiate&#39;);
+</span><span class="">  122: 	});
+</span><span class="">  123: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  124: 	if(!defined($class)) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  125: 		if((scalar keys %{$params}) &gt; 0) {
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  126: 			carp(__PACKAGE__, &#39; use -&gt;new() not ::new() to instantiate&#39;);
 </span><span class="">  127: 			return;
 </span><span class="">  128: 		}
 </span><span class="">  129: 		# When called as HTML::D3::new(undef) with no args, default to the package.
 </span><span class="">  130: 		# Passing args via ::new() is unsupported and carps above.
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  131: 		$class = __PACKAGE__;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  132: 	} elsif(blessed($class)) {
-</span><span class="">  133: 		return bless { %{$class}, %{$params} }, ref($class);
-</span><span class="">  134: 	}
+</span><span class="">  131: 		$class = __PACKAGE__;
+</span><span class="">  132: 	} elsif(blessed($class)) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  133: 		return bless { %{$class}, %{$params} }, ref($class);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  134: 	}
 </span><span class="">  135: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  136: 	$params = Object::Configure::configure($class, $params);
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  137: 
-</span><span class="">  138: 	return bless {
-</span><span class="">  139: 		width      =&gt; $params-&gt;{width}  || 800,
+</span><span class="">  136: 	$params = Object::Configure::configure($class, $params);
+</span><span class="">  137: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  138: 	return bless {
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  139: 		width      =&gt; $params-&gt;{width}  || 800,
 </span><span class="">  140: 		height     =&gt; $params-&gt;{height} || 600,
 </span><span class="">  141: 		title      =&gt; $params-&gt;{title}  || &#39;Chart&#39;,
 </span><span class="">  142: 		responsive =&gt; $params-&gt;{responsive} || 0,
@@ -598,12 +598,14 @@ Approximate LCSAJ segments: 427<br>
 </span><span class="">  257: 
 </span><span class="">  258: sub colour_at
 </span><span class="">  259: {
-</span><span class="survived-1 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one)."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">260 → 262 → 269</span></span>  260: 	my $self = shift;
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">260 → 262 → 269</span></span>  260: 	my $self = shift;
+</span><span class="">  261: 	my ($scheme, $index);
+</span><span class="survived-1 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one).">  262: 	if (@_ == 1 &amp;&amp; ref($_[0]) eq &#39;HASH&#39;) {
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 1, Survived: 1)</summary>
 					<ul>
-				<li><b>NUM_BOUNDARY_260_9_!=: Numeric boundary flip == to !=</b><br>HIGH: Likely missing edge-case test (boundary value)
+				<li><b>NUM_BOUNDARY_262_9_!=: Numeric boundary flip == to !=</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -612,19 +614,17 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="">  261: 	my ($scheme, $index);
-</span><span class="">  262: 	if (@_ == 1 &amp;&amp; ref($_[0]) eq &#39;HASH&#39;) {
-</span><span class="">  263: 		my $h = $_[0];
+<span class="">  263: 		my $h = $_[0];
 </span><span class="">  264: 		$scheme = $h-&gt;{scheme};
 </span><span class="">  265: 		$index  = $h-&gt;{index};
 </span><span class="">  266: 	} else {
 </span><span class="">  267: 		($scheme, $index) = @_;
 </span><span class="">  268: 	}
 </span><span class="">  269: 	die &#39;Colour index must be a non-negative integer&#39;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  270: 		unless defined($index) &amp;&amp; $index =~ /\A[0-9]+\z/;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  271: 	my $colours = _categorical_scheme($scheme)-&gt;{colours};
-</span><span class="">  272: 	return $colours-&gt;[$index % scalar(@$colours)];
-</span><span class="">  273: }
+</span><span class="">  270: 		unless defined($index) &amp;&amp; $index =~ /\A[0-9]+\z/;
+</span><span class="">  271: 	my $colours = _categorical_scheme($scheme)-&gt;{colours};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  272: 	return $colours-&gt;[$index % scalar(@$colours)];
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  273: }
 </span><span class="">  274: 
 </span><span class="">  275: =head2 render_bar_chart
 </span><span class="">  276: 
@@ -675,10 +675,10 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  321: # Method to render a bar chart with given data
 </span><span class="">  322: sub render_bar_chart {
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">323 → 326 → 329</span></span>  323: 	my $self  = shift;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  324: 	my $first = @_ ? $_[0] : undef;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  325: 	my $raw   = Params::Get::get_params(&#39;data&#39;, \@_) // {};
-</span><span class="">  326: 	if (!defined($raw-&gt;{data})) {
-</span><span class="">  327: 		die(defined($first) ? &#39;Data must be an array of arrays&#39; : &#39;Data is not optional&#39;);
+</span><span class="">  324: 	my $first = @_ ? $_[0] : undef;
+</span><span class="">  325: 	my $raw   = Params::Get::get_params(&#39;data&#39;, \@_) // {};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  326: 	if (!defined($raw-&gt;{data})) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  327: 		die(defined($first) ? &#39;Data must be an array of arrays&#39; : &#39;Data is not optional&#39;);
 </span><span class="">  328: 	}
 </span><span class="">  329: 	Params::Validate::Strict::validate_strict({
 </span><span class="">  330: 		args   =&gt; $raw,
@@ -746,10 +746,10 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  392:     &lt;/script&gt;
 </span><span class="">  393: &lt;/body&gt;
 </span><span class="">  394: &lt;/html&gt;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  395: HTML
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  396: 
-</span><span class="">  397:     return $html;
-</span><span class="">  398: }
+</span><span class="">  395: HTML
+</span><span class="">  396: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  397:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  398: }
 </span><span class="">  399: 
 </span><span class="">  400: =head2 render_animated_bar_chart
 </span><span class="">  401: 
@@ -799,10 +799,10 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  445: 
 </span><span class="">  446: sub render_animated_bar_chart {
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">447 → 450 → 453</span></span>  447: 	my $self  = shift;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  448: 	my $first = @_ ? $_[0] : undef;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  449: 	my $raw   = Params::Get::get_params(&#39;data&#39;, \@_) // {};
-</span><span class="">  450: 	if (!defined($raw-&gt;{data})) {
-</span><span class="">  451: 		die(defined($first) ? &#39;Data must be an array of arrays&#39; : &#39;Data is not optional&#39;);
+</span><span class="">  448: 	my $first = @_ ? $_[0] : undef;
+</span><span class="">  449: 	my $raw   = Params::Get::get_params(&#39;data&#39;, \@_) // {};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  450: 	if (!defined($raw-&gt;{data})) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  451: 		die(defined($first) ? &#39;Data must be an array of arrays&#39; : &#39;Data is not optional&#39;);
 </span><span class="">  452: 	}
 </span><span class="">  453: 	Params::Validate::Strict::validate_strict({
 </span><span class="">  454: 		args   =&gt; $raw,
@@ -870,10 +870,10 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  516:     &lt;/script&gt;
 </span><span class="">  517: &lt;/body&gt;
 </span><span class="">  518: &lt;/html&gt;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  519: HTML
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  520: 
-</span><span class="">  521: 	return $html;
-</span><span class="">  522: }
+</span><span class="">  519: HTML
+</span><span class="">  520: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  521: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  522: }
 </span><span class="">  523: 
 </span><span class="">  524: =head2 render_line_chart
 </span><span class="">  525: 
@@ -992,10 +992,10 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  638:     &lt;/script&gt;
 </span><span class="">  639: &lt;/body&gt;
 </span><span class="">  640: &lt;/html&gt;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  641: HTML
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  642: 
-</span><span class="">  643: 	return $html;
-</span><span class="">  644: }
+</span><span class="">  641: HTML
+</span><span class="">  642: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  643: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  644: }
 </span><span class="">  645: 
 </span><span class="">  646: =head2 render_animated_line_chart
 </span><span class="">  647: 
@@ -1131,10 +1131,10 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  777:     &lt;/script&gt;
 </span><span class="">  778: &lt;/body&gt;
 </span><span class="">  779: &lt;/html&gt;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  780: HTML
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  781: 
-</span><span class="">  782: 	return $html;
-</span><span class="">  783: }
+</span><span class="">  780: HTML
+</span><span class="">  781: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  782: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  783: }
 </span><span class="">  784: 
 </span><span class="">  785: =head2 render_pie_chart
 </span><span class="">  786: 
@@ -1203,10 +1203,10 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  849: 
 </span><span class="">  850: sub render_pie_chart {
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">851 → 854 → 857</span></span>  851: 	my $self  = shift;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  852: 	my $first = @_ ? $_[0] : undef;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  853: 	my $raw   = Params::Get::get_params(&#39;data&#39;, \@_) // {};
-</span><span class="">  854: 	if (!defined($raw-&gt;{data})) {
-</span><span class="">  855: 		die(defined($first) ? &#39;Data must be an array of arrays&#39; : &#39;Data is not optional&#39;);
+</span><span class="">  852: 	my $first = @_ ? $_[0] : undef;
+</span><span class="">  853: 	my $raw   = Params::Get::get_params(&#39;data&#39;, \@_) // {};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  854: 	if (!defined($raw-&gt;{data})) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  855: 		die(defined($first) ? &#39;Data must be an array of arrays&#39; : &#39;Data is not optional&#39;);
 </span><span class="">  856: 	}
 </span><span class="">  857: 	Params::Validate::Strict::validate_strict({
 </span><span class="">  858: 		args   =&gt; $raw,
@@ -1298,10 +1298,10 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  944:     &lt;/script&gt;
 </span><span class="">  945: &lt;/body&gt;
 </span><span class="">  946: &lt;/html&gt;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  947: HTML
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  948: 
-</span><span class="">  949: 	return $html;
-</span><span class="">  950: }
+</span><span class="">  947: HTML
+</span><span class="">  948: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  949: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  950: }
 </span><span class="">  951: 
 </span><span class="">  952: =head2 render_animated_pie_chart
 </span><span class="">  953: 
@@ -1367,10 +1367,10 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1013: 
 </span><span class=""> 1014: sub render_animated_pie_chart {
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">1015 → 1018 → 1021</span></span> 1015: 	my $self  = shift;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1016: 	my $first = @_ ? $_[0] : undef;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 1017: 	my $raw   = Params::Get::get_params(&#39;data&#39;, \@_) // {};
-</span><span class=""> 1018: 	if (!defined($raw-&gt;{data})) {
-</span><span class=""> 1019: 		die(defined($first) ? &#39;Data must be an array of arrays&#39; : &#39;Data is not optional&#39;);
+</span><span class=""> 1016: 	my $first = @_ ? $_[0] : undef;
+</span><span class=""> 1017: 	my $raw   = Params::Get::get_params(&#39;data&#39;, \@_) // {};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1018: 	if (!defined($raw-&gt;{data})) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 1019: 		die(defined($first) ? &#39;Data must be an array of arrays&#39; : &#39;Data is not optional&#39;);
 </span><span class=""> 1020: 	}
 </span><span class=""> 1021: 	Params::Validate::Strict::validate_strict({
 </span><span class=""> 1022: 		args   =&gt; $raw,
@@ -1474,10 +1474,10 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1120:     &lt;/script&gt;
 </span><span class=""> 1121: &lt;/body&gt;
 </span><span class=""> 1122: &lt;/html&gt;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1123: HTML
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1124: 
-</span><span class=""> 1125: 	return $html;
-</span><span class=""> 1126: }
+</span><span class=""> 1123: HTML
+</span><span class=""> 1124: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1125: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1126: }
 </span><span class=""> 1127: 
 </span><span class=""> 1128: =head2 render_pie_chart_snippet
 </span><span class=""> 1129: 
@@ -1585,26 +1585,28 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1231: 
 </span><span class=""> 1232: 	# Normalise: absolute values, drop zeros, pull optional extra hashref
 </span><span class=""> 1233: 	my @slices;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1234: 	for my $pt (@$data) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 1235: 		my $val = abs($pt-&gt;[1] // 0);
-</span><span class=""> 1236: 		next if $val == 0;
-</span><span class=""> 1237: 		my %s = (label =&gt; $pt-&gt;[0], value =&gt; $val);
+</span><span class=""> 1234: 	for my $pt (@$data) {
+</span><span class=""> 1235: 		my $val = abs($pt-&gt;[1] // 0);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1236: 		next if $val == 0;
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 1237: 		my %s = (label =&gt; $pt-&gt;[0], value =&gt; $val);
 </span><span class=""> 1238: 		$s{extra} = $pt-&gt;[2] if ref($pt-&gt;[2]) eq &#39;HASH&#39;;
 </span><span class=""> 1239: 		push @slices, \%s;
 </span><span class=""> 1240: 	}
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1241: 
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 1242: 	# Sort before max_slices so the &quot;top N&quot; is stable
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">1243 → 1243 → 1250</span></span> 1243: 	if ($sort_slices eq &#39;value&#39;) {
-</span><span class=""> 1244: 		@slices = sort { $b-&gt;{value} &lt;=&gt; $a-&gt;{value} } @slices;
+</span><span class=""> 1241: 
+</span><span class=""> 1242: 	# Sort before max_slices so the &quot;top N&quot; is stable
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">1243 → 1243 → 1250</span></span> 1243: 	if ($sort_slices eq &#39;value&#39;) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 1244: 		@slices = sort { $b-&gt;{value} &lt;=&gt; $a-&gt;{value} } @slices;
 </span><span class=""> 1245: 	} elsif ($sort_slices eq &#39;label&#39;) {
 </span><span class=""> 1246: 		@slices = sort { $a-&gt;{label} cmp $b-&gt;{label} } @slices;
 </span><span class=""> 1247: 	}
-</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one)."> 1248: 
+</span><span class=""> 1248: 
+</span><span class=""> 1249: 	# Collapse tail into &quot;Other&quot;
+</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one)."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">1250 → 1250 → 1259</span></span> 1250: 	if ($max_slices &gt;= 2 &amp;&amp; scalar(@slices) &gt; $max_slices) {
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 7, Killed: 4, Survived: 3)</summary>
 					<ul>
-				<li><b>NUM_BOUNDARY_1248_18_&gt;: Numeric boundary flip &gt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+				<li><b>NUM_BOUNDARY_1250_18_&gt;: Numeric boundary flip &gt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -1612,7 +1614,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>NUM_BOUNDARY_1248_18_&lt;: Numeric boundary flip &gt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+							</li><li><b>NUM_BOUNDARY_1250_18_&lt;: Numeric boundary flip &gt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -1620,7 +1622,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>NUM_BOUNDARY_1248_18_&lt;=: Numeric boundary flip &gt;= to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
+							</li><li><b>NUM_BOUNDARY_1250_18_&lt;=: Numeric boundary flip &gt;= to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -1629,9 +1631,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class=""> 1249: 	# Collapse tail into &quot;Other&quot;
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">1250 → 1250 → 1259</span></span> 1250: 	if ($max_slices &gt;= 2 &amp;&amp; scalar(@slices) &gt; $max_slices) {
-</span><span class=""> 1251: 		my @by_val = sort { $b-&gt;{value} &lt;=&gt; $a-&gt;{value} } @slices;
+<span class=""> 1251: 		my @by_val = sort { $b-&gt;{value} &lt;=&gt; $a-&gt;{value} } @slices;
 </span><span class=""> 1252: 		my @top    = @by_val[0 .. $max_slices - 2];
 </span><span class=""> 1253: 		my $other  = 0;
 </span><span class=""> 1254: 		$other += $_-&gt;{value} for @by_val[$max_slices - 1 .. $#by_val];
@@ -1669,10 +1669,10 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1286:             .style(&quot;opacity&quot;, 1);
 </span><span class=""> 1287: LANIM
 </span><span class=""> 1288: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1289: 	# Path drawing code &acirc;&#128;&#148; animated vs plain
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 1290: 	my $anim_draw_js;
-</span><span class=""> 1291: 	if ($animated) {
-</span><span class=""> 1292: 		$anim_draw_js = &lt;&lt;&quot;ANIM_DRAW&quot;;
+</span><span class=""> 1289: 	# Path drawing code &acirc;&#128;&#148; animated vs plain
+</span><span class=""> 1290: 	my $anim_draw_js;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1291: 	if ($animated) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 1292: 		$anim_draw_js = &lt;&lt;&quot;ANIM_DRAW&quot;;
 </span><span class=""> 1293:     if (!initialDrawDone &amp;&amp; !noAnim) {
 </span><span class=""> 1294:         paths.attr(&quot;d&quot;, arc({ startAngle: 0, endAngle: 0 }))
 </span><span class=""> 1295:             .transition()
@@ -1964,12 +1964,14 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1581: 		unless exists $color_scheme_map{$color_scheme};
 </span><span class=""> 1582: 	my $d3_interpolator = $color_scheme_map{$color_scheme};
 </span><span class=""> 1583: 
-</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one)."> 1584: 	my $cell_padding = defined($opts-&gt;{cell_padding}) ? int($opts-&gt;{cell_padding}) : 2;
+</span><span class=""> 1584: 	my $cell_padding = defined($opts-&gt;{cell_padding}) ? int($opts-&gt;{cell_padding}) : 2;
+</span><span class=""> 1585: 	die &#39;cell_padding must be between 0 and 8&#39;
+</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one)."> 1586: 		unless $cell_padding &gt;= 0 &amp;&amp; $cell_padding &lt;= 8;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 6, Killed: 0, Survived: 6)</summary>
 					<ul>
-				<li><b>NUM_BOUNDARY_1584_46_&lt;: Numeric boundary flip &lt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+				<li><b>NUM_BOUNDARY_1586_24_&gt;: Numeric boundary flip &gt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -1977,7 +1979,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>NUM_BOUNDARY_1584_46_&gt;: Numeric boundary flip &lt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+							</li><li><b>NUM_BOUNDARY_1586_24_&lt;: Numeric boundary flip &gt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -1985,7 +1987,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>NUM_BOUNDARY_1584_46_&gt;=: Numeric boundary flip &lt;= to &gt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
+							</li><li><b>NUM_BOUNDARY_1586_24_&lt;=: Numeric boundary flip &gt;= to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -1993,7 +1995,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>NUM_BOUNDARY_1584_24_&gt;: Numeric boundary flip &gt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+							</li><li><b>NUM_BOUNDARY_1586_46_&lt;: Numeric boundary flip &lt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -2001,7 +2003,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>NUM_BOUNDARY_1584_24_&lt;: Numeric boundary flip &gt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+							</li><li><b>NUM_BOUNDARY_1586_46_&gt;: Numeric boundary flip &lt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -2009,7 +2011,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>NUM_BOUNDARY_1584_24_&lt;=: Numeric boundary flip &gt;= to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
+							</li><li><b>NUM_BOUNDARY_1586_46_&gt;=: Numeric boundary flip &lt;= to &gt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -2018,9 +2020,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class=""> 1585: 	die &#39;cell_padding must be between 0 and 8&#39;
-</span><span class=""> 1586: 		unless $cell_padding &gt;= 0 &amp;&amp; $cell_padding &lt;= 8;
-</span><span class=""> 1587: 
+<span class=""> 1587: 
 </span><span class=""> 1588: 	my $x_label    = $opts-&gt;{x_label}    // &#39;&#39;;
 </span><span class=""> 1589: 	my $y_label    = $opts-&gt;{y_label}    // &#39;&#39;;
 </span><span class=""> 1590: 	my $val_label  = $opts-&gt;{val_label}  // &#39;Value&#39;;
@@ -2031,10 +2031,10 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1595: 	my @triples;
 </span><span class=""> 1596: 	for my $pt (@$data) {
 </span><span class=""> 1597: 		die &#39;Each data point must be an array reference&#39;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1598: 			unless ref($pt) eq &#39;ARRAY&#39;;
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class=""> 1599: 		die &#39;Each data point must have at least 3 elements&#39;
-</span><span class=""> 1600: 			unless scalar(@$pt) &gt;= 3;
-</span><span class=""> 1601: 		next unless defined $pt-&gt;[2];
+</span><span class=""> 1598: 			unless ref($pt) eq &#39;ARRAY&#39;;
+</span><span class=""> 1599: 		die &#39;Each data point must have at least 3 elements&#39;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1600: 			unless scalar(@$pt) &gt;= 3;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class=""> 1601: 		next unless defined $pt-&gt;[2];
 </span><span class=""> 1602: 		die &#39;Value must be numeric&#39; unless looks_like_number($pt-&gt;[2]);
 </span><span class=""> 1603: 		push @triples, { x =&gt; $pt-&gt;[0], y =&gt; $pt-&gt;[1], v =&gt; $pt-&gt;[2] + 0 };
 </span><span class=""> 1604: 	}
@@ -2389,32 +2389,32 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 1953: 	my $x_label     = $opts-&gt;{x_label}     // &#39;&#39;;
 </span><span class=""> 1954: 
 </span><span class=""> 1955: 	# Normalise data points; negative values become positive (bars show magnitude)
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1956: 	my @bars;
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class=""> 1957: 	for my $pt (@$data) {
+</span><span class=""> 1956: 	my @bars;
+</span><span class=""> 1957: 	for my $pt (@$data) {
 </span><span class=""> 1958: 		die &#39;Each data point must be an array reference&#39;
 </span><span class=""> 1959: 			unless ref($pt) eq &#39;ARRAY&#39;;
 </span><span class=""> 1960: 		die &#39;Each data point must have at least 2 elements&#39;
-</span><span class=""> 1961: 			unless scalar(@$pt) &gt;= 2;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1962: 		next unless defined $pt-&gt;[1];
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class=""> 1963: 		die &#39;Value must be numeric&#39; unless looks_like_number($pt-&gt;[1]);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1961: 			unless scalar(@$pt) &gt;= 2;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class=""> 1962: 		next unless defined $pt-&gt;[1];
+</span><span class=""> 1963: 		die &#39;Value must be numeric&#39; unless looks_like_number($pt-&gt;[1]);
 </span><span class=""> 1964: 		push @bars, {
 </span><span class=""> 1965: 			label =&gt; defined($pt-&gt;[0]) ? &quot;$pt-&gt;[0]&quot; : &#39;&#39;,
 </span><span class=""> 1966: 			value =&gt; abs($pt-&gt;[1] + 0),
-</span><span class=""> 1967: 			(scalar(@$pt) &gt;= 3 &amp;&amp; ref($pt-&gt;[2]) eq &#39;HASH&#39;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1968: 				? (extra =&gt; $pt-&gt;[2]) : ()),
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 1969: 		};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1967: 			(scalar(@$pt) &gt;= 3 &amp;&amp; ref($pt-&gt;[2]) eq &#39;HASH&#39;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class=""> 1968: 				? (extra =&gt; $pt-&gt;[2]) : ()),
+</span><span class=""> 1969: 		};
 </span><span class=""> 1970: 	}
 </span><span class=""> 1971: 
 </span><span class=""> 1972: 	# Sort before optional truncation
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">1973 → 1973 → 1980</span></span> 1973: 	if ($sort_bars eq &#39;value&#39;) {
-</span><span class=""> 1974: 		@bars = sort { $b-&gt;{value} &lt;=&gt; $a-&gt;{value} } @bars;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1975: 	} elsif ($sort_bars eq &#39;label&#39;) {
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class=""> 1976: 		@bars = sort { $a-&gt;{label} cmp $b-&gt;{label} } @bars;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">1973 → 1973 → 1980</span></span> 1973: 	if ($sort_bars eq &#39;value&#39;) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 1974: 		@bars = sort { $b-&gt;{value} &lt;=&gt; $a-&gt;{value} } @bars;
+</span><span class=""> 1975: 	} elsif ($sort_bars eq &#39;label&#39;) {
+</span><span class=""> 1976: 		@bars = sort { $a-&gt;{label} cmp $b-&gt;{label} } @bars;
 </span><span class=""> 1977: 	}
 </span><span class=""> 1978: 
 </span><span class=""> 1979: 	# Truncate and collapse the tail into an &quot;Other&quot; bar
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">1980 → 1980 → 1988</span></span> 1980: 	if ($max_bars &amp;&amp; scalar(@bars) &gt; $max_bars) {
-</span><span class=""> 1981: 		my @rest  = splice @bars, $max_bars;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">1980 → 1980 → 1988</span></span> 1980: 	if ($max_bars &amp;&amp; scalar(@bars) &gt; $max_bars) {
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class=""> 1981: 		my @rest  = splice @bars, $max_bars;
 </span><span class=""> 1982: 		my $other = 0;
 </span><span class=""> 1983: 		$other += $_-&gt;{value} for @rest;
 </span><span class=""> 1984: 		push @bars, { label =&gt; &#39;Other&#39;, value =&gt; $other } if @rest;
@@ -2447,23 +2447,23 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 2011: 
 </span><span class=""> 2012: 	my $width  = $self-&gt;{width};
 </span><span class=""> 2013: 	my $height = $self-&gt;{height};
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2014: 	my $svg_attrs = ($opts-&gt;{responsive} // $self-&gt;{responsive})
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class=""> 2015: 		? qq{viewBox=&quot;0 0 $width $height&quot; width=&quot;100%&quot; height=&quot;auto&quot;}
+</span><span class=""> 2014: 	my $svg_attrs = ($opts-&gt;{responsive} // $self-&gt;{responsive})
+</span><span class=""> 2015: 		? qq{viewBox=&quot;0 0 $width $height&quot; width=&quot;100%&quot; height=&quot;auto&quot;}
 </span><span class=""> 2016: 		: qq{width=&quot;$width&quot; height=&quot;$height&quot;};
 </span><span class=""> 2017: 
-</span><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch."> 2018: 	# Rotate x-axis labels when there are more than 8 vertical bars
+</span><span class=""> 2018: 	# Rotate x-axis labels when there are more than 8 vertical bars
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2019: 	my $rotate_labels = ($orientation eq &#39;vertical&#39; &amp;&amp; scalar(@bars) &gt; 8) ? 1 : 0;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class=""> 2020: 
+</span><span class=""> 2021: 	# Margins depend on orientation, label rotation, and optional features
+</span><span class=""> 2022: 	my ($margin_top, $margin_right, $margin_bottom, $margin_left);
+</span><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch."> 2023: 	if ($orientation eq &#39;vertical&#39;) {
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 1, Killed: 0, Survived: 1)</summary>
 					<ul>
-				<li><b>COND_INV_2018_2: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
+				<li><b>COND_INV_2023_2: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
 </li></ul></details>
-<span class=""> 2019: 	my $rotate_labels = ($orientation eq &#39;vertical&#39; &amp;&amp; scalar(@bars) &gt; 8) ? 1 : 0;
-</span><span class=""> 2020: 
-</span><span class=""> 2021: 	# Margins depend on orientation, label rotation, and optional features
-</span><span class=""> 2022: 	my ($margin_top, $margin_right, $margin_bottom, $margin_left);
-</span><span class=""> 2023: 	if ($orientation eq &#39;vertical&#39;) {
-</span><span class=""> 2024: 		$margin_top    = 20;
+<span class=""> 2024: 		$margin_top    = 20;
 </span><span class=""> 2025: 		$margin_right  = 20;
 </span><span class=""> 2026: 		$margin_bottom = $rotate_labels
 </span><span class=""> 2027: 			? ($x_label ? 105 : 85)
@@ -2491,20 +2491,20 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 2049:         .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
 </span><span class=""> 2050:         .attr(&quot;text-anchor&quot;, &quot;end&quot;)
 </span><span class=""> 2051:         .attr(&quot;dx&quot;, &quot;-0.6em&quot;)
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2052:         .attr(&quot;dy&quot;, &quot;0.15em&quot;);
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch."> 2053: ROT
+</span><span class=""> 2052:         .attr(&quot;dy&quot;, &quot;0.15em&quot;);
+</span><span class=""> 2053: ROT
+</span><span class=""> 2054: 
+</span><span class=""> 2055: 	# Optional inline value labels rendered on each bar
+</span><span class=""> 2056: 	my $show_values_block = &#39;&#39;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2057: 	if ($show_values) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch."> 2058: 		if ($orientation eq &#39;vertical&#39;) {
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 1, Killed: 0, Survived: 1)</summary>
 					<ul>
-				<li><b>COND_INV_2053_3: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
+				<li><b>COND_INV_2058_3: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
 </li></ul></details>
-<span class=""> 2054: 
-</span><span class=""> 2055: 	# Optional inline value labels rendered on each bar
-</span><span class=""> 2056: 	my $show_values_block = &#39;&#39;;
-</span><span class=""> 2057: 	if ($show_values) {
-</span><span class=""> 2058: 		if ($orientation eq &#39;vertical&#39;) {
-</span><span class=""> 2059: 			$show_values_block = &lt;&lt;&quot;SVB&quot;;
+<span class=""> 2059: 			$show_values_block = &lt;&lt;&quot;SVB&quot;;
 </span><span class=""> 2060:     g.selectAll(&quot;.bc-val-text&quot;).data(data).join(&quot;text&quot;)
 </span><span class=""> 2061:         .attr(&quot;class&quot;,        &quot;bc-val-text&quot;)
 </span><span class=""> 2062:         .attr(&quot;x&quot;,            function(d) { return xScale(d.label) + xScale.bandwidth() / 2; })
@@ -2525,13 +2525,13 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 2077:         .attr(&quot;fill&quot;,              &quot;#333&quot;)
 </span><span class=""> 2078:         .text(function(d) { return d.value.toLocaleString(); });
 </span><span class=""> 2079: SVB
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2080: 		}
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 2081: 	}
+</span><span class=""> 2080: 		}
+</span><span class=""> 2081: 	}
 </span><span class=""> 2082: 
 </span><span class=""> 2083: 	# Optional text label below the bottom axis
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">2084 → 2085 → 2100</span></span> 2084: 	my $x_label_block = &#39;&#39;;
-</span><span class=""> 2085: 	if ($x_label) {
-</span><span class=""> 2086: 		my $lx = $margin_left + int($inner_w / 2);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2085: 	if ($x_label) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 2086: 		my $lx = $margin_left + int($inner_w / 2);
 </span><span class=""> 2087: 		my $ly = $height - 5;
 </span><span class=""> 2088: 		$x_label_block = &lt;&lt;&quot;XLB&quot;;
 </span><span class=""> 2089:     svg.append(&quot;text&quot;)
@@ -2541,20 +2541,20 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 2093:         .attr(&quot;font-size&quot;,   &quot;12px&quot;)
 </span><span class=""> 2094:         .attr(&quot;fill&quot;,        &quot;#555&quot;)
 </span><span class=""> 2095:         .text(&quot;$x_label_esc&quot;);
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2096: XLB
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch."> 2097: 	}
+</span><span class=""> 2096: XLB
+</span><span class=""> 2097: 	}
+</span><span class=""> 2098: 
+</span><span class=""> 2099: 	# Optional grow-from-baseline animation on page load
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">2100 → 2101 → 2129</span></span> 2100: 	my $anim_block = &#39;&#39;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2101: 	if ($animated) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch."> 2102: 		if ($orientation eq &#39;vertical&#39;) {
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 1, Killed: 0, Survived: 1)</summary>
 					<ul>
-				<li><b>COND_INV_2097_3: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
+				<li><b>COND_INV_2102_3: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
 </li></ul></details>
-<span class=""> 2098: 
-</span><span class=""> 2099: 	# Optional grow-from-baseline animation on page load
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">2100 → 2101 → 2129</span></span> 2100: 	my $anim_block = &#39;&#39;;
-</span><span class=""> 2101: 	if ($animated) {
-</span><span class=""> 2102: 		if ($orientation eq &#39;vertical&#39;) {
-</span><span class=""> 2103: 			$anim_block = &lt;&lt;&quot;ANIM&quot;;
+<span class=""> 2103: 			$anim_block = &lt;&lt;&quot;ANIM&quot;;
 </span><span class=""> 2104:     var noAnim = window.matchMedia &amp;&amp; window.matchMedia(&quot;(prefers-reduced-motion: reduce)&quot;).matches;
 </span><span class=""> 2105:     if (!noAnim) {
 </span><span class=""> 2106:         var delayPer = data.length &gt; 1 ? Math.min(100, 600 / (data.length - 1)) : 0;
@@ -2576,13 +2576,13 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 2122:             .attr(&quot;width&quot;, function(d) { return Math.max(0, xScale(d.value)); });
 </span><span class=""> 2123:     }
 </span><span class=""> 2124: ANIM
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2125: 		}
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 2126: 	}
+</span><span class=""> 2125: 		}
+</span><span class=""> 2126: 	}
 </span><span class=""> 2127: 
 </span><span class=""> 2128: 	# Orientation-specific D3 scale/axis/bar JavaScript
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">2129 → 2130 → 2228</span></span> 2129: 	my $chart_js;
-</span><span class=""> 2130: 	if ($orientation eq &#39;vertical&#39;) {
-</span><span class=""> 2131: 		$chart_js = &lt;&lt;&quot;JS&quot;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2130: 	if ($orientation eq &#39;vertical&#39;) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 2131: 		$chart_js = &lt;&lt;&quot;JS&quot;;
 </span><span class=""> 2132:     var g = svg.append(&quot;g&quot;)
 </span><span class=""> 2133:         .attr(&quot;transform&quot;, &quot;translate(&quot; + margin.left + &quot;,&quot; + margin.top + &quot;)&quot;);
 </span><span class=""> 2134: 
@@ -2874,13 +2874,13 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 2420: 	    .selectAll(&quot;text&quot;)
 </span><span class=""> 2421: 	    .attr(&quot;transform&quot;, &quot;rotate(-45)&quot;)
 </span><span class=""> 2422: 	    .style(&quot;text-anchor&quot;, &quot;end&quot;);
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2423:     &lt;/script&gt;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 2424: &lt;/body&gt;
+</span><span class=""> 2423:     &lt;/script&gt;
+</span><span class=""> 2424: &lt;/body&gt;
 </span><span class=""> 2425: &lt;/html&gt;
 </span><span class=""> 2426: HTML
 </span><span class=""> 2427: 
-</span><span class=""> 2428:     return $html;
-</span><span class=""> 2429: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2428:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 2429: }
 </span><span class=""> 2430: 
 </span><span class=""> 2431: =head2 render_line_chart_snippet
 </span><span class=""> 2432: 
@@ -3194,13 +3194,13 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 2740: 		.on(&quot;mouseout&quot;, () =&gt; {
 </span><span class=""> 2741: 		    tooltip.style(&quot;opacity&quot;, 0);
 </span><span class=""> 2742: 		})
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2743: HANDLERS
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 2744: 
+</span><span class=""> 2743: HANDLERS
+</span><span class=""> 2744: 
 </span><span class=""> 2745: 	my $init_flag   = $opts-&gt;{animated} ? &#39;let initialDrawDone = false;&#39; : &#39;&#39;;
 </span><span class=""> 2746: 
 </span><span class=""> 2747: 	my $redraw_body;
-</span><span class=""> 2748: 	if ($opts-&gt;{animated}) {
-</span><span class=""> 2749: 		$redraw_body = &lt;&lt;&quot;ANIM&quot;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 2748: 	if ($opts-&gt;{animated}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 2749: 		$redraw_body = &lt;&lt;&quot;ANIM&quot;;
 </span><span class=""> 2750: 	if (!initialDrawDone) {
 </span><span class=""> 2751: 	    var prefersReduced = window.matchMedia &amp;&amp;
 </span><span class=""> 2752: 		window.matchMedia(&#39;(prefers-reduced-motion: reduce)&#39;).matches;
@@ -3542,13 +3542,13 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 3088: 		    tooltip.style(&quot;opacity&quot;, 0);
 </span><span class=""> 3089: 		});
 </span><span class=""> 3090: 	});
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 3091:     &lt;/script&gt;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 3092: &lt;/body&gt;
+</span><span class=""> 3091:     &lt;/script&gt;
+</span><span class=""> 3092: &lt;/body&gt;
 </span><span class=""> 3093: &lt;/html&gt;
 </span><span class=""> 3094: HTML
 </span><span class=""> 3095: 
-</span><span class=""> 3096:     return $html;
-</span><span class=""> 3097: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 3096:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 3097: }
 </span><span class=""> 3098: 
 </span><span class=""> 3099: =head2 render_multi_series_line_chart_with_animated_tooltips
 </span><span class=""> 3100: 
@@ -3713,13 +3713,13 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 3259: 			   .style(&quot;transform&quot;, &quot;translateY(-10px)&quot;);
 </span><span class=""> 3260: 		});
 </span><span class=""> 3261: 	});
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 3262:     &lt;/script&gt;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 3263: &lt;/body&gt;
+</span><span class=""> 3262:     &lt;/script&gt;
+</span><span class=""> 3263: &lt;/body&gt;
 </span><span class=""> 3264: &lt;/html&gt;
 </span><span class=""> 3265: HTML
 </span><span class=""> 3266: 
-</span><span class=""> 3267:     return $html;
-</span><span class=""> 3268: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 3267:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 3268: }
 </span><span class=""> 3269: 
 </span><span class=""> 3270: =head2 render_multi_series_line_chart_with_legends
 </span><span class=""> 3271: 
@@ -3921,13 +3921,13 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 3467:             //     d3.selectAll(\`circle.series-\${i}\`).style(&quot;opacity&quot;, visible);
 </span><span class=""> 3468:             // });
 </span><span class=""> 3469:         });
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 3470:     &lt;/script&gt;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 3471: &lt;/body&gt;
+</span><span class=""> 3470:     &lt;/script&gt;
+</span><span class=""> 3471: &lt;/body&gt;
 </span><span class=""> 3472: &lt;/html&gt;
 </span><span class=""> 3473: HTML
 </span><span class=""> 3474: 
-</span><span class=""> 3475:     return $html;
-</span><span class=""> 3476: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 3475:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 3476: }
 </span><span class=""> 3477: 
 </span><span class=""> 3478: =head2 render_multi_series_line_chart_with_interactive_legends
 </span><span class=""> 3479: 
@@ -4134,13 +4134,13 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 3680:                 .text(series.name)
 </span><span class=""> 3681:                 .style(&quot;alignment-baseline&quot;, &quot;middle&quot;);
 </span><span class=""> 3682:         });
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 3683:     &lt;/script&gt;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 3684: &lt;/body&gt;
+</span><span class=""> 3683:     &lt;/script&gt;
+</span><span class=""> 3684: &lt;/body&gt;
 </span><span class=""> 3685: &lt;/html&gt;
 </span><span class=""> 3686: HTML
 </span><span class=""> 3687: 
-</span><span class=""> 3688:     return $html;
-</span><span class=""> 3689: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 3688:     return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 3689: }
 </span><span class=""> 3690: 
 </span><span class=""> 3691: =head2 render_multi_series_line_chart_snippet
 </span><span class=""> 3692: 
@@ -4264,13 +4264,13 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 3810: 	my $tip_id   = $svg_id . &#39;_tip&#39;;
 </span><span class=""> 3811: 
 </span><span class=""> 3812: 	my $scheme_js = _scheme_js($scheme);
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 3813: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 3814: 	my $js_esc = sub {
+</span><span class=""> 3813: 
+</span><span class=""> 3814: 	my $js_esc = sub {
 </span><span class=""> 3815: 		my $s = shift;
 </span><span class=""> 3816: 		$s =~ s/\\/\\\\/g; $s =~ s/&quot;/\\&quot;/g;
 </span><span class=""> 3817: 		$s =~ s/\n/\\n/g;  $s =~ s/\r/\\r/g;
-</span><span class=""> 3818: 		return $s;
-</span><span class=""> 3819: 	};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 3818: 		return $s;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 3819: 	};
 </span><span class=""> 3820: 
 </span><span class=""> 3821: 	my $x_label_esc = $js_esc-&gt;($x_label);
 </span><span class=""> 3822: 	my $y_label_esc = $js_esc-&gt;($y_label);
@@ -4566,47 +4566,47 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 4112: 	my $series_col       = $opts-&gt;{series_col}       // &#39;&#39;;
 </span><span class=""> 4113: 	my $size_col         = $opts-&gt;{size_col}         // &#39;&#39;;
 </span><span class=""> 4114: 	my $radius_range     = $opts-&gt;{radius_range}     // [3, 15];
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4115: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 4116: 	my $js_esc = sub {
+</span><span class=""> 4115: 
+</span><span class=""> 4116: 	my $js_esc = sub {
 </span><span class=""> 4117: 		my $s = shift;
 </span><span class=""> 4118: 		$s =~ s/\\/\\\\/g;
 </span><span class=""> 4119: 		$s =~ s/&quot;/\\&quot;/g;
 </span><span class=""> 4120: 		$s =~ s/\n/\\n/g;
 </span><span class=""> 4121: 		$s =~ s/\r/\\r/g;
-</span><span class=""> 4122: 		return $s;
-</span><span class=""> 4123: 	};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4122: 		return $s;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 4123: 	};
 </span><span class=""> 4124: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4125: 	# The scheme&#39;s colours as a JS array, from the one definition rather than
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class=""> 4126: 	# from the spelling of the name.
+</span><span class=""> 4125: 	# The scheme&#39;s colours as a JS array, from the one definition rather than
+</span><span class=""> 4126: 	# from the spelling of the name.
 </span><span class=""> 4127: 	my $scheme_js = _scheme_js($scheme);
 </span><span class=""> 4128: 
 </span><span class=""> 4129: 	my @points;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4130: 	for my $pt (@$data) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 4131: 		die &#39;Each data point must be an array reference&#39; unless ref($pt) eq &#39;ARRAY&#39;;
-</span><span class=""> 4132: 		die &#39;Each data point must have at least 2 elements&#39; unless scalar(@$pt) &gt;= 2;
-</span><span class=""> 4133: 		die &#39;X value must be numeric&#39; unless looks_like_number($pt-&gt;[0]);
+</span><span class=""> 4130: 	for my $pt (@$data) {
+</span><span class=""> 4131: 		die &#39;Each data point must be an array reference&#39; unless ref($pt) eq &#39;ARRAY&#39;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4132: 		die &#39;Each data point must have at least 2 elements&#39; unless scalar(@$pt) &gt;= 2;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class=""> 4133: 		die &#39;X value must be numeric&#39; unless looks_like_number($pt-&gt;[0]);
 </span><span class=""> 4134: 		die &#39;Y value must be numeric&#39; unless looks_like_number($pt-&gt;[1]);
 </span><span class=""> 4135: 		my $p = { x =&gt; $pt-&gt;[0] + 0, y =&gt; $pt-&gt;[1] + 0 };
 </span><span class=""> 4136: 		$p-&gt;{extra} = $pt-&gt;[2] if ref($pt-&gt;[2]) eq &#39;HASH&#39;;
-</span><span class=""> 4137: 		if (ref($pt-&gt;[3]) eq &#39;HASH&#39;) {
-</span><span class=""> 4138: 			$p-&gt;{series} = $pt-&gt;[3]{series} if defined $pt-&gt;[3]{series};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4137: 		if (ref($pt-&gt;[3]) eq &#39;HASH&#39;) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 4138: 			$p-&gt;{series} = $pt-&gt;[3]{series} if defined $pt-&gt;[3]{series};
 </span><span class=""> 4139: 			$p-&gt;{size}   = $pt-&gt;[3]{size}+0 if defined $pt-&gt;[3]{size} &amp;&amp; looks_like_number($pt-&gt;[3]{size});
 </span><span class=""> 4140: 		}
 </span><span class=""> 4141: 		push @points, $p;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4142: 	}
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 4143: 
+</span><span class=""> 4142: 	}
+</span><span class=""> 4143: 
 </span><span class=""> 4144: 	# Collect series names and size range for JS initialisation.
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">4145 → 4148 → 4158</span></span> 4145: 	my %seen_series;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4146: 	my @series_names;
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4147: 	my ($size_min, $size_max);
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class=""> 4148: 	for my $p (@points) {
-</span><span class=""> 4149: 		if (defined $p-&gt;{series} &amp;&amp; !$seen_series{$p-&gt;{series}}++) {
-</span><span class=""> 4150: 			push @series_names, $p-&gt;{series};
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">4145 → 4148 → 4158</span></span> 4145: 	my %seen_series;
+</span><span class=""> 4146: 	my @series_names;
+</span><span class=""> 4147: 	my ($size_min, $size_max);
+</span><span class=""> 4148: 	for my $p (@points) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4149: 		if (defined $p-&gt;{series} &amp;&amp; !$seen_series{$p-&gt;{series}}++) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 4150: 			push @series_names, $p-&gt;{series};
 </span><span class=""> 4151: 		}
-</span><span class=""> 4152: 		if (defined $p-&gt;{size}) {
-</span><span class=""> 4153: 			$size_min = $p-&gt;{size} if !defined $size_min || $p-&gt;{size} &lt; $size_min;
-</span><span class=""> 4154: 			$size_max = $p-&gt;{size} if !defined $size_max || $p-&gt;{size} &gt; $size_max;
-</span><span class=""> 4155: 		}
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4152: 		if (defined $p-&gt;{size}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4153: 			$size_min = $p-&gt;{size} if !defined $size_min || $p-&gt;{size} &lt; $size_min;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4154: 			$size_max = $p-&gt;{size} if !defined $size_max || $p-&gt;{size} &gt; $size_max;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class=""> 4155: 		}
 </span><span class=""> 4156: 	}
 </span><span class=""> 4157: 	# Colour and size are independent dimensions: a point may carry both.
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">4158 → 4193 → 4203</span></span> 4158: 	my $has_series = $colour_by_series &amp;&amp; @series_names;
@@ -4637,29 +4637,29 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 4183: 		: qq{width=&quot;$width&quot; height=&quot;$height&quot;};
 </span><span class=""> 4184: 
 </span><span class=""> 4185: 	my $margin_bottom = $x_label ? 60 : 40;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4186: 	my $margin_left   = $y_label ? 70 : 50;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 4187: 	my $margin_top    = 20;
+</span><span class=""> 4186: 	my $margin_left   = $y_label ? 70 : 50;
+</span><span class=""> 4187: 	my $margin_top    = 20;
 </span><span class=""> 4188: 	my $inner_w = $width  - $margin_left - $margin_right;
 </span><span class=""> 4189: 	my $inner_h = $height - $margin_top  - $margin_bottom;
 </span><span class=""> 4190: 
 </span><span class=""> 4191: 	# Color initialisation JS.
 </span><span class=""> 4192: 	my $color_init_js;
-</span><span class=""> 4193: 	if ($has_series) {
-</span><span class=""> 4194: 		$color_init_js = &quot;var seriesNames = $json_series;\n&quot;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4193: 	if ($has_series) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 4194: 		$color_init_js = &quot;var seriesNames = $json_series;\n&quot;
 </span><span class=""> 4195: 			. &quot;    var color = d3.scaleOrdinal(${scheme_js}).domain(seriesNames);&quot;;
 </span><span class=""> 4196: 	} elsif ($is_categorical) {
 </span><span class=""> 4197: 		$color_init_js = &#39;var color = d3.scaleOrdinal(&#39; . _default_scheme_js() . &#39;).domain(data.map(function(d,i){return i;}));&#39;;
 </span><span class=""> 4198: 	} else {
 </span><span class=""> 4199: 		$color_init_js = &quot;var color = function() { return \&quot;$color_esc\&quot;; };&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4200: 	}
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 4201: 
+</span><span class=""> 4200: 	}
+</span><span class=""> 4201: 
 </span><span class=""> 4202: 	# Size scale JS (bubble mode).
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">4203 → 4207 → 4215</span></span> 4203: 	my $r_min = $radius_range-&gt;[0] // 3;
 </span><span class=""> 4204: 	my $r_max = $radius_range-&gt;[1] // 15;
 </span><span class=""> 4205: 	my $size_init_js = &#39;&#39;;
 </span><span class=""> 4206: 	my $radius_js    = &#39;5&#39;;
-</span><span class=""> 4207: 	if ($has_size &amp;&amp; defined $size_min) {
-</span><span class=""> 4208: 		my $smin = $size_min + 0;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4207: 	if ($has_size &amp;&amp; defined $size_min) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 4208: 		my $smin = $size_min + 0;
 </span><span class=""> 4209: 		my $smax = $size_max + 0;
 </span><span class=""> 4210: 		$size_init_js = &quot;var rScale = d3.scaleSqrt().domain([$smin,$smax]).range([$r_min,$r_max]).clamp(true);&quot;;
 </span><span class=""> 4211: 		$radius_js    = &#39;function(d){return d.size!=null?rScale(d.size):&#39; . $r_min . &#39;;}&#39;;
@@ -4911,12 +4911,19 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 4457: 	my $sortable = exists($opts-&gt;{sortable}) ? $opts-&gt;{sortable} : 1;
 </span><span class=""> 4458: 	my $caption  = $opts-&gt;{caption} // &#39;&#39;;
 </span><span class=""> 4459: 	my $table_id = $opts-&gt;{id} // &#39;data_table&#39;;
-</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values."> 4460: 
+</span><span class=""> 4460: 
+</span><span class=""> 4461: 	my $js_esc = sub {
+</span><span class=""> 4462: 		my $s = shift;
+</span><span class=""> 4463: 		$s =~ s/\\/\\\\/g;
+</span><span class=""> 4464: 		$s =~ s/&quot;/\\&quot;/g;
+</span><span class=""> 4465: 		$s =~ s/\n/\\n/g;
+</span><span class=""> 4466: 		$s =~ s/\r/\\r/g;
+</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths."> 4467: 		return $s;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
 					<ul>
-				<li><b>BOOL_NEGATE_4460_3: Negate boolean return expression</b><br>MEDIUM: Add tests asserting both true and false outcomes
+				<li><b>BOOL_NEGATE_4467_3: Negate boolean return expression</b><br>MEDIUM: Add tests asserting both true and false outcomes
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -4924,7 +4931,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 ok( !func(INPUT), &#39;Verify boolean branch behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>RETURN_UNDEF_4460_3: Replace return expression with undef</b><br>LOW: Mutation survived, but impact may be minor
+							</li><li><b>RETURN_UNDEF_4467_3: Replace return expression with undef</b><br>LOW: Mutation survived, but impact may be minor
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -4933,22 +4940,15 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class=""> 4461: 	my $js_esc = sub {
-</span><span class=""> 4462: 		my $s = shift;
-</span><span class=""> 4463: 		$s =~ s/\\/\\\\/g;
-</span><span class=""> 4464: 		$s =~ s/&quot;/\\&quot;/g;
-</span><span class=""> 4465: 		$s =~ s/\n/\\n/g;
-</span><span class=""> 4466: 		$s =~ s/\r/\\r/g;
-</span><span class=""> 4467: 		return $s;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4468: 	};
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 4469: 
+<span class=""> 4468: 	};
+</span><span class=""> 4469: 
 </span><span class=""> 4470: 	my $html_esc = sub {
 </span><span class=""> 4471: 		my $s = shift // &#39;&#39;;
 </span><span class=""> 4472: 		$s =~ s/&amp;/&amp;amp;/g;
 </span><span class=""> 4473: 		$s =~ s/&lt;/&amp;lt;/g;
 </span><span class=""> 4474: 		$s =~ s/&gt;/&amp;gt;/g;
-</span><span class=""> 4475: 		return $s;
-</span><span class=""> 4476: 	};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4475: 		return $s;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 4476: 	};
 </span><span class=""> 4477: 
 </span><span class=""> 4478: 	my $headers = $data-&gt;[0];
 </span><span class=""> 4479: 	my @rows    = @{$data}[1 .. $#$data];
@@ -5163,15 +5163,15 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class=""> 4688: 		die &quot;Value must be numeric&quot; unless looks_like_number($row-&gt;{$val_col} // &#39;x&#39;);
 </span><span class=""> 4689: 		my ($cat, $seg, $val) = ($row-&gt;{$cat_col} // &#39;&#39;, $row-&gt;{$seg_col} // &#39;&#39;, $row-&gt;{$val_col} + 0);
 </span><span class=""> 4690: 		push @cat_order, $cat unless $cats_seen{$cat}++;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4691: 		$segs_seen{$seg} = 1;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 4692: 		$pivot{$cat}{$seg} = ($pivot{$cat}{$seg} // 0) + $val;
+</span><span class=""> 4691: 		$segs_seen{$seg} = 1;
+</span><span class=""> 4692: 		$pivot{$cat}{$seg} = ($pivot{$cat}{$seg} // 0) + $val;
 </span><span class=""> 4693: 	}
 </span><span class=""> 4694: 
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">4695 → 4698 → 4709</span></span> 4695: 	my @segs = keys %segs_seen;
 </span><span class=""> 4696: 	my @cats = @cat_order;
 </span><span class=""> 4697: 
-</span><span class=""> 4698: 	if (defined $sort_by &amp;&amp; $sort_by eq &#39;label&#39;) {
-</span><span class=""> 4699: 		@cats = sort @cats;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4698: 	if (defined $sort_by &amp;&amp; $sort_by eq &#39;label&#39;) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 4699: 		@cats = sort @cats;
 </span><span class=""> 4700: 	} elsif (defined $sort_by &amp;&amp; $sort_by eq &#39;value&#39;) {
 </span><span class=""> 4701: 		@cats = sort {
 </span><span class=""> 4702: 			my ($ta, $tb) = (0, 0);
@@ -5188,15 +5188,15 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class=""> 4713: 		\%r
 </span><span class=""> 4714: 	} @cats;
 </span><span class=""> 4715: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4716: 	my $json_data = $_JSON-&gt;encode(\@rows);
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 4717: 	my $json_segs = $_JSON-&gt;encode(\@segs);
+</span><span class=""> 4716: 	my $json_data = $_JSON-&gt;encode(\@rows);
+</span><span class=""> 4717: 	my $json_segs = $_JSON-&gt;encode(\@segs);
 </span><span class=""> 4718: 
 </span><span class=""> 4719: 	my $js_esc = sub {
 </span><span class=""> 4720: 		my $s = shift;
 </span><span class=""> 4721: 		$s =~ s/\\/\\\\/g; $s =~ s/&quot;/\\&quot;/g;
 </span><span class=""> 4722: 		$s =~ s/\n/\\n/g;  $s =~ s/\r/\\r/g;
-</span><span class=""> 4723: 		return $s;
-</span><span class=""> 4724: 	};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4723: 		return $s;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 4724: 	};
 </span><span class=""> 4725: 
 </span><span class=""> 4726: 	my $x_label_esc = $js_esc-&gt;($x_label);
 </span><span class=""> 4727: 	my $svg_id  = $opts-&gt;{id} // &#39;stacked_bar&#39;;
@@ -5219,21 +5219,21 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class=""> 4744: 	my $x_label_block = $x_label ? &lt;&lt;&quot;XLB&quot; : &#39;&#39;;
 </span><span class=""> 4745:     g.append(&quot;text&quot;)
 </span><span class=""> 4746:         .attr(&quot;class&quot;,&quot;sb-axis-label&quot;)
-</span><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch."> 4747:         .attr(&quot;x&quot;, innerW / 2)
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 1, Killed: 0, Survived: 1)</summary>
-					<ul>
-				<li><b>COND_INV_4747_2: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
-</li></ul></details>
-<span class=""> 4748:         .attr(&quot;y&quot;, innerH + (margin.bottom - 10))
+</span><span class=""> 4747:         .attr(&quot;x&quot;, innerW / 2)
+</span><span class=""> 4748:         .attr(&quot;y&quot;, innerH + (margin.bottom - 10))
 </span><span class=""> 4749:         .attr(&quot;text-anchor&quot;,&quot;middle&quot;)
 </span><span class=""> 4750:         .text(&quot;$x_label_esc&quot;);
 </span><span class=""> 4751: XLB
 </span><span class=""> 4752: 
 </span><span class=""> 4753: 	my ($scales_js, $axes_js, $rect_attrs_js);
-</span><span class=""> 4754: 	if ($is_v) {
-</span><span class=""> 4755: 		$scales_js = &lt;&lt;&#39;SCALES&#39;;
+</span><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch."> 4754: 	if ($is_v) {
+</span>
+					<details class="mutant-details">
+					<summary>Mutants (Total: 1, Killed: 0, Survived: 1)</summary>
+					<ul>
+				<li><b>COND_INV_4754_2: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
+</li></ul></details>
+<span class=""> 4755: 		$scales_js = &lt;&lt;&#39;SCALES&#39;;
 </span><span class=""> 4756:     var xScale = d3.scaleBand()
 </span><span class=""> 4757:         .domain(data.map(function(d){return d.cat;}))
 </span><span class=""> 4758:         .range([0, innerW]).padding(0.2);
@@ -5461,8 +5461,8 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class=""> 4980: 		push @points, {
 </span><span class=""> 4981: 			x    =&gt; defined($row-&gt;{$x_col}) ? &quot;$row-&gt;{$x_col}&quot; : &#39;&#39;,
 </span><span class=""> 4982: 			bar  =&gt; $row-&gt;{$bar_col}  + 0,
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4983: 			line =&gt; $row-&gt;{$line_col} + 0,
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 4984: 		};
+</span><span class=""> 4983: 			line =&gt; $row-&gt;{$line_col} + 0,
+</span><span class=""> 4984: 		};
 </span><span class=""> 4985: 	}
 </span><span class=""> 4986: 
 </span><span class=""> 4987: 	my $json_data = $_JSON-&gt;encode(\@points);
@@ -5471,8 +5471,8 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class=""> 4990: 		my $s = shift;
 </span><span class=""> 4991: 		$s =~ s/\\/\\\\/g; $s =~ s/&quot;/\\&quot;/g;
 </span><span class=""> 4992: 		$s =~ s/\n/\\n/g;  $s =~ s/\r/\\r/g;
-</span><span class=""> 4993: 		return $s;
-</span><span class=""> 4994: 	};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 4993: 		return $s;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 4994: 	};
 </span><span class=""> 4995: 
 </span><span class=""> 4996: 	my $bar_label_esc  = $js_esc-&gt;($bar_label);
 </span><span class=""> 4997: 	my $line_label_esc = $js_esc-&gt;($line_label);
@@ -5686,8 +5686,8 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class=""> 5205: 
 </span><span class=""> 5206: =head4 Output
 </span><span class=""> 5207: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5208:     HashRef -- { svg_id =&gt; Str, html =&gt; Str }
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5209: 
+</span><span class=""> 5208:     HashRef -- { svg_id =&gt; Str, html =&gt; Str }
+</span><span class=""> 5209: 
 </span><span class=""> 5210: =cut
 </span><span class=""> 5211: 
 </span><span class=""> 5212: sub render_treemap_snippet
@@ -5696,8 +5696,8 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class=""> 5215: 	my $first = @_ ? $_[0] : undef;
 </span><span class=""> 5216: 	my $raw;
 </span><span class=""> 5217: 	# A lone hashref argument is valid treemap data (hash tree), not named args
-</span><span class=""> 5218: 	if (ref($first) eq &#39;HASH&#39; &amp;&amp; @_ == 1) {
-</span><span class=""> 5219: 		$raw = { data =&gt; $first };
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5218: 	if (ref($first) eq &#39;HASH&#39; &amp;&amp; @_ == 1) {
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5219: 		$raw = { data =&gt; $first };
 </span><span class=""> 5220: 	} else {
 </span><span class=""> 5221: 		$raw = Params::Get::get_params(&#39;data&#39;, \@_) // {};
 </span><span class=""> 5222: 	}
@@ -5711,22 +5711,22 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class=""> 5230: 	my $data = $raw-&gt;{data};
 </span><span class=""> 5231: 	my $opts = {%$raw}; delete $opts-&gt;{data};
 </span><span class=""> 5232: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5233: 	my $path_sep = $opts-&gt;{path_sep} // &#39;/&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5234: 	my $scheme   = _scheme_name($opts-&gt;{scheme});
+</span><span class=""> 5233: 	my $path_sep = $opts-&gt;{path_sep} // &#39;/&#39;;
+</span><span class=""> 5234: 	my $scheme   = _scheme_name($opts-&gt;{scheme});
 </span><span class=""> 5235: 	my $label    = exists($opts-&gt;{label}) ? ($opts-&gt;{label} ? 1 : 0) : 1;
 </span><span class=""> 5236: 	my $schemes_js = $self-&gt;_schemes_js(&#39;var&#39;);
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5237: 	my $default_js = _default_scheme_js();
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 5238: 
+</span><span class=""> 5237: 	my $default_js = _default_scheme_js();
+</span><span class=""> 5238: 
 </span><span class=""> 5239: 	my $js_esc = sub {
 </span><span class=""> 5240: 		my $s = shift;
 </span><span class=""> 5241: 		$s =~ s/\\/\\\\/g; $s =~ s/&quot;/\\&quot;/g;
 </span><span class=""> 5242: 		$s =~ s/\n/\\n/g;  $s =~ s/\r/\\r/g;
-</span><span class=""> 5243: 		return $s;
-</span><span class=""> 5244: 	};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5243: 		return $s;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5244: 	};
 </span><span class=""> 5245: 
 </span><span class=""> 5246: 	my ($json_data, $build_js);
-</span><span class=""> 5247: 	if (ref($data) eq &#39;ARRAY&#39;) {
-</span><span class=""> 5248: 		for my $row (@$data) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5247: 	if (ref($data) eq &#39;ARRAY&#39;) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 5248: 		for my $row (@$data) {
 </span><span class=""> 5249: 			die &#39;Each flat row must be a hash reference&#39; unless ref($row) eq &#39;HASH&#39;;
 </span><span class=""> 5250: 			die &quot;Each flat row must have a &#39;path&#39; key&quot;  unless exists $row-&gt;{path};
 </span><span class=""> 5251: 			die &quot;Each flat row must have a numeric &#39;value&#39; key&quot;
@@ -5955,8 +5955,8 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class=""> 5474:     HashRef -- { svg_id =&gt; Str, html =&gt; Str }
 </span><span class=""> 5475: 
 </span><span class=""> 5476: =cut
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5477: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5478: # _render_histogram_binned($self, \@bins, \%opts)
+</span><span class=""> 5477: 
+</span><span class=""> 5478: # _render_histogram_binned($self, \@bins, \%opts)
 </span><span class=""> 5479: # Internal helper for the binned =&gt; 1 path of render_histogram_snippet.
 </span><span class=""> 5480: # $bins: [ {label=&gt;&#39;[0,10)&#39;,count=&gt;N}, ... ] or [ {lo=&gt;0,hi=&gt;10,count=&gt;N}, ... ]
 </span><span class=""> 5481: sub _render_histogram_binned
@@ -5966,12 +5966,24 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class=""> 5485: 	my $js_esc = sub {
 </span><span class=""> 5486: 		my $s = shift;
 </span><span class=""> 5487: 		$s =~ s/\\/\\\\/g; $s =~ s/&quot;/\\&quot;/g;
-</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one)."> 5488: 		$s =~ s/\n/\\n/g;  $s =~ s/\r/\\r/g;
+</span><span class=""> 5488: 		$s =~ s/\n/\\n/g;  $s =~ s/\r/\\r/g;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5489: 		return $s;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5490: 	};
+</span><span class=""> 5491: 
+</span><span class=""> 5492: 	die &#39;Data must contain at least one bin&#39; unless @$bins;
+</span><span class=""> 5493: 
+</span><span class=""> 5494: 	my @norm;
+</span><span class=""> 5495: 	for my $b (@$bins) {
+</span><span class=""> 5496: 		die &#39;Each pre-binned entry must be a hash reference&#39;
+</span><span class=""> 5497: 			unless ref($b) eq &#39;HASH&#39;;
+</span><span class=""> 5498: 		die &#39;Bin count must be numeric&#39;
+</span><span class=""> 5499: 			unless defined($b-&gt;{count}) &amp;&amp; looks_like_number($b-&gt;{count});
+</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one)."> 5500: 		die &#39;Bin count must not be negative&#39; unless $b-&gt;{count} + 0 &gt;= 0;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 3, Killed: 0, Survived: 3)</summary>
 					<ul>
-				<li><b>NUM_BOUNDARY_5488_63_&gt;: Numeric boundary flip &gt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+				<li><b>NUM_BOUNDARY_5500_63_&gt;: Numeric boundary flip &gt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -5979,7 +5991,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>NUM_BOUNDARY_5488_63_&lt;: Numeric boundary flip &gt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+							</li><li><b>NUM_BOUNDARY_5500_63_&lt;: Numeric boundary flip &gt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -5987,7 +5999,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>NUM_BOUNDARY_5488_63_&lt;=: Numeric boundary flip &gt;= to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
+							</li><li><b>NUM_BOUNDARY_5500_63_&lt;=: Numeric boundary flip &gt;= to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -5996,25 +6008,13 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class=""> 5489: 		return $s;
-</span><span class=""> 5490: 	};
-</span><span class=""> 5491: 
-</span><span class=""> 5492: 	die &#39;Data must contain at least one bin&#39; unless @$bins;
-</span><span class=""> 5493: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5494: 	my @norm;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 5495: 	for my $b (@$bins) {
-</span><span class=""> 5496: 		die &#39;Each pre-binned entry must be a hash reference&#39;
-</span><span class=""> 5497: 			unless ref($b) eq &#39;HASH&#39;;
-</span><span class=""> 5498: 		die &#39;Bin count must be numeric&#39;
-</span><span class=""> 5499: 			unless defined($b-&gt;{count}) &amp;&amp; looks_like_number($b-&gt;{count});
-</span><span class=""> 5500: 		die &#39;Bin count must not be negative&#39; unless $b-&gt;{count} + 0 &gt;= 0;
-</span><span class=""> 5501: 
+<span class=""> 5501: 
 </span><span class=""> 5502: 		my $lo = (defined($b-&gt;{lo}) &amp;&amp; looks_like_number($b-&gt;{lo})) ? $b-&gt;{lo} + 0 : undef;
 </span><span class=""> 5503: 		my $hi = (defined($b-&gt;{hi}) &amp;&amp; looks_like_number($b-&gt;{hi})) ? $b-&gt;{hi} + 0 : undef;
 </span><span class=""> 5504: 
 </span><span class=""> 5505: 		my $label = $b-&gt;{label};
-</span><span class=""> 5506: 		if(!defined($label) || !length($label)) {
-</span><span class=""> 5507: 			die &#39;Each pre-binned entry must have a label or numeric lo and hi&#39;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5506: 		if(!defined($label) || !length($label)) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 5507: 			die &#39;Each pre-binned entry must have a label or numeric lo and hi&#39;
 </span><span class=""> 5508: 				unless defined($lo) &amp;&amp; defined($hi);
 </span><span class=""> 5509: 			$label = sprintf(&#39;[%g,%g)&#39;, $lo, $hi);
 </span><span class=""> 5510: 		}
@@ -6042,8 +6042,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 5532: 
 </span><span class=""> 5533: 	my $x_label_esc = $js_esc-&gt;($x_label);
 </span><span class=""> 5534: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5535: 	# The rotated tick labels hang below the axis and out to its left by however
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 5536: 	# long they are, which is only known once they are drawn, so the script
+</span><span class=""> 5535: 	# The rotated tick labels hang below the axis and out to its left by however
+</span><span class=""> 5536: 	# long they are, which is only known once they are drawn, so the script
 </span><span class=""> 5537: 	# measures them and takes the room out of the plot.  This is what keeps the
 </span><span class=""> 5538: 	# axis label clear of them.
 </span><span class=""> 5539: 	#
@@ -6055,8 +6055,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 5545: 	# requested D3 categorical scheme, otherwise the default colour.
 </span><span class=""> 5546: 	my $fill_js = &#39;&quot;steelblue&quot;&#39;;
 </span><span class=""> 5547: 	my $colour = _css_colour($opts-&gt;{color});
-</span><span class=""> 5548: 	if(defined $colour) {
-</span><span class=""> 5549: 		$fill_js = &#39;&quot;&#39; . $js_esc-&gt;($colour) . &#39;&quot;&#39;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5548: 	if(defined $colour) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 5549: 		$fill_js = &#39;&quot;&#39; . $js_esc-&gt;($colour) . &#39;&quot;&#39;;
 </span><span class=""> 5550: 	} elsif(defined $opts-&gt;{scheme}) {
 </span><span class=""> 5551: 		# The scheme&#39;s first colour, which is the one colour_at($scheme, 0)
 </span><span class=""> 5552: 		# reports to a Perl caller colouring the same data by hand.
@@ -6154,19 +6154,32 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 5644: }
 </span><span class=""> 5645: 
 </span><span class=""> 5646: sub render_histogram_snippet
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5647: {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5648 → 5660 → 5664</span></span> 5648: 	my $self = shift;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5649: 	my $raw  = Params::Get::get_params(&#39;data&#39;, \@_) // {};
+</span><span class=""> 5647: {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5648 → 5660 → 5664</span></span> 5648: 	my $self = shift;
+</span><span class=""> 5649: 	my $raw  = Params::Get::get_params(&#39;data&#39;, \@_) // {};
 </span><span class=""> 5650: 	die &#39;Data must be an array of numeric values&#39; unless ref($raw-&gt;{data}) eq &#39;ARRAY&#39;;
 </span><span class=""> 5651: 	Params::Validate::Strict::validate_strict({
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5652: 		args   =&gt; $raw,
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 5653: 		schema =&gt; { data =&gt; { type =&gt; &#39;arrayref&#39;, error_msg =&gt; &#39;Data must be an array of numeric values&#39; } },
-</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one)."> 5654: 		unknown_parameter_handler =&gt; &#39;ignore&#39;,
+</span><span class=""> 5652: 		args   =&gt; $raw,
+</span><span class=""> 5653: 		schema =&gt; { data =&gt; { type =&gt; &#39;arrayref&#39;, error_msg =&gt; &#39;Data must be an array of numeric values&#39; } },
+</span><span class=""> 5654: 		unknown_parameter_handler =&gt; &#39;ignore&#39;,
+</span><span class=""> 5655: 	});
+</span><span class=""> 5656: 	my $data = $raw-&gt;{data};
+</span><span class=""> 5657: 	my $opts = {%$raw}; delete $opts-&gt;{data};
+</span><span class=""> 5658: 
+</span><span class=""> 5659: 	# Pre-binned path: the caller has already computed the bins.
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5660: 	if ($opts-&gt;{binned}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5661: 		return $self-&gt;_render_histogram_binned($data, $opts);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5662: 	}
+</span><span class=""> 5663: 
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5664 → 5665 → 5670</span></span> 5664: 	my $bins_opt = exists($opts-&gt;{bins}) ? $opts-&gt;{bins} : 20;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5665: 	if (defined $bins_opt) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class=""> 5666: 		die &#39;bins must be a positive integer&#39;
+</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one)."> 5667: 			unless looks_like_number($bins_opt) &amp;&amp; $bins_opt == int($bins_opt) &amp;&amp; $bins_opt &gt;= 1;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 4, Killed: 1, Survived: 3)</summary>
 					<ul>
-				<li><b>NUM_BOUNDARY_5654_84_&gt;: Numeric boundary flip &gt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+				<li><b>NUM_BOUNDARY_5667_84_&gt;: Numeric boundary flip &gt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -6174,7 +6187,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>NUM_BOUNDARY_5654_84_&lt;: Numeric boundary flip &gt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
+							</li><li><b>NUM_BOUNDARY_5667_84_&lt;: Numeric boundary flip &gt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -6182,7 +6195,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
-							</li><li><b>NUM_BOUNDARY_5654_84_&lt;=: Numeric boundary flip &gt;= to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
+							</li><li><b>NUM_BOUNDARY_5667_84_&lt;=: Numeric boundary flip &gt;= to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
 
 								<div class="suggested-test">
 								<div class="suggest-label">🧪 Suggested Test</div>
@@ -6191,22 +6204,9 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class=""> 5655: 	});
-</span><span class=""> 5656: 	my $data = $raw-&gt;{data};
-</span><span class=""> 5657: 	my $opts = {%$raw}; delete $opts-&gt;{data};
-</span><span class=""> 5658: 
-</span><span class=""> 5659: 	# Pre-binned path: the caller has already computed the bins.
-</span><span class=""> 5660: 	if ($opts-&gt;{binned}) {
-</span><span class=""> 5661: 		return $self-&gt;_render_histogram_binned($data, $opts);
-</span><span class=""> 5662: 	}
-</span><span class=""> 5663: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5664 → 5665 → 5670</span></span> 5664: 	my $bins_opt = exists($opts-&gt;{bins}) ? $opts-&gt;{bins} : 20;
-</span><span class=""> 5665: 	if (defined $bins_opt) {
-</span><span class=""> 5666: 		die &#39;bins must be a positive integer&#39;
-</span><span class=""> 5667: 			unless looks_like_number($bins_opt) &amp;&amp; $bins_opt == int($bins_opt) &amp;&amp; $bins_opt &gt;= 1;
-</span><span class=""> 5668: 	}
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5669: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5670 → 5671 → 5676</span></span> 5670: 	my @values;
+<span class=""> 5668: 	}
+</span><span class=""> 5669: 
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">5670 → 5671 → 5676</span></span> 5670: 	my @values;
 </span><span class=""> 5671: 	for my $v (@$data) {
 </span><span class=""> 5672: 		die &#39;Each value must be numeric&#39; unless looks_like_number($v // &#39;x&#39;);
 </span><span class=""> 5673: 		push @values, $v + 0;
@@ -6218,8 +6218,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 5679: 		my $s = shift;
 </span><span class=""> 5680: 		$s =~ s/\\/\\\\/g; $s =~ s/&quot;/\\&quot;/g;
 </span><span class=""> 5681: 		$s =~ s/\n/\\n/g;  $s =~ s/\r/\\r/g;
-</span><span class=""> 5682: 		return $s;
-</span><span class=""> 5683: 	};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5682: 		return $s;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5683: 	};
 </span><span class=""> 5684: 
 </span><span class=""> 5685: 	my $x_label = $opts-&gt;{x_label} // &#39;&#39;;
 </span><span class=""> 5686: 	my $color   = _css_colour($opts-&gt;{color}) // &#39;steelblue&#39;;
@@ -6311,8 +6311,8 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 5772:         .on(&quot;mouseout&quot;,function(){tip.style(&quot;display&quot;,&quot;none&quot;);});
 </span><span class=""> 5773: })();
 </span><span class=""> 5774: &lt;/script&gt;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5775: HTML
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5776: 
+</span><span class=""> 5775: HTML
+</span><span class=""> 5776: 
 </span><span class=""> 5777: 	return { svg_id =&gt; $svg_id, html =&gt; $html };
 </span><span class=""> 5778: }
 </span><span class=""> 5779: 
@@ -6322,10 +6322,10 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 5783: 	my $scheme = shift;
 </span><span class=""> 5784: 
 </span><span class=""> 5785: 	die &#39;Unknown scheme: &#39; . (defined($scheme) ? $scheme : &#39;(none)&#39;)
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5786: 		unless defined($scheme) &amp;&amp; exists($CATEGORICAL_SCHEMES{$scheme});
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5787: 
-</span><span class=""> 5788: 	return $CATEGORICAL_SCHEMES{$scheme};
-</span><span class=""> 5789: }
+</span><span class=""> 5786: 		unless defined($scheme) &amp;&amp; exists($CATEGORICAL_SCHEMES{$scheme});
+</span><span class=""> 5787: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5788: 	return $CATEGORICAL_SCHEMES{$scheme};
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5789: }
 </span><span class=""> 5790: 
 </span><span class=""> 5791: # A scheme&#39;s colours as JavaScript source: a literal array, in the scheme&#39;s
 </span><span class=""> 5792: # order, built from the one definition.  The snippets inline this rather than a
@@ -6335,10 +6335,10 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 5796: {
 </span><span class=""> 5797: 	my $scheme = shift;
 </span><span class=""> 5798: 
-</span><span class=""> 5799: 	return &#39;[&#39; . join(&#39;, &#39;, map { &quot;&#39;$_&#39;&quot; } @{_categorical_scheme($scheme)-&gt;{colours}}) . &#39;]&#39;;
-</span><span class=""> 5800: }
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5801: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5802: # The colours of a scheme as a JS array, or the default scheme&#39;s for a name that
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5799: 	return &#39;[&#39; . join(&#39;, &#39;, map { &quot;&#39;$_&#39;&quot; } @{_categorical_scheme($scheme)-&gt;{colours}}) . &#39;]&#39;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5800: }
+</span><span class=""> 5801: 
+</span><span class=""> 5802: # The colours of a scheme as a JS array, or the default scheme&#39;s for a name that
 </span><span class=""> 5803: # is not one.  The snippets used to capitalise the name they were handed and
 </span><span class=""> 5804: # look up the expression that spelling produced, which turned a name they did
 </span><span class=""> 5805: # not know into an undefined function in the browser; drawing with the
@@ -6350,27 +6350,27 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 5811: 
 </span><span class=""> 5812: 	# exists() first: naming a scheme that is not one must not add it to the
 </span><span class=""> 5813: 	# vocabulary, which is what dereferencing the missing entry would do.
-</span><span class=""> 5814: 	return exists($CATEGORICAL_SCHEMES{$scheme})
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5815: 		? _scheme_colours_js($scheme)
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5816: 		: _default_scheme_js();
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5814: 	return exists($CATEGORICAL_SCHEMES{$scheme})
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5815: 		? _scheme_colours_js($scheme)
+</span><span class=""> 5816: 		: _default_scheme_js();
 </span><span class=""> 5817: }
 </span><span class=""> 5818: 
 </span><span class=""> 5819: # The name to write into a snippet&#39;s SCHEMES[&#39;...&#39;] lookup: the one asked for if
 </span><span class=""> 5820: # it is a scheme, otherwise the default.  The name is written into a script, and
 </span><span class=""> 5821: # it often comes from a request or a saved chart, so only the names in the
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5822: # definition above ever reach the page.  An unknown name was always going to draw
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5823: # the default colours; this makes sure it can do nothing else.
+</span><span class=""> 5822: # definition above ever reach the page.  An unknown name was always going to draw
+</span><span class=""> 5823: # the default colours; this makes sure it can do nothing else.
 </span><span class=""> 5824: sub _scheme_name
 </span><span class=""> 5825: {
 </span><span class=""> 5826: 	my $scheme = shift;
 </span><span class=""> 5827: 
-</span><span class=""> 5828: 	return defined($scheme) &amp;&amp; exists($CATEGORICAL_SCHEMES{$scheme})
-</span><span class=""> 5829: 		? $scheme
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5828: 	return defined($scheme) &amp;&amp; exists($CATEGORICAL_SCHEMES{$scheme})
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5829: 		? $scheme
 </span><span class=""> 5830: 		: $DEFAULT_CATEGORICAL_SCHEME;
 </span><span class=""> 5831: }
 </span><span class=""> 5832: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5833: # A colour fit to write into a page, or undef for one that is not, so that the
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5834: # caller&#39;s default applies.  The characters are those of a CSS colour - a name, a
+</span><span class=""> 5833: # A colour fit to write into a page, or undef for one that is not, so that the
+</span><span class=""> 5834: # caller&#39;s default applies.  The characters are those of a CSS colour - a name, a
 </span><span class=""> 5835: # hex value, or rgb(), hsl() and the like - and none of them can end a JavaScript
 </span><span class=""> 5836: # string, an attribute or a script element.
 </span><span class=""> 5837: sub _css_colour
@@ -6378,10 +6378,10 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 5839: 	my $colour = shift;
 </span><span class=""> 5840: 
 </span><span class=""> 5841: 	return unless defined($colour);
-</span><span class=""> 5842: 	return $colour =~ m{\A[#0-9A-Za-z_ (),.%/-]+\z} ? $colour : undef;
-</span><span class=""> 5843: }
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5844: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5845: # The chart&#39;s title as text for the page.  The object keeps what it was given.
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5842: 	return $colour =~ m{\A[#0-9A-Za-z_ (),.%/-]+\z} ? $colour : undef;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5843: }
+</span><span class=""> 5844: 
+</span><span class=""> 5845: # The chart&#39;s title as text for the page.  The object keeps what it was given.
 </span><span class=""> 5846: sub _title_html
 </span><span class=""> 5847: {
 </span><span class=""> 5848: 	my $self = shift;
@@ -6392,24 +6392,24 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 5853: 	$title =~ s/&gt;/&amp;gt;/g;
 </span><span class=""> 5854: 	$title =~ s/&quot;/&amp;quot;/g;
 </span><span class=""> 5855: 	$title =~ s/&#39;/&amp;#39;/g;
-</span><span class=""> 5856: 	return $title;
-</span><span class=""> 5857: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5856: 	return $title;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5857: }
 </span><span class=""> 5858: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5859: sub _default_scheme_js
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5860: {
-</span><span class=""> 5861: 	return _scheme_colours_js($DEFAULT_CATEGORICAL_SCHEME);
-</span><span class=""> 5862: }
+</span><span class=""> 5859: sub _default_scheme_js
+</span><span class=""> 5860: {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5861: 	return _scheme_colours_js($DEFAULT_CATEGORICAL_SCHEME);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5862: }
 </span><span class=""> 5863: 
 </span><span class=""> 5864: # The table the snippets look a scheme up in, built from the definition above, so
 </span><span class=""> 5865: # that a scheme added there is understood by every snippet that offers a scheme
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5866: # rather than by the ones somebody remembered to edit.  Each value is the
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5867: # scheme&#39;s colours as a literal array: the same numbers palette() returns.
+</span><span class=""> 5866: # rather than by the ones somebody remembered to edit.  Each value is the
+</span><span class=""> 5867: # scheme&#39;s colours as a literal array: the same numbers palette() returns.
 </span><span class=""> 5868: sub _schemes_js
 </span><span class=""> 5869: {
 </span><span class=""> 5870: 	my ($self, $declaration) = @_;
 </span><span class=""> 5871: 
-</span><span class=""> 5872: 	return $declaration . &#39; SCHEMES = { &#39;
-</span><span class=""> 5873: 		. join(&#39;, &#39;, map { &quot;$_: &quot; . _scheme_colours_js($_) } sort keys %CATEGORICAL_SCHEMES)
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5872: 	return $declaration . &#39; SCHEMES = { &#39;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5873: 		. join(&#39;, &#39;, map { &quot;$_: &quot; . _scheme_colours_js($_) } sort keys %CATEGORICAL_SCHEMES)
 </span><span class=""> 5874: 		. &#39; };&#39;;
 </span><span class=""> 5875: }
 </span><span class=""> 5876: 
@@ -6418,30 +6418,9 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""> 5879: 	my $html = &lt;&lt;&#39;HTML&#39;;
 </span><span class=""> 5880: &lt;!DOCTYPE html&gt;
 </span><span class=""> 5881: &lt;html lang=&quot;en&quot;&gt;
-</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values."> 5882: HTML
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
-					<ul>
-				<li><b>BOOL_NEGATE_5882_2: Negate boolean return expression</b><br>MEDIUM: Add tests asserting both true and false outcomes
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boolean branch test suggestion
-ok( !func(INPUT), &#39;Verify boolean branch behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>RETURN_UNDEF_5882_2: Replace return expression with undef</b><br>LOW: Mutation survived, but impact may be minor
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Return value assertion
-is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
-</pre>
-								</div>
-							</li></ul></details>
-<span class=""> 5883: 	return $html;
-</span><span class=""> 5884: }
+</span><span class=""> 5882: HTML
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5883: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5884: }
 </span><span class=""> 5885: 
 </span><span class=""> 5886: sub _head
 </span><span class=""> 5887: {
@@ -6455,15 +6434,15 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class=""> 5895: 	&lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
 </span><span class=""> 5896: &lt;/head&gt;
 </span><span class=""> 5897: HTML
-</span><span class=""> 5898: 	return $html;
-</span><span class=""> 5899: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5898: 	return $html;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5899: }
 </span><span class=""> 5900: 
 </span><span class=""> 5901: sub _svg_attrs
 </span><span class=""> 5902: {
 </span><span class=""> 5903: 	my ($self, $override) = @_;
 </span><span class=""> 5904: 	my $responsive = defined($override) ? $override : $self-&gt;{responsive};
-</span><span class=""> 5905: 	return $responsive
-</span><span class=""> 5906: 		? qq{viewBox=&quot;0 0 $self-&gt;{width} $self-&gt;{height}&quot; width=&quot;100%&quot; height=&quot;auto&quot;}
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 5905: 	return $responsive
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 5906: 		? qq{viewBox=&quot;0 0 $self-&gt;{width} $self-&gt;{height}&quot; width=&quot;100%&quot; height=&quot;auto&quot;}
 </span><span class=""> 5907: 		: qq{width=&quot;$self-&gt;{width}&quot; height=&quot;$self-&gt;{height}&quot; style=&quot;border: 1px solid black;&quot;};
 </span><span class=""> 5908: }
 </span><span class=""> 5909: 
@@ -6478,8 +6457,29 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class=""> 5918: 	my $svg_attrs = ($opts-&gt;{responsive} // $self-&gt;{responsive})
 </span><span class=""> 5919: 		? qq{viewBox=&quot;0 0 $w $h&quot; width=&quot;100%&quot; height=&quot;auto&quot;}
 </span><span class=""> 5920: 		: qq{width=&quot;$w&quot; height=&quot;$h&quot;};
-</span><span class=""> 5921: 	return &lt;&lt;&quot;SHELL&quot;;
-</span><span class=""> 5922: &lt;div id=&quot;${container_id}_wrap&quot; style=&quot;position:relative;&quot;&gt;
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values."> 5921: 	return &lt;&lt;&quot;SHELL&quot;;
+</span>
+					<details class="mutant-details">
+					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
+					<ul>
+				<li><b>BOOL_NEGATE_5921_2: Negate boolean return expression</b><br>MEDIUM: Add tests asserting both true and false outcomes
+
+								<div class="suggested-test">
+								<div class="suggest-label">🧪 Suggested Test</div>
+								<pre># Boolean branch test suggestion
+ok( !func(INPUT), &#39;Verify boolean branch behaviour&#39; );
+</pre>
+								</div>
+							</li><li><b>RETURN_UNDEF_5921_2: Replace return expression with undef</b><br>LOW: Mutation survived, but impact may be minor
+
+								<div class="suggested-test">
+								<div class="suggest-label">🧪 Suggested Test</div>
+								<pre># Return value assertion
+is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
+</pre>
+								</div>
+							</li></ul></details>
+<span class=""> 5922: &lt;div id=&quot;${container_id}_wrap&quot; style=&quot;position:relative;&quot;&gt;
 </span><span class=""> 5923:     &lt;svg id=&quot;$container_id&quot; $svg_attrs&gt;&lt;/svg&gt;
 </span><span class=""> 5924:     &lt;div id=&quot;${container_id}_tip&quot; style=&quot;position:absolute;background:rgba(255,255,255,0.95);border:1px solid #ccc;border-radius:4px;padding:6px 10px;font-size:12px;pointer-events:none;display:none;line-height:1.6;&quot;&gt;&lt;/div&gt;
 </span><span class=""> 5925: &lt;/div&gt;
