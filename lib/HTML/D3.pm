@@ -1222,7 +1222,7 @@ sub render_pie_chart_snippet {
 	my $sort_slices  = $opts->{sort_slices} // 'none';
 	my $max_slices   = int($opts->{max_slices} // 0);
 	my $show_legend  = exists $opts->{legend} ? ($opts->{legend} ? 1 : 0) : 1;
-	my $color_scheme = $opts->{color_scheme} // $DEFAULT_CATEGORICAL_SCHEME;
+	my $color_scheme = _scheme_name($opts->{color_scheme});
 	my $separator    = $opts->{separator}   // '/';
 	my $schemes_js = $self->_schemes_js('const');
 	my $default_js = _default_scheme_js();
@@ -4664,7 +4664,7 @@ sub render_stacked_bar_snippet
 	my $seg_col = $opts->{seg_col} // 'seg';
 	my $val_col = $opts->{val_col} // 'val';
 	my $orient  = $opts->{orient}  // 'v';
-	my $scheme  = $opts->{scheme}  // $DEFAULT_CATEGORICAL_SCHEME;
+	my $scheme  = _scheme_name($opts->{scheme});
 	my $x_label = $opts->{x_label} // '';
 	my $sort_by = $opts->{sort};
 	my $schemes_js = $self->_schemes_js('var');
@@ -5221,7 +5221,7 @@ sub render_treemap_snippet
 	my $opts = {%$raw}; delete $opts->{data};
 
 	my $path_sep = $opts->{path_sep} // '/';
-	my $scheme   = $opts->{scheme}   // $DEFAULT_CATEGORICAL_SCHEME;
+	my $scheme   = _scheme_name($opts->{scheme});
 	my $label    = exists($opts->{label}) ? ($opts->{label} ? 1 : 0) : 1;
 	my $schemes_js = $self->_schemes_js('var');
 	my $default_js = _default_scheme_js();
@@ -5801,6 +5801,20 @@ sub _scheme_js
 	return exists($CATEGORICAL_SCHEMES{$scheme})
 		? _scheme_colours_js($scheme)
 		: _default_scheme_js();
+}
+
+# The name to write into a snippet's SCHEMES['...'] lookup: the one asked for if
+# it is a scheme, otherwise the default.  The name is written into a script, and
+# it often comes from a request or a saved chart, so only the names in the
+# definition above ever reach the page.  An unknown name was always going to draw
+# the default colours; this makes sure it can do nothing else.
+sub _scheme_name
+{
+	my $scheme = shift;
+
+	return defined($scheme) && exists($CATEGORICAL_SCHEMES{$scheme})
+		? $scheme
+		: $DEFAULT_CATEGORICAL_SCHEME;
 }
 
 sub _default_scheme_js

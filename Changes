@@ -1,5 +1,13 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
+0.25
+	[ Bug Fixes ]
+	- render_pie_chart_snippet, render_stacked_bar_snippet and
+	  render_treemap_snippet wrote the colour scheme's name into the page's
+	  script as given, so a name taken from a request could run script in the
+	  reader's browser.  A name that is not a scheme now draws the default
+	  colours and never reaches the page
+
 0.24	Fri Oct 30 09:29:31 PM EDT 2026
 	[ Enhancements ]
 	- Use Params::Get and Params::Validate::Strict in all public routines
