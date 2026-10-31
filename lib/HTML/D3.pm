@@ -5385,6 +5385,10 @@ is derived:
 The caller owns the binning, so C<d3.bin()> is never called: one bar is drawn
 per entry, in the order supplied, and the supplied counts are authoritative.
 
+The bin labels are drawn rotated.  The plot gives up as much room as they need,
+up to half the chart's height and a quarter of its width, so that they and
+C<x_label> do not overlap and stay inside the chart.
+
 =item * C<scheme> (string, optional) - D3 categorical colour scheme (for example
 C<'tableau10'> or C<'category10'>) whose first colour is used as the bar fill
 when C<color> is not given.
@@ -5516,6 +5520,15 @@ sub _render_histogram_binned
 
 	my $x_label_esc = $js_esc->($x_label);
 
+	# The rotated tick labels hang below the axis and out to its left by however
+	# long they are, which is only known once they are drawn, so the script
+	# measures them and takes the room out of the plot.  This is what keeps the
+	# axis label clear of them.
+	#
+	# The label also carries its font as attributes, because an SVG saved from the
+	# page leaves the stylesheet behind.
+	my $x_label_room = $x_label ? 24 : 4;
+
 	# Bar fill: an explicit colour wins, otherwise the first colour of the
 	# requested D3 categorical scheme, otherwise the default colour.
 	my $fill_js = '"steelblue"';
@@ -5530,6 +5543,8 @@ sub _render_histogram_binned
 	my $x_label_block = $x_label ? <<"XLB" : '';
     g.append("text")
         .attr("class","hg-axis-label")
+        .attr("font-size","11px")
+        .attr("font-family","sans-serif")
         .attr("x", innerW / 2)
         .attr("y", innerH + (margin.bottom - 10))
         .attr("text-anchor","middle")
@@ -5567,16 +5582,29 @@ XLB
         .range([0, innerW])
         .padding(0.05);
 
+    var xAxis = g.append("g").attr("class","hg-x-axis");
+    function drawXAxis() {
+        xAxis.attr("transform","translate(0,"+innerH+")")
+            .call(d3.axisBottom(xScale))
+            .selectAll("text")
+            .attr("transform","rotate(-45)")
+            .style("text-anchor","end");
+    }
+    drawXAxis();
+
+    var axisBox = xAxis.node().getBBox();
+    margin.bottom = Math.max(margin.bottom, Math.min(Math.ceil(axisBox.height) + $x_label_room, $height / 2));
+    margin.left   = Math.max(margin.left,   Math.min(Math.ceil(-axisBox.x) + 4, $width / 4));
+    innerW = $width  - margin.left - margin.right;
+    innerH = $height - margin.top  - margin.bottom;
+    g.attr("transform","translate("+margin.left+","+margin.top+")");
+    xScale.range([0, innerW]);
+    drawXAxis();
+
     var yScale = d3.scaleLinear()
         .domain([0, d3.max(bins, function(d){return d.count;})]).nice()
         .range([innerH, 0]);
 
-    g.append("g").attr("class","hg-x-axis")
-        .attr("transform","translate(0,"+innerH+")")
-        .call(d3.axisBottom(xScale))
-        .selectAll("text")
-        .attr("transform","rotate(-45)")
-        .style("text-anchor","end");
     g.append("g").attr("class","hg-y-axis").call(d3.axisLeft(yScale).ticks(6));
 
     $x_label_block
