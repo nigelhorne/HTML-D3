@@ -83,6 +83,8 @@ Accepts the following optional arguments:
 =item * C<height> - The height of the chart (default: 600).
 
 =item * C<title> - The title of the chart (default: 'Chart').
+It is plain text, escaped when it is written to the page: C<E<lt>> and C<&> appear
+as themselves, and HTML in a title is shown rather than obeyed.
 
 =item * C<responsive> - If true, SVG elements are rendered with
 C<viewBox> and C<width="100%" height="auto"> instead of fixed pixel
@@ -341,7 +343,7 @@ sub render_bar_chart {
 	$html .= $self->_head();
 	$html .= <<"HTML";
 <body>
-    <h1 style="text-align: center;">$self->{title}</h1>
+    <h1 style="text-align: center;">@{[ $self->_title_html() ]}</h1>
     <svg id="chart" ${\ $self->_svg_attrs() }></svg>
     <script>
 	const data = $json_data;
@@ -463,7 +465,7 @@ sub render_animated_bar_chart {
 	$html .= $self->_head();
 	$html .= <<"HTML";
 <body>
-    <h1 style="text-align: center;">$self->{title}</h1>
+    <h1 style="text-align: center;">@{[ $self->_title_html() ]}</h1>
     <svg id="chart" ${\ $self->_svg_attrs() }></svg>
     <script>
 	const data = $json_data;
@@ -580,7 +582,7 @@ sub render_line_chart {
 	$html .= $self->_head();
 	$html .= <<"HTML";
 <body>
-    <h1 style="text-align: center;">$self->{title}</h1>
+    <h1 style="text-align: center;">@{[ $self->_title_html() ]}</h1>
     <svg id="chart" ${\ $self->_svg_attrs() }></svg>
     <script>
 	const data = $json_data;
@@ -705,7 +707,7 @@ sub render_animated_line_chart {
 	$html .= $self->_head();
 	$html .= <<"HTML";
 <body>
-    <h1 style="text-align: center;">$self->{title}</h1>
+    <h1 style="text-align: center;">@{[ $self->_title_html() ]}</h1>
     <svg id="chart" ${\ $self->_svg_attrs() }></svg>
     <script>
 	const data = $json_data;
@@ -870,7 +872,7 @@ sub render_pie_chart {
 	$html .= $self->_head();
 	$html .= <<"HTML";
 <body>
-    <h1 style="text-align: center;">$self->{title}</h1>
+    <h1 style="text-align: center;">@{[ $self->_title_html() ]}</h1>
     <svg id="chart" ${\ $self->_svg_attrs() }></svg>
     <script>
 	const data = $json_data;
@@ -1034,7 +1036,7 @@ sub render_animated_pie_chart {
 	$html .= $self->_head();
 	$html .= <<"HTML";
 <body>
-    <h1 style="text-align: center;">$self->{title}</h1>
+    <h1 style="text-align: center;">@{[ $self->_title_html() ]}</h1>
     <svg id="chart" ${\ $self->_svg_attrs() }></svg>
     <script>
 	const data = $json_data;
@@ -1852,6 +1854,9 @@ Either a CSS colour value (e.g. C<'steelblue'>, C<'#4e79a7'>) applied to all
 bars, or the special token C<'categorical'>, which colours each bar
 distinctively using D3's Tableau-10 palette.
 
+A value holding anything a CSS colour cannot, such as a quote or C<E<lt>>, is
+ignored and the default used.
+
 =item C<show_values> (bool, default C<0>)
 
 When true, the numeric value of each bar is printed above vertical bars or
@@ -1941,7 +1946,7 @@ sub render_bar_chart_snippet {
 		unless grep { $sort_bars eq $_ } qw(value label none);
 
 	my $max_bars    = int($opts->{max_bars} // 0);
-	my $color       = $opts->{color}       // 'steelblue';
+	my $color       = _css_colour($opts->{color}) // 'steelblue';
 	my $show_values = $opts->{show_values} ? 1 : 0;
 	my $animated    = $opts->{animated}    ? 1 : 0;
 	my $value_label = $opts->{value_label} // 'Value';
@@ -2331,7 +2336,7 @@ sub render_line_chart_with_tooltips
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$self->{title}</title>
+    <title>@{[ $self->_title_html() ]}</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
 	.tooltip {
@@ -2347,7 +2352,7 @@ sub render_line_chart_with_tooltips
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">$self->{title}</h1>
+    <h1 style="text-align: center;">@{[ $self->_title_html() ]}</h1>
     <svg id="chart" ${\ $self->_svg_attrs() }></svg>
     <div class="tooltip" id="tooltip"></div>
     <script>
@@ -2989,7 +2994,7 @@ sub render_multi_series_line_chart_with_tooltips
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$self->{title}</title>
+    <title>@{[ $self->_title_html() ]}</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
 	.tooltip {
@@ -3005,7 +3010,7 @@ sub render_multi_series_line_chart_with_tooltips
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">$self->{title}</h1>
+    <h1 style="text-align: center;">@{[ $self->_title_html() ]}</h1>
     <svg id="chart" ${\ $self->_svg_attrs() }></svg>
     <div class="tooltip" id="tooltip"></div>
     <script>
@@ -3157,7 +3162,7 @@ sub render_multi_series_line_chart_with_animated_tooltips
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$self->{title}</title>
+    <title>@{[ $self->_title_html() ]}</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
 	.tooltip {
@@ -3174,7 +3179,7 @@ sub render_multi_series_line_chart_with_animated_tooltips
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">$self->{title}</h1>
+    <h1 style="text-align: center;">@{[ $self->_title_html() ]}</h1>
     <svg id="chart" ${\ $self->_svg_attrs() }></svg>
     <div class="tooltip" id="tooltip"></div>
     <script>
@@ -3328,7 +3333,7 @@ sub render_multi_series_line_chart_with_legends {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$self->{title}</title>
+    <title>@{[ $self->_title_html() ]}</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         .tooltip {
@@ -3353,7 +3358,7 @@ sub render_multi_series_line_chart_with_legends {
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">$self->{title}</h1>
+    <h1 style="text-align: center;">@{[ $self->_title_html() ]}</h1>
     <svg id="chart" ${\ $self->_svg_attrs() }></svg>
     <div class="tooltip" id="tooltip"></div>
     <script>
@@ -3538,7 +3543,7 @@ sub render_multi_series_line_chart_with_interactive_legends
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$self->{title}</title>
+    <title>@{[ $self->_title_html() ]}</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         .tooltip {
@@ -3563,7 +3568,7 @@ sub render_multi_series_line_chart_with_interactive_legends
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">$self->{title}</h1>
+    <h1 style="text-align: center;">@{[ $self->_title_html() ]}</h1>
     <svg id="chart" ${\ $self->_svg_attrs() }></svg>
     <div class="tooltip" id="tooltip"></div>
     <script>
@@ -3999,6 +4004,8 @@ radius) dimensions:
 
 =item * C<color> (CSS colour or C<'categorical'>, default C<'steelblue'>) -
 Fill colour for the data points.  C<'categorical'> uses the Tableau-10 palette.
+A value holding anything a CSS colour cannot, such as a quote or C<E<lt>>, is
+ignored and the default used.
 
 =item * C<x_label> (string, default C<''>) - Label for the X axis.
 
@@ -4095,7 +4102,7 @@ sub render_scatter_chart_snippet
 	my $data = $raw->{data};
 	my $opts = {%$raw}; delete $opts->{data};
 
-	my $color            = $opts->{color}            // 'steelblue';
+	my $color            = _css_colour($opts->{color}) // 'steelblue';
 	my $x_label          = $opts->{x_label}          // '';
 	my $y_label          = $opts->{y_label}          // '';
 	my $value_label      = $opts->{value_label}      // 'Value';
@@ -4887,8 +4894,11 @@ Accepted C<\%opts> keys:
 =item * C<line_label> (string, default C<'Line'>) - legend/axis label for line.
 
 =item * C<bar_color> (string, optional CSS colour, default C<'steelblue'>) - bar fill.
+A value holding anything a CSS colour cannot, such as a quote or C<E<lt>>, is
+ignored and the default used.
 
 =item * C<line_color> (string, optional CSS colour, default C<'#e15759'>) - line stroke.
+Checked as C<bar_color> is.
 
 =item * C<id> (string, optional) - override the default C<svg_id> value.
 
@@ -4959,8 +4969,8 @@ sub render_combo_snippet
 	my $line_col   = $opts->{line_col}    // 'line_val';
 	my $bar_label  = $opts->{bar_label}   // 'Bar';
 	my $line_label = $opts->{line_label}  // 'Line';
-	my $bar_color  = $opts->{bar_color}   // 'steelblue';
-	my $line_color = $opts->{line_color}  // '#e15759';
+	my $bar_color  = _css_colour($opts->{bar_color})  // 'steelblue';
+	my $line_color = _css_colour($opts->{line_color}) // '#e15759';
 
 	my @points;
 	for my $row (@$data) {
@@ -5398,6 +5408,8 @@ hand starts from the same colour the bars do.
 =item * C<x_label> (string, optional) - label shown below the X axis.
 
 =item * C<color> (string, default C<'steelblue'>) - bar fill colour.
+A value holding anything a CSS colour cannot, such as a quote or C<E<lt>>, is
+ignored and the default used.
 
 =item * C<id> (string, optional) - override the default C<svg_id> value.
 
@@ -5532,8 +5544,9 @@ sub _render_histogram_binned
 	# Bar fill: an explicit colour wins, otherwise the first colour of the
 	# requested D3 categorical scheme, otherwise the default colour.
 	my $fill_js = '"steelblue"';
-	if(defined $opts->{color}) {
-		$fill_js = '"' . $js_esc->($opts->{color}) . '"';
+	my $colour = _css_colour($opts->{color});
+	if(defined $colour) {
+		$fill_js = '"' . $js_esc->($colour) . '"';
 	} elsif(defined $opts->{scheme}) {
 		# The scheme's first colour, which is the one colour_at($scheme, 0)
 		# reports to a Perl caller colouring the same data by hand.
@@ -5670,7 +5683,7 @@ sub render_histogram_snippet
 	};
 
 	my $x_label = $opts->{x_label} // '';
-	my $color   = $opts->{color}   // 'steelblue';
+	my $color   = _css_colour($opts->{color}) // 'steelblue';
 
 	my $x_label_esc = $js_esc->($x_label);
 	my $color_esc   = $js_esc->($color);
@@ -5817,6 +5830,32 @@ sub _scheme_name
 		: $DEFAULT_CATEGORICAL_SCHEME;
 }
 
+# A colour fit to write into a page, or undef for one that is not, so that the
+# caller's default applies.  The characters are those of a CSS colour - a name, a
+# hex value, or rgb(), hsl() and the like - and none of them can end a JavaScript
+# string, an attribute or a script element.
+sub _css_colour
+{
+	my $colour = shift;
+
+	return unless defined($colour);
+	return $colour =~ m{\A[#0-9A-Za-z_ (),.%/-]+\z} ? $colour : undef;
+}
+
+# The chart's title as text for the page.  The object keeps what it was given.
+sub _title_html
+{
+	my $self = shift;
+
+	my $title = $self->{title};
+	$title =~ s/&/&amp;/g;
+	$title =~ s/</&lt;/g;
+	$title =~ s/>/&gt;/g;
+	$title =~ s/"/&quot;/g;
+	$title =~ s/'/&#39;/g;
+	return $title;
+}
+
 sub _default_scheme_js
 {
 	return _scheme_colours_js($DEFAULT_CATEGORICAL_SCHEME);
@@ -5852,7 +5891,7 @@ sub _head
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>$self->{title}</title>
+	<title>@{[ $self->_title_html() ]}</title>
 	<script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 HTML
