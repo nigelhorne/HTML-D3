@@ -43,6 +43,13 @@ print $html;
 HTML::D3 is a Perl module that provides functionality to create simple charts using D3.js.
 The module generates HTML and JavaScript code to render the chart in a web browser.
 
+Text in a chart's data and options is written into a `<script>` so that it
+cannot end the script: `<` is written as `\u003c`, which JavaScript reads back
+as the same character.  An `id` is written into an attribute, a selector and a
+script, so it must be letters, digits, `_` and `-`, not starting with a digit or
+`-`.  Any other `id` is ignored and the method's default used, so read the id a
+method actually used from the `svg_id` or `table_id` it returns.
+
 ## Methods
 
 The `=head3 API SPECIFICATION` subsections use [Params::Validate::Strict](https://metacpan.org/pod/Params%3A%3AValidate%3A%3AStrict)
@@ -491,7 +498,7 @@ colour scheme.  Supported: `YlOrRd`, `Blues`, `Greens`, `Purples`,
 `RdPu`, `YlGnBu`.
 - `x_label` (string, default `''`) - Axis title below the X axis.
 The value is JavaScript-escaped (backslash, double-quote, newline, carriage
-return) before being embedded in the page; other characters are taken
+return, `<`) before being embedded in the page; other characters are taken
 literally.
 - `y_label` (string, default `''`) - Axis title left of the Y axis.
 Same JS-escaping as `x_label` applies.

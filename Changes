@@ -1,5 +1,17 @@
 Revision history for HTML-D3 - Visualise various charts using D3
 
+0.27
+	[ Bug Fixes ]
+	- Text in a chart's data and in its labels could end the <script> it was
+	  written into: a label holding </script> let a data file run script in the
+	  reader's browser.  All data and text written into a script now has "<"
+	  written as \u003c, in the snippets and the full-page charts alike, and one
+	  routine does this rather than one copy in each method
+	- The separator option of the pie charts is now escaped for JavaScript
+	- The id option of the snippets was written into the page as given.  An id
+	  that is not letters, digits, _ and -, starting with a letter or _, is now
+	  ignored and the method's default used
+
 0.26	Sat Oct 31 03:14:27 PM EDT 2026
 	[ Bug Fixes ]
 	- The color option of render_bar_chart_snippet, render_scatter_chart_snippet

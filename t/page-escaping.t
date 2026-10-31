@@ -100,4 +100,84 @@ subtest 'an ordinary title is unchanged' => sub {
 	like($html, qr{>Monthly Revenue \(2026\)</h1>}, 'in <h1>');
 };
 
+# The HTML parser looks for </script before any JavaScript is read, so nothing
+# written into a script may hold it, whichever string or JSON it is inside.
+my $ENDS_SCRIPT = q{</script><script>alert(1)</script>};
+my $COMMENT     = q{<!--<script>};
+
+my @LABELLED = ([$ENDS_SCRIPT, 1]);
+my @NAMED_SERIES = ({ name => $ENDS_SCRIPT, data => [{ label => $ENDS_SCRIPT, value => 1 }] });
+
+# method => [ data with the text in it, data that merely draws, options to try ]
+my %SNIPPETS = (
+	render_pie_chart_snippet => [ \@LABELLED, \@BARS, [qw(separator)] ],
+	render_bar_chart_snippet => [ \@LABELLED, \@BARS, [qw(x_label y_label val_label)] ],
+	render_line_chart_snippet => [ \@LABELLED, \@BARS, [qw(x_label y_label)] ],
+	render_zoomable_line_chart_snippet => [ \@LABELLED, \@BARS, [qw(x_label y_label)] ],
+	render_heatmap_snippet => [ [[$ENDS_SCRIPT, $ENDS_SCRIPT, 1]], [['a', 'b', 1]], [qw(x_label y_label val_label)] ],
+	render_scatter_chart_snippet => [ [[1, 2, $ENDS_SCRIPT]], \@POINTS, [qw(x_label y_label)] ],
+	render_stacked_bar_snippet => [ [{ cat => $ENDS_SCRIPT, seg => $ENDS_SCRIPT, val => 1 }], [{ cat => 'x', seg => 's', val => 1 }], [qw(x_label y_label)] ],
+	render_combo_snippet => [ [{ x => $ENDS_SCRIPT, bar_val => 1, line_val => 2 }], \@COMBO, [qw(x_label bar_label line_label)] ],
+	render_treemap_snippet => [ [{ path => "$ENDS_SCRIPT/b", value => 1 }], [{ path => 'a/b', value => 1 }], [qw(path_sep)] ],
+	render_histogram_snippet => [ [{ label => $ENDS_SCRIPT, count => 1 }], \@HIST, [qw(x_label y_label)], { binned => 1 } ],
+	render_table_snippet => [ [[$ENDS_SCRIPT], [$ENDS_SCRIPT]], [['h'], ['v']], [] ],
+	render_multi_series_line_chart_snippet => [ \@NAMED_SERIES, [{ name => 'A', data => [{ label => 'x', value => 1 }] }], [qw(x_label y_label)] ],
+);
+
+subtest 'text in a snippet cannot end its script' => sub {
+	for my $method (sort keys %SNIPPETS) {
+		my ($with_text, $plain, $options, $data_opts) = @{ $SNIPPETS{$method} };
+
+		my $html = HTML::D3->new->$method($with_text, $data_opts ? $data_opts : ())->{html};
+		unlike($html, qr/<script>alert/, "$method: data");
+
+		for my $option (@$options) {
+			for my $text ($ENDS_SCRIPT, $COMMENT) {
+				my $page = HTML::D3->new->$method($plain, { $option => $text })->{html};
+				unlike($page, qr/<script>alert|<!--<script>/, "$method: $option");
+			}
+		}
+	}
+};
+
+subtest 'text in a full page cannot end its script' => sub {
+	for my $case (@FULL_PAGES) {
+		my ($method, $data) = @$case;
+		my $hostile = ref($data->[0]) eq 'HASH' ? \@NAMED_SERIES : \@LABELLED;
+		unlike(HTML::D3->new->$method($hostile), qr/<script>alert/, "$method: data");
+	}
+	for my $method (qw(render_pie_chart render_animated_pie_chart)) {
+		for my $separator (q{`+alert(1)+`}, q{${alert(1)}}, q{'+alert(1)+'}, $ENDS_SCRIPT) {
+			my $html = HTML::D3->new->$method(\@BARS, { separator => $separator });
+			unlike($html, qr/<script>alert/, "$method: separator does not end the script");
+			unlike($html, qr/(?<!\\)[`'\$]\{?\+?alert/, "$method: separator <$separator> stays inside its string");
+		}
+	}
+};
+
+# JavaScript reads \u003c back as "<", so a chart still shows what it was given.
+subtest 'the text itself survives' => sub {
+	my $html = HTML::D3->new->render_bar_chart_snippet([['a<b', 1]], { x_label => 'x<y' })->{html};
+	like($html, qr/a\\u003cb/, 'a data label is written with the escape');
+	like($html, qr/x\\u003cy/, 'and so is an axis label');
+	like(HTML::D3->new->render_pie_chart(\@BARS, { separator => ':' }), qr/ : /, 'a plain separator is unchanged');
+};
+
+subtest 'an id that could not be selected is ignored' => sub {
+	for my $method (sort keys %SNIPPETS) {
+		my $plain = $SNIPPETS{$method}[1];
+		my $key   = $method eq 'render_table_snippet' ? 'table_id' : 'svg_id';
+
+		my $default = HTML::D3->new->$method($plain)->{$key};
+		for my $id ($ENDS_SCRIPT, q{x" onload="alert(1)}, q{a b}, q{1a}, q{a.b}) {
+			my $result = HTML::D3->new->$method($plain, { id => $id });
+			is($result->{$key}, $default, "$method falls back from <$id>");
+			unlike($result->{html}, qr/alert\(1\)/, "$method does not write out <$id>");
+		}
+		for my $id (qw(chart vis-0 bi_chart_3 _x)) {
+			is(HTML::D3->new->$method($plain, { id => $id })->{$key}, $id, "$method keeps <$id>");
+		}
+	}
+};
+
 done_testing();
