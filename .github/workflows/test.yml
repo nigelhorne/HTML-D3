@@ -14,6 +14,11 @@ on:
   pull_request:
   schedule:
     - cron: '11 0 7 * *'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
